@@ -1,11 +1,24 @@
 <script lang="ts">
-	import favicon from '$lib/assets/favicon.svg';
+  import { browser } from "$app/environment";
+  import { QueryClient, QueryClientProvider } from "@tanstack/svelte-query";
+  import favicon from "$lib/assets/favicon.svg";
 
-	let { children } = $props();
+  let { children } = $props();
+
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        //Pour desactiver les query coté serveur : https://tanstack.com/query/latest/docs/framework/svelte/ssr
+        enabled: browser,
+      },
+    },
+  });
 </script>
 
 <svelte:head>
-	<link rel="icon" href={favicon} />
+  <link rel="icon" href={favicon} />
 </svelte:head>
 
-{@render children()}
+<QueryClientProvider client={queryClient}>
+  {@render children()}
+</QueryClientProvider>
