@@ -1,8 +1,7 @@
 {
-  "recommendations": [
-    "svelte.svelte-vscode",
-    "GraphQL.vscode-graphql-syntax",
-    "esbenp.prettier-vscode",
-    "dbaeumer.vscode-eslint"
-  ]
+	"recommendations": [
+		"svelte.svelte-vscode",
+		"GraphQL.vscode-graphql-syntax",
+		"esbenp.prettier-vscode"
+	]
 }
