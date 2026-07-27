@@ -1,3 +1,11 @@
+//#region Auth
+export type SessionToken = {
+    token: string;
+    expiresAt: Date;
+}
+//#endregion
+
+//#region Events
 export type Event = {
     id: string;
     slug: string;
@@ -7,4 +15,4 @@ export type Event = {
     location: string;
     pictureURL: string;
 }
-
+//#endregion
