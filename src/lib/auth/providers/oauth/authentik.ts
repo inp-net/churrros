@@ -1,24 +1,16 @@
 import type { OAuthProvider } from "../../types";
 import { setToken } from "$lib/auth/session";
+import { env } from "$env/dynamic/public";
 
-//TODO : Voir si c'est un bon format déjà
 export const authentikProvider: OAuthProvider = {
-    async initiateLogin() {
-        // TODO : A faire 
+    name: "Authentik",
+    iconUrl: "https://git.inpt.fr/inp-net/visual-identity/-/raw/main/favicon-color.svg",
+    loginUrl(url: URL) {
+        const loginUrl = new URL(env.PUBLIC_API_AUTH_URL + "/oauth2"); //Dans l'ideal j'aimerais qu'on puisse spécifier le provider, mais pr le moment l'api gère pas ça.
+        //TODO : Gestion des searchParams pour le from comme sur churros
+        return loginUrl;
     },
-
-    async handleCallback(callbackUrl: string) {
-        //TODO : A faire
-        const sessionToken = {
-            token: "dummy-token",
-            expiresAt: new Date(Date.now() + 3600 * 1000)
-        };
-
-        setToken(sessionToken);
-        return sessionToken;
-    },
-
-    async logout() {
-        // TODO : A faire
+    logoutUrl() {
+        return new URL(env.PUBLIC_API_AUTH_URL + "/logout");
     }
 };

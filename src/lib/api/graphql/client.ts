@@ -21,6 +21,7 @@ export async function request<Result, Variables>(
     const response = await fetch(PUBLIC_API_URL, {
         method: 'POST',
         headers,
+        credentials: 'include',
         body: JSON.stringify({
             query: print(document),
             variables

@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { credentialsProvider } from '$lib/auth/providers';
+	import { oAuthProviders } from '$lib/auth/providers/oauth';
+	import { page } from '$app/state';
 
 	async function handleSubmit(event: Event) {
 		event.preventDefault();
@@ -10,9 +12,7 @@
 		const password = formData.get('password') as string;
 
 		try {
-			const result = await credentialsProvider.login(username, password);
-			console.log('Login successful:', result);
-			//TODO : Le stocker
+			await credentialsProvider.login(username, password);
 			await goto('/login/done');
 		} catch (error) {
 			console.error('Login failed:', error);
@@ -25,3 +25,10 @@
 	<input type="password" name="password" placeholder="Mot de passe" required />
 	<button type="submit">Se connecter</button>
 </form>
+
+{#each oAuthProviders as provider}
+	<a href={provider.loginUrl(new URL(page.url)).toString()}>
+		<img src={provider.iconUrl} alt={provider.name} />
+		Se connecter avec {provider.name}
+	</a>
+{/each}

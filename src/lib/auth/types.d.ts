@@ -7,7 +7,8 @@ export type CredentialsProvider = {
 }
 
 export type OAuthProvider = {
-    async initiateLogin: () => Promise<void>;
-    async handleCallback: (callbackUrl: string) => Promise<SessionToken>;
-    async logout: () => Promise<void>;
+    name: string;
+    iconUrl: string;
+    loginUrl: (url: URL) => URL;
+    logoutUrl: () => URL;
 }
