@@ -6,11 +6,13 @@ export const LoginMutation = graphql(`
     login(email: $emailOrUid, password: $password) {
       ...MutationErrors
       ... on MutationLoginSuccess {
+        __typename
         data {
           ...SessionToken
         }
       }
       ... on AwaitingValidationError {
+        __typename
         message
       }
     }
