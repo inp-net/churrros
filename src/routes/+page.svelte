@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { createQuery } from '@tanstack/svelte-query';
 	import { eventRepository } from '$lib/api';
+	import { setLocale } from '$lib/paraglide/runtime';
+	import { m } from '$lib/paraglide/messages.js';
 
 	const query = createQuery(() => ({
 		queryKey: ['events'],
@@ -8,9 +10,17 @@
 	}));
 </script>
 
+<h1>{m.hello_world({ name: 'SvelteKit User' })}</h1>
+
+<div>
+	<button onclick={() => setLocale('en')}>en</button>
+	<button onclick={() => setLocale('es')}>es</button>
+	<button onclick={() => setLocale('fr')}>fr</button>
+</div>
+
 <div>
 	{#if query.isPending}
-		<p>Loading...</p>
+		<p>{m.loading()}</p>
 	{:else if query.isError}
 		<p>Error: {query.error.message}</p>
 	{:else if query.isSuccess}

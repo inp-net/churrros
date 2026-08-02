@@ -2,6 +2,7 @@
 	"recommendations": [
 		"svelte.svelte-vscode",
 		"GraphQL.vscode-graphql-syntax",
-		"esbenp.prettier-vscode"
+		"esbenp.prettier-vscode",
+		"inlang.vs-code-extension"
 	]
 }
