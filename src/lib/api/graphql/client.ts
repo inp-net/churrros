@@ -3,16 +3,25 @@
 import type { TadaDocumentNode } from 'gql.tada';
 import { print } from 'graphql';
 import { PUBLIC_API_URL } from '$env/static/public';
+import { getToken } from '$lib/auth/session';
 
 export async function request<Result, Variables>(
     document: TadaDocumentNode<Result, Variables>,
     variables?: Variables
 ): Promise<Result> {
+    const sessionToken = getToken();
+    const headers: Record<string, string> = {
+        'Content-Type': 'application/json'
+    };
+
+    if (sessionToken) {
+        headers.Authorization = `Bearer ${sessionToken.token}`;
+    }
+
     const response = await fetch(PUBLIC_API_URL, {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
+        headers,
+        credentials: 'include',
         body: JSON.stringify({
             query: print(document),
             variables

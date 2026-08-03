@@ -1,6 +1,6 @@
 import type { Event } from '$lib/api';
 import type { ResultOf } from '$lib/api/graphql/graphql';
-import type { GetEvents } from './queries';
+import type { GetEvents } from '$lib/api/graphql/queries/events';
 
 type EventGraphQLNode = ResultOf<typeof GetEvents>['events']['edges'];
 
