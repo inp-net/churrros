@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { createQuery } from '@tanstack/svelte-query';
 	import { eventRepository } from '$lib/api';
+	import { page } from '$app/state';
 	import { setLocale } from '$lib/paraglide/runtime';
 	import { m } from '$lib/paraglide/messages.js';
 
@@ -10,7 +11,9 @@
 	}));
 </script>
 
-<h1>{m.hello_world({ name: 'SvelteKit User' })}</h1>
+{#if page.data.user}
+	<h1>{m.hello_world({ name: page.data.user.firstName })}</h1>
+{/if}
 
 <div>
 	<button onclick={() => setLocale('en')}>en</button>

@@ -8,6 +8,7 @@ export const graphql = initGraphQLTada<{
     introspection: introspection;
     scalars: {
         DateTime: string; //On met DateTime en string car pas de conversion vers date par défaut.
+        Email: string;
     }
 }>();
 

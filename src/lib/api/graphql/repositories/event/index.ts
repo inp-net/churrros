@@ -1,7 +1,7 @@
 import type { EventRepository } from "$lib/api/repositories";
 import { request } from "$lib/api/graphql/client";
-import { mapEvents } from "$lib/api/graphql/mappers/events";
-import { GetEvents } from "$lib/api/graphql/queries/events";
+import { mapEvents } from "$lib/api/graphql/mappers/event";
+import { GetEvents } from "$lib/api/graphql/queries/event";
 
 export const eventRepository: EventRepository = {
     async getEvents() {
