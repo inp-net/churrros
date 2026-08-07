@@ -1,5 +1,8 @@
 {
 	"$schema": "https://inlang.com/schema/inlang-message-format",
 	"hello_world": "Bonjour, {name} de fr!",
-	"loading": "Chargement..."
+	"loading": "Chargement...",
+	"login": "Se connecter",
+	"logout": "Se déconnecter",
+	"events": "Événements"
 }
