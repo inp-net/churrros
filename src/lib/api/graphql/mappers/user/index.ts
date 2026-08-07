@@ -1,28 +1,35 @@
-import type { LightUser, User } from '$lib/api';
-import type { ResultOf } from '$lib/api/graphql/graphql';
+import type { User } from '$lib/api';
+import { readFragment, type ResultOf } from '$lib/api/graphql/graphql';
 import type { GetMe, GetUserByUid } from '$lib/api/graphql/queries/user';
+import { UserFragment } from '$lib/api/graphql/queries/fragments/user';
 
 export function mapUser(user: ResultOf<typeof GetUserByUid>['user']): User {
+    const userData = readFragment(UserFragment, user);
     return {
-        uid: user.uid,
-        email: user.email!, //On force le non null car c'est non null, juste vu que c'est un type scalaire gql dit que c'est nullable
-        fullName: user.fullName,
-        nickname: user.nickname,
-        pictureURL: user.pictureURL,
-        phone: user.phone,
-        admin: user.admin
+        uid: userData.uid,
+        email: userData.email!,
+        firstName: userData.firstName,
+        lastName: userData.lastName,
+        nickname: userData.nickname,
+        pictureURL: userData.pictureURL,
+        phone: userData.phone,
+        admin: userData.admin
     };
 }
 
-export function mapLightUser(user: ResultOf<typeof GetMe>['me']): LightUser | null {
+export function mapMe(user: ResultOf<typeof GetMe>['me']): User | null {
     if (!user) {
         return null;
     }
+    const userData = readFragment(UserFragment, user);
     return {
-        uid: user.uid,
-        admin: user.admin,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        pictureURL: user.pictureURL
+        uid: userData.uid,
+        email: userData.email!,
+        firstName: userData.firstName,
+        lastName: userData.lastName,
+        nickname: userData.nickname,
+        pictureURL: userData.pictureURL,
+        phone: userData.phone,
+        admin: userData.admin
     };
 }

@@ -21,19 +21,11 @@ export type Event = {
 export type User = {
     uid: string;
     email: string;
-    fullName: string;
+    firstName: string;
+    lastName: string;
     nickname: string;
     phone: string | null;
     pictureURL: string;
     admin: boolean;
-}
-
-//TODO : Trouver un meilleur nom mdr, en gros c'est un user avec moins d'infos juste les permissions
-export type LightUser = {
-    uid: string;
-    admin: boolean;
-    firstName: string;
-    lastName: string;
-    pictureURL: string;
 }
 //#endregion

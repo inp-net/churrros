@@ -1,7 +1,8 @@
 import type { SessionToken } from '$lib/api';
 import { readFragment, type ResultOf } from '$lib/api/graphql/graphql';
 import type { LoginMutation } from '$lib/api/graphql/queries/auth';
-import { SessionTokenFragment, MutationErrorsFragment } from '$lib/api/graphql/queries/fragments';
+import { MutationErrorsFragment } from '$lib/api/graphql/queries/fragments/mutation';
+import { SessionTokenFragment } from '$lib/api/graphql/queries/fragments/session';
 
 export const mapSessionToken = (data: ResultOf<typeof LoginMutation>['login']): SessionToken => {
     //TODO : Gestion d'erreurs mais ptet plus tot

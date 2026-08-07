@@ -1,27 +1,21 @@
 import { graphql } from '$lib/api/graphql/graphql';
+import { UserFragment } from '../fragments/user';
 
 export const GetUserByUid = graphql(`
     query GetUserByUid($uid: String!) {
         user(uid: $uid) {   
-            uid
-            email
-            fullName
-            nickname
-            pictureURL
-            phone
-            admin
+            ...UserData
         }
     }
-`);
+`, [UserFragment]
+
+);
 
 export const GetMe = graphql(`
     query GetMe {
         me {
-            uid
-            admin
-            firstName
-            lastName
-            pictureURL
+            ...UserData
         }
     }
-`);
+`, [UserFragment]
+);

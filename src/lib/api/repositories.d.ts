@@ -1,26 +1,34 @@
 import type { Event } from '$lib/api';
 import type { SessionToken } from '$lib/api';
 import type { User, LightUser } from '$lib/api';
+import type { Cookies } from '@sveltejs/kit';
 
 export interface EventRepository {
     async getEvents(): Promise<Event[]>;
 }
 
 export interface AuthRepository {
+    /**
+     * Recupère un token de session pour l'utilisateur avec l'email ou l'uid et le mot de passe fourni.
+     * @param emailOrUid l'email ou l'uid de l'utilisateur
+     * @param password le mot de passe de l'utilisateur
+     * @returns un token de session si l'authentification est réussie, sinon une erreur est levée
+     */
     async login(emailOrUid: string, password: string): Promise<SessionToken>;
 }
 
 export interface UserRepository {
     /**
-     * 
-     * @param uid 
+     * Recupère les informations d'un utilisateur par son uid.
+     * @param uid l'uid de l'utilisateur à récupérer
+     * @returns les informations de l'utilisateur, ou null si non trouvé
      */
-    async getUserByUid(uid: string): Promise<User>;
+    async getUserByUid(uid: string): Promise<User | null>;
     /**
      * Recupère les informations de l'utilisateur actuellement connecté.
      * Requete GraphQL côté serveur
      * @param event l'event serveur contenant la fonction fetch et les cookies
      * @returns les informations de l'utilisateur actuellement connecté, ou null si non connecté
      */
-    async getMe(event?: { fetch: any; cookies: any }): Promise<LightUser | null>;
+    async getMe(event?: { fetch: typeof fetch; cookies: Cookies }): Promise<User | null>;
 }
