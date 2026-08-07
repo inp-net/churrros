@@ -41,3 +41,26 @@ pnpm dev
 
 Pour le développement, notamment sur vscode, il faut faire attention à bien utiliser la version de typescript du workspace et non celle de l'extension vscode.
 L'utilisation de la version du workspace permet de bien faire fonctionner le plugin [gql.tada](https://gql-tada.0no.co/get-started/installation) qui permet d'avoir le schema GraphQL de l'api churros v2, et de la correction sur les requêtes GraphQL.
+
+### Activer l'oAuth2 en développement
+
+Par défaut l'oauth2 n'est pas activé sur l'API churros v2 en développement, si vous essayer de vous connecter avec l'oAuth2, vous aurez une erreur "Cannot GET /auth/oauth2".
+
+Pour activer l'oauth2, il faut modifier le fichier .env à la racine du projet churros v2 et remplir toutes les variables d'env qui contiennent "OAUTH" dans la catégorie "oauth client". Pour récuperer les valeurs, regarder celles présentes dans l'environnement de production sur l'api churros v2.
+
+```
+PUBLIC_OAUTH_ENABLED="0"
+PUBLIC_OAUTH_LOGOUT_URL=""
+PUBLIC_OAUTH_AUTHORIZE_URL=""
+PUBLIC_OAUTH_CLIENT_ID=""
+PUBLIC_OAUTH_TOKEN_URL=""
+PUBLIC_OAUTH_USER_INFO_URL=""
+PUBLIC_OAUTH_SCOPES="openid,profile,email"
+PUBLIC_OAUTH_LOGO_URL=""
+PUBLIC_OAUTH_NAME=""
+OAUTH_UID_KEY="nickname"
+OAUTH_CLIENT_SECRET=""
+```
+
+Une fois les changements effectués, il faut relancer l'api churros v2 pour que les changements soient pris en compte.
+Utilisez bien la commande `yarn dev:env` pour repercuter les changements du .env vers tous les autres packages.
