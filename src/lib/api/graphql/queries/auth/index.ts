@@ -1,5 +1,6 @@
 import { graphql } from '$lib/api/graphql/graphql';
-import { MutationErrorsFragment, SessionTokenFragment } from '../fragments';
+import { MutationErrorsFragment } from '../fragments/mutation';
+import { SessionTokenFragment } from '../fragments/session';
 
 export const LoginMutation = graphql(`
   mutation Login($emailOrUid: String!, $password: String!) {

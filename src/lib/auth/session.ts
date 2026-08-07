@@ -1,44 +1,67 @@
-//J'ai fait avec le local storage pour stocker le token, jsp si c'est le mieux en vrai
-//Sur churros c'est des cookies non securisés donc c'est kif-kif 
 import { browser } from '$app/environment';
 import { get, writable } from 'svelte/store';
+import { parseCookie, stringifySetCookie } from 'cookie';
 import type { SessionToken } from '$lib/api';
 
-const SESSION_TOKEN_STORAGE_KEY = 'token-temp';
-
-type SessionTokenSerializable = {
-    token: string;
-    expiresAt: string;
-};
+export const SESSION_TOKEN_COOKIE_NAME = 'session_token';
 
 const initialSessionToken = loadToken();
 const sessionTokenStore = writable<SessionToken | null>(initialSessionToken);
 
-function serializeToken(sessionToken: SessionToken): string {
-    return JSON.stringify({
-        token: sessionToken.token,
-        expiresAt: sessionToken.expiresAt.toISOString()
+function isTokenExpired(sessionToken: SessionToken) {
+    return Number.isNaN(sessionToken.expiresAt.getTime()) || sessionToken.expiresAt.getTime() <= Date.now();
+}
+
+/**
+ * Recupère le cookie avec le nom donné si il existe, sinon retourne null
+ * Uniquement coté browser car recupère le cookie via document.cookie
+ */
+function readCookie(name: string): string | null {
+    const cookies = parseCookie(document.cookie);
+    return cookies[name] ?? null;
+}
+
+/**
+ * Ecrit un cookie dans le navigateur avec le nom, la valeur et la date d'expiration donnée
+ * Uniquement coté browser car ecrit le cookie via document.cookie
+ * @param name Nom du cookie
+ * @param value Valeur du cookie
+ * @param expiresAt date d'expiration du cookie
+ */
+export function writeCookie(name: string, value: string, expiresAt?: Date) {
+    document.cookie = stringifySetCookie({
+        name,
+        value,
+        path: '/',
+        expires: expiresAt,
+        sameSite: 'lax',
+        secure: location.protocol === 'https:'
     });
 }
 
-function deserializeToken(serializedToken: string | null): SessionToken | null {
-    if (!serializedToken) {
-        return null;
-    }
+/**
+ * Supprime le cookie avec le nom donné en le réécrivant avec une date d'expiration passée
+ * Uniquement coté browser car supprime le cookie via document.cookie
+ * @param name le nom du cookie à supprimer
+ */
+export function deleteCookie(name: string) {
+    document.cookie = stringifySetCookie({ name, value: '', path: '/', maxAge: 0 });
+}
+
+/**
+ * Désérialise un token de session à partir d'une chaîne de caractères
+ * @param raw La chaine de caractères représentant le token de session
+ * @returns Le token de session désérialisé ou null si la chaîne est invalide
+ */
+export function deserializeToken(raw: string | null | undefined): SessionToken | null {
+    if (!raw) return null;
 
     try {
-        const parsedToken = JSON.parse(serializedToken) as SessionTokenSerializable;
-        return {
-            token: parsedToken.token,
-            expiresAt: new Date(parsedToken.expiresAt)
-        };
+        const parsed = JSON.parse(raw) as { token: string; expiresAt: string };
+        return { token: parsed.token, expiresAt: new Date(parsed.expiresAt) };
     } catch {
         return null;
     }
-}
-
-function isTokenExpired(sessionToken: SessionToken) {
-    return Number.isNaN(sessionToken.expiresAt.getTime()) || sessionToken.expiresAt.getTime() <= Date.now();
 }
 
 function loadToken(): SessionToken | null {
@@ -46,10 +69,10 @@ function loadToken(): SessionToken | null {
         return null;
     }
 
-    const storedSessionToken = deserializeToken(localStorage.getItem(SESSION_TOKEN_STORAGE_KEY));
+    const storedSessionToken = deserializeToken(readCookie(SESSION_TOKEN_COOKIE_NAME));
 
     if (!storedSessionToken || isTokenExpired(storedSessionToken)) {
-        localStorage.removeItem(SESSION_TOKEN_STORAGE_KEY);
+        deleteCookie(SESSION_TOKEN_COOKIE_NAME);
         return null;
     }
 
@@ -67,7 +90,6 @@ export function getToken(): SessionToken | null {
 }
 
 export function setToken(newSessionToken: SessionToken | null) {
-    const currentSessionToken = get(sessionTokenStore);
     sessionTokenStore.set(newSessionToken);
 
     if (!browser) {
@@ -75,13 +97,14 @@ export function setToken(newSessionToken: SessionToken | null) {
     }
 
     if (!newSessionToken) {
-        localStorage.removeItem(SESSION_TOKEN_STORAGE_KEY);
+        deleteCookie(SESSION_TOKEN_COOKIE_NAME);
         return;
     }
 
-    localStorage.setItem(
-        SESSION_TOKEN_STORAGE_KEY,
-        serializeToken(newSessionToken)
+    writeCookie(
+        SESSION_TOKEN_COOKIE_NAME,
+        JSON.stringify({ token: newSessionToken.token, expiresAt: newSessionToken.expiresAt.toISOString() }),
+        newSessionToken.expiresAt
     );
 }
 

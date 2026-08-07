@@ -28,6 +28,7 @@
 	},
 	"dependencies": {
 		"@tanstack/svelte-query": "^6.1.36",
+		"cookie": "^2.0.1",
 		"gql.tada": "^1.11.2"
 	}
 }
