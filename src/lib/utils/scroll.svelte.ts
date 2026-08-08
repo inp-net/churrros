@@ -33,11 +33,38 @@ export function infiniteScroll(container: HTMLElement, options: ScrollOptions) {
     let opts = $state(options);
     let intersectionObserver: IntersectionObserver | undefined;
 
-    intersectionObserver = restartIntersectionObserver(container, opts);
+    function restartIntersectionObserver(): IntersectionObserver | undefined {
+        const elements = [...container.children] as HTMLElement[];
+        const target = elements.at(elements.length - (opts.threshold ?? 3));
+
+        // Si y a pas le target, c'est qu'on l'a dépassé, donc on declenche le callback pour charger plus.
+        // On empeche de redeclecncher si on est en train de charger une page ou si on est à la fin de la liste.
+        if (!target) {
+            if (!opts.pageInfo?.hasNextPage || opts.isFetching) return;
+            opts.loadMore();
+            return;
+        }
+
+        const intersectionObserver = new IntersectionObserver(
+            (entries) => {
+                if (entries.some((entry) => entry.isIntersecting)) {
+                    if (!opts.pageInfo?.hasNextPage || opts.isFetching) return;
+                    opts.loadMore();
+                }
+            },
+            //J'ai changé le threshold à 0 et le rootMargin à 400 px pour que ça se déclenche plus tot
+            //Ptet un cas spécifique j'ai beaucoup agrandi le composant pr tester
+            { threshold: 0, rootMargin: '400px' },
+        );
+        intersectionObserver.observe(target);
+        return intersectionObserver;
+    }
+
+    intersectionObserver = restartIntersectionObserver();
 
     const mutatationObserver = new MutationObserver(() => {
         intersectionObserver?.disconnect();
-        intersectionObserver = restartIntersectionObserver(container, opts);
+        intersectionObserver = restartIntersectionObserver();
     });
 
     mutatationObserver.observe(container, { childList: true });
@@ -53,27 +80,3 @@ export function infiniteScroll(container: HTMLElement, options: ScrollOptions) {
     };
 }
 
-function restartIntersectionObserver(container: HTMLElement, opts: ScrollOptions): IntersectionObserver | undefined {
-    const elements = [...container.children] as HTMLElement[];
-    const target = elements.at(elements.length - (opts.threshold ?? 3));
-
-    // Si y a pas le target, c'est qu'on l'a dépassé, donc on declenche le callback pour charger plus.
-    // On empeche de redeclecncher si on est en train de charger une page ou si on est à la fin de la liste.
-    if (!target) {
-        if (!opts.pageInfo?.hasNextPage || opts.isFetching) return;
-        opts.loadMore();
-        return;
-    }
-
-    const intersectionObserver = new IntersectionObserver(
-        (entries) => {
-            if (entries.some((entry) => entry.isIntersecting)) {
-                if (!opts.pageInfo?.hasNextPage || opts.isFetching) return;
-                opts.loadMore();
-            }
-        },
-        { threshold: 1 },
-    );
-    intersectionObserver.observe(target);
-    return intersectionObserver;
-}

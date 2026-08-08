@@ -15,20 +15,9 @@
 
 	//On dérive car la valeur qu'on recup est vraiment à rallonge et on veut juste les items
 	const events = $derived(query.data?.pages.flatMap((page) => page.items) ?? []);
-
-	$effect(() => {
-		query.dataUpdatedAt; // touch it explicitly
-		console.log('pages now:', query.data?.pages.length);
-	});
-
-	const pageCount = $derived(query.data?.pages.length);
 </script>
 
 <h1>{m.events()}</h1>
-
-<p>status: {query.status} / fetchStatus: {query.fetchStatus} / updatedAt: {query.dataUpdatedAt}</p>
-
-{pageCount}
 
 <div>
 	{#if query.isPending}
@@ -39,15 +28,11 @@
 		<ul
 			use:infiniteScroll={{
 				pageInfo: query.data?.pages.at(-1)?.pageInfo,
-				loadMore: () =>
-					query.fetchNextPage().then(
-						(result) => console.log('fetchNextPage resolved', result.data?.pages.length),
-						(err) => console.error('fetchNextPage REJECTED', err)
-					),
+				loadMore: query.fetchNextPage,
 				isFetching: query.isFetchingNextPage
 			}}
 		>
-			{#each events as event}
+			{#each events as event (event.id)}
 				<li>
 					<a href={`/events/${event.id}`}>
 						{event.title}
