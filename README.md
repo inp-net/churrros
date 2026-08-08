@@ -15,7 +15,7 @@ Pour ce faire, nous utilisons :
 
 ### Traduction
 
-Pour contribuer à la traduction de l'application vous pouvez vous rendre sur le site [Weblate](https://weblate.inpt.fr/projects/churros/churros/) et vous connecter avec votre compte Gitlab INPT. Vous pourrez ensuite proposer des traductions pour les messages existants, et ajouter de nouvelles langues si nécessaire.
+Pour contribuer à la traduction de l'application vous pouvez vous rendre sur le site [Weblate](https://weblate.inpt.fr/projects/churros/churros/) et vous connecter avec votre compte INP-net. Vous pourrez ensuite proposer des traductions pour les messages existants, et ajouter de nouvelles langues si nécessaire.
 
 ### Développement
 
