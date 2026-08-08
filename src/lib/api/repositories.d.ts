@@ -1,10 +1,16 @@
+import type { PageRequest, Page } from '$lib/api';
 import type { Event } from '$lib/api';
 import type { SessionToken } from '$lib/api';
 import type { User, LightUser } from '$lib/api';
 import type { Cookies } from '@sveltejs/kit';
 
 export interface EventRepository {
-    async getEvents(): Promise<Event[]>;
+    /**
+     * Recupère les événements avec pagination.
+     * @param args les informations de pagination, first pour le nombre d'éléments à récupérer, after pour le curseur de la page précédente (si null, on récupère les éléments depuis le début
+     * @returns une page d'événements avec les informations de pagination
+     */
+    async getEvents(args: PageRequest): Promise<Page<Event>>;
 }
 
 export interface AuthRepository {

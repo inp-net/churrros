@@ -1,18 +1,13 @@
 <script lang="ts">
-	import { createQuery } from '@tanstack/svelte-query';
-	import { eventRepository } from '$lib/api';
 	import { page } from '$app/state';
 	import { setLocale } from '$lib/paraglide/runtime';
-	import { m } from '$lib/paraglide/messages.js';
-
-	const query = createQuery(() => ({
-		queryKey: ['events'],
-		queryFn: () => eventRepository.getEvents()
-	}));
+	import { m } from '$lib/paraglide/messages';
 </script>
 
 {#if page.data.user}
 	<h1>{m.hello_world({ name: page.data.user.firstName })}</h1>
+{:else}
+	<h1><a href="/login">{m.login()}</a></h1>
 {/if}
 
 <div>
@@ -21,16 +16,4 @@
 	<button onclick={() => setLocale('fr')}>fr</button>
 </div>
 
-<div>
-	{#if query.isPending}
-		<p>{m.loading()}</p>
-	{:else if query.isError}
-		<p>Error: {query.error.message}</p>
-	{:else if query.isSuccess}
-		<ul>
-			{#each query.data as event}
-				<li>{event.title}</li>
-			{/each}
-		</ul>
-	{/if}
-</div>
+<a href="/events">{m.events()}</a>
