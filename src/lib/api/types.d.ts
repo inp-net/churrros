@@ -15,6 +15,19 @@ export type Event = {
     location: string;
     pictureURL: string;
 }
+
+export type EventDetail = {
+    title: string;
+    location: string;
+    descriptionHtml: string;
+    tickets: Ticket[];
+    organizer: GroupAvatar;
+    coOrganizers: GroupAvatar[];
+}
+
+export type Ticket = {
+    id: string;
+}
 //#endregion
 
 //#region Users
@@ -59,5 +72,14 @@ export type Page<T> = {
 export type PageInfo = {
     hasNextPage: boolean;
     endCursor: string | null;
+}
+//#endregion
+
+//#region Groups
+export type GroupAvatar = {
+    name: string;
+    uid: string;
+    pictureURL: string;
+    pictureURLDark: string
 }
 //#endregion

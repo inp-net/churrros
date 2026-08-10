@@ -9,6 +9,8 @@ export const graphql = initGraphQLTada<{
     scalars: {
         DateTime: string; //On met DateTime en string car pas de conversion vers date par défaut.
         Email: string;
+        LocalID: string;
+        HTML: string;
     }
 }>();
 

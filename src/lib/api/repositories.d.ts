@@ -1,4 +1,4 @@
-import type { PageRequest, Page } from '$lib/api';
+import type { PageRequest, Page, EventDetail } from '$lib/api';
 import type { Event } from '$lib/api';
 import type { SessionToken } from '$lib/api';
 import type { User, LightUser } from '$lib/api';
@@ -11,6 +11,13 @@ export interface EventRepository {
      * @returns une page d'événements avec les informations de pagination
      */
     async getEvents(args: PageRequest): Promise<Page<Event>>;
+
+    /**
+     * Recupère le detail d'un event par son id.
+     * @param id L'id de l'event
+     * @returns Le detail de l'event si il existe, null sinon
+     */
+    async getEventById(id: string | undefined): Promise<EventDetail | null>;
 }
 
 export interface AuthRepository {

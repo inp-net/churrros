@@ -1,7 +1,9 @@
-import type { Event, Page } from '$lib/api';
+import type { Event, EventDetail, Page } from '$lib/api';
 import { readFragment, type ResultOf } from '$lib/api/graphql/graphql';
-import type { GetEvents } from '$lib/api/graphql/queries/event';
+import type { GetEventById, GetEvents } from '$lib/api/graphql/queries/event';
 import { PageInfoFragment } from '$lib/api/graphql/queries/fragments/pagination';
+import { mapGroupAvatar } from '../group';
+import { mapTicket } from '../ticket';
 
 type EventGraphQLNode = ResultOf<typeof GetEvents>['events'];
 
@@ -13,9 +15,9 @@ export function mapEvents(events: ResultOf<typeof GetEvents>): Page<Event> {
     };
 }
 
-export function mapEvent(event: EventGraphQLNode['edges'][number]['node']): Event {
+function mapEvent(event: EventGraphQLNode['edges'][number]['node']): Event {
     return {
-        id: event.id,
+        id: event.localID,
         slug: event.slug,
         title: event.title,
         description: event.description,
@@ -23,4 +25,15 @@ export function mapEvent(event: EventGraphQLNode['edges'][number]['node']): Even
         location: event.location,
         pictureURL: event.pictureURL
     };
+}
+
+export function mapEventDetail(event: ResultOf<typeof GetEventById>['event']): EventDetail {
+    return {
+        title: event.title,
+        descriptionHtml: event.descriptionHtml,
+        location: event.location,
+        organizer: mapGroupAvatar(event.organizer),
+        coOrganizers: event.coOrganizers.map((coOrganizerAvatar) => mapGroupAvatar(coOrganizerAvatar)),
+        tickets: event.tickets.map((ticket) => mapTicket(ticket))
+    }
 }
