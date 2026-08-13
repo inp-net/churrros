@@ -1,20 +1,15 @@
 import { graphql } from '$lib/api/graphql/graphql';
 import { PageInfoFragment } from '$lib/api/graphql/queries/fragments/pagination';
 import { GroupAvatarFragment } from '../fragments/groupAvatar';
-import { TicketFragment } from '../fragments/ticket';
+import { CardTicketFragment } from '../fragments/cardTicket';
+import { CardEventFragment } from '../fragments/cardEvent';
 
 export const GetEvents = graphql(`
   query GetEvents($first: Int, $after: String) {
     events(first: $first, after: $after) {
       edges {
         node {
-          localID
-          slug
-          title
-          description
-          startsAt
-          location
-          pictureURL
+          ...CardEvent
         }
       }
       pageInfo {
@@ -22,7 +17,7 @@ export const GetEvents = graphql(`
       }
     }
   }
-`, [PageInfoFragment]);
+`, [PageInfoFragment, CardEventFragment]);
 
 export const GetEventById = graphql(`
   query GetEventById($id : LocalID!) {
@@ -31,7 +26,7 @@ export const GetEventById = graphql(`
       location,
       descriptionHtml
       tickets {
-        ...TicketFragment
+        ...CardTicket
       }
       organizer {
         ...GroupAvatar
@@ -41,4 +36,4 @@ export const GetEventById = graphql(`
       }
     }
   }
-`, [GroupAvatarFragment, TicketFragment]);
+`, [GroupAvatarFragment, CardTicketFragment]);

@@ -3,6 +3,7 @@
 	import { eventRepository } from '$lib/api';
 	import { m } from '$lib/paraglide/messages';
 	import { infiniteScroll } from '$lib/utils/scroll.svelte';
+	import CardEvent from '$lib/components/CardEvent.svelte';
 
 	const query = createInfiniteQuery(() => ({
 		queryKey: ['events'],
@@ -25,7 +26,7 @@
 	{:else if query.isError}
 		<p>Error: {query.error.message}</p>
 	{:else if query.isSuccess}
-		<ul
+		<div
 			use:infiniteScroll={{
 				pageInfo: query.data?.pages.at(-1)?.pageInfo,
 				loadMore: query.fetchNextPage,
@@ -33,16 +34,9 @@
 			}}
 		>
 			{#each events as event (event.id)}
-				<li>
-					<a href={`/events/${event.id}`}>
-						{event.title}
-					</a>
-					{event.startsAt?.toLocaleString()}
-					<p>{event.description}</p>
-					<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br
-					/><br /><br /><br /><br /><br /><br /><br /><br />
-				</li>
+				<CardEvent {event} />
+				<br />
 			{/each}
-		</ul>
+		</div>
 	{/if}
 </div>

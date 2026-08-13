@@ -4,7 +4,7 @@
 	import { m } from '$lib/paraglide/messages';
 	import { page } from '$app/state';
 	import GroupAvatar from '$lib/components/GroupAvatar.svelte';
-	import Ticket from '$lib/components/Ticket.svelte';
+	import Ticket from '$lib/components/CardTicket.svelte';
 
 	const query = createQuery(() => ({
 		queryKey: ['events'],
@@ -32,7 +32,7 @@
 			<GroupAvatar groupInfo={coOrganizer} />
 		{/each}
 		{#each query.data.tickets as ticket (ticket.id)}
-			<Ticket ticketInfo={ticket} />
+			<Ticket {ticket} />
 		{/each}
 	{/if}
 </div>

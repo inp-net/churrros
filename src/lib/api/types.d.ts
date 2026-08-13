@@ -8,12 +8,15 @@ export type SessionToken = {
 //#region Events
 export type Event = {
     id: string;
-    slug: string;
-    title: string;
-    description: string;
-    startsAt: Date | null;
-    location: string;
     pictureURL: string;
+    title: string;
+    descriptionPreview: string;
+    organizer: GroupAvatar;
+    coOrganizers: GroupAvatar[];
+    startsAt: Date | null;
+    endsAt: Date | null;
+    location: string;
+    tickets: Ticket[];
 }
 
 export type EventDetail = {
@@ -27,6 +30,11 @@ export type EventDetail = {
 
 export type Ticket = {
     id: string;
+    opensAt: Date | null;
+    closesAt: Date | null;
+    name: string;
+    price: number;
+    priceIsVariable: boolean;
 }
 //#endregion
 

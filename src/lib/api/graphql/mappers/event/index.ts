@@ -2,6 +2,7 @@ import type { Event, EventDetail, Page } from '$lib/api';
 import { readFragment, type ResultOf } from '$lib/api/graphql/graphql';
 import type { GetEventById, GetEvents } from '$lib/api/graphql/queries/event';
 import { PageInfoFragment } from '$lib/api/graphql/queries/fragments/pagination';
+import { CardEventFragment } from '../../queries/fragments/cardEvent';
 import { mapGroupAvatar } from '../group';
 import { mapTicket } from '../ticket';
 
@@ -16,14 +17,18 @@ export function mapEvents(events: ResultOf<typeof GetEvents>): Page<Event> {
 }
 
 function mapEvent(event: EventGraphQLNode['edges'][number]['node']): Event {
+    const data = readFragment(CardEventFragment, event);
     return {
-        id: event.localID,
-        slug: event.slug,
-        title: event.title,
-        description: event.description,
-        startsAt: event.startsAt ? new Date(event.startsAt) : null,
-        location: event.location,
-        pictureURL: event.pictureURL
+        id: data.localID,
+        pictureURL: data.pictureURL,
+        title: data.title,
+        descriptionPreview: data.descriptionPreview,
+        organizer: mapGroupAvatar(data.organizer),
+        coOrganizers: data.coOrganizers.map((coOrganizerAvatar) => mapGroupAvatar(coOrganizerAvatar)),
+        startsAt: data.startsAt ? new Date(data.startsAt) : null,
+        endsAt: data.endsAt ? new Date(data.endsAt) : null,
+        location: data.location,
+        tickets: data.tickets.map((ticket) => mapTicket(ticket))
     };
 }
 
