@@ -3,7 +3,7 @@
 	import { eventRepository } from '$lib/api';
 	import { m } from '$lib/paraglide/messages';
 	import { infiniteScroll } from '$lib/utils/scroll.svelte';
-	import CardEvent from '$lib/components/CardEvent.svelte';
+	import CardEvent from '$lib/components/card/CardEvent.svelte';
 
 	const query = createInfiniteQuery(() => ({
 		queryKey: ['events'],

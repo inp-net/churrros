@@ -19,11 +19,11 @@ export const CardEventFragment = graphql(`
         }
         startsAt
         endsAt
+        frequency
+        recurringUntil
         location
         tickets {
         ...CardTicket
         }
     }   
 `, [GroupAvatarFragment, CardTicketFragment]);
-
-//Il manque frequency et RecurringUntil pr le moment en comparant à churros 

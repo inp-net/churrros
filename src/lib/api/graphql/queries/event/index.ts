@@ -1,8 +1,8 @@
 import { graphql } from '$lib/api/graphql/graphql';
 import { PageInfoFragment } from '$lib/api/graphql/queries/fragments/pagination';
 import { GroupAvatarFragment } from '../fragments/groupAvatar';
-import { CardTicketFragment } from '../fragments/cardTicket';
 import { CardEventFragment } from '../fragments/cardEvent';
+import { TicketDetailFragment } from '../fragments/ticketDetail';
 
 export const GetEvents = graphql(`
   query GetEvents($first: Int, $after: String) {
@@ -24,16 +24,22 @@ export const GetEventById = graphql(`
     event(id: $id) {
       title,
       location,
-      descriptionHtml
-      tickets {
-        ...CardTicket
-      }
+      description,
+      descriptionHtml,
+      startsAt,
+      endsAt,
+      frequency,
+      recurringUntil,
+      externalTicketing,
       organizer {
         ...GroupAvatar
       }
       coOrganizers {
         ...GroupAvatar
       }
+      tickets {
+        ...TicketDetail
+      }
     }
   }
-`, [GroupAvatarFragment, CardTicketFragment]);
+`, [GroupAvatarFragment, TicketDetailFragment]);

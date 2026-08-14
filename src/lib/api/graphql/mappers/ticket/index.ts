@@ -1,14 +1,23 @@
-import type { Ticket } from "$lib/api/types";
+import type { Ticket, TicketDetail } from "$lib/api/types";
 import { readFragment, type $tada } from "gql.tada";
 import { CardTicketFragment } from "$lib/api/graphql/queries/fragments/cardTicket";
+import { TicketDetailFragment } from "../../queries/fragments/ticketDetail";
+import { mapGroupAvatar } from "../group";
+import { mapMajor, mapSchool } from "../user";
 
-type TicketFragmentType = {
+type CardTicketFragmentType = {
     [$tada.fragmentRefs]: {
         CardTicket: "Ticket";
     };
 }
 
-export function mapTicket(ticket: TicketFragmentType): Ticket {
+type TicketDetailFragmentType = {
+    [$tada.fragmentRefs]: {
+        TicketDetail: "Ticket";
+    };
+}
+
+export function mapTicket(ticket: CardTicketFragmentType): Ticket {
     const data = readFragment(CardTicketFragment, ticket);
     return {
         id: data.localID,
@@ -17,5 +26,20 @@ export function mapTicket(ticket: TicketFragmentType): Ticket {
         name: data.name,
         price: data.minimumPrice,
         priceIsVariable: data.priceIsVariable
+    }
+}
+
+export function mapTicketDetail(ticket: TicketDetailFragmentType): TicketDetail {
+    const data = readFragment(TicketDetailFragment, ticket);
+    return {
+        ...mapTicket(data),
+        capacity: data.capacity,
+        showCapacity: data.event.showCapacity,
+        placesLeft: data.placesLeft,
+        showPlacesLeft: data.event.showPlacesLeft,
+        invited: data.invited,
+        openToGroups: data.openToGroups.map((group) => (mapGroupAvatar(group))),
+        openToMajors: data.openToMajors.map((major) => (mapMajor(major))),
+        openToSchools: data.openToSchools.map((school) => (mapSchool(school)))
     }
 }

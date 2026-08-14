@@ -1,7 +1,8 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import type { Event } from '$lib/api';
 	import CardTicket from './CardTicket.svelte';
-	import GroupAvatar from './GroupAvatar.svelte';
+	import GroupAvatar from '../avatar/GroupAvatar.svelte';
 
 	interface Props {
 		event: Event;
@@ -28,6 +29,7 @@
 	<br />
 	<p>{event.descriptionPreview}</p>
 	<br />
+	Tickets :
 	{#each event.tickets as ticket (ticket.id)}
 		<CardTicket {ticket} />
 	{/each}
