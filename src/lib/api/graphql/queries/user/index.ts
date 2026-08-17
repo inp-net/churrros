@@ -10,12 +10,3 @@ export const GetUserByUid = graphql(`
 `, [UserFragment]
 
 );
-
-export const GetMe = graphql(`
-    query GetMe {
-        me {
-            ...UserData
-        }
-    }
-`, [UserFragment]
-);

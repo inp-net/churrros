@@ -1,9 +1,12 @@
-import type { PageRequest, Page, EventDetail } from '$lib/api';
+import type { PageRequest, Page, EventDetail, GroupAvatar } from '$lib/api';
 import type { Event } from '$lib/api';
 import type { SessionToken } from '$lib/api';
 import type { User, LightUser } from '$lib/api';
 import type { Cookies } from '@sveltejs/kit';
 
+/**
+ * Repository pour la gestion des évents
+ */
 export interface EventRepository {
     /**
      * Recupère les événements avec pagination.
@@ -18,8 +21,24 @@ export interface EventRepository {
      * @returns Le detail de l'event si il existe, null sinon
      */
     async getEventById(id: string | undefined): Promise<EventDetail | null>;
+
+    /**
+     * Crée un event presque vide
+     * @param groupId l'uid du groupe qui va organiser l'event
+     * @param title le titre de l'event
+     * @param createManagerInvite si on crée un lien pour inviter d'autres gens à manager l'event
+     * @returns l'id de l'event créé
+     */
+    async createEvent(groupId: string, title: string, createManagerInvite: boolean): Promise<string>;
+
+    async editEvent();
+
+    async deleteEvent();
 }
 
+/**
+ * Repository sur les intéractions avec l'API en rapport avec l'authentification
+ */
 export interface AuthRepository {
     /**
      * Recupère un token de session pour l'utilisateur avec l'email ou l'uid et le mot de passe fourni.
@@ -30,6 +49,9 @@ export interface AuthRepository {
     async login(emailOrUid: string, password: string): Promise<SessionToken>;
 }
 
+/**
+ * Repository qui permet de récuperer les informations sur les utilisateurs
+ */
 export interface UserRepository {
     /**
      * Recupère les informations d'un utilisateur par son uid.
@@ -37,6 +59,12 @@ export interface UserRepository {
      * @returns les informations de l'utilisateur, ou null si non trouvé
      */
     async getUserByUid(uid: string): Promise<User | null>;
+}
+
+/**
+ * Le repository qui permet de récuperer les informations et permissions de l'utilisateur actuellement connecté
+ */
+export interface MeRepository {
     /**
      * Recupère les informations de l'utilisateur actuellement connecté.
      * Requete GraphQL côté serveur
@@ -44,4 +72,10 @@ export interface UserRepository {
      * @returns les informations de l'utilisateur actuellement connecté, ou null si non connecté
      */
     async getMe(event?: { fetch: typeof fetch; cookies: Cookies }): Promise<User | null>;
+
+    /**
+     * Recupère la liste des groupes sur lesquels l'utilisateur connecté peut créer des events
+     * @returns GroupAvatar sur tous ces groupes
+     */
+    async getCanCreateEventsOn(): Promise<GroupAvatar[]>;
 }
