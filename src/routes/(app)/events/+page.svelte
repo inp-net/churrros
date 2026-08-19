@@ -2,7 +2,7 @@
 	import { createInfiniteQuery } from '@tanstack/svelte-query';
 	import { eventRepository } from '$lib/api';
 	import { m } from '$lib/paraglide/messages';
-	import { infiniteScroll } from '$lib/utils/scroll.svelte';
+	import InfiniteScroll from '$lib/components/InfiniteScroll.svelte';
 	import CardEvent from '$lib/components/card/CardEvent.svelte';
 
 	const query = createInfiniteQuery(() => ({
@@ -20,23 +20,24 @@
 
 <h1>{m.events()}</h1>
 
-<div>
+<InfiniteScroll
+	hasNextPage={query.hasNextPage}
+	isFetching={query.isFetching}
+	loadMore={query.fetchNextPage}
+	rootMargin="0px 0px 400px 0px"
+>
 	{#if query.isPending}
 		<p>{m.loading()}</p>
 	{:else if query.isError}
 		<p>Error: {query.error.message}</p>
 	{:else if query.isSuccess}
-		<div
-			use:infiniteScroll={{
-				pageInfo: query.data?.pages.at(-1)?.pageInfo,
-				loadMore: query.fetchNextPage,
-				isFetching: query.isFetchingNextPage
-			}}
-		>
-			{#each events as event (event.id)}
-				<CardEvent {event} />
-				<br />
-			{/each}
-		</div>
+		{#each events as event (event.id)}
+			<CardEvent {event} />
+			<br />
+		{/each}
 	{/if}
-</div>
+	{#snippet loading()}
+		<!--Si on veut override le chargement-->
+		<p>{m.loading()}</p>
+	{/snippet}
+</InfiniteScroll>
