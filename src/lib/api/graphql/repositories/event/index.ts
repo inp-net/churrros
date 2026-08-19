@@ -30,4 +30,20 @@ export const eventRepository: EventRepository = {
             return null;
         }
     },
+    async createEvent(groupId: string, title: string, createManagerInvite: boolean) {
+        //TODO : Implémenter la création d'event
+        throw new Error("Not implemented");
+    },
+    async editEvent() {
+        //TODO : Implémenter l'édition d'event
+        throw new Error("Not implemented");
+    },
+    async deleteEvent() {
+        //TODO : Implémenter la suppression d'event
+        throw new Error("Not implemented");
+    },
+    async bookEvent(bookingUrl: string, ticketId: string, beneficiary?: string, churrosBeneficiary?: string) {
+        //TODO : Implémenter la réservation d'event
+        throw new Error("Not implemented");
+    }
 }

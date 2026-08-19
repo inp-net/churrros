@@ -24,6 +24,7 @@ export interface EventRepository {
 
     /**
      * Crée un event presque vide
+     * WIP
      * @param groupId l'uid du groupe qui va organiser l'event
      * @param title le titre de l'event
      * @param createManagerInvite si on crée un lien pour inviter d'autres gens à manager l'event
@@ -31,9 +32,26 @@ export interface EventRepository {
      */
     async createEvent(groupId: string, title: string, createManagerInvite: boolean): Promise<string>;
 
+    /**
+     * Modifie un event
+     * WIP
+     */
     async editEvent();
 
+    /**
+     * Supprime un event
+     * WIP
+     */
     async deleteEvent();
+
+    /**
+     * Crée une reservation pour un event 
+     * @param bookingUrl : URL vers la page du billet (Reliquat churros V2)
+     * @param ticketId : Id du ticket à reserver 
+     * @param beneficiary : Nom et prénom du bénéficiaire (Pour les extés) (Optionnel)
+     * @param churrosBeneficiary : UID churros du bénéficiaire si ce n'est pas l'utilisateur actuel (Optionnel)
+     */
+    async bookEvent(bookingUrl: string, ticketId: string, beneficiary?: string, churrosBeneficiary?: string): Promise<string>
 }
 
 /**
