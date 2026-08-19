@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { createInfiniteQuery } from '@tanstack/svelte-query';
-	import { eventRepository } from '$lib/api';
+	import { eventRepository, type EventsByDay } from '$lib/api';
 	import { m } from '$lib/paraglide/messages';
 	import InfiniteScroll from '$lib/components/InfiniteScroll.svelte';
-	import CardEvent from '$lib/components/card/CardEvent.svelte';
+	import CardEventsByDay from '$lib/components/card/CardEventsByDay.svelte';
 
 	const query = createInfiniteQuery(() => ({
 		queryKey: ['events'],
@@ -15,14 +15,14 @@
 	}));
 
 	//On dérive car la valeur qu'on recup est vraiment à rallonge et on veut juste les items
-	const events = $derived(query.data?.pages.flatMap((page) => page.items) ?? []);
+	const events: EventsByDay[] = $derived(query.data?.pages.flatMap((page) => page.items) ?? []);
 </script>
 
 <h1>{m.events()}</h1>
 
 <InfiniteScroll
 	hasNextPage={query.hasNextPage}
-	isFetching={query.isFetching}
+	isFetching={query.isFetchingNextPage}
 	loadMore={query.fetchNextPage}
 	rootMargin="0px 0px 400px 0px"
 >
@@ -31,8 +31,8 @@
 	{:else if query.isError}
 		<p>Error: {query.error.message}</p>
 	{:else if query.isSuccess}
-		{#each events as event (event.id)}
-			<CardEvent {event} />
+		{#each events as event (event.date.toISOString())}
+			<CardEventsByDay {event} />
 			<br />
 		{/each}
 	{/if}

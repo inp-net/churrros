@@ -13,7 +13,7 @@ export interface EventRepository {
      * @param args les informations de pagination, first pour le nombre d'éléments à récupérer, after pour le curseur de la page précédente (si null, on récupère les éléments depuis le début
      * @returns une page d'événements avec les informations de pagination
      */
-    async getEvents(args: PageRequest): Promise<Page<Event>>;
+    async getEvents(args: PageRequest): Promise<Page<EventsByDay>>;
 
     /**
      * Recupère le detail d'un event par son id.

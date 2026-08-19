@@ -1,17 +1,26 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
 	import type { Event } from '$lib/api';
 	import CardTicket from './CardTicket.svelte';
 	import GroupAvatar from '../avatar/GroupAvatar.svelte';
 
 	interface Props {
+		/**
+		 * L'event à afficher dans la carte
+		 */
 		event: Event;
+		/**
+		 * Si on annonce le shotgun qui s'ouvre plutot que l'event
+		 */
+		shotgun?: boolean;
 	}
 
-	let { event }: Props = $props();
+	let { event, shotgun }: Props = $props();
 </script>
 
 <div>
+	{#if shotgun}
+		<p>Shotgun s'ouvre pour :</p>
+	{/if}
 	<a href={`/events/${event.id}`}>
 		{event.title}
 	</a>

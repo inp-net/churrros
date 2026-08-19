@@ -19,6 +19,12 @@ export type Event = {
     tickets: Ticket[];
 }
 
+export type EventsByDay = {
+    date: Date;
+    shotgunning: Event[];
+    happening: Event[];
+}
+
 export type EventDetail = {
     title: string;
     location: string;

@@ -6,11 +6,16 @@ import { TicketDetailFragment } from '../fragments/ticketDetail';
 
 export const GetEvents = graphql(`
   query GetEvents($first: Int, $after: String) {
-    events(first: $first, after: $after) {
+    eventsByDay(first: $first, after: $after) {
       edges {
-        cursor
         node {
-          ...CardEvent
+          date
+          shotgunning {
+            ...CardEvent
+          }
+          happening {
+            ...CardEvent
+          }
         }
       }
       pageInfo {

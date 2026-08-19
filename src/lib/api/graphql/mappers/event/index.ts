@@ -1,22 +1,38 @@
-import type { Event, EventDetail, Page } from '$lib/api';
+import type { Event, EventDetail, EventsByDay, Page } from '$lib/api';
 import { readFragment, type ResultOf } from '$lib/api/graphql/graphql';
 import type { GetEventById, GetEvents } from '$lib/api/graphql/queries/event';
 import { PageInfoFragment } from '$lib/api/graphql/queries/fragments/pagination';
+import type { $tada } from 'gql.tada';
 import { CardEventFragment } from '../../queries/fragments/cardEvent';
 import { mapGroupAvatar } from '../group';
 import { mapTicket, mapTicketDetail } from '../ticket';
 
-type EventGraphQLNode = ResultOf<typeof GetEvents>['events'];
+type EventGraphQLNode = ResultOf<typeof GetEvents>['eventsByDay'];
 
-export function mapEvents(events: ResultOf<typeof GetEvents>): Page<Event> {
-    const pageInfo = readFragment(PageInfoFragment, events.events.pageInfo);
+export function mapEvents(events: ResultOf<typeof GetEvents>): Page<EventsByDay> {
+    const pageInfo = readFragment(PageInfoFragment, events.eventsByDay.pageInfo);
+    console.log("pageInfo : ", pageInfo);
     return {
-        items: events.events.edges.map((edge) => mapEvent(edge.node)),
+        items: events.eventsByDay.edges.map((edge) => mapEventByDay(edge.node)),
         pageInfo
     };
 }
 
-function mapEvent(event: EventGraphQLNode['edges'][number]['node']): Event {
+function mapEventByDay(eventByDay: EventGraphQLNode['edges'][number]['node']): EventsByDay {
+    return {
+        date: new Date(eventByDay.date),
+        shotgunning: eventByDay.shotgunning.map((event) => mapEvent(event)),
+        happening: eventByDay.happening.map((event) => mapEvent(event))
+    };
+}
+
+type CardEventFragmentType = {
+    [$tada.fragmentRefs]: {
+        CardEvent: "Event";
+    };
+}
+
+function mapEvent(event: CardEventFragmentType): Event {
     const data = readFragment(CardEventFragment, event);
     return {
         id: data.localID,
