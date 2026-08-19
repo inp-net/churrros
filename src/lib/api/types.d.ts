@@ -106,12 +106,6 @@ export type PageInfo = {
 }
 //#endregion
 
-//#region Groups
-export type GroupAvatar = Avatar & {
-    pictureURLDark: string;
-}
-//#endregion
-
 //#region Utils
 export type Avatar = {
     name: string;

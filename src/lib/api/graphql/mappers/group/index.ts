@@ -1,4 +1,4 @@
-import type { GroupAvatar } from "$lib/api/types";
+import type { Avatar } from "$lib/api/types";
 import { readFragment, type $tada } from "gql.tada";
 import { GroupAvatarFragment } from "$lib/api/graphql/queries/fragments/groupAvatar";
 
@@ -9,12 +9,11 @@ type GroupAvatarFragment = {
     };
 }
 
-export function mapGroupAvatar(groupAvatar: GroupAvatarFragment): GroupAvatar {
+export function mapGroupAvatar(groupAvatar: GroupAvatarFragment): Avatar {
     const data = readFragment(GroupAvatarFragment, groupAvatar);
     return {
         name: data.name,
         uid: data.uid,
         pictureURL: data.pictureURL,
-        pictureURLDark: data.pictureURLDark
     }
 }

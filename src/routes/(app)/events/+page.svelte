@@ -11,7 +11,7 @@
 	const query = createInfiniteQuery(() => ({
 		queryKey: ['events'],
 		queryFn: ({ pageParam }) => eventRepository.getEvents({ first: 10, after: pageParam }),
-		initialPageParam: today, //On cast ici car tanstack definit le type de pageParam ici et sinon c'est du null | undefined
+		initialPageParam: today,
 		getNextPageParam: (lastPage) =>
 			lastPage.pageInfo.hasNextPage ? lastPage.pageInfo.endCursor : null,
 		notifyOnChangeProps: 'all'

@@ -1,4 +1,4 @@
-import type { PageRequest, Page, EventDetail, GroupAvatar } from '$lib/api';
+import type { PageRequest, Page, EventDetail, GroupAvatar, Avatar } from '$lib/api';
 import type { Event } from '$lib/api';
 import type { SessionToken } from '$lib/api';
 import type { User, LightUser } from '$lib/api';
@@ -77,6 +77,8 @@ export interface UserRepository {
      * @returns les informations de l'utilisateur, ou null si non trouvé
      */
     async getUserByUid(uid: string): Promise<User | null>;
+
+    async getUserAvatarByUid(uid: string): Promise<Avatar | null>;
 }
 
 /**
@@ -93,7 +95,7 @@ export interface MeRepository {
 
     /**
      * Recupère la liste des groupes sur lesquels l'utilisateur connecté peut créer des events
-     * @returns GroupAvatar sur tous ces groupes
+     * @returns Avatar sur tous ces groupes
      */
-    async getCanCreateEventsOn(): Promise<GroupAvatar[]>;
+    async getCanCreateEventsOn(): Promise<Avatar[]>;
 }

@@ -3,9 +3,9 @@
 	import { eventRepository } from '$lib/api';
 	import { m } from '$lib/paraglide/messages';
 	import { page } from '$app/state';
-	import GroupAvatar from '$lib/components/avatar/GroupAvatar.svelte';
 	import CardTicketDetail from '$lib/components/card/CardTicketDetail.svelte';
 	import { formatISODateToLocale } from '$lib/utils/locale';
+	import Avatar from '$lib/components/avatar/Avatar.svelte';
 
 	const query = createQuery(() => ({
 		queryKey: ['event', page.params.id],
@@ -33,9 +33,9 @@
 			{query.data.description}
 		</p>
 
-		<GroupAvatar groupInfo={query.data?.organizer} />
+		<Avatar avatar={query.data?.organizer} />
 		{#each query.data.coOrganizers as coOrganizer (coOrganizer.uid)}
-			<GroupAvatar groupInfo={coOrganizer} />
+			<Avatar avatar={coOrganizer} />
 		{/each}
 		Tickets :
 		{#each query.data.tickets as ticket (ticket.id)}

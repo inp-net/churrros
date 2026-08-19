@@ -1,8 +1,8 @@
 <script lang="ts">
 	import type { Event } from '$lib/api';
 	import CardTicket from './CardTicket.svelte';
-	import GroupAvatar from '../avatar/GroupAvatar.svelte';
 	import { formatISODateToLocale } from '$lib/utils/locale';
+	import Avatar from '../avatar/Avatar.svelte';
 
 	interface Props {
 		/**
@@ -26,9 +26,9 @@
 		{event.title}
 	</a>
 	<br />
-	<GroupAvatar groupInfo={event.organizer} />
+	<Avatar avatar={event.organizer} />
 	{#each event.coOrganizers as coOrganizer (coOrganizer.uid)}
-		<GroupAvatar groupInfo={coOrganizer} />
+		<Avatar avatar={coOrganizer} />
 	{/each}
 	<br />
 	<img src={event.pictureURL} alt={event.title} />
