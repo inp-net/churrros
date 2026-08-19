@@ -2,6 +2,7 @@
 	import type { Event } from '$lib/api';
 	import CardTicket from './CardTicket.svelte';
 	import GroupAvatar from '../avatar/GroupAvatar.svelte';
+	import { formatISODateToLocale } from '$lib/utils/locale';
 
 	interface Props {
 		/**
@@ -32,9 +33,9 @@
 	<br />
 	<img src={event.pictureURL} alt={event.title} />
 	<br />
-	Debut : {event.startsAt?.toLocaleString() ?? 'N/A'}
+	Debut : {event.startsAt ? formatISODateToLocale(event.startsAt) : 'N/A'}
 	<br />
-	Fin : {event.endsAt?.toLocaleString() ?? 'N/A'}
+	Fin : {event.endsAt ? formatISODateToLocale(event.endsAt) : 'N/A'}
 	<br />
 	<p>{event.descriptionPreview}</p>
 	<br />

@@ -13,14 +13,14 @@ export type Event = {
     descriptionPreview: string;
     organizer: GroupAvatar;
     coOrganizers: GroupAvatar[];
-    startsAt: Date | null;
-    endsAt: Date | null;
+    startsAt: string | null;
+    endsAt: string | null;
     location: string;
     tickets: Ticket[];
 }
 
 export type EventsByDay = {
-    date: Date;
+    date: string;
     shotgunning: Event[];
     happening: Event[];
 }
@@ -30,10 +30,10 @@ export type EventDetail = {
     location: string;
     description: string;
     descriptionHtml: string;
-    startsAt: Date | null;
-    endsAt: Date | null;
+    startsAt: string | null;
+    endsAt: string | null;
     frequency: string | null;
-    recurringUntil: Date | null;
+    recurringUntil: string | null;
     externalTicketing: string | null;
     tickets: TicketDetail[];
     organizer: GroupAvatar;
@@ -42,8 +42,8 @@ export type EventDetail = {
 
 export type Ticket = {
     id: string;
-    opensAt: Date | null;
-    closesAt: Date | null;
+    opensAt: string | null;
+    closesAt: string | null;
     name: string;
     price: number;
     priceIsVariable: boolean;

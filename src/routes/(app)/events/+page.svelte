@@ -4,11 +4,14 @@
 	import { m } from '$lib/paraglide/messages';
 	import InfiniteScroll from '$lib/components/InfiniteScroll.svelte';
 	import CardEventsByDay from '$lib/components/card/CardEventsByDay.svelte';
+	import { formatISO } from 'date-fns';
+
+	const today = formatISO(new Date(), { representation: 'date' });
 
 	const query = createInfiniteQuery(() => ({
 		queryKey: ['events'],
 		queryFn: ({ pageParam }) => eventRepository.getEvents({ first: 10, after: pageParam }),
-		initialPageParam: null as string | null, //On cast ici car tanstack definit le type de pageParam ici et sinon c'est du null | undefined
+		initialPageParam: today, //On cast ici car tanstack definit le type de pageParam ici et sinon c'est du null | undefined
 		getNextPageParam: (lastPage) =>
 			lastPage.pageInfo.hasNextPage ? lastPage.pageInfo.endCursor : null,
 		notifyOnChangeProps: 'all'
@@ -31,7 +34,7 @@
 	{:else if query.isError}
 		<p>Error: {query.error.message}</p>
 	{:else if query.isSuccess}
-		{#each events as event (event.date.toISOString())}
+		{#each events as event (event.date)}
 			<CardEventsByDay {event} />
 			<br />
 		{/each}

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { Ticket } from '$lib/api';
+	import { formatISODateToLocale } from '$lib/utils/locale';
 
 	interface Props {
 		ticket: Ticket;
@@ -11,6 +12,6 @@
 <div>
 	{ticket.name}
 	{ticket.priceIsVariable ? 'Prix variable' : `${ticket.price} €`}
-	Ouverture : {ticket.opensAt?.toLocaleString() ?? 'N/A'}
-	Fermeture : {ticket.closesAt?.toLocaleString() ?? 'N/A'}
+	Ouverture : {ticket.opensAt ? formatISODateToLocale(ticket.opensAt) : 'N/A'}
+	Fermeture : {ticket.closesAt ? formatISODateToLocale(ticket.closesAt) : 'N/A'}
 </div>

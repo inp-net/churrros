@@ -21,8 +21,8 @@ export function mapTicket(ticket: CardTicketFragmentType): Ticket {
     const data = readFragment(CardTicketFragment, ticket);
     return {
         id: data.localID,
-        opensAt: data.opensAt ? new Date(data.opensAt) : null,
-        closesAt: data.closesAt ? new Date(data.closesAt) : null,
+        opensAt: data.opensAt,
+        closesAt: data.closesAt,
         name: data.name,
         price: data.minimumPrice,
         priceIsVariable: data.priceIsVariable

@@ -11,7 +11,6 @@ type EventGraphQLNode = ResultOf<typeof GetEvents>['eventsByDay'];
 
 export function mapEvents(events: ResultOf<typeof GetEvents>): Page<EventsByDay> {
     const pageInfo = readFragment(PageInfoFragment, events.eventsByDay.pageInfo);
-    console.log("pageInfo : ", pageInfo);
     return {
         items: events.eventsByDay.edges.map((edge) => mapEventByDay(edge.node)),
         pageInfo
@@ -20,7 +19,7 @@ export function mapEvents(events: ResultOf<typeof GetEvents>): Page<EventsByDay>
 
 function mapEventByDay(eventByDay: EventGraphQLNode['edges'][number]['node']): EventsByDay {
     return {
-        date: new Date(eventByDay.date),
+        date: eventByDay.date,
         shotgunning: eventByDay.shotgunning.map((event) => mapEvent(event)),
         happening: eventByDay.happening.map((event) => mapEvent(event))
     };
@@ -41,8 +40,8 @@ function mapEvent(event: CardEventFragmentType): Event {
         descriptionPreview: data.descriptionPreview,
         organizer: mapGroupAvatar(data.organizer),
         coOrganizers: data.coOrganizers.map((coOrganizerAvatar) => mapGroupAvatar(coOrganizerAvatar)),
-        startsAt: data.startsAt ? new Date(data.startsAt) : null,
-        endsAt: data.endsAt ? new Date(data.endsAt) : null,
+        startsAt: data.startsAt,
+        endsAt: data.endsAt,
         location: data.location,
         tickets: data.tickets.map((ticket) => mapTicket(ticket))
     };
@@ -54,10 +53,10 @@ export function mapEventDetail(event: ResultOf<typeof GetEventById>['event']): E
         location: event.location,
         description: event.description,
         descriptionHtml: event.descriptionHtml,
-        startsAt: event.startsAt ? new Date(event.startsAt) : null,
-        endsAt: event.endsAt ? new Date(event.endsAt) : null,
+        startsAt: event.startsAt,
+        endsAt: event.endsAt,
         frequency: event.frequency,
-        recurringUntil: event.recurringUntil ? new Date(event.recurringUntil) : null,
+        recurringUntil: event.recurringUntil,
         externalTicketing: event.externalTicketing,
         organizer: mapGroupAvatar(event.organizer),
         coOrganizers: event.coOrganizers.map((coOrganizerAvatar) => mapGroupAvatar(coOrganizerAvatar)),

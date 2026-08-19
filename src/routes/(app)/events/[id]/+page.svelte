@@ -5,6 +5,7 @@
 	import { page } from '$app/state';
 	import GroupAvatar from '$lib/components/avatar/GroupAvatar.svelte';
 	import CardTicketDetail from '$lib/components/card/CardTicketDetail.svelte';
+	import { formatISODateToLocale } from '$lib/utils/locale';
 
 	const query = createQuery(() => ({
 		queryKey: ['event', page.params.id],
@@ -23,10 +24,10 @@
 	{:else if query.isSuccess && query.data}
 		{query.data?.title} <br />
 		{query.data.location} <br />
-		{query.data.startsAt ? query.data.startsAt.toLocaleString() : 'N/A'} <br />
-		{query.data.endsAt ? query.data.endsAt.toLocaleString() : 'N/A'} <br />
+		{query.data.startsAt ? formatISODateToLocale(query.data.startsAt) : 'N/A'} <br />
+		{query.data.endsAt ? formatISODateToLocale(query.data.endsAt) : 'N/A'} <br />
 		{query.data.frequency} <br />
-		{query.data.recurringUntil ? query.data.recurringUntil.toLocaleString() : 'N/A'} <br />
+		{query.data.recurringUntil ? formatISODateToLocale(query.data.recurringUntil) : 'N/A'} <br />
 		{query.data.externalTicketing} <br />
 		<p>
 			{query.data.description}
