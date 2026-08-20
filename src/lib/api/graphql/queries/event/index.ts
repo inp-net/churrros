@@ -49,3 +49,20 @@ export const GetEventById = graphql(`
     }
   }
 `, [GroupAvatarFragment, TicketDetailFragment]);
+
+export const BookEvent = graphql(`
+  mutation BookEvent($bookingUrl: String!, $ticketId: LocalID!, $beneficiary: String, $churrosBeneficiary: UID) {
+    bookEvent(bookingUrl: $bookingUrl, ticket: $ticketId, beneficiary: $beneficiary, churrosBeneficiary: $churrosBeneficiary) {
+      ... on MutationBookEventSuccess {
+        __typename
+        data {
+          localID
+        }
+      }
+      ... on Error {
+        __typename
+        message
+      }
+    }
+}
+`); 

@@ -50,6 +50,7 @@ export interface EventRepository {
      * @param ticketId : Id du ticket à reserver 
      * @param beneficiary : Nom et prénom du bénéficiaire (Pour les extés) (Optionnel)
      * @param churrosBeneficiary : UID churros du bénéficiaire si ce n'est pas l'utilisateur actuel (Optionnel)
+     * 
      */
     async bookEvent(bookingUrl: string, ticketId: string, beneficiary?: string, churrosBeneficiary?: string): Promise<string>
 }

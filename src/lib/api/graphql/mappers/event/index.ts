@@ -1,6 +1,6 @@
 import type { Event, EventDetail, EventsByDay, Page } from '$lib/api';
 import { readFragment, type ResultOf } from '$lib/api/graphql/graphql';
-import type { GetEventById, GetEvents } from '$lib/api/graphql/queries/event';
+import type { BookEvent, GetEventById, GetEvents } from '$lib/api/graphql/queries/event';
 import { PageInfoFragment } from '$lib/api/graphql/queries/fragments/pagination';
 import type { $tada } from 'gql.tada';
 import { CardEventFragment } from '../../queries/fragments/cardEvent';
@@ -61,5 +61,22 @@ export function mapEventDetail(event: ResultOf<typeof GetEventById>['event']): E
         organizer: mapGroupAvatar(event.organizer),
         coOrganizers: event.coOrganizers.map((coOrganizerAvatar) => mapGroupAvatar(coOrganizerAvatar)),
         tickets: event.tickets.map((ticket) => mapTicketDetail(ticket))
+    }
+}
+
+export function mapBookingEventResult(result: ResultOf<typeof BookEvent>["bookEvent"]): string {
+    if (!result) {
+        throw new Error('No booking result data found');
+    }
+
+    switch (result.__typename) {
+        case 'Error': {
+            throw new Error(result.message);
+        }
+        case "MutationBookEventSuccess": {
+            return result.data.localID;
+        }
+        default:
+            throw new Error('No booking result data found');
     }
 }
