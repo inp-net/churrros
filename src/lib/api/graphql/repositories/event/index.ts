@@ -17,17 +17,21 @@ export const eventRepository: EventRepository = {
         }
     },
     async getEventById(id: string | undefined) {
+        if (!id) {
+            throw new Error("Not found");
+        }
         try {
-            if (!id) {
-                return null;
-            }
             const response = await request(GetEventById, { id: id });
+            if (!response.event) {
+                throw new Error("Not found");
+            }
             return mapEventDetail(response.event);
         }
         catch (error) {
+            //L'api throw une erreur en cas de NOT Found donc on peut pas faire d'erreurs custom depuis ici
             //TODO : Vrai gestion d'erreur
             console.error('Error fetching events:', error);
-            return null;
+            throw error;
         }
     },
     async createEvent(groupId: string, title: string, createManagerInvite: boolean) {

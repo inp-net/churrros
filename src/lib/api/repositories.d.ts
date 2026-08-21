@@ -18,9 +18,10 @@ export interface EventRepository {
     /**
      * Recupère le detail d'un event par son id.
      * @param id L'id de l'event
-     * @returns Le detail de l'event si il existe, null sinon
+     * @returns Le detail de l'event si il existe
+     * @throws une erreur si l'event n'existe pas
      */
-    async getEventById(id: string | undefined): Promise<EventDetail | null>;
+    async getEventById(id: string | undefined): Promise<EventDetail>;
 
     /**
      * Crée un event presque vide

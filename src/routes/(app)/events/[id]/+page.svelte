@@ -16,10 +16,7 @@
 		queryFn: () => eventRepository.getEventById(page.params.id)
 	}));
 
-	//Gestion null ? Si l'event est a null alors 404
-
 	const bookingMutation = createMutation(() => ({
-		//Je met pas de clé de cache car pas besoin nan ?
 		mutationFn: ({
 			ticketId,
 			churrosBeneficiary,
@@ -70,9 +67,10 @@
 	{#if query.isPending}
 		<p>{m.loading()}</p>
 	{:else if query.isError}
+		<!--Si l'event n'existe pas on est dans une erreur-->
 		<p>Error: {query.error.message}</p>
-	{:else if query.isSuccess && query.data}
-		{query.data?.title} <br />
+	{:else if query.isSuccess}
+		{query.data.title} <br />
 		{query.data.location} <br />
 		{query.data.startsAt ? formatISODateToLocale(query.data.startsAt) : 'N/A'} <br />
 		{query.data.endsAt ? formatISODateToLocale(query.data.endsAt) : 'N/A'} <br />
