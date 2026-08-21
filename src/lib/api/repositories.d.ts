@@ -1,7 +1,7 @@
 import type { PageRequest, Page, EventDetail, GroupAvatar, Avatar } from '$lib/api';
 import type { Event } from '$lib/api';
 import type { SessionToken } from '$lib/api';
-import type { User, LightUser } from '$lib/api';
+import type { User } from '$lib/api';
 import type { Cookies } from '@sveltejs/kit';
 
 /**
