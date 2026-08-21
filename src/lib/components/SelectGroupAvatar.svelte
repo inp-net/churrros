@@ -1,11 +1,11 @@
 <script lang="ts">
-	import type { GroupAvatar } from '$lib/api';
+	import type { Avatar } from '$lib/api';
 
 	interface Props {
 		/**
 		 * Les groupes en options à selectionner
 		 */
-		groups: GroupAvatar[];
+		groups: Avatar[];
 		/**
 		 * L'uid du groupe selectionné
 		 */

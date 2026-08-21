@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { EventsByDay } from '$lib/api';
-	import { formatISODateToLocale } from '$lib/utils/locale';
+	import { formatISODateToLocale } from '$lib/utils/dates';
 	import CardEvent from './CardEvent.svelte';
 
 	/**

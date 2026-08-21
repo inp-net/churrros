@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Ticket } from '$lib/api';
-	import { formatISODateToLocale } from '$lib/utils/locale';
+	import { formatISODateToLocale } from '$lib/utils/dates';
 
 	interface Props {
 		ticket: Ticket;

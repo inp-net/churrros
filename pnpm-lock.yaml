@@ -33,9 +33,6 @@ importers:
       '@types/node':
         specifier: ^26.1.2
         version: 26.1.2
-      date-fns:
-        specifier: ^4.4.0
-        version: 4.4.0
       graphql:
         specifier: ^16.14.2
         version: 16.14.2
@@ -368,9 +365,6 @@ packages:
   cookie@2.0.1:
     resolution: {integrity: sha512-yuToqVvRrj6pfDXREyQAAv8SkAEk/8GS3jQRTiUMm66TVtBYmqQeoEjL2Lmq8Rpo6271vH76InTChTitEAm65w==}
     engines: {node: '>=22'}
-
-  date-fns@4.4.0:
-    resolution: {integrity: sha512-+1UMbeh68lH1SegH83CGWwpb6OHHbpSgr3+s5Eww5M4CAgswBpoWS0AjTOfEJ33HiYKz1hdj/KTFprzXHmq/6w==}
 
   dedent@1.5.1:
     resolution: {integrity: sha512-+LxW+KLWxu3HW3M2w2ympwtqPrqYRzU8fqi6Fhd18fBALe15blJPI/I4+UHveMVG6lJqB4JNd4UG0S5cnVHwIg==}
@@ -960,8 +954,6 @@ snapshots:
   cookie@0.6.0: {}
 
   cookie@2.0.1: {}
-
-  date-fns@4.4.0: {}
 
   dedent@1.5.1: {}
 

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { TicketDetail } from '$lib/api';
-	import { formatISODateToLocale } from '$lib/utils/locale';
+	import { formatISODateToLocale } from '$lib/utils/dates';
 	import Avatar from '$lib/components/avatar/Avatar.svelte';
 
 	interface Props {

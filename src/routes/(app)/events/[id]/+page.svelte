@@ -4,7 +4,7 @@
 	import { m } from '$lib/paraglide/messages';
 	import { page } from '$app/state';
 	import CardTicketDetail from '$lib/components/card/CardTicketDetail.svelte';
-	import { formatISODateToLocale } from '$lib/utils/locale';
+	import { formatISODateToLocale } from '$lib/utils/dates';
 	import Avatar from '$lib/components/avatar/Avatar.svelte';
 	import BookEventModal from '$lib/components/modal/BookEventModal.svelte';
 	import { goto } from '$app/navigation';

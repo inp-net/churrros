@@ -4,9 +4,9 @@
 	import { m } from '$lib/paraglide/messages';
 	import InfiniteScroll from '$lib/components/InfiniteScroll.svelte';
 	import CardEventsByDay from '$lib/components/card/CardEventsByDay.svelte';
-	import { formatISO } from 'date-fns';
+	import { toISODate } from '$lib/utils/dates';
 
-	const today = formatISO(new Date(), { representation: 'date' });
+	const today = toISODate(new Date());
 
 	const query = createInfiniteQuery(() => ({
 		queryKey: ['events'],
