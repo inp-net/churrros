@@ -1,7 +1,7 @@
 import type { Handle } from '@sveltejs/kit';
 import { getTextDirection } from '$lib/paraglide/runtime';
 import { paraglideMiddleware } from '$lib/paraglide/server';
-import { userRepository } from '$lib/api';
+import { meRepository } from '$lib/api';
 import { sequence } from '@sveltejs/kit/hooks';
 
 const handleParaglide: Handle = ({ event, resolve }) =>
@@ -23,7 +23,7 @@ const handleAuth: Handle = async ({ event, resolve }) => {
 		switch (authed_via) {
 			case 'credentials':
 			case 'oauth2': //Valeur prise direct de churros
-				event.locals.user = await userRepository.getMe({ fetch: event.fetch, cookies: event.cookies });
+				event.locals.user = await meRepository.getMe({ fetch: event.fetch, cookies: event.cookies });
 				break;
 			default:
 				//Valeur inconnue ou pas de cookie pour authed_via, on ignore

@@ -1,8 +1,7 @@
 import type { UserRepository } from "$lib/api/repositories";
-import { request, requestServer } from "$lib/api/graphql/client";
-import type { Cookies } from '@sveltejs/kit';
-import { GetMe, GetUserByUid } from "$lib/api/graphql/queries/user";
-import { mapMe, mapUser } from "$lib/api/graphql/mappers/user";
+import { request } from "$lib/api/graphql/client";
+import { GetUserAvatarByUid, GetUserByUid } from "$lib/api/graphql/queries/user";
+import { mapUser, mapUserAvatar } from "$lib/api/graphql/mappers/user";
 
 
 export const userRepository: UserRepository = {
@@ -17,14 +16,14 @@ export const userRepository: UserRepository = {
             throw error;
         }
     },
-    async getMe(event?: { fetch: typeof fetch, cookies: Cookies }) {
+    async getUserAvatarByUid(uid: string) {
         try {
-            const response = await requestServer(GetMe, undefined, event);
-            return mapMe(response.me);
+            const response = await request(GetUserAvatarByUid, { uid });
+            return mapUserAvatar(response.user);
         }
         catch (error) {
             //TODO : Vrai gestion d'erreur
-            console.error('Error fetching current user:', error);
+            console.error('Error fetching user avatar:', error);
             throw error;
         }
     }

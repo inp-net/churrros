@@ -8,12 +8,56 @@ export type SessionToken = {
 //#region Events
 export type Event = {
     id: string;
-    slug: string;
-    title: string;
-    description: string;
-    startsAt: Date | null;
-    location: string;
     pictureURL: string;
+    title: string;
+    descriptionPreview: string;
+    organizer: GroupAvatar;
+    coOrganizers: GroupAvatar[];
+    startsAt: string | null;
+    endsAt: string | null;
+    location: string;
+    tickets: Ticket[];
+}
+
+export type EventsByDay = {
+    date: string;
+    shotgunning: Event[];
+    happening: Event[];
+}
+
+export type EventDetail = {
+    title: string;
+    location: string;
+    description: string;
+    descriptionHtml: string;
+    startsAt: string | null;
+    endsAt: string | null;
+    frequency: string | null;
+    recurringUntil: string | null;
+    externalTicketing: string | null;
+    tickets: TicketDetail[];
+    organizer: GroupAvatar;
+    coOrganizers: GroupAvatar[];
+}
+
+export type Ticket = {
+    id: string;
+    opensAt: string | null;
+    closesAt: string | null;
+    name: string;
+    price: number;
+    priceIsVariable: boolean;
+}
+
+export type TicketDetail = Ticket & {
+    placesLeft: number | "Unlimited" | null;
+    showPlacesLeft: boolean;
+    capacity: number | "Unlimited" | null;
+    showCapacity: boolean;
+    invited: boolean;
+    openToGroups: GroupAvatar[];
+    openToMajors: Avatar[];
+    openToSchools: Avatar[];
 }
 //#endregion
 
@@ -61,3 +105,13 @@ export type PageInfo = {
     endCursor: string | null;
 }
 //#endregion
+
+//#region Utils
+export type Avatar = {
+    name: string;
+    uid: string;
+    pictureURL: string;
+}
+
+//#endregion
+

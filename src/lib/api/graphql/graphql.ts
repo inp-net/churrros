@@ -7,8 +7,12 @@ import type { introspection } from '$lib/api/graphql/graphql-env';
 export const graphql = initGraphQLTada<{
     introspection: introspection;
     scalars: {
-        DateTime: string; //On met DateTime en string car pas de conversion vers date par défaut.
+        DateTime: string;
         Email: string;
+        LocalID: string;
+        HTML: string;
+        URL: string;
+        Capacity: number | "Unlimited";
     }
 }>();
 

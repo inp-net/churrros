@@ -1,16 +1,16 @@
 // See https://svelte.dev/docs/kit/types#app.d.ts
 
-import type { LightUser } from "$lib/api";
+import type { User } from "$lib/api";
 
 // for information about these interfaces
 declare global {
 	namespace App {
 		// interface Error {}
 		interface Locals {
-			user: LightUser | null;
+			user: User | null;
 		}
 		interface PageData {
-			user: LightUser | null;
+			user: User | null;
 		}
 		// interface PageState {}
 		// interface Platform {}

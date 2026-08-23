@@ -1,48 +1,46 @@
 <script lang="ts">
 	import { createInfiniteQuery } from '@tanstack/svelte-query';
-	import { eventRepository } from '$lib/api';
+	import { eventRepository, type EventsByDay } from '$lib/api';
 	import { m } from '$lib/paraglide/messages';
-	import { infiniteScroll } from '$lib/utils/scroll.svelte';
+	import InfiniteScroll from '$lib/components/InfiniteScroll.svelte';
+	import CardEventsByDay from '$lib/components/card/CardEventsByDay.svelte';
+	import { toISODate } from '$lib/utils/dates';
+
+	const today = toISODate(new Date());
 
 	const query = createInfiniteQuery(() => ({
 		queryKey: ['events'],
 		queryFn: ({ pageParam }) => eventRepository.getEvents({ first: 10, after: pageParam }),
-		initialPageParam: null as string | null, //On cast ici car tanstack definit le type de pageParam ici et sinon c'est du null | undefined
+		initialPageParam: today,
 		getNextPageParam: (lastPage) =>
 			lastPage.pageInfo.hasNextPage ? lastPage.pageInfo.endCursor : null,
 		notifyOnChangeProps: 'all'
 	}));
 
 	//On dérive car la valeur qu'on recup est vraiment à rallonge et on veut juste les items
-	const events = $derived(query.data?.pages.flatMap((page) => page.items) ?? []);
+	const events: EventsByDay[] = $derived(query.data?.pages.flatMap((page) => page.items) ?? []);
 </script>
 
 <h1>{m.events()}</h1>
 
-<div>
+<InfiniteScroll
+	hasNextPage={query.hasNextPage}
+	isFetching={query.isFetchingNextPage}
+	loadMore={query.fetchNextPage}
+	rootMargin="0px 0px 400px 0px"
+>
 	{#if query.isPending}
 		<p>{m.loading()}</p>
 	{:else if query.isError}
 		<p>Error: {query.error.message}</p>
 	{:else if query.isSuccess}
-		<ul
-			use:infiniteScroll={{
-				pageInfo: query.data?.pages.at(-1)?.pageInfo,
-				loadMore: query.fetchNextPage,
-				isFetching: query.isFetchingNextPage
-			}}
-		>
-			{#each events as event (event.id)}
-				<li>
-					<a href={`/events/${event.id}`}>
-						{event.title}
-					</a>
-					{event.startsAt?.toLocaleString()}
-					<p>{event.description}</p>
-					<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br
-					/><br /><br /><br /><br /><br /><br /><br /><br />
-				</li>
-			{/each}
-		</ul>
+		{#each events as event (event.date)}
+			<CardEventsByDay {event} />
+			<br />
+		{/each}
 	{/if}
-</div>
+	{#snippet loading()}
+		<!--Si on veut override le chargement-->
+		<p>{m.loading()}</p>
+	{/snippet}
+</InfiniteScroll>
