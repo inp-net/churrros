@@ -115,3 +115,14 @@ export type Avatar = {
 
 //#endregion
 
+//#region Bookings
+export type Booking = {
+    id: string;
+    code: string;
+    author: Avatar | null;
+    status: BookingStatus;
+    ticket: Pick<Ticket, "name"> & {
+        event: Pick<Event, "pictureURL" | "title">
+    };
+}
+//#endregion

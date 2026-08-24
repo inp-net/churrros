@@ -10,7 +10,7 @@ import type { Cookies } from '@sveltejs/kit';
 export interface EventRepository {
     /**
      * Recupère les événements avec pagination.
-     * @param args les informations de pagination, first pour le nombre d'éléments à récupérer, after pour le curseur de la page précédente (si null, on récupère les éléments depuis le début
+     * @param args les informations de pagination, first pour le nombre d'éléments à récupérer, after pour le curseur de la page précédente (si null, on récupère les éléments depuis le début)
      * @returns une page d'événements avec les informations de pagination
      */
     async getEvents(args: PageRequest): Promise<Page<EventsByDay>>;
@@ -100,4 +100,13 @@ export interface MeRepository {
      * @returns Avatar sur tous ces groupes
      */
     async getCanCreateEventsOn(): Promise<Avatar[]>;
+}
+
+export interface BookingRepository {
+    /**
+     * Récupère les réservations de l'utilisateur connecté avec pagination
+     * @param args les informations de pagination, first pour le nombre d'éléments à récupérer, after pour le curseur de la page précédente (si null, on récupère les éléments depuis le début)
+     * @returns une page de reservations avec les informations de pagination
+     */
+    async getMyBookings(args: PageRequest): Promise<Page<Booking>>;
 }

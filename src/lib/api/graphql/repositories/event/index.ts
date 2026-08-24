@@ -7,7 +7,7 @@ import type { PageRequest } from "$lib/api";
 export const eventRepository: EventRepository = {
     async getEvents(args: PageRequest) {
         try {
-            const response = await request(GetEvents, { first: args.first, after: args.after });
+            const response = await request(GetEvents, args);
             return mapEvents(response);
         }
         catch (error) {

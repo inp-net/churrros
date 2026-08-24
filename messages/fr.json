@@ -4,5 +4,11 @@
 	"loading": "Chargement...",
 	"login": "Se connecter",
 	"logout": "Se déconnecter",
-	"events": "Événements"
+	"events": "Événements",
+	"bookings": "Réservations",
+	"booking.status.opposed": "En opposition",
+	"booking.status.verified": "Scannée",
+	"booking.status.cancelled": "Annulée",
+	"booking.status.paid": "Payée",
+	"booking.status.waiting": "En attente de paiement"
 }

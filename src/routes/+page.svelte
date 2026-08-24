@@ -17,3 +17,4 @@
 </div>
 
 <a href="/events">{m.events()}</a>
+<a href="/bookings">{m.bookings()}</a>
