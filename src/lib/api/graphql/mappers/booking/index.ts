@@ -1,6 +1,6 @@
-import { BookingStatus, type Booking, type Page } from "$lib/api";
+import { BookingStatus, type Booking, type BookingDetail, type Page } from "$lib/api";
 import { readFragment, type ResultOf } from '$lib/api/graphql/graphql';
-import { GetMyBookings } from "$lib/api/graphql/queries/booking";
+import { GetBookingByCode, GetMyBookings } from "$lib/api/graphql/queries/booking";
 import { PageInfoFragment } from "$lib/api/graphql/queries/fragments/pagination";
 import type { $tada } from "gql.tada";
 import { CardBookingFragment } from "$lib/api/graphql/queries/fragments/cardBooking";
@@ -25,7 +25,6 @@ function mapBooking(booking: CardBookingFragmentType): Booking {
     return {
         id: data.localID,
         code: data.code,
-        author: data.author ? mapUserAvatar(data.author) : null,
         status: mapBookingStatus(data.opposed, data.verified, data.cancelled, data.paid),
         ticket: data.ticket
     }
@@ -53,4 +52,14 @@ function mapBookingStatus(
     }
     //Fallback obligatoire
     return BookingStatus.WAITING;
+}
+
+export function mapBookingDetail(booking: ResultOf<typeof GetBookingByCode>["booking"]): BookingDetail {
+    return {
+        code: booking.code,
+        author: booking.author ? mapUserAvatar(booking.author) : null,
+        authorIsBeneficiary: booking.authorIsBeneficiary,
+        beneficiaryUser: booking.authorIsBeneficiary ? null : booking.beneficiaryUser ? mapUserAvatar(booking.beneficiaryUser) : null,
+
+    }
 }

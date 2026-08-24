@@ -69,6 +69,7 @@ export type User = {
     lastName: string;
     nickname: string;
     phone: string | null;
+    paymentPhone: string | null;
     pictureURL: string;
     admin: boolean;
 }
@@ -113,16 +114,56 @@ export type Avatar = {
     pictureURL: string;
 }
 
+export type QrCode = {
+    path: string;
+    viewbox: string;
+}
+
 //#endregion
 
 //#region Bookings
 export type Booking = {
     id: string;
     code: string;
-    author: Avatar | null;
     status: BookingStatus;
     ticket: Pick<Ticket, "name"> & {
         event: Pick<Event, "pictureURL" | "title">
     };
+}
+
+export type BookingDetail = {
+    code: string;
+    beneficiaryUser: Avatar | null;
+    author: Avatar | null;
+    authorIsBeneficiary: boolean;
+    externalBeneficiary: string | null;
+    paymentMethod: string | null;
+    canManage: boolean;
+    paid: boolean;
+    cancelled: boolean;
+    opposed: boolean;
+    verified: boolean;
+    awaitingPayment: boolean;
+    pendingPayment: boolean;
+    createdAt: string;
+    wantsToPay: number;
+    qrCode: QrCode;
+    linkURLs: string[];
+    linkNames: string[];
+    ticket:
+    ticket {
+    name
+    actualMinimumPrice: minimumPrice(applyPromotions: true)
+    minimumPrice(applyPromotions: false)
+    maximumPrice
+    priceIsVariable
+    allowedPaymentMethods
+        event {
+        localID
+        title
+        enforcePointOfContact
+            ...CardEvent
+    }
+}
 }
 //#endregion

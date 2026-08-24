@@ -13,6 +13,7 @@ export const graphql = initGraphQLTada<{
         HTML: string;
         URL: string;
         Capacity: number | "Unlimited";
+        PaymentMethod: string;
     }
 }>();
 

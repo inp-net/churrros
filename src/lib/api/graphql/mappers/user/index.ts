@@ -17,6 +17,7 @@ export function mapUser(user: ResultOf<typeof GetUserByUid>['user']): User {
         nickname: userData.nickname,
         pictureURL: userData.pictureURL,
         phone: userData.phone,
+        paymentPhone: userData.lydiaPhone,
         admin: userData.admin
     };
 }

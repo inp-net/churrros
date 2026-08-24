@@ -1,7 +1,7 @@
 import type { BookingRepository } from "$lib/api/repositories";
 import { request } from "$lib/api/graphql/client";
-import { GetMyBookings } from "$lib/api/graphql/queries/booking";
-import { mapBookings } from "../../mappers/booking";
+import { GetBookingByCode, GetMyBookings } from "$lib/api/graphql/queries/booking";
+import { mapBookingDetail, mapBookings } from "../../mappers/booking";
 
 export const bookingRepository: BookingRepository = {
     async getMyBookings(args) {
@@ -18,4 +18,15 @@ export const bookingRepository: BookingRepository = {
             throw error;
         }
     },
+    async getBookingByCode(code) {
+        try {
+            const response = await request(GetBookingByCode, { code, qrCodeURLTemplate: "" })
+            return mapBookingDetail(response.booking);
+        }
+        catch (error) {
+            console.error(error);
+            throw error;
+        }
+        throw new Error("Not implemented");
+    }
 }

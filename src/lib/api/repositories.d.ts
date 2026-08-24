@@ -109,4 +109,12 @@ export interface BookingRepository {
      * @returns une page de reservations avec les informations de pagination
      */
     async getMyBookings(args: PageRequest): Promise<Page<Booking>>;
+
+    /**
+     * Récupère une réservation par son code
+     * @param code le code de la réservation
+     * @returns la réservation si elle existe
+     * @throws une erreur si la réservation n'existe pas
+     */
+    async getBookingByCode(code: string): Promise<Booking>;
 }
