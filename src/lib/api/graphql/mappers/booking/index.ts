@@ -52,5 +52,5 @@ function mapBookingStatus(
         return BookingStatus.PAID;
     }
     //Fallback obligatoire
-    return BookingStatus.WAITING_FOR_PAYMENT;
+    return BookingStatus.WAITING;
 }
