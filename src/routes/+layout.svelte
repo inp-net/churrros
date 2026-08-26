@@ -44,7 +44,7 @@
 
     /* limit page width */
     .container {
-        max-width: min(900px, 100%);
+        max-width: min(800px, 100%);
         margin: 0 auto;
     }
 </style>
