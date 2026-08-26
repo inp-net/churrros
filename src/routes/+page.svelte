@@ -3,12 +3,13 @@
 	import { setLocale, getLocale } from '$lib/paraglide/runtime';
 	import { m } from '$lib/paraglide/messages';
     import { Button, ButtonGroup, Stack } from 'azucar-ui';
+    import Churros from '$lib/assets/Churros.svelte';
 </script>
 
 <Stack gap="xl">
-    <Stack>
-        <h1>Churros</h1>
-    </Stack>
+
+    <Churros />
+    <Churros variant='border'/>
 
     {#if page.data.user}
         <h1>{m.hello_world({ name: page.data.user.firstName })}</h1>
