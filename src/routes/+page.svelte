@@ -1,20 +1,33 @@
 <script lang="ts">
 	import { page } from '$app/state';
-	import { setLocale } from '$lib/paraglide/runtime';
+	import { setLocale, getLocale } from '$lib/paraglide/runtime';
 	import { m } from '$lib/paraglide/messages';
+	import { Button, ButtonGroup, Stack } from 'azucar-ui';
 </script>
 
-{#if page.data.user}
-	<h1>{m.hello_world({ name: page.data.user.firstName })}</h1>
-{:else}
-	<h1><a href="/login">{m.login()}</a></h1>
-{/if}
+<Stack gap="xl">
+	<Stack>
+		<h1>Churros</h1>
+	</Stack>
 
-<div>
-	<button onclick={() => setLocale('en')}>en</button>
-	<button onclick={() => setLocale('es')}>es</button>
-	<button onclick={() => setLocale('fr')}>fr</button>
-</div>
+	{#if page.data.user}
+		<h1>{m.hello_world({ name: page.data.user.firstName })}</h1>
+	{:else}
+		<Button href="/login">{m.login()}</Button>
+	{/if}
 
-<a href="/events">{m.events()}</a>
-<a href="/bookings">{m.bookings()}</a>
+	<ButtonGroup>
+		<Button variant={getLocale() == 'en' ? 'outline' : 'default'} onclick={() => setLocale('en')}
+			>en</Button
+		>
+		<Button variant={getLocale() == 'es' ? 'outline' : 'default'} onclick={() => setLocale('es')}
+			>es</Button
+		>
+		<Button variant={getLocale() == 'fr' ? 'outline' : 'default'} onclick={() => setLocale('fr')}
+			>fr</Button
+		>
+	</ButtonGroup>
+
+	<a href="/events">{m.events()}</a>
+	<a href="/bookings">{m.bookings()}</a>
+</Stack>
