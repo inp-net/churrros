@@ -1,6 +1,6 @@
 import { graphql } from '$lib/api/graphql/graphql';
 import { CardBookingFragment } from '../fragments/cardBooking';
-import { CardEventFragment } from '../fragments/cardEvent';
+import { LightEventFragment } from '../fragments/lightEvent';
 import { PageInfoFragment } from '../fragments/pagination';
 import { QrCodeFragment } from '../fragments/qrcode';
 import { UserAvatarFragment } from '../fragments/userAvatar';
@@ -32,7 +32,6 @@ export const GetBookingByCode = graphql(`
             author {
                 ...UserAvatar
             }
-            authorIsBeneficiary
             externalBeneficiary
             paymentMethod
             canManage
@@ -57,12 +56,24 @@ export const GetBookingByCode = graphql(`
                 priceIsVariable
                 allowedPaymentMethods
                 event {
-                    localID
-                    title
-                    enforcePointOfContact
-                    ...CardEvent
+                    ...LightEvent
                 }
             }
         }
     }
-`, [CardEventFragment, UserAvatarFragment, QrCodeFragment]);
+`, [LightEventFragment, UserAvatarFragment, QrCodeFragment]);
+
+export const CancelBooking = graphql(`
+    mutation CancelBooking($code: String!) {
+        cancelBooking(code : $code) {
+            ... on MutationCancelBookingSuccess {
+                data {
+                    cancelledAt
+                }
+            }
+            ... on Error {
+                message
+            }
+        }
+    }
+`);

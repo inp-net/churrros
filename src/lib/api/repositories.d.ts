@@ -1,4 +1,4 @@
-import type { PageRequest, Page, EventDetail, GroupAvatar, Avatar } from '$lib/api';
+import type { PageRequest, Page, EventDetail, GroupAvatar, Avatar, BookingDetail } from '$lib/api';
 import type { Event } from '$lib/api';
 import type { SessionToken } from '$lib/api';
 import type { User } from '$lib/api';
@@ -113,8 +113,16 @@ export interface BookingRepository {
     /**
      * Récupère une réservation par son code
      * @param code le code de la réservation
+     * @param qrCodeUrlTemplate le template de l'url du QR code pour la réservation avec [code] comme placeholder pour le code de la réservation
      * @returns la réservation si elle existe
      * @throws une erreur si la réservation n'existe pas
      */
-    async getBookingByCode(code: string): Promise<Booking>;
+    async getBookingByCode(code?: string, qrCodeUrlTemplate: string): Promise<BookingDetail>;
+
+    /**
+     * Annule une réservation
+     * @param code le code de la réservation
+     * @throws une erreur si la réservation n'existe pas
+     */
+    async cancelBooking(code?: string): Promise<void>;
 }

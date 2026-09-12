@@ -3,6 +3,7 @@
 
 import { initGraphQLTada } from 'gql.tada';
 import type { introspection } from '$lib/api/graphql/graphql-env';
+import type { PaymentMethod } from '../enums';
 
 export const graphql = initGraphQLTada<{
     introspection: introspection;
@@ -13,7 +14,7 @@ export const graphql = initGraphQLTada<{
         HTML: string;
         URL: string;
         Capacity: number | "Unlimited";
-        PaymentMethod: string;
+        PaymentMethod: PaymentMethod;
     }
 }>();
 

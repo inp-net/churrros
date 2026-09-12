@@ -1,4 +1,4 @@
-import type { Event, EventDetail, EventsByDay, Page } from '$lib/api';
+import type { Event, EventDetail, EventsByDay, LightEvent, Page } from '$lib/api';
 import { readFragment, type ResultOf } from '$lib/api/graphql/graphql';
 import type { BookEvent, GetEventById, GetEvents } from '$lib/api/graphql/queries/event';
 import { PageInfoFragment } from '$lib/api/graphql/queries/fragments/pagination';
@@ -6,6 +6,7 @@ import type { $tada } from 'gql.tada';
 import { CardEventFragment } from '../../queries/fragments/cardEvent';
 import { mapGroupAvatar } from '../group';
 import { mapTicket, mapTicketDetail } from '../ticket';
+import { LightEventFragment } from '../../queries/fragments/lightEvent';
 
 type EventGraphQLNode = ResultOf<typeof GetEvents>['eventsByDay'];
 
@@ -31,7 +32,7 @@ type CardEventFragmentType = {
     };
 }
 
-function mapEvent(event: CardEventFragmentType): Event {
+export function mapEvent(event: CardEventFragmentType): Event {
     const data = readFragment(CardEventFragment, event);
     return {
         id: data.localID,
@@ -64,6 +65,24 @@ export function mapEventDetail(event: ResultOf<typeof GetEventById>['event']): E
     }
 }
 
+type LightEventFragmentType = {
+    [$tada.fragmentRefs]: {
+        LightEvent: "Event";
+    };
+}
+
+export function mapLightEvent(event: LightEventFragmentType): LightEvent {
+    const data = readFragment(LightEventFragment, event);
+    return {
+        id: data.localID,
+        title: data.title,
+        organizer: mapGroupAvatar(data.organizer),
+        startsAt: data.startsAt,
+        endsAt: data.endsAt,
+        location: data.location,
+    };
+}
+
 export function mapBookingEventResult(result: ResultOf<typeof BookEvent>["bookEvent"]): string {
     if (!result) {
         throw new Error('No booking result data found');
@@ -80,3 +99,4 @@ export function mapBookingEventResult(result: ResultOf<typeof BookEvent>["bookEv
             throw new Error('No booking result data found');
     }
 }
+

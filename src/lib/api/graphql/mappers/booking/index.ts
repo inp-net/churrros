@@ -1,10 +1,12 @@
-import { BookingStatus, type Booking, type BookingDetail, type Page } from "$lib/api";
+import { BookingStatus, type Booking, type BookingDetail, type Page, type QrCode } from "$lib/api";
 import { readFragment, type ResultOf } from '$lib/api/graphql/graphql';
 import { GetBookingByCode, GetMyBookings } from "$lib/api/graphql/queries/booking";
 import { PageInfoFragment } from "$lib/api/graphql/queries/fragments/pagination";
 import type { $tada } from "gql.tada";
 import { CardBookingFragment } from "$lib/api/graphql/queries/fragments/cardBooking";
 import { mapUserAvatar } from "../user";
+import { QrCodeFragment } from "../../queries/fragments/qrcode";
+import { mapEvent, mapLightEvent } from "../event";
 
 export function mapBookings(bookings: NonNullable<ResultOf<typeof GetMyBookings>["me"]>["bookings"]): Page<Booking> {
     const pageInfo = readFragment(PageInfoFragment, bookings.pageInfo);
@@ -54,12 +56,47 @@ function mapBookingStatus(
     return BookingStatus.WAITING;
 }
 
+type QRCodeFragmentType = {
+    [$tada.fragmentRefs]: {
+        QrCode: "QRCode";
+    };
+}
+
+export function mapQRCode(fragment: QRCodeFragmentType): QrCode {
+    const data = readFragment(QrCodeFragment, fragment);
+    return {
+        path: data.path,
+        viewbox: data.viewbox
+    };
+}
+
 export function mapBookingDetail(booking: ResultOf<typeof GetBookingByCode>["booking"]): BookingDetail {
     return {
         code: booking.code,
         author: booking.author ? mapUserAvatar(booking.author) : null,
-        authorIsBeneficiary: booking.authorIsBeneficiary,
-        beneficiaryUser: booking.authorIsBeneficiary ? null : booking.beneficiaryUser ? mapUserAvatar(booking.beneficiaryUser) : null,
-
+        beneficiaryUser: booking.beneficiaryUser ? mapUserAvatar(booking.beneficiaryUser) : null,
+        externalBeneficiary: booking.externalBeneficiary,
+        paymentMethod: booking.paymentMethod,
+        canManage: booking.canManage,
+        paid: booking.paid,
+        cancelled: booking.cancelled,
+        opposed: booking.opposed,
+        verified: booking.verified,
+        awaitingPayment: booking.awaitingPayment,
+        pendingPayment: booking.pendingPayment,
+        createdAt: booking.createdAt,
+        wantsToPay: booking.wantsToPay,
+        qrCode: mapQRCode(booking.qrCode),
+        linkURLs: booking.linkURLs,
+        linkNames: booking.linkNames,
+        ticket: {
+            name: booking.ticket.name,
+            actualMinimumPrice: booking.ticket.actualMinimumPrice,
+            minimumPrice: booking.ticket.minimumPrice,
+            maximumPrice: booking.ticket.maximumPrice,
+            priceIsVariable: booking.ticket.priceIsVariable,
+            allowedPaymentMethods: booking.ticket.allowedPaymentMethods,
+            event: mapLightEvent(booking.ticket.event)
+        }
     }
 }

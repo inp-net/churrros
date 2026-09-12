@@ -16,6 +16,7 @@ export function mapMe(user: ResultOf<typeof GetMe>['me']): User | null {
         nickname: userData.nickname,
         pictureURL: userData.pictureURL,
         phone: userData.phone,
+        paymentPhone: userData.lydiaPhone,
         admin: userData.admin
     };
 }

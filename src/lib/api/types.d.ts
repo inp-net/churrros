@@ -19,6 +19,8 @@ export type Event = {
     tickets: Ticket[];
 }
 
+export type LightEvent = Pick<Event, "id" | "organizer" | "title" | "startsAt" | "endsAt" | "location">;
+
 export type EventsByDay = {
     date: string;
     shotgunning: Event[];
@@ -135,9 +137,8 @@ export type BookingDetail = {
     code: string;
     beneficiaryUser: Avatar | null;
     author: Avatar | null;
-    authorIsBeneficiary: boolean;
     externalBeneficiary: string | null;
-    paymentMethod: string | null;
+    paymentMethod: PaymentMethod | null;
     canManage: boolean;
     paid: boolean;
     cancelled: boolean;
@@ -146,24 +147,18 @@ export type BookingDetail = {
     awaitingPayment: boolean;
     pendingPayment: boolean;
     createdAt: string;
-    wantsToPay: number;
+    wantsToPay: number | null;
     qrCode: QrCode;
     linkURLs: string[];
     linkNames: string[];
-    ticket:
-    ticket {
-    name
-    actualMinimumPrice: minimumPrice(applyPromotions: true)
-    minimumPrice(applyPromotions: false)
-    maximumPrice
-    priceIsVariable
-    allowedPaymentMethods
-        event {
-        localID
-        title
-        enforcePointOfContact
-            ...CardEvent
+    ticket: {
+        name: string;
+        actualMinimumPrice: number;
+        minimumPrice: number;
+        maximumPrice: number;
+        priceIsVariable: boolean;
+        allowedPaymentMethods: PaymentMethod[];
+        event: LightEvent;
     }
-}
 }
 //#endregion
