@@ -77,3 +77,31 @@ export const CancelBooking = graphql(`
         }
     }
 `);
+
+export const GetGoogleWalletPass = graphql(`
+    mutation GetGoogleWalletPass($code: String!) {
+        createGoogleWalletPass(code: $code) {
+            __typename
+            ... on MutationCreateGoogleWalletPassSuccess {
+                data
+            }
+            ... on Error {
+                message
+            }
+        }
+    }
+`);
+
+export const GetAppleWalletPass = graphql(`
+    mutation GetAppleWalletPass($code: String!) {
+        createAppleWalletPass(code: $code) {
+            __typename
+            ... on MutationCreateAppleWalletPassSuccess {
+                data
+            }
+            ... on Error {
+                message
+            }
+        }
+    }
+`);

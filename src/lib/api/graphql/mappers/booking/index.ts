@@ -1,12 +1,12 @@
 import { BookingStatus, type Booking, type BookingDetail, type Page, type QrCode } from "$lib/api";
 import { readFragment, type ResultOf } from '$lib/api/graphql/graphql';
-import { GetBookingByCode, GetMyBookings } from "$lib/api/graphql/queries/booking";
+import { GetAppleWalletPass, GetBookingByCode, GetGoogleWalletPass, GetMyBookings } from "$lib/api/graphql/queries/booking";
 import { PageInfoFragment } from "$lib/api/graphql/queries/fragments/pagination";
 import type { $tada } from "gql.tada";
 import { CardBookingFragment } from "$lib/api/graphql/queries/fragments/cardBooking";
 import { mapUserAvatar } from "../user";
 import { QrCodeFragment } from "../../queries/fragments/qrcode";
-import { mapEvent, mapLightEvent } from "../event";
+import { mapLightEvent } from "../event";
 
 export function mapBookings(bookings: NonNullable<ResultOf<typeof GetMyBookings>["me"]>["bookings"]): Page<Booking> {
     const pageInfo = readFragment(PageInfoFragment, bookings.pageInfo);
@@ -98,5 +98,38 @@ export function mapBookingDetail(booking: ResultOf<typeof GetBookingByCode>["boo
             allowedPaymentMethods: booking.ticket.allowedPaymentMethods,
             event: mapLightEvent(booking.ticket.event)
         }
+    }
+}
+
+export function mapGoogleWalletPass(result: ResultOf<typeof GetGoogleWalletPass>["createGoogleWalletPass"]): string {
+    if (!result) {
+        throw new Error('No google wallet pass data found');
+    }
+    switch (result.__typename) {
+        case 'Error': {
+            throw new Error(result.message);
+        }
+        case "MutationCreateGoogleWalletPassSuccess": {
+            return result.data;
+        }
+        default:
+            throw new Error('Unhandled google wallet pass data found');
+    }
+}
+
+export function mapAppleWalletPass(result: ResultOf<typeof GetAppleWalletPass>["createAppleWalletPass"]): string {
+    if (!result) {
+        throw new Error('No apple wallet pass data found');
+    }
+
+    switch (result.__typename) {
+        case 'Error': {
+            throw new Error(result.message);
+        }
+        case "MutationCreateAppleWalletPassSuccess": {
+            return result.data;
+        }
+        default:
+            throw new Error('Unhandled apple wallet pass data found');
     }
 }

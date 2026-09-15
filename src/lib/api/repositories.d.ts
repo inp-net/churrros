@@ -125,4 +125,20 @@ export interface BookingRepository {
      * @throws une erreur si la réservation n'existe pas
      */
     async cancelBooking(code?: string): Promise<void>;
+
+    /**
+     * Récupère l'url pour le pass Google Wallet d'une réservation
+     * @param code le code de la réservation
+     * @returns l'url du pass Google Wallet
+     * @throws une erreur si la réservation n'existe pas
+     */
+    async getGoogleWalletPass(code?: string): Promise<string>;
+
+    /**
+     * Récupère l'url pour le pass Apple Wallet d'une réservation
+     * @param code le code de la réservation
+     * @returns l'url du pass Apple Wallet
+     * @throws une erreur si la réservation n'existe pas
+     */
+    async getAppleWalletPass(code?: string): Promise<string>;
 }

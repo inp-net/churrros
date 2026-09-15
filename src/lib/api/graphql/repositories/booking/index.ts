@@ -1,7 +1,7 @@
 import type { BookingRepository } from "$lib/api/repositories";
 import { request } from "$lib/api/graphql/client";
-import { CancelBooking, GetBookingByCode, GetMyBookings } from "$lib/api/graphql/queries/booking";
-import { mapBookingDetail, mapBookings } from "../../mappers/booking";
+import { CancelBooking, GetAppleWalletPass, GetBookingByCode, GetGoogleWalletPass, GetMyBookings } from "$lib/api/graphql/queries/booking";
+import { mapAppleWalletPass, mapBookingDetail, mapBookings, mapGoogleWalletPass } from "../../mappers/booking";
 
 export const bookingRepository: BookingRepository = {
     async getMyBookings(args) {
@@ -43,4 +43,30 @@ export const bookingRepository: BookingRepository = {
             throw error;
         }
     },
+    async getGoogleWalletPass(code) {
+        try {
+            if (!code) {
+                throw new Error("Not found");
+            }
+            const response = await request(GetGoogleWalletPass, { code: code });
+            return mapGoogleWalletPass(response.createGoogleWalletPass);
+        }
+        catch (error) {
+            console.error(error);
+            throw error;
+        }
+    },
+    async getAppleWalletPass(code) {
+        try {
+            if (!code) {
+                throw new Error("Not found");
+            }
+            const response = await request(GetAppleWalletPass, { code: code });
+            return mapAppleWalletPass(response.createAppleWalletPass);
+        }
+        catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
 }

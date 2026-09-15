@@ -33,6 +33,30 @@
 			//TODO afficher une erreur à l'utilisateur
 		}
 	}));
+
+	const googleWalletMutation = createMutation(() => ({
+		mutationFn: ({ code }: { code?: string }) => bookingRepository.getGoogleWalletPass(code),
+		onSuccess: (data) => {
+			console.log('Google Wallet pass generated:', data);
+			globalThis.location.href = data;
+		},
+		onError: (error) => {
+			console.error('Google Wallet pass generation failed:', error);
+			//TODO afficher une erreur à l'utilisateur
+		}
+	}));
+
+	const appleWalletMutation = createMutation(() => ({
+		mutationFn: ({ code }: { code?: string }) => bookingRepository.getAppleWalletPass(code),
+		onSuccess: (data) => {
+			console.log('Apple Wallet pass generated:', data);
+			globalThis.location.href = data;
+		},
+		onError: (error) => {
+			console.error('Apple Wallet pass generation failed:', error);
+			//TODO afficher une erreur à l'utilisateur
+		}
+	}));
 </script>
 
 <h1>{m.booking()}</h1>
@@ -46,7 +70,9 @@
 	<!-- <btn onclick={() => goto(`/bookings/${page.params.code}.pdf`)}>PDF</btn> -->
 	<!-- TODO : Faire la generation de PDF -->
 
-	<!--TODO: Liens externes-->
+	{#each query.data.linkURLs as linkURL, i}
+		<a href={linkURL}>{query.data.linkNames[i]}</a>
+	{/each}
 
 	<div class="qrcode">
 		{#if query.data.cancelled}
@@ -59,8 +85,12 @@
 
 	<div>
 		{#if !query.data.cancelled}
-			<AddToWallet walletTarget={WalletTarget.GOOGLE} />
-			<AddToWallet walletTarget={WalletTarget.APPLE} />
+			<button onclick={() => googleWalletMutation.mutateAsync({ code: page.params.code })}>
+				<AddToWallet walletTarget={WalletTarget.GOOGLE} />
+			</button>
+			<button onclick={() => appleWalletMutation.mutateAsync({ code: page.params.code })}>
+				<AddToWallet walletTarget={WalletTarget.APPLE} />
+			</button>
 		{/if}
 	</div>
 
