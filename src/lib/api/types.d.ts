@@ -121,6 +121,9 @@ export type QrCode = {
     viewbox: string;
 }
 
+export type PaymentMethod = "Card" | "Cash" | "Check" | "External" | "Lydia" | "Other" | "PayPal" | "Transfer";
+
+
 //#endregion
 
 //#region Bookings
@@ -132,6 +135,7 @@ export type Booking = {
         event: Pick<Event, "pictureURL" | "title">
     };
 }
+
 
 export type BookingDetail = {
     code: string;

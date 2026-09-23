@@ -18,18 +18,3 @@ export enum WalletTarget {
     APPLE,
     GOOGLE,
 }
-
-/**
- * Méthode de paiement supporté par l'application
- * TODO : Trouver comment recup de l'API ? 
- */
-export enum PaymentMethod {
-    CARD,
-    CHECK,
-    CASH,
-    LYDIA,
-    PAYPAL,
-    EXTERNAL,
-    OTHER,
-    TRANSFER
-}

@@ -21,3 +21,18 @@ export const GetCanCreateEventsOn = graphql(`
         }
     }    
 `, [GroupAvatarFragment])
+
+export const RememberPaymentPhone = graphql(`
+    mutation RememberPaymentPhone($phone: String!) {
+        saveLydiaPhoneNumber(phoneNumber: $phone) {
+            ... on MutationSaveLydiaPhoneNumberSuccess {
+                data {
+                    lydiaPhone
+                }
+            }
+            ... on Error {
+                message
+            }
+        }
+    }
+  `);

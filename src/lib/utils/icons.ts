@@ -1,4 +1,4 @@
-import { PaymentMethod, WalletTarget } from "$lib/api";
+import { WalletTarget } from "$lib/api";
 import { getLocale } from "$lib/paraglide/runtime";
 
 //#region Wallets
@@ -20,21 +20,6 @@ export function getWalletAsset(walletTarget: WalletTarget): string | undefined {
             return findAsset(appleWalletAssets, locale);
         case WalletTarget.GOOGLE:
             return findAsset(googleWalletAssets, locale);
-    }
-}
-//#endregion
-
-//#region PaymentIcons
-//TODO : Voir librairie d'icones qu'on prend
-/**
- * Renvoie une icone pour les méthodes de payment (NON IMPLEMENTE)
- * @param paymentMethod La méthode de paiement dont on veut l'icone
- * @returns ???? Jsp c'est pas fait encore
- */
-export function getPaymentMethodIcon(paymentMethod: PaymentMethod | null): string {
-    switch (paymentMethod) {
-        default:
-            return "";
     }
 }
 //#endregion

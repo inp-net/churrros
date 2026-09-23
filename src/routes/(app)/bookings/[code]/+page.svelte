@@ -9,6 +9,7 @@
 	import PaymentMethodDisplay from '$lib/components/PaymentMethodDisplay.svelte';
 	import CardLightEvent from '$lib/components/card/CardLightEvent.svelte';
 	import ConfirmationModal from '$lib/components/modal/ConfirmationModal.svelte';
+	import PaymentModal from '$lib/components/modal/PaymentModal.svelte';
 
 	const queryClient = useQueryClient();
 
@@ -19,6 +20,7 @@
 	}));
 
 	let confirmationModalIsOpen = $state(false);
+	let paymentModalIsOpen = $state(false);
 
 	const cancelMutation = createMutation(() => ({
 		mutationFn: ({ code }: { code?: string }) => bookingRepository.cancelBooking(code),
@@ -57,6 +59,13 @@
 			//TODO afficher une erreur à l'utilisateur
 		}
 	}));
+
+	$effect(() => {
+		if (query.isSuccess) {
+			//Si on attends le paiement de l'utilisateur on ouvre la modal de paiement direct
+			paymentModalIsOpen = query.data.awaitingPayment; //C'est un peu chiant mais à voir
+		}
+	});
 </script>
 
 <h1>{m.booking()}</h1>
@@ -127,6 +136,17 @@
 			{query.data.paid ? m['booking.cancel']() : m['booking.free']()}
 		</button>
 	{/if}
+
+	<PaymentModal
+		code={page.params.code!}
+		isOpen={paymentModalIsOpen}
+		allowedPaymentMethods={query.data.ticket.allowedPaymentMethods}
+		selectedPaymentMethod={query.data.paymentMethod ?? undefined}
+		minimumPrice={query.data.ticket.actualMinimumPrice}
+		maximumPrice={query.data.ticket.maximumPrice}
+		wantsToPay={query.data.wantsToPay ?? query.data.ticket.actualMinimumPrice}
+		links={query.data.linkURLs.map((url, i) => ({ url, name: query.data.linkNames[i] }))}
+	/>
 {/if}
 
 <ConfirmationModal

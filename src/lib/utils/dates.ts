@@ -9,7 +9,7 @@ import { getLocale } from "$lib/paraglide/runtime"; //Paraglide devient notre so
 export function formatISODateToLocale(date: string, options: Intl.DateTimeFormatOptions = { dateStyle: 'long', timeStyle: 'short' }): string {
     const locale = getLocale();
 
-    return new Intl.DateTimeFormat(locale, options).format(new Date(date));
+    return Intl.DateTimeFormat(locale, options).format(new Date(date));
 }
 
 /**

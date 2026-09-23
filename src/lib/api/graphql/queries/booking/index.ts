@@ -105,3 +105,19 @@ export const GetAppleWalletPass = graphql(`
         }
     }
 `);
+
+export const PayBooking = graphql(`
+    mutation PayBooking($code: String!, $paymentMethod: PaymentMethod!, $phone: String, $callbackUrl: String!, $amount: Float!) {
+        payBooking(code: $code, paymentMethod: $paymentMethod, phone: $phone, paidCallback: $callbackUrl, amount: $amount) {
+            __typename
+            ... on MutationPayBookingSuccess {
+                data {
+                    pendingPayment
+                }
+            }
+            ... on Error {
+                message
+            }
+        }
+    }
+`);

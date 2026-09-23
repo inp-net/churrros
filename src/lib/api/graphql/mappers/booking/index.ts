@@ -1,6 +1,6 @@
-import { BookingStatus, type Booking, type BookingDetail, type Page, type QrCode } from "$lib/api";
+import { BookingStatus, type PaymentMethod, type Booking, type BookingDetail, type Page, type QrCode } from "$lib/api";
 import { readFragment, type ResultOf } from '$lib/api/graphql/graphql';
-import { GetAppleWalletPass, GetBookingByCode, GetGoogleWalletPass, GetMyBookings } from "$lib/api/graphql/queries/booking";
+import { GetAppleWalletPass, GetBookingByCode, GetGoogleWalletPass, GetMyBookings, PayBooking } from "$lib/api/graphql/queries/booking";
 import { PageInfoFragment } from "$lib/api/graphql/queries/fragments/pagination";
 import type { $tada } from "gql.tada";
 import { CardBookingFragment } from "$lib/api/graphql/queries/fragments/cardBooking";
@@ -76,7 +76,7 @@ export function mapBookingDetail(booking: ResultOf<typeof GetBookingByCode>["boo
         author: booking.author ? mapUserAvatar(booking.author) : null,
         beneficiaryUser: booking.beneficiaryUser ? mapUserAvatar(booking.beneficiaryUser) : null,
         externalBeneficiary: booking.externalBeneficiary,
-        paymentMethod: booking.paymentMethod,
+        paymentMethod: booking.paymentMethod as PaymentMethod | null,
         canManage: booking.canManage,
         paid: booking.paid,
         cancelled: booking.cancelled,
@@ -132,4 +132,16 @@ export function mapAppleWalletPass(result: ResultOf<typeof GetAppleWalletPass>["
         default:
             throw new Error('Unhandled apple wallet pass data found');
     }
+}
+
+export function mapPayBooking(result: ResultOf<typeof PayBooking>["payBooking"]): void {
+    switch (result.__typename) {
+        case "MutationPayBookingSuccess":
+            return;
+        case "Error":
+            throw new Error(result.message);
+        default:
+            throw new Error('Unhandled pay booking result');
+    }
+
 }

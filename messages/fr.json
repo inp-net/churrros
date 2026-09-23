@@ -33,5 +33,13 @@
 	"booking.cancel.description": "Il n'est pas possible de revenir en arrière. Tu devras de nouveau prendre une place (s'il en reste) si tu veux de nouveau en réserver une. Le remboursement n'est pas systématique, contacte l'organisation pour savoir si tu sera remboursé·e.",
 	"confirm.yes": "Oui, je confirme",
 	"cancel": "Annuler",
-	"booking.cancelled": "Place annulée."
+	"booking.cancelled": "Place annulée.",
+	"next": "Suivant",
+	"back": "Retour",
+	"remember.phone": "Se souvenir de mon téléphone pour les paiements",
+	"pay": "Payer",
+	"payment.manual": "Tu devras présenter le paiement à l'entrée de l'évènement (ou avant, à voir avec l'équipe d'organisation de l'évènement)",
+	"recheck": "Re-vérifier",
+	"payment.waiting": "En attente de ",
+	"open": "Ouvrir"
 }

@@ -1,5 +1,6 @@
-import { BookingStatus, PaymentMethod, WalletTarget } from "$lib/api";
+import { BookingStatus, type PaymentMethod, WalletTarget } from "$lib/api";
 import { m } from '$lib/paraglide/messages';
+import { getLocale } from "$lib/paraglide/runtime";
 
 /**
  * Renvoie la traduction d'un status de booking
@@ -36,29 +37,22 @@ export function walletTargetToLocalizedString(walletTarget: WalletTarget): strin
 }
 
 /**
- * Renvoie la traduction d'une méthode de paiement
- * @param paymentMethod La méthode de paiement dont on veut la traduction
- * @returns le texte d'affichage en fonction de la locale 
+ * Formatte un montant pour afficher la devise correctement
+ * @param price Le prix à formatter 
+ * @param options Les options de formatage par défaut en euro
+ * @returns Le montant formatté avec la bonne devise
  */
-export function paymentMethodToLocalizedString(paymentMethod: PaymentMethod | null): string {
-    switch (paymentMethod) {
-        case null:
-            return m["paymentMethod.none"]()
-        case PaymentMethod.LYDIA: //Pas de traduction pour les noms d'applis
-            return "Lydia";
-        case PaymentMethod.PAYPAL:
-            return "Paypal";
-        case PaymentMethod.CARD:
-            return m["paymentMethod.card"]();
-        case PaymentMethod.CHECK:
-            return m["paymentMethod.check"]();
-        case PaymentMethod.CASH:
-            return m["paymentMethod.cash"]();
-        case PaymentMethod.EXTERNAL:
-            return m["paymentMethod.external"]();
-        case PaymentMethod.OTHER:
-            return m["paymentMethod.other"]();
-        case PaymentMethod.TRANSFER:
-            return m["paymentMethod.transfer"]();
-    }
+export function formatMoney(price: number, options: Intl.NumberFormatOptions = { style: "currency", currency: "EUR" }): string {
+    return formatNumber(price, options);
+}
+
+/**
+ * Formatte un nombre en fonction des options données et de la locale de paraglide
+ * @param num Le prix à formatter
+ * @param options Les options de formattage
+ * @returns Un string correspondant au nombre formatté
+ */
+export function formatNumber(num: number, options: Intl.NumberFormatOptions): string {
+    const locale = getLocale();
+    return Intl.NumberFormat(locale, options).format(num);
 }
