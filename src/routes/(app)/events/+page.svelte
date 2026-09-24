@@ -10,7 +10,7 @@
 
 	const query = createInfiniteQuery(() => ({
 		queryKey: ['events'],
-		queryFn: ({ pageParam }) => eventRepository.getEvents({ first: 10, after: pageParam }),
+		queryFn: ({ pageParam }) => eventRepository.getEvents({ first: 1, after: pageParam }),
 		initialPageParam: today,
 		getNextPageParam: (lastPage) =>
 			lastPage.pageInfo.hasNextPage ? lastPage.pageInfo.endCursor : null,
@@ -21,7 +21,7 @@
 	const events: EventsByDay[] = $derived(query.data?.pages.flatMap((page) => page.items) ?? []);
 </script>
 
-<h1>{m.events()}</h1>
+<h3>{m.events()}</h3>
 
 <InfiniteScroll
 	hasNextPage={query.hasNextPage}

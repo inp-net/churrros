@@ -1,6 +1,6 @@
 // See https://svelte.dev/docs/kit/types#app.d.ts
 
-import type { User } from "$lib/api";
+import type { User } from '$lib/api';
 
 // for information about these interfaces
 declare global {
@@ -17,4 +17,4 @@ declare global {
 	}
 }
 
-export { };
+export {};

@@ -20,18 +20,19 @@
 		"@sveltejs/kit": "^2.63.0",
 		"@sveltejs/vite-plugin-svelte": "^7.1.2",
 		"@types/node": "^26.1.2",
-		"graphql": "^16.14.2",
+		"graphql": "^17.0.2",
 		"prettier": "^3.8.3",
 		"prettier-plugin-svelte": "^4.1.0",
 		"svelte": "^5.56.1",
 		"svelte-check": "^4.6.0",
-		"typescript": "^6.0.3",
+		"typescript": "^7.0.2",
 		"vite": "^8.0.16"
 	},
 	"dependencies": {
 		"@tanstack/svelte-query": "^6.1.36",
-		"azucar-ui": "^0.0.6",
+		"azucar-ui": "^0.0.10",
 		"cookie": "^2.0.1",
-		"gql.tada": "^1.11.2"
+		"gql.tada": "^1.11.2",
+		"@lucide/svelte": "^1.0.1"
 	}
 }

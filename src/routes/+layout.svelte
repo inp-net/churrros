@@ -1,15 +1,15 @@
 <script lang="ts">
-	import type { Pathname } from '$app/types';
-	import { resolve } from '$app/paths';
-	import { page } from '$app/state';
-	import { locales, localizeHref } from '$lib/paraglide/runtime';
+	import type { LayoutProps } from './$types';
 	import { browser } from '$app/environment';
 	import { QueryClient, QueryClientProvider } from '@tanstack/svelte-query';
 	import favicon from '$lib/assets/favicon.svg';
-    import "azucar-ui/tokens.css"
-    import "azucar-ui/base.css"
+	import 'azucar-ui/tokens.css';
+	import 'azucar-ui/base.css';
+	import TopBar from '$lib/components/TopBar.svelte';
+	import NavBar from '$lib/components/NavBar.svelte';
+	import { Stack } from 'azucar-ui';
 
-	let { data, children } = $props();
+	let { data, children }: LayoutProps = $props();
 
 	const queryClient = new QueryClient({
 		defaultOptions: {
@@ -21,29 +21,32 @@
 	});
 </script>
 
-<svelte:head><link rel="icon" href={favicon} /></svelte:head>
+<svelte:head>
+	<link rel="icon" href={favicon} />
+</svelte:head>
+
 <QueryClientProvider client={queryClient}>
-    <div class="container">
-        {@render children()}
-    </div>
+	<div class="container">
+		<Stack gap="lg">
+			<TopBar />
+			{@render children()}
+			<NavBar user={data.user} />
+		</Stack>
+	</div>
 </QueryClientProvider>
 
-<div style="display:none">
-	{#each locales as locale (locale)}
-		<a href={resolve(localizeHref(page.url.pathname, { locale }) as Pathname)}>{locale}</a>
-	{/each}
-</div>
-
 <style>
-    /* set azucar-ui theme */
-    :root {
-        --base-color: oklch(80.45% 0.1666 72.92);
-        color-scheme: dark;
-    }
+	/* set azucar-ui theme */
+	:root {
+		--base-color: oklch(80.45% 0.1666 72.92);
+		color-scheme: dark;
+	}
 
-    /* limit page width */
-    .container {
-        max-width: min(800px, 100%);
-        margin: 0 auto;
-    }
+	/* limit page width */
+	.container {
+		width: calc(100% - var(--size-md) * 2);
+		max-width: 550px;
+		margin: var(--size-md) auto;
+		overflow-x: hidden;
+	}
 </style>

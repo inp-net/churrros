@@ -13,37 +13,37 @@ import { SESSION_TOKEN_COOKIE_NAME } from '$lib/auth/session';
  * @returns le résultat de la requête GraphQL
  */
 async function requestGraphQL<Result, Variables>(
-    document: TadaDocumentNode<Result, Variables>,
-    variables?: Variables,
-    options?: { token?: string, fetch?: typeof fetch }
+	document: TadaDocumentNode<Result, Variables>,
+	variables?: Variables,
+	options?: { token?: string; fetch?: typeof fetch }
 ): Promise<Result> {
-    const headers: Record<string, string> = {
-        'Content-Type': 'application/json'
-    };
+	const headers: Record<string, string> = {
+		'Content-Type': 'application/json'
+	};
 
-    const fetchfn = options?.fetch || fetch;
+	const fetchfn = options?.fetch || fetch;
 
-    if (options?.token) {
-        headers.Authorization = `Bearer ${options.token}`;
-    }
+	if (options?.token) {
+		headers.Authorization = `Bearer ${options.token}`;
+	}
 
-    const response = await fetchfn(PUBLIC_API_URL, {
-        method: 'POST',
-        headers,
-        credentials: 'include',
-        body: JSON.stringify({
-            query: print(document),
-            variables
-        })
-    });
+	const response = await fetchfn(PUBLIC_API_URL, {
+		method: 'POST',
+		headers,
+		credentials: 'include',
+		body: JSON.stringify({
+			query: print(document),
+			variables
+		})
+	});
 
-    const result = await response.json();
-    console.log('GraphQL response:', result);
-    if (result.errors) {
-        throw new Error(result.errors.map((error: any) => error.message).join('\n'));
-    }
+	const result = await response.json();
+	console.log('GraphQL response:', result);
+	if (result.errors) {
+		throw new Error(result.errors.map((error: any) => error.message).join('\n'));
+	}
 
-    return result.data as Result;
+	return result.data as Result;
 }
 
 /**
@@ -53,12 +53,12 @@ async function requestGraphQL<Result, Variables>(
  * @returns Le résultat de la requête GraphQL
  */
 export async function request<Result, Variables>(
-    document: TadaDocumentNode<Result, Variables>,
-    variables?: Variables
+	document: TadaDocumentNode<Result, Variables>,
+	variables?: Variables
 ): Promise<Result> {
-    const sessionToken = getToken();
+	const sessionToken = getToken();
 
-    return requestGraphQL(document, variables, { token: sessionToken?.token });
+	return requestGraphQL(document, variables, { token: sessionToken?.token });
 }
 
 /**
@@ -69,13 +69,13 @@ export async function request<Result, Variables>(
  * @returns Le résultat de la requête GraphQL
  */
 export async function requestServer<Result, Variables>(
-    document: TadaDocumentNode<Result, Variables>,
-    variables?: Variables,
-    event?: { fetch: typeof fetch, cookies: Cookies }
+	document: TadaDocumentNode<Result, Variables>,
+	variables?: Variables,
+	event?: { fetch: typeof fetch; cookies: Cookies }
 ): Promise<Result> {
-    const rawToken = event?.cookies.get(SESSION_TOKEN_COOKIE_NAME);
+	const rawToken = event?.cookies.get(SESSION_TOKEN_COOKIE_NAME);
 
-    const token = deserializeToken(rawToken)?.token;
+	const token = deserializeToken(rawToken)?.token;
 
-    return requestGraphQL(document, variables, { token: token, fetch: event?.fetch });
+	return requestGraphQL(document, variables, { token: token, fetch: event?.fetch });
 }
