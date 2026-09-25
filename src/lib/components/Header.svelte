@@ -4,20 +4,20 @@
 	import { PlusIcon } from '@lucide/svelte';
 </script>
 
-<Flex class="topbar" justify="space-between" align="center">
+<Flex class="header" justify="space-between" align="center">
 	<Flex gap="sm">
 		<ChurrosBorderIcon />
-		<h3 class="topbar-title">Churros</h3>
+		<h3 class="header-title">Churros</h3>
 	</Flex>
 	<Button variant="ghost" icon={PlusIcon} />
 </Flex>
 
 <style>
-	:global(.topbar) {
+	:global(.header) {
 		color: var(--color-fg-low);
 	}
 
-	.topbar-title {
+	.header-title {
 		font-weight: normal;
 	}
 </style>

@@ -6,6 +6,7 @@
 	import NavBarUser from './NavBarUser.svelte';
 	import { MediaQuery } from 'svelte/reactivity';
 	import type { Component } from 'svelte';
+	import { m } from '$lib/paraglide/messages';
 
 	const { user }: { user: User | null } = $props();
 
@@ -17,11 +18,11 @@
 	};
 
 	const links: Link[] = $derived([
-		{ href: '/', label: 'Accueil', component: HouseIcon },
-		{ href: '/search', label: 'Recherche', component: SearchIcon },
-		{ href: '/events', label: 'Events', component: TicketIcon },
-		{ href: '/services', label: 'Services', component: BlocksIcon },
-		{ href: '/profile', label: 'Profile', component: NavBarUser, props: { user } }
+		{ href: '/', label: m['navigation.home'](), component: HouseIcon },
+		{ href: '/search', label: m['navigation.search'](), component: SearchIcon },
+		{ href: '/events', label: m['navigation.events'](), component: TicketIcon },
+		{ href: '/services', label: m['navigation.services'](), component: BlocksIcon },
+		{ href: '/profile', label: m['navigation.profile'](), component: NavBarUser, props: { user } }
 	]);
 
 	function isLinkSelected(linkHref: string, currentPath: string): boolean {
@@ -44,13 +45,15 @@
 
 <Flex class="navbar" justify="space-evenly" align="center" gap="zero">
 	{#each links as link}
-		{#if isBigScreen.current}
-			<Tooltip text={link.label} position="right" class="navbar-tooltip">
+		<Flex class="navbar-container" align="center" justify="center">
+			{#if isBigScreen.current}
+				<Tooltip text={link.label} position="right">
+					{@render linkItem(link)}
+				</Tooltip>
+			{:else}
 				{@render linkItem(link)}
-			</Tooltip>
-		{:else}
-			{@render linkItem(link)}
-		{/if}
+			{/if}
+		</Flex>
 	{/each}
 </Flex>
 
@@ -81,8 +84,7 @@
 		);
 	}
 
-	:global(.navbar-tooltip) {
-		display: none;
+	:global(.navbar-container) {
 		flex-grow: 1;
 		display: flex;
 		justify-content: center;
@@ -99,10 +101,6 @@
 			margin: auto 0;
 			padding: 0 var(--size-md);
 			max-height: 325px;
-		}
-
-		:global(.navbar-tooltip) {
-			display: block;
 		}
 	}
 </style>

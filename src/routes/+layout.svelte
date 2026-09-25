@@ -5,7 +5,7 @@
 	import favicon from '$lib/assets/favicon.svg';
 	import 'azucar-ui/tokens.css';
 	import 'azucar-ui/base.css';
-	import TopBar from '$lib/components/TopBar.svelte';
+	import Header from '$lib/components/Header.svelte';
 	import NavBar from '$lib/components/NavBar.svelte';
 	import { Stack } from 'azucar-ui';
 
@@ -28,7 +28,7 @@
 <QueryClientProvider client={queryClient}>
 	<div class="container">
 		<Stack gap="lg">
-			<TopBar />
+			<Header />
 			{@render children()}
 			<NavBar user={data.user} />
 		</Stack>

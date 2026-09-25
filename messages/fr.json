@@ -1,8 +1,15 @@
 {
-	"$schema": "https://inlang.com/schema/inlang-message-format",
-	"hello_world": "Bonjour, {name} de fr!",
-	"loading": "Chargement...",
-	"login": "Se connecter",
-	"logout": "Se déconnecter",
-	"events": "Événements"
+    "$schema": "https://inlang.com/schema/inlang-message-format",
+    "hello_world": "Bonjour, {name} de fr!",
+    "loading": "Chargement...",
+    "login": "Se connecter",
+    "logout": "Se déconnecter",
+    "events": "Événements",
+    "navigation": {
+        "home": "Accueil",
+        "search": "Rechercher",
+        "events": "Événements",
+        "services": "Services",
+        "profile": "Profil"
+    }
 }
