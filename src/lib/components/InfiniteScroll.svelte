@@ -86,7 +86,7 @@
 			{#if loading}
 				{@render loading()}
 			{:else}
-				<p>{m.loading()}</p>
+				<p>{m['loading']()}</p>
 			{/if}
 		{/if}
 	</div>

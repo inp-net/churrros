@@ -61,11 +61,11 @@
 	}
 </script>
 
-<h1>{m.events()}</h1>
+<h1>{m['events']()}</h1>
 
 <div>
 	{#if query.isPending}
-		<p>{m.loading()}</p>
+		<p>{m['loading']()}</p>
 	{:else if query.isError}
 		<!--Si l'event n'existe pas on est dans une erreur-->
 		<p>Error: {query.error.message}</p>

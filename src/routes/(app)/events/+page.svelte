@@ -30,7 +30,7 @@
 	rootMargin="0px 0px 400px 0px"
 >
 	{#if query.isPending}
-		<p>{m.loading()}</p>
+		<p>{m['loading']()}</p>
 	{:else if query.isError}
 		<p>Error: {query.error.message}</p>
 	{:else if query.isSuccess}
@@ -41,6 +41,6 @@
 	{/if}
 	{#snippet loading()}
 		<!--Si on veut override le chargement-->
-		<p>{m.loading()}</p>
+		<p>{m['loading']()}</p>
 	{/snippet}
 </InfiniteScroll>
