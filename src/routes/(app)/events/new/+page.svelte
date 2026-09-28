@@ -3,7 +3,6 @@
 	//et tout
 
 	import { meRepository } from '$lib/api';
-	import SelectGroupAvatar from '$lib/components/SelectGroupAvatar.svelte';
 	import { m } from '$lib/paraglide/messages';
 	import { createQuery } from '@tanstack/svelte-query';
 
@@ -19,7 +18,7 @@
 
 <div>
 	{#if query.isPending}
-		<p>{m.loading()}</p>
+		<p>{m['loading']()}</p>
 	{:else if query.isError}
 		<p>Error: {query.error.message}</p>
 	{:else if query.isSuccess}
