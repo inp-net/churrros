@@ -6,8 +6,8 @@
 	import { browser } from '$app/environment';
 	import { QueryClient, QueryClientProvider } from '@tanstack/svelte-query';
 	import favicon from '$lib/assets/favicon.svg';
-    import "azucar-ui/tokens.css"
-    import "azucar-ui/base.css"
+	import 'azucar-ui/tokens.css';
+	import 'azucar-ui/base.css';
 
 	let { data, children } = $props();
 
@@ -15,7 +15,8 @@
 		defaultOptions: {
 			queries: {
 				//Pour desactiver les query coté serveur : https://tanstack.com/query/latest/docs/framework/svelte/ssr
-				enabled: browser
+				enabled: browser,
+				staleTime: 15 * 60 * 1000 // 15 minutes de cache
 			}
 		}
 	});
@@ -23,9 +24,9 @@
 
 <svelte:head><link rel="icon" href={favicon} /></svelte:head>
 <QueryClientProvider client={queryClient}>
-    <div class="container">
-        {@render children()}
-    </div>
+	<div class="container">
+		{@render children()}
+	</div>
 </QueryClientProvider>
 
 <div style="display:none">
@@ -35,15 +36,15 @@
 </div>
 
 <style>
-    /* set azucar-ui theme */
-    :root {
-        --base-color: oklch(80.45% 0.1666 72.92);
-        color-scheme: dark;
-    }
+	/* set azucar-ui theme */
+	:root {
+		--base-color: oklch(80.45% 0.1666 72.92);
+		color-scheme: dark;
+	}
 
-    /* limit page width */
-    .container {
-        max-width: min(900px, 100%);
-        margin: 0 auto;
-    }
+	/* limit page width */
+	.container {
+		max-width: min(900px, 100%);
+		margin: 0 auto;
+	}
 </style>
