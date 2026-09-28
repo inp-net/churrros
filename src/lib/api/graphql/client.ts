@@ -15,7 +15,7 @@ import { SESSION_TOKEN_COOKIE_NAME } from '$lib/auth/session';
 async function requestGraphQL<Result, Variables>(
     document: TadaDocumentNode<Result, Variables>,
     variables?: Variables,
-    options?: { token?: string, fetch?: typeof fetch }
+    options?: { token?: string; fetch?: typeof fetch }
 ): Promise<Result> {
     const headers: Record<string, string> = {
         'Content-Type': 'application/json'
@@ -71,7 +71,7 @@ export async function request<Result, Variables>(
 export async function requestServer<Result, Variables>(
     document: TadaDocumentNode<Result, Variables>,
     variables?: Variables,
-    event?: { fetch: typeof fetch, cookies: Cookies }
+    event?: { fetch: typeof fetch; cookies: Cookies }
 ): Promise<Result> {
     const rawToken = event?.cookies.get(SESSION_TOKEN_COOKIE_NAME);
 

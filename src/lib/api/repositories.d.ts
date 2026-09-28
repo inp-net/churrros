@@ -13,7 +13,7 @@ export interface EventRepository {
      * @param args les informations de pagination, first pour le nombre d'éléments à récupérer, after pour le curseur de la page précédente (si null, on récupère les éléments depuis le début)
      * @returns une page d'événements avec les informations de pagination
      */
-    async getEvents(args: PageRequest): Promise<Page<EventsByDay>>;
+    getEvents(args: PageRequest): Promise<Page<EventsByDay>>;
 
     /**
      * Recupère le detail d'un event par son id.
@@ -21,7 +21,7 @@ export interface EventRepository {
      * @returns Le detail de l'event si il existe
      * @throws une erreur si l'event n'existe pas
      */
-    async getEventById(id: string | undefined): Promise<EventDetail>;
+    getEventById(id: string | undefined): Promise<EventDetail>;
 
     /**
      * Crée un event presque vide
@@ -31,29 +31,34 @@ export interface EventRepository {
      * @param createManagerInvite si on crée un lien pour inviter d'autres gens à manager l'event
      * @returns l'id de l'event créé
      */
-    async createEvent(groupId: string, title: string, createManagerInvite: boolean): Promise<string>;
+    createEvent(groupId: string, title: string, createManagerInvite: boolean): Promise<string>;
 
     /**
      * Modifie un event
      * WIP
      */
-    async editEvent();
+    editEvent();
 
     /**
      * Supprime un event
      * WIP
      */
-    async deleteEvent();
+    deleteEvent();
 
     /**
-     * Crée une reservation pour un event 
+     * Crée une reservation pour un event
      * @param bookingUrl : URL vers la page du billet (Reliquat churros V2)
-     * @param ticketId : Id du ticket à reserver 
+     * @param ticketId : Id du ticket à reserver
      * @param beneficiary : Nom et prénom du bénéficiaire (Pour les extés) (Optionnel)
      * @param churrosBeneficiary : UID churros du bénéficiaire si ce n'est pas l'utilisateur actuel (Optionnel)
-     * 
+     *
      */
-    async bookEvent(bookingUrl: string, ticketId: string, beneficiary?: string, churrosBeneficiary?: string): Promise<string>
+    bookEvent(
+        bookingUrl: string,
+        ticketId: string,
+        beneficiary?: string,
+        churrosBeneficiary?: string
+    ): Promise<string>;
 }
 
 /**
@@ -66,7 +71,7 @@ export interface AuthRepository {
      * @param password le mot de passe de l'utilisateur
      * @returns un token de session si l'authentification est réussie, sinon une erreur est levée
      */
-    async login(emailOrUid: string, password: string): Promise<SessionToken>;
+    login(emailOrUid: string, password: string): Promise<SessionToken>;
 }
 
 /**
@@ -78,9 +83,9 @@ export interface UserRepository {
      * @param uid l'uid de l'utilisateur à récupérer
      * @returns les informations de l'utilisateur, ou null si non trouvé
      */
-    async getUserByUid(uid: string): Promise<User | null>;
+    getUserByUid(uid: string): Promise<User | null>;
 
-    async getUserAvatarByUid(uid: string): Promise<Avatar | null>;
+    getUserAvatarByUid(uid: string): Promise<Avatar | null>;
 }
 
 /**
@@ -93,20 +98,20 @@ export interface MeRepository {
      * @param event l'event serveur contenant la fonction fetch et les cookies
      * @returns les informations de l'utilisateur actuellement connecté, ou null si non connecté
      */
-    async getMe(event?: { fetch: typeof fetch; cookies: Cookies }): Promise<User | null>;
+    getMe(event?: { fetch: typeof fetch; cookies: Cookies }): Promise<User | null>;
 
     /**
      * Recupère la liste des groupes sur lesquels l'utilisateur connecté peut créer des events
      * @returns Avatar sur tous ces groupes
      */
-    async getCanCreateEventsOn(): Promise<Avatar[]>;
+    getCanCreateEventsOn(): Promise<Avatar[]>;
 
     /**
      * Sauvegarde le numéro de téléphone de l'utilisateur utilisé pour les paiements
      * @param phone le numéro de téléphone à sauvegarder
      * @returns le numéro de téléphone sauvegardé
      */
-    async rememberPaymentPhone(phone: string): Promise<string | null>;
+    rememberPaymentPhone(phone: string): Promise<string | null>;
 }
 
 /**
@@ -118,7 +123,7 @@ export interface BookingRepository {
      * @param args les informations de pagination, first pour le nombre d'éléments à récupérer, after pour le curseur de la page précédente (si null, on récupère les éléments depuis le début)
      * @returns une page de reservations avec les informations de pagination
      */
-    async getMyBookings(args: PageRequest): Promise<Page<Booking>>;
+    getMyBookings(args: PageRequest): Promise<Page<Booking>>;
 
     /**
      * Récupère une réservation par son code
@@ -127,14 +132,14 @@ export interface BookingRepository {
      * @returns la réservation si elle existe
      * @throws une erreur si la réservation n'existe pas
      */
-    async getBookingByCode(code?: string, qrCodeUrlTemplate: string): Promise<BookingDetail>;
+    getBookingByCode(code?: string, qrCodeUrlTemplate: string): Promise<BookingDetail>;
 
     /**
      * Annule une réservation
      * @param code le code de la réservation
      * @throws une erreur si la réservation n'existe pas
      */
-    async cancelBooking(code?: string): Promise<void>;
+    cancelBooking(code?: string): Promise<void>;
 
     /**
      * Récupère l'url pour le pass Google Wallet d'une réservation
@@ -142,7 +147,7 @@ export interface BookingRepository {
      * @returns l'url du pass Google Wallet
      * @throws une erreur si la réservation n'existe pas
      */
-    async getGoogleWalletPass(code?: string): Promise<string>;
+    getGoogleWalletPass(code?: string): Promise<string>;
 
     /**
      * Récupère l'url pour le pass Apple Wallet d'une réservation
@@ -150,7 +155,7 @@ export interface BookingRepository {
      * @returns l'url du pass Apple Wallet
      * @throws une erreur si la réservation n'existe pas
      */
-    async getAppleWalletPass(code?: string): Promise<string>;
+    getAppleWalletPass(code?: string): Promise<string>;
 
     /**
      * Effectue le paiement sur une réservation avec son code
@@ -158,9 +163,14 @@ export interface BookingRepository {
      * @param code le code de la réservation
      * @param paymentMethod la methode de paiement utilisée pour le paiement
      * @param phone le numéro de téléphone de l'utilisateur pour les paiements (optionnel, utilisé pour certaines méthodes de paiement)
-     * @param callbackUrl l'url de callback à appeler après le paiement 
+     * @param callbackUrl l'url de callback à appeler après le paiement
      * @param amount le montant à payer
      */
-    async payBooking(code: string, paymentMethod: PaymentMethod, phone?: string, callbackUrl: string, amount: number): Promise<void>;
+    payBooking(
+        code: string,
+        paymentMethod: PaymentMethod,
+        phone?: string,
+        callbackUrl: string,
+        amount: number
+    ): Promise<void>;
 }
-

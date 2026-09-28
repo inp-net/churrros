@@ -1,26 +1,41 @@
-import { BookingStatus, type PaymentMethod, type Booking, type BookingDetail, type Page, type QrCode } from "$lib/api";
+import {
+    BookingStatus,
+    type PaymentMethod,
+    type Booking,
+    type BookingDetail,
+    type Page,
+    type QrCode
+} from '$lib/api';
 import { readFragment, type ResultOf } from '$lib/api/graphql/graphql';
-import { GetAppleWalletPass, GetBookingByCode, GetGoogleWalletPass, GetMyBookings, PayBooking } from "$lib/api/graphql/queries/booking";
-import { PageInfoFragment } from "$lib/api/graphql/queries/fragments/pagination";
-import type { $tada } from "gql.tada";
-import { CardBookingFragment } from "$lib/api/graphql/queries/fragments/cardBooking";
-import { mapUserAvatar } from "../user";
-import { QrCodeFragment } from "../../queries/fragments/qrcode";
-import { mapLightEvent } from "../event";
+import {
+    GetAppleWalletPass,
+    GetBookingByCode,
+    GetGoogleWalletPass,
+    GetMyBookings,
+    PayBooking
+} from '$lib/api/graphql/queries/booking';
+import { PageInfoFragment } from '$lib/api/graphql/queries/fragments/pagination';
+import type { $tada } from 'gql.tada';
+import { CardBookingFragment } from '$lib/api/graphql/queries/fragments/cardBooking';
+import { mapUserAvatar } from '../user';
+import { QrCodeFragment } from '../../queries/fragments/qrcode';
+import { mapLightEvent } from '../event';
 
-export function mapBookings(bookings: NonNullable<ResultOf<typeof GetMyBookings>["me"]>["bookings"]): Page<Booking> {
+export function mapBookings(
+    bookings: NonNullable<ResultOf<typeof GetMyBookings>['me']>['bookings']
+): Page<Booking> {
     const pageInfo = readFragment(PageInfoFragment, bookings.pageInfo);
     return {
         items: bookings.edges.map((edge) => mapBooking(edge.node)),
         pageInfo
-    }
+    };
 }
 
 type CardBookingFragmentType = {
     [$tada.fragmentRefs]: {
-        CardBooking: "Registration";
+        CardBooking: 'Registration';
     };
-}
+};
 
 function mapBooking(booking: CardBookingFragmentType): Booking {
     const data = readFragment(CardBookingFragment, booking);
@@ -29,7 +44,7 @@ function mapBooking(booking: CardBookingFragmentType): Booking {
         code: data.code,
         status: mapBookingStatus(data.opposed, data.verified, data.cancelled, data.paid),
         ticket: data.ticket
-    }
+    };
 }
 
 function mapBookingStatus(
@@ -58,9 +73,9 @@ function mapBookingStatus(
 
 type QRCodeFragmentType = {
     [$tada.fragmentRefs]: {
-        QrCode: "QRCode";
+        QrCode: 'QRCode';
     };
-}
+};
 
 export function mapQRCode(fragment: QRCodeFragmentType): QrCode {
     const data = readFragment(QrCodeFragment, fragment);
@@ -70,7 +85,9 @@ export function mapQRCode(fragment: QRCodeFragmentType): QrCode {
     };
 }
 
-export function mapBookingDetail(booking: ResultOf<typeof GetBookingByCode>["booking"]): BookingDetail {
+export function mapBookingDetail(
+    booking: ResultOf<typeof GetBookingByCode>['booking']
+): BookingDetail {
     return {
         code: booking.code,
         author: booking.author ? mapUserAvatar(booking.author) : null,
@@ -98,10 +115,12 @@ export function mapBookingDetail(booking: ResultOf<typeof GetBookingByCode>["boo
             allowedPaymentMethods: booking.ticket.allowedPaymentMethods,
             event: mapLightEvent(booking.ticket.event)
         }
-    }
+    };
 }
 
-export function mapGoogleWalletPass(result: ResultOf<typeof GetGoogleWalletPass>["createGoogleWalletPass"]): string {
+export function mapGoogleWalletPass(
+    result: ResultOf<typeof GetGoogleWalletPass>['createGoogleWalletPass']
+): string {
     if (!result) {
         throw new Error('No google wallet pass data found');
     }
@@ -109,7 +128,7 @@ export function mapGoogleWalletPass(result: ResultOf<typeof GetGoogleWalletPass>
         case 'Error': {
             throw new Error(result.message);
         }
-        case "MutationCreateGoogleWalletPassSuccess": {
+        case 'MutationCreateGoogleWalletPassSuccess': {
             return result.data;
         }
         default:
@@ -117,7 +136,9 @@ export function mapGoogleWalletPass(result: ResultOf<typeof GetGoogleWalletPass>
     }
 }
 
-export function mapAppleWalletPass(result: ResultOf<typeof GetAppleWalletPass>["createAppleWalletPass"]): string {
+export function mapAppleWalletPass(
+    result: ResultOf<typeof GetAppleWalletPass>['createAppleWalletPass']
+): string {
     if (!result) {
         throw new Error('No apple wallet pass data found');
     }
@@ -126,7 +147,7 @@ export function mapAppleWalletPass(result: ResultOf<typeof GetAppleWalletPass>["
         case 'Error': {
             throw new Error(result.message);
         }
-        case "MutationCreateAppleWalletPassSuccess": {
+        case 'MutationCreateAppleWalletPassSuccess': {
             return result.data;
         }
         default:
@@ -134,14 +155,13 @@ export function mapAppleWalletPass(result: ResultOf<typeof GetAppleWalletPass>["
     }
 }
 
-export function mapPayBooking(result: ResultOf<typeof PayBooking>["payBooking"]): void {
+export function mapPayBooking(result: ResultOf<typeof PayBooking>['payBooking']): void {
     switch (result.__typename) {
-        case "MutationPayBookingSuccess":
+        case 'MutationPayBookingSuccess':
             return;
-        case "Error":
+        case 'Error':
             throw new Error(result.message);
         default:
             throw new Error('Unhandled pay booking result');
     }
-
 }

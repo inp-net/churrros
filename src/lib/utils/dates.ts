@@ -1,4 +1,4 @@
-import { getLocale } from "$lib/paraglide/runtime"; //Paraglide devient notre source de vérité pour la locale.
+import { getLocale } from '$lib/paraglide/runtime'; //Paraglide devient notre source de vérité pour la locale.
 
 /**
  * Formate une date ISO en date locale selon la locale actuelle de paraglide.
@@ -6,7 +6,10 @@ import { getLocale } from "$lib/paraglide/runtime"; //Paraglide devient notre so
  * @param options les options de formatage de date
  * @returns la date formatée selon la locale actuelle de paraglide et le format spécifié
  */
-export function formatISODateToLocale(date: string, options: Intl.DateTimeFormatOptions = { dateStyle: 'long', timeStyle: 'short' }): string {
+export function formatISODateToLocale(
+    date: string,
+    options: Intl.DateTimeFormatOptions = { dateStyle: 'long', timeStyle: 'short' }
+): string {
     const locale = getLocale();
 
     return Intl.DateTimeFormat(locale, options).format(new Date(date));

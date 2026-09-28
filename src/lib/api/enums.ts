@@ -8,7 +8,7 @@ export enum BookingStatus {
     VERIFIED,
     CANCELLED,
     PAID,
-    WAITING,
+    WAITING
 }
 
 /**
@@ -16,5 +16,5 @@ export enum BookingStatus {
  */
 export enum WalletTarget {
     APPLE,
-    GOOGLE,
+    GOOGLE
 }

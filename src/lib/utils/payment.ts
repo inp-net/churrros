@@ -1,11 +1,11 @@
-import type { PaymentMethod } from "$lib/api";
-import { m } from "$lib/paraglide/messages";
-import type { Component } from "svelte";
+import type { PaymentMethod } from '$lib/api';
+import { m } from '$lib/paraglide/messages';
+import type { Component } from 'svelte';
 
-import LydiaForm from "$lib/components/payment/lydia/LydiaForm.svelte";
-import LydiaWaiting from "$lib/components/payment/lydia/LydiaWaiting.svelte";
+import LydiaForm from '$lib/components/payment/lydia/LydiaForm.svelte';
+import LydiaWaiting from '$lib/components/payment/lydia/LydiaWaiting.svelte';
 
-import ManualFollowUp from "$lib/components/payment/manual/ManualFollowUp.svelte";
+import ManualFollowUp from '$lib/components/payment/manual/ManualFollowUp.svelte';
 
 interface PaymentProvider {
     //Le label affiché pour le provider
@@ -37,16 +37,36 @@ export interface PaymentWaitingProps {
 export interface PaymentFollowUpProps {
     onBack: () => void;
     onDone: () => void;
-
 }
 
 export const PAYMENT_PROVIDERS: Record<PaymentMethod, PaymentProvider> = {
-    Card: { label: m["paymentMethod.card"](), automated: false, FollowUpComponent: ManualFollowUp },
-    Lydia: { label: "Lydia", automated: true, FormComponent: LydiaForm, WaitingComponent: LydiaWaiting },
-    Check: { label: m["paymentMethod.check"](), automated: false, FollowUpComponent: ManualFollowUp },
-    Cash: { label: m["paymentMethod.cash"](), automated: false, FollowUpComponent: ManualFollowUp },
-    External: { label: m["paymentMethod.external"](), automated: false, FollowUpComponent: ManualFollowUp },
-    Other: { label: m["paymentMethod.other"](), automated: false, FollowUpComponent: ManualFollowUp },
-    PayPal: { label: "PayPal", automated: true },
-    Transfer: { label: m["paymentMethod.transfer"](), automated: false, FollowUpComponent: ManualFollowUp },
+    Card: { label: m['paymentMethod.card'](), automated: false, FollowUpComponent: ManualFollowUp },
+    Lydia: {
+        label: 'Lydia',
+        automated: true,
+        FormComponent: LydiaForm,
+        WaitingComponent: LydiaWaiting
+    },
+    Check: {
+        label: m['paymentMethod.check'](),
+        automated: false,
+        FollowUpComponent: ManualFollowUp
+    },
+    Cash: { label: m['paymentMethod.cash'](), automated: false, FollowUpComponent: ManualFollowUp },
+    External: {
+        label: m['paymentMethod.external'](),
+        automated: false,
+        FollowUpComponent: ManualFollowUp
+    },
+    Other: {
+        label: m['paymentMethod.other'](),
+        automated: false,
+        FollowUpComponent: ManualFollowUp
+    },
+    PayPal: { label: 'PayPal', automated: true },
+    Transfer: {
+        label: m['paymentMethod.transfer'](),
+        automated: false,
+        FollowUpComponent: ManualFollowUp
+    }
 };

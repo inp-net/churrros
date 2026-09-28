@@ -5,67 +5,73 @@ import { PageInfoFragment } from '../fragments/pagination';
 import { QrCodeFragment } from '../fragments/qrcode';
 import { UserAvatarFragment } from '../fragments/userAvatar';
 
-export const GetMyBookings = graphql(`
-    query GetMyBookings($first: Int, $after: String) {
-        me {
-            bookings(first: $first, after:$after) {
-            edges {
-                node {
-                    ...CardBooking
+export const GetMyBookings = graphql(
+    `
+        query GetMyBookings($first: Int, $after: String) {
+            me {
+                bookings(first: $first, after: $after) {
+                    edges {
+                        node {
+                            ...CardBooking
+                        }
+                    }
+                    pageInfo {
+                        ...PageInfo
+                    }
                 }
             }
-            pageInfo {
-                ...PageInfo
-            }
         }
-        }
-    }
-`, [PageInfoFragment, CardBookingFragment]);
+    `,
+    [PageInfoFragment, CardBookingFragment]
+);
 
-export const GetBookingByCode = graphql(`
-    query PageBooking($code: String!, $qrCodeURLTemplate: URL!) {
-        booking(code: $code) {
-            code
-            beneficiaryUser {
-                ...UserAvatar
-            }
-            author {
-                ...UserAvatar
-            }
-            externalBeneficiary
-            paymentMethod
-            canManage
-            paid
-            cancelled
-            opposed
-            verified
-            awaitingPayment
-            pendingPayment
-            createdAt
-            wantsToPay
-            qrCode(url: $qrCodeURLTemplate) {
-                ...QrCode
-            }
-            linkURLs
-            linkNames
-            ticket {
-                name
-                actualMinimumPrice: minimumPrice(applyPromotions: true)
-                minimumPrice(applyPromotions: false)
-                maximumPrice
-                priceIsVariable
-                allowedPaymentMethods
-                event {
-                    ...LightEvent
+export const GetBookingByCode = graphql(
+    `
+        query PageBooking($code: String!, $qrCodeURLTemplate: URL!) {
+            booking(code: $code) {
+                code
+                beneficiaryUser {
+                    ...UserAvatar
+                }
+                author {
+                    ...UserAvatar
+                }
+                externalBeneficiary
+                paymentMethod
+                canManage
+                paid
+                cancelled
+                opposed
+                verified
+                awaitingPayment
+                pendingPayment
+                createdAt
+                wantsToPay
+                qrCode(url: $qrCodeURLTemplate) {
+                    ...QrCode
+                }
+                linkURLs
+                linkNames
+                ticket {
+                    name
+                    actualMinimumPrice: minimumPrice(applyPromotions: true)
+                    minimumPrice(applyPromotions: false)
+                    maximumPrice
+                    priceIsVariable
+                    allowedPaymentMethods
+                    event {
+                        ...LightEvent
+                    }
                 }
             }
         }
-    }
-`, [LightEventFragment, UserAvatarFragment, QrCodeFragment]);
+    `,
+    [LightEventFragment, UserAvatarFragment, QrCodeFragment]
+);
 
 export const CancelBooking = graphql(`
     mutation CancelBooking($code: String!) {
-        cancelBooking(code : $code) {
+        cancelBooking(code: $code) {
             ... on MutationCancelBookingSuccess {
                 data {
                     cancelledAt
@@ -107,8 +113,20 @@ export const GetAppleWalletPass = graphql(`
 `);
 
 export const PayBooking = graphql(`
-    mutation PayBooking($code: String!, $paymentMethod: PaymentMethod!, $phone: String, $callbackUrl: String!, $amount: Float!) {
-        payBooking(code: $code, paymentMethod: $paymentMethod, phone: $phone, paidCallback: $callbackUrl, amount: $amount) {
+    mutation PayBooking(
+        $code: String!
+        $paymentMethod: PaymentMethod!
+        $phone: String
+        $callbackUrl: String!
+        $amount: Float!
+    ) {
+        payBooking(
+            code: $code
+            paymentMethod: $paymentMethod
+            phone: $phone
+            paidCallback: $callbackUrl
+            amount: $amount
+        ) {
             __typename
             ... on MutationPayBookingSuccess {
                 data {

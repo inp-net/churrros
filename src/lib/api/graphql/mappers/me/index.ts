@@ -21,13 +21,15 @@ export function mapMe(user: ResultOf<typeof GetMe>['me']): User | null {
     };
 }
 
-export function mapRememberPaymentPhone(data: ResultOf<typeof RememberPaymentPhone>['saveLydiaPhoneNumber']): string | null {
+export function mapRememberPaymentPhone(
+    data: ResultOf<typeof RememberPaymentPhone>['saveLydiaPhoneNumber']
+): string | null {
     switch (data.__typename) {
-        case "Error":
+        case 'Error':
             throw new Error(data.message);
-        case "MutationSaveLydiaPhoneNumberSuccess":
+        case 'MutationSaveLydiaPhoneNumberSuccess':
             return data.data.lydiaPhone;
         default:
-            throw new Error("Unknown response type");
+            throw new Error('Unknown response type');
     }
 }

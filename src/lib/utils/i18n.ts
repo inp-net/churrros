@@ -1,6 +1,6 @@
-import { BookingStatus, type PaymentMethod, WalletTarget } from "$lib/api";
+import { BookingStatus, type PaymentMethod, WalletTarget } from '$lib/api';
 import { m } from '$lib/paraglide/messages';
-import { getLocale } from "$lib/paraglide/runtime";
+import { getLocale } from '$lib/paraglide/runtime';
 
 /**
  * Renvoie la traduction d'un status de booking
@@ -23,7 +23,7 @@ export function bookingStatusToLocalizedString(status: BookingStatus): string {
 }
 
 /**
- * Renvoie la traduction d'un wallet target 
+ * Renvoie la traduction d'un wallet target
  * @param walletTarget Le wallet target à traduire
  * @returns Le string d'affichage traduit du wallet target
  */
@@ -38,11 +38,14 @@ export function walletTargetToLocalizedString(walletTarget: WalletTarget): strin
 
 /**
  * Formatte un montant pour afficher la devise correctement
- * @param price Le prix à formatter 
+ * @param price Le prix à formatter
  * @param options Les options de formatage par défaut en euro
  * @returns Le montant formatté avec la bonne devise
  */
-export function formatMoney(price: number, options: Intl.NumberFormatOptions = { style: "currency", currency: "EUR" }): string {
+export function formatMoney(
+    price: number,
+    options: Intl.NumberFormatOptions = { style: 'currency', currency: 'EUR' }
+): string {
     return formatNumber(price, options);
 }
 

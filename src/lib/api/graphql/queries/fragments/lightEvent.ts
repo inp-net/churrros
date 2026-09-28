@@ -1,15 +1,18 @@
-import { GroupAvatarFragment } from "./groupAvatar";
+import { GroupAvatarFragment } from './groupAvatar';
 import { graphql } from '$lib/api/graphql/graphql';
 
-export const LightEventFragment = graphql(`
-    fragment LightEvent on Event {
-        localID
-        title
-        organizer {
-        ...GroupAvatar
+export const LightEventFragment = graphql(
+    `
+        fragment LightEvent on Event {
+            localID
+            title
+            organizer {
+                ...GroupAvatar
+            }
+            startsAt
+            endsAt
+            location
         }
-        startsAt
-        endsAt
-        location
-    }   
-`, [GroupAvatarFragment]);
+    `,
+    [GroupAvatarFragment]
+);

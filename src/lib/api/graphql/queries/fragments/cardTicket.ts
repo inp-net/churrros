@@ -11,5 +11,5 @@ export const CardTicketFragment = graphql(`
         name
         minimumPrice(applyPromotions: true)
         priceIsVariable
-      }  
+    }
 `);

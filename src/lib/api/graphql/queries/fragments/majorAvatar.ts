@@ -8,5 +8,5 @@ export const MajorAvatarFragment = graphql(`
         name
         uid
         pictureURL
-    }   
+    }
 `);

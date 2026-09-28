@@ -12,7 +12,7 @@ export const graphql = initGraphQLTada<{
         LocalID: string;
         HTML: string;
         URL: string;
-        Capacity: number | "Unlimited";
+        Capacity: number | 'Unlimited';
     };
 }>();
 

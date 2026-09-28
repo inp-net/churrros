@@ -9,7 +9,10 @@ const initialSessionToken = loadToken();
 const sessionTokenStore = writable<SessionToken | null>(initialSessionToken);
 
 function isTokenExpired(sessionToken: SessionToken) {
-    return Number.isNaN(sessionToken.expiresAt.getTime()) || sessionToken.expiresAt.getTime() <= Date.now();
+    return (
+        Number.isNaN(sessionToken.expiresAt.getTime()) ||
+        sessionToken.expiresAt.getTime() <= Date.now()
+    );
 }
 
 /**
@@ -103,7 +106,10 @@ export function setToken(newSessionToken: SessionToken | null) {
 
     writeCookie(
         SESSION_TOKEN_COOKIE_NAME,
-        JSON.stringify({ token: newSessionToken.token, expiresAt: newSessionToken.expiresAt.toISOString() }),
+        JSON.stringify({
+            token: newSessionToken.token,
+            expiresAt: newSessionToken.expiresAt.toISOString()
+        }),
         newSessionToken.expiresAt
     );
 }

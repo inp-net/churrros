@@ -28,9 +28,9 @@ function mapEventByDay(eventByDay: EventGraphQLNode['edges'][number]['node']): E
 
 type CardEventFragmentType = {
     [$tada.fragmentRefs]: {
-        CardEvent: "Event";
+        CardEvent: 'Event';
     };
-}
+};
 
 export function mapEvent(event: CardEventFragmentType): Event {
     const data = readFragment(CardEventFragment, event);
@@ -40,7 +40,9 @@ export function mapEvent(event: CardEventFragmentType): Event {
         title: data.title,
         descriptionPreview: data.descriptionPreview,
         organizer: mapGroupAvatar(data.organizer),
-        coOrganizers: data.coOrganizers.map((coOrganizerAvatar) => mapGroupAvatar(coOrganizerAvatar)),
+        coOrganizers: data.coOrganizers.map((coOrganizerAvatar) =>
+            mapGroupAvatar(coOrganizerAvatar)
+        ),
         startsAt: data.startsAt,
         endsAt: data.endsAt,
         location: data.location,
@@ -60,16 +62,18 @@ export function mapEventDetail(event: ResultOf<typeof GetEventById>['event']): E
         recurringUntil: event.recurringUntil,
         externalTicketing: event.externalTicketing,
         organizer: mapGroupAvatar(event.organizer),
-        coOrganizers: event.coOrganizers.map((coOrganizerAvatar) => mapGroupAvatar(coOrganizerAvatar)),
+        coOrganizers: event.coOrganizers.map((coOrganizerAvatar) =>
+            mapGroupAvatar(coOrganizerAvatar)
+        ),
         tickets: event.tickets.map((ticket) => mapTicketDetail(ticket))
-    }
+    };
 }
 
 type LightEventFragmentType = {
     [$tada.fragmentRefs]: {
-        LightEvent: "Event";
+        LightEvent: 'Event';
     };
-}
+};
 
 export function mapLightEvent(event: LightEventFragmentType): LightEvent {
     const data = readFragment(LightEventFragment, event);
@@ -79,11 +83,11 @@ export function mapLightEvent(event: LightEventFragmentType): LightEvent {
         organizer: mapGroupAvatar(data.organizer),
         startsAt: data.startsAt,
         endsAt: data.endsAt,
-        location: data.location,
+        location: data.location
     };
 }
 
-export function mapBookingEventResult(result: ResultOf<typeof BookEvent>["bookEvent"]): string {
+export function mapBookingEventResult(result: ResultOf<typeof BookEvent>['bookEvent']): string {
     if (!result) {
         throw new Error('No booking result data found');
     }
@@ -92,11 +96,10 @@ export function mapBookingEventResult(result: ResultOf<typeof BookEvent>["bookEv
         case 'Error': {
             throw new Error(result.message);
         }
-        case "MutationBookEventSuccess": {
+        case 'MutationBookEventSuccess': {
             return result.data.localID;
         }
         default:
             throw new Error('No booking result data found');
     }
 }
-

@@ -1,13 +1,13 @@
 <script lang="ts">
-	import type { LightEvent } from '$lib/api';
-	import { formatISODateToLocale } from '$lib/utils/dates';
-	import Avatar from '../avatar/Avatar.svelte';
+    import type { LightEvent } from '$lib/api';
+    import { formatISODateToLocale } from '$lib/utils/dates';
+    import Avatar from '../avatar/Avatar.svelte';
 
-	interface Props {
-		event: LightEvent;
-	}
+    interface Props {
+        event: LightEvent;
+    }
 
-	let { event }: Props = $props();
+    let { event }: Props = $props();
 </script>
 
 <Avatar avatar={event.organizer} />

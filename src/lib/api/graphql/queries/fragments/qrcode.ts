@@ -4,5 +4,5 @@ export const QrCodeFragment = graphql(`
     fragment QrCode on QRCode {
         path
         viewbox
-    }   
+    }
 `);
