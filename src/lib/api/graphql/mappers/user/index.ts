@@ -23,9 +23,9 @@ export function mapUser(user: ResultOf<typeof GetUserByUid>['user']): User {
 
 type MajorFragmentType = {
     [$tada.fragmentRefs]: {
-        MajorAvatar: "Major";
+        MajorAvatar: 'Major';
     };
-}
+};
 
 export function mapMajor(major: MajorFragmentType): Avatar {
     const data = readFragment(MajorAvatarFragment, major);
@@ -38,9 +38,9 @@ export function mapMajor(major: MajorFragmentType): Avatar {
 
 type SchoolFragmentType = {
     [$tada.fragmentRefs]: {
-        SchoolAvatar: "School";
+        SchoolAvatar: 'School';
     };
-}
+};
 
 export function mapSchool(school: SchoolFragmentType): Avatar {
     const data = readFragment(SchoolAvatarFragment, school);
@@ -53,9 +53,9 @@ export function mapSchool(school: SchoolFragmentType): Avatar {
 
 type UserAvatarFragmentType = {
     [$tada.fragmentRefs]: {
-        UserAvatar: "User";
+        UserAvatar: 'User';
     };
-}
+};
 export function mapUserAvatar(user: UserAvatarFragmentType): Avatar {
     const data = readFragment(UserAvatarFragment, user);
     return {

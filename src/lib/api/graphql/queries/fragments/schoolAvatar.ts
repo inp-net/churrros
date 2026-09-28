@@ -8,5 +8,5 @@ export const SchoolAvatarFragment = graphql(`
         name
         uid
         pictureURL
-    }   
+    }
 `);

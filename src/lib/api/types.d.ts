@@ -2,7 +2,7 @@
 export type SessionToken = {
     token: string;
     expiresAt: Date;
-}
+};
 //#endregion
 
 //#region Events
@@ -17,13 +17,13 @@ export type Event = {
     endsAt: string | null;
     location: string;
     tickets: Ticket[];
-}
+};
 
 export type EventsByDay = {
     date: string;
     shotgunning: Event[];
     happening: Event[];
-}
+};
 
 export type EventDetail = {
     title: string;
@@ -38,7 +38,7 @@ export type EventDetail = {
     tickets: TicketDetail[];
     organizer: GroupAvatar;
     coOrganizers: GroupAvatar[];
-}
+};
 
 export type Ticket = {
     id: string;
@@ -47,18 +47,18 @@ export type Ticket = {
     name: string;
     price: number;
     priceIsVariable: boolean;
-}
+};
 
 export type TicketDetail = Ticket & {
-    placesLeft: number | "Unlimited" | null;
+    placesLeft: number | 'Unlimited' | null;
     showPlacesLeft: boolean;
-    capacity: number | "Unlimited" | null;
+    capacity: number | 'Unlimited' | null;
     showCapacity: boolean;
     invited: boolean;
     openToGroups: GroupAvatar[];
     openToMajors: Avatar[];
     openToSchools: Avatar[];
-}
+};
 //#endregion
 
 //#region Users
@@ -71,7 +71,7 @@ export type User = {
     phone: string | null;
     pictureURL: string;
     admin: boolean;
-}
+};
 //#endregion
 
 //#region Pagination
@@ -83,7 +83,7 @@ export type User = {
 export type PageRequest = {
     first: number;
     after: string | null;
-}
+};
 
 /**
  * Resultat d'une requête paginée.
@@ -93,7 +93,7 @@ export type PageRequest = {
 export type Page<T> = {
     items: T[];
     pageInfo: PageInfo;
-}
+};
 
 /**
  * Informations de pagination.
@@ -103,7 +103,7 @@ export type Page<T> = {
 export type PageInfo = {
     hasNextPage: boolean;
     endCursor: string | null;
-}
+};
 //#endregion
 
 //#region Utils
@@ -111,7 +111,6 @@ export type Avatar = {
     name: string;
     uid: string;
     pictureURL: string;
-}
+};
 
 //#endregion
-

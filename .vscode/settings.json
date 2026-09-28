@@ -1,11 +1,11 @@
 {
-	// Config pr prettier mais c'est personnel en vrai, à vous de voir si vous voulez l'utiliser ou pas
-	"editor.formatOnSave": true,
-	"editor.defaultFormatter": "esbenp.prettier-vscode",
-	"[svelte]": {
-		"editor.defaultFormatter": "svelte.svelte-vscode"
-	},
-	//Config pour avoir les bons hints pour gql.tada : https://gql-tada.0no.co/get-started/installation#vscode-setup (Version non deprecated)
-	"js/ts.tsdk.path": "node_modules/typescript/lib",
-	"js/ts.tsdk.promptToUseWorkspaceVersion": true
+    // Config pr prettier mais c'est personnel en vrai, à vous de voir si vous voulez l'utiliser ou pas
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "[svelte]": {
+        "editor.defaultFormatter": "svelte.svelte-vscode"
+    },
+    //Config pour avoir les bons hints pour gql.tada : https://gql-tada.0no.co/get-started/installation#vscode-setup (Version non deprecated)
+    "js/ts.tsdk.path": "node_modules/typescript/lib",
+    "js/ts.tsdk.promptToUseWorkspaceVersion": true
 }
