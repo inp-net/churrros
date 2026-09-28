@@ -1,5 +1,4 @@
 <script lang="ts">
-	import type { LayoutProps } from './$types';
 	import { browser } from '$app/environment';
 	import { QueryClient, QueryClientProvider } from '@tanstack/svelte-query';
 	import favicon from '$lib/assets/favicon.svg';
@@ -8,6 +7,7 @@
 	import Header from '$lib/components/Header.svelte';
 	import NavBar from '$lib/components/NavBar.svelte';
 	import { Stack } from 'azucar-ui';
+	import type { LayoutProps } from './$types';
 
 	let { data, children }: LayoutProps = $props();
 
@@ -39,7 +39,7 @@
 	/* set azucar-ui theme */
 	:root {
 		--base-color: oklch(80.45% 0.1666 72.92);
-		color-scheme: dark;
+		color-scheme: light dark;
 	}
 
 	/* limit page width */

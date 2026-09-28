@@ -25,14 +25,15 @@
         "prettier-plugin-svelte": "^4.1.0",
         "svelte": "^5.56.1",
         "svelte-check": "^4.6.0",
-        "typescript": "^7.0.2",
+        "typescript": "^6.0.3",
         "vite": "^8.0.16"
     },
     "dependencies": {
+        "@lucide/svelte": "^1.0.1",
         "@tanstack/svelte-query": "^6.1.36",
         "azucar-ui": "^0.0.11",
         "cookie": "^2.0.1",
-        "gql.tada": "^1.11.2",
-        "@lucide/svelte": "^1.0.1"
-    }
+        "gql.tada": "^1.11.2"
+    },
+    "packageManager": "pnpm@12.6.0+sha512.3ef68f951cb111ac204b4a5a16f0b2ddf0da56a96e0413e81d855d9f0b55ef926714709028e1cd00c405c2c5fb7b9e8ec4dc46777c805d0373c2f2ff00fd20ec"
 }

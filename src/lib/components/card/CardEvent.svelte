@@ -75,10 +75,6 @@
 </Frame>
 
 <style>
-	:global(.event-card) {
-		cursor: pointer;
-	}
-
 	.event-description {
 		color: var(--color-fg-low);
 	}
