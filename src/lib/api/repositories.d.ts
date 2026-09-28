@@ -85,6 +85,11 @@ export interface UserRepository {
      */
     getUserByUid(uid: string): Promise<User | null>;
 
+    /**
+     * Récupère l'avatar d'un utilisateur par son uid.
+     * @param uid l'uid de l'utilisateur à récupérer
+     * @returns l'avatar de l'utilisateur, ou null si non trouvé
+     */
     getUserAvatarByUid(uid: string): Promise<Avatar | null>;
 }
 
