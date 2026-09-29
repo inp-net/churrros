@@ -1,6 +1,6 @@
 import type { Avatar, User } from '$lib/api';
 import { readFragment, type ResultOf } from '$lib/api/graphql/graphql';
-import type { GetUserByUid } from '$lib/api/graphql/queries/user';
+import type { GetBirthdays, GetUserByUid } from '$lib/api/graphql/queries/user';
 import { UserFragment } from '$lib/api/graphql/queries/fragments/user';
 import type { $tada } from 'gql.tada';
 import { MajorAvatarFragment } from '../../queries/fragments/majorAvatar';
@@ -63,4 +63,8 @@ export function mapUserAvatar(user: UserAvatarFragmentType): Avatar {
         name: data.fullName,
         pictureURL: data.pictureURL
     };
+}
+
+export function mapBirthdays(birthdays: ResultOf<typeof GetBirthdays>['birthdays']): Avatar[] {
+    return birthdays.map(mapUserAvatar);
 }

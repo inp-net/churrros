@@ -23,3 +23,14 @@ export const GetUserAvatarByUid = graphql(
     `,
     [UserAvatarFragment]
 );
+
+export const GetBirthdays = graphql(
+    `
+        query GetBirthdays($activeOnly: Boolean, $width: Int, $date: DateTime) {
+            birthdays(activeOnly: $activeOnly, width: $width, now: $date) {
+                ...UserAvatar
+            }
+        }
+    `,
+    [UserAvatarFragment]
+);

@@ -1,4 +1,4 @@
-import type { PageRequest, Page, EventDetail, GroupAvatar, Avatar } from '$lib/api';
+import type { PageRequest, Page, EventDetail, GroupAvatar, Avatar, Article } from '$lib/api';
 import type { Event } from '$lib/api';
 import type { SessionToken } from '$lib/api';
 import type { User } from '$lib/api';
@@ -91,6 +91,15 @@ export interface UserRepository {
      * @returns l'avatar de l'utilisateur, ou null si non trouvé
      */
     getUserAvatarByUid(uid: string): Promise<Avatar | null>;
+
+    /**
+     * Récupère les anniversaires des utilisateurs.
+     * @param date La date à partir de laquelle on veut récupérer les anniversaires (optionnel) (Par défaut la date actuelle)
+     * @param activeOnly True si on veut que les utilisateurs actifs 1,2 ou 3A uniquement, false si on veut tous les utilisateurs
+     * @param width La quantité de jours après la date à partir de laquelle on veut récupérer les anniversaires (optionnel) (Par défaut 1 jour)
+     * @returns Un tableau d'avatars des utilisateurs dont c'est l'anniversaire
+     */
+    getBirthdays(activeOnly: boolean, date?: string, width?: number): Promise<Avatar[]>;
 }
 
 /**
@@ -110,4 +119,16 @@ export interface MeRepository {
      * @returns Avatar sur tous ces groupes
      */
     getCanCreateEventsOn(): Promise<Avatar[]>;
+}
+
+/**
+ * Repository to handle articles
+ */
+export interface ArticleRepository {
+    /**
+     * Returns a paginated list of articles.
+     * @param args the pagination information, first for the number of items to retrieve, after for the cursor of the previous page (if null, we retrieve the items from the beginning)
+     * @returns a page of articles with pagination information
+     */
+    getArticles(args: PageRequest): Promise<Page<Article>>;
 }
