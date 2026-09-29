@@ -96,10 +96,19 @@ export interface UserRepository {
      * Récupère les anniversaires des utilisateurs.
      * @param date La date à partir de laquelle on veut récupérer les anniversaires (optionnel) (Par défaut la date actuelle)
      * @param activeOnly True si on veut que les utilisateurs actifs 1,2 ou 3A uniquement, false si on veut tous les utilisateurs
-     * @param width La quantité de jours après la date à partir de laquelle on veut récupérer les anniversaires (optionnel) (Par défaut 1 jour)
+     * @param width La quantité de jours autour de date (optionnel) (Par défaut 1 jour)
      * @returns Un tableau d'avatars des utilisateurs dont c'est l'anniversaire
      */
     getBirthdays(activeOnly: boolean, date?: string, width?: number): Promise<Avatar[]>;
+
+    /**
+     * Récupère les anniversaires des utilisateurs groupés par jour.
+     * @param activeOnly True si on veut que les utilisateurs actifs 1,2 ou 3A uniquement, false si on veut tous les utilisateurs
+     * @param date La date à partir de laquelle on veut récupérer les anniversaires (optionnel) (Par défaut la date actuelle)
+     * @param width La quantité de jours autour de date (optionnel) (Par défaut 1 jour)
+     * @returns Un objet avec les dates comme clés et les tableaux d'avatars des utilisateurs dont c'est l'anniversaire comme valeurs
+     */
+    getGroupedBirthdays(activeOnly: boolean, date?: string, width?: number): Promise<Record<string, Avatar[]>>;
 }
 
 /**

@@ -19,7 +19,7 @@
     }));
 
     const birthdayQuery = createQuery(() => ({
-        queryKey: ['birthdays'],
+        queryKey: ['todayBirthdays'],
         queryFn: () => userRepository.getBirthdays(true),
         notifyOnChangeProps: 'all'
     }));

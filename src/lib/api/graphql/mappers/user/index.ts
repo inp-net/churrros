@@ -1,6 +1,6 @@
 import type { Avatar, User } from '$lib/api';
 import { readFragment, type ResultOf } from '$lib/api/graphql/graphql';
-import type { GetBirthdays, GetUserByUid } from '$lib/api/graphql/queries/user';
+import type { GetBirthdays, GetGroupedBirthdays, GetUserByUid } from '$lib/api/graphql/queries/user';
 import { UserFragment } from '$lib/api/graphql/queries/fragments/user';
 import type { $tada } from 'gql.tada';
 import { MajorAvatarFragment } from '../../queries/fragments/majorAvatar';
@@ -67,4 +67,20 @@ export function mapUserAvatar(user: UserAvatarFragmentType): Avatar {
 
 export function mapBirthdays(birthdays: ResultOf<typeof GetBirthdays>['birthdays']): Avatar[] {
     return birthdays.map(mapUserAvatar);
+}
+
+export function mapGroupedBirthdays(groupedBirthdays: ResultOf<typeof GetGroupedBirthdays>['birthdays']): Record<string, Avatar[]> {
+    const result: Record<string, Avatar[]> = {};
+    for (const item of groupedBirthdays) {
+        const date = item.birthday;
+        if (date === null) {
+            continue;
+        }
+        const avatar = mapUserAvatar(item);
+        if (!result[date]) {
+            result[date] = [];
+        }
+        result[date].push(avatar);
+    }
+    return result;
 }

@@ -34,3 +34,15 @@ export const GetBirthdays = graphql(
     `,
     [UserAvatarFragment]
 );
+
+export const GetGroupedBirthdays = graphql(
+    `
+        query GetGroupedBirthdays($activeOnly: Boolean, $width: Int, $date: DateTime) {
+            birthdays(activeOnly: $activeOnly, width: $width, now: $date) {
+                birthday
+                ...UserAvatar
+            }
+        }
+    `,
+    [UserAvatarFragment]
+);
