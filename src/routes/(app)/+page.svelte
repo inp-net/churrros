@@ -68,7 +68,7 @@
     {:else if birthdayQuery.isError}
         <p>Error: {birthdayQuery.error.message}</p>
     {:else if birthdayQuery.isSuccess}
-        <h2>{m['birthdays']()}</h2>
+        <h2><a href="/birthdays">{m['birthdays']()}</a></h2>
         {#each birthdayQuery.data as avatar (avatar.uid)}
             <Avatar {avatar} />
         {/each}

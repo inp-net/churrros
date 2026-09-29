@@ -14,6 +14,8 @@
     }));
 </script>
 
+<h2>{m['birthdays']()}</h2>
+
 {#if query.isPending}
     <p>{m['loading']()}</p>
 {:else if query.isError}
