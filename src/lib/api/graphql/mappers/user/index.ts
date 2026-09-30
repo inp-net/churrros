@@ -72,8 +72,8 @@ export function mapBirthdays(birthdays: ResultOf<typeof GetBirthdays>['birthdays
 export function mapGroupedBirthdays(groupedBirthdays: ResultOf<typeof GetGroupedBirthdays>['birthdays']): Record<string, Avatar[]> {
     const result: Record<string, Avatar[]> = {};
     for (const item of groupedBirthdays) {
-        const date = item.birthday;
-        if (date === null) {
+        const date = item.birthday?.slice(5, 10); // Extract MM-DD from ISO
+        if (date === undefined) {
             continue;
         }
         const avatar = mapUserAvatar(item);
@@ -82,5 +82,7 @@ export function mapGroupedBirthdays(groupedBirthdays: ResultOf<typeof GetGrouped
         }
         result[date].push(avatar);
     }
-    return result;
+    return Object.fromEntries(
+        Object.entries(result).sort(([a], [b]) => a.localeCompare(b)) //Pr trier les dates
+    );
 }

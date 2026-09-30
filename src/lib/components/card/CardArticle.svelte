@@ -15,7 +15,9 @@
 </script>
 
 <div>
-    {article.title}
+    <a href={`/articles/${article.id}`}>
+        {article.title}
+    </a>
     <br />
     <Avatar avatar={article.group} />
     {article.content}
