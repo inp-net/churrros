@@ -18,7 +18,7 @@
     {article.title}
     <br />
     <Avatar avatar={article.group} />
-    {article.contentPreview}
+    {article.content}
     <img src={article.pictureURL} alt={article.title} />
     {formatISODateToLocale(article.publishedAt)}
     {#each article.links as link (link.url)}

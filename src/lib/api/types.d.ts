@@ -125,11 +125,15 @@ export type Link = {
 export type Article = {
     id: string;
     title: string;
-    contentPreview: string;
+    content: string;
     publishedAt: string;
     pictureURL: string;
     links: Link[];
     group: Avatar;
 };
+
+export type ArticleDetail = Article & {
+    event: Event | null;
+}
 
 //#endregion

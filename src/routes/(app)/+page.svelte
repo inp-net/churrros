@@ -75,8 +75,9 @@
     {/if}
 </div>
 
-<h2>Articles</h2>
 <!--Temporaire, dans tous les cas on aura pas ça-->
+<h2>Articles</h2>
+
 <InfiniteScroll
     hasNextPage={query.hasNextPage}
     isFetching={query.isFetchingNextPage}

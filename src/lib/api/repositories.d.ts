@@ -1,4 +1,4 @@
-import type { PageRequest, Page, EventDetail, GroupAvatar, Avatar, Article } from '$lib/api';
+import type { PageRequest, Page, EventDetail, GroupAvatar, Avatar, Article, ArticleDetail } from '$lib/api';
 import type { Event } from '$lib/api';
 import type { SessionToken } from '$lib/api';
 import type { User } from '$lib/api';
@@ -140,4 +140,12 @@ export interface ArticleRepository {
      * @returns a page of articles with pagination information
      */
     getArticles(args: PageRequest): Promise<Page<Article>>;
+
+    /**
+     * Return the details of an article by its ID.
+     * @param id the ID of the article
+     * @returns the details of the article
+     * @throws an error if the article does not exist
+     */
+    getArticleById(id: string | undefined): Promise<ArticleDetail>;
 }
