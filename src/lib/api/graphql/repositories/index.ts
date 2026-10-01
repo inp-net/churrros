@@ -3,3 +3,4 @@ export * from './event';
 export * from './user';
 export * from './me';
 export * from './booking';
+export * from './article';

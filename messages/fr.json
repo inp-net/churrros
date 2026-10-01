@@ -41,5 +41,7 @@
     "payment.manual": "Tu devras présenter le paiement à l'entrée de l'évènement (ou avant, à voir avec l'équipe d'organisation de l'évènement)",
     "recheck": "Re-vérifier",
     "payment.waiting": "En attente de ",
-    "open": "Ouvrir"
+    "open": "Ouvrir",
+    "birthdays": "Anniversaires",
+    "today": "Aujourd'hui"
 }

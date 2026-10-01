@@ -1,4 +1,4 @@
-import type { PageRequest, Page, EventDetail, GroupAvatar, Avatar, BookingDetail } from '$lib/api';
+import type { PageRequest, Page, EventDetail, GroupAvatar, Avatar, BookingDetail, Article, ArticleDetail } from '$lib/api';
 import type { Event } from '$lib/api';
 import type { SessionToken } from '$lib/api';
 import type { User } from '$lib/api';
@@ -91,6 +91,24 @@ export interface UserRepository {
      * @returns l'avatar de l'utilisateur, ou null si non trouvé
      */
     getUserAvatarByUid(uid: string): Promise<Avatar | null>;
+
+    /**
+     * Fetches the birthdays of users. Only works when logged in.
+     * @param date The date around which to fetch birthdays in ISO format (optionnal) (By default the current date on the server)
+     * @param activeOnly True if we want only active users in first, second or third year, false if we want all users
+     * @param width The number of days around the date (optionnal) (By default 1 day)
+     * @returns A list of avatars of users whose birthday it is
+     */
+    getBirthdays(activeOnly: boolean, date?: string, width?: number): Promise<Avatar[]>;
+
+    /**
+     * Fetches the birthdays of users grouped by date. Only works when logged in.
+     * @param activeOnly True if we want only active users in first, second or third year, false if we want all users
+     * @param date The date around which to fetch birthdays in ISO format (optionnal) (By default the current date on the server)
+     * @param width The number of days around the date (optionnal) (By default 1 day)
+     * @returns An record where the keys are the dates in ISO format and the values are the list of avatars of users whose birthday it is on that date
+     */
+    getGroupedBirthdays(activeOnly: boolean, date?: string, width?: number): Promise<Record<string, Avatar[]>>;
 }
 
 /**
@@ -178,4 +196,24 @@ export interface BookingRepository {
         callbackUrl: string,
         amount: number
     ): Promise<void>;
+}
+
+/**
+ * Repository to handle articles
+ */
+export interface ArticleRepository {
+    /**
+     * Returns a paginated list of articles.
+     * @param args the pagination information, first for the number of items to retrieve, after for the cursor of the previous page (if null, we retrieve the items from the beginning)
+     * @returns a page of articles with pagination information
+     */
+    getArticles(args: PageRequest): Promise<Page<Article>>;
+
+    /**
+     * Return the details of an article by its ID.
+     * @param id the ID of the article
+     * @returns the details of the article
+     * @throws an error if the article does not exist
+     */
+    getArticleById(id: string | undefined): Promise<ArticleDetail>;
 }
