@@ -6,5 +6,12 @@
     "logout": "Se déconnecter",
     "events": "Événements",
     "birthdays": "Anniversaires",
-    "today": "Aujourd'hui"
+    "today": "Aujourd'hui",
+    "navigation": {
+        "home": "Accueil",
+        "search": "Rechercher",
+        "events": "Événements",
+        "services": "Services",
+        "profile": "Profil"
+    }
 }

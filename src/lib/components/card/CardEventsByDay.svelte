@@ -1,6 +1,6 @@
 <script lang="ts">
     import type { EventsByDay } from '$lib/api';
-    import { formatISODateToLocale } from '$lib/utils/dates';
+    import { Stack } from 'azucar-ui';
     import CardEvent from './CardEvent.svelte';
 
     /**
@@ -13,13 +13,11 @@
     let { event }: Props = $props();
 </script>
 
-<div>
-    Date : {formatISODateToLocale(event.date)}
-    <br />
+<Stack>
     {#each event.shotgunning as shotgunEvent (shotgunEvent.id)}
         <CardEvent event={shotgunEvent} shotgun={true} />
     {/each}
     {#each event.happening as happeningEvent (happeningEvent.id)}
         <CardEvent event={happeningEvent} />
     {/each}
-</div>
+</Stack>

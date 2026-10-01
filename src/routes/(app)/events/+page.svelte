@@ -21,7 +21,7 @@
     const events: EventsByDay[] = $derived(query.data?.pages.flatMap((page) => page.items) ?? []);
 </script>
 
-<h1>{m.events()}</h1>
+<h3>{m.events()}</h3>
 
 <InfiniteScroll
     hasNextPage={query.hasNextPage}

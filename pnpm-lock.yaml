@@ -1,3 +1,161 @@
+---
+lockfileVersion: '9.0'
+
+importers:
+
+  .:
+    configDependencies: {}
+    packageManagerDependencies:
+      pnpm:
+        specifier: 12.6.0
+        version: 12.6.0
+
+packages:
+
+  '@pnpm/exe.android-arm64@12.6.0':
+    resolution: {integrity: sha512-kviIHft9h02q+7N2In7tSL9T/HRUSGwYmU74YPtsWU5ee7vgqPyC0JT6RRX6miW+NxX1CvHgQxg69qq1qTLJYQ==}
+    cpu: [arm64]
+    os: [android]
+
+  '@pnpm/exe.android-x64@12.6.0':
+    resolution: {integrity: sha512-CT8aJKLq2mtZFE71pr4E5Z2xHL8uGnRGr+NclDqsXlVF4SVcQ2QAs14mWi0C8gjT4hbmi+Q0lJRRIkMAWfjjng==}
+    cpu: [x64]
+    os: [android]
+
+  '@pnpm/exe.darwin-arm64@12.6.0':
+    resolution: {integrity: sha512-rafpVkjzugKBMxSvGQd5wK1x5eOTkD/+lcJIFHeQhvd+BJ8kDisOOvwhQDrpGd4vd2Fx+hhW0P2Ptt638OlhFg==}
+    cpu: [arm64]
+    os: [darwin]
+
+  '@pnpm/exe.darwin-x64@12.6.0':
+    resolution: {integrity: sha512-72Jpuv1m24gI8zUNcaylYpBWEhBzz1VPhnDIU2GYM2eRP+KsOqVLwV78i+JrihI39zY2NNXmaN4eAKX1inpaDQ==}
+    cpu: [x64]
+    os: [darwin]
+
+  '@pnpm/exe.freebsd-x64@12.6.0':
+    resolution: {integrity: sha512-LON4QgNy1w/XF4uySZIyC/5hEB0oGdelXsY9tSKqstER+2j2X2oHz67skD11RRd/HWFRtMr64shQZ4I9ZoZ0zg==}
+    cpu: [x64]
+    os: [freebsd]
+
+  '@pnpm/exe.linux-arm64-musl@12.6.0':
+    resolution: {integrity: sha512-BdDpX+DeaMUc5x6WNcE6FkmFy36NwrBbBvwsZU737Zt3u1fTY+iKFPchjEQNCM4rT6q6xvF2oN3ZwExGsJCkxQ==}
+    cpu: [arm64]
+    os: [linux]
+    libc: [musl]
+
+  '@pnpm/exe.linux-arm64@12.6.0':
+    resolution: {integrity: sha512-8h2sNoIhHDpHDYqZZCh9PXr6krqW10btb0GHVGuw710muDHlFAHMtUG2ogmaHge6zJG1xgY4Y7mwX5g/LWvrYg==}
+    cpu: [arm64]
+    os: [linux]
+    libc: [glibc]
+
+  '@pnpm/exe.linux-ppc64@12.6.0':
+    resolution: {integrity: sha512-ld6xgcEhFCFrsVsJhbmdmR714PnsEspO/Ij8w0/D7OSiz2hYGu3fZd5tKRxOI5m6H6Gl0/RRFAPncTHbsgXVjQ==}
+    cpu: [ppc64]
+    os: [linux]
+    libc: [glibc]
+
+  '@pnpm/exe.linux-riscv64@12.6.0':
+    resolution: {integrity: sha512-HIbImydoC3J8NFt+8MXfhTCf5rO6NjCMyinSAHac0VmV8uCHw+kbQkyAzxV84rzz9ZOzmBOnj0b1N461UIYGsw==}
+    cpu: [riscv64]
+    os: [linux]
+    libc: [glibc]
+
+  '@pnpm/exe.linux-s390x@12.6.0':
+    resolution: {integrity: sha512-DjSqT7+BZ/lWcDHwNMuzsRVfyxUimh+D54Xw4tSWbdVVQhtWtNMUyI93LVnwCmsoEpar2gC3SFeAgywx37svKQ==}
+    cpu: [s390x]
+    os: [linux]
+    libc: [glibc]
+
+  '@pnpm/exe.linux-x64-musl@12.6.0':
+    resolution: {integrity: sha512-31lKeGPmRE6xfV6I3VjaEGVFRei14pl/zgoFDK4w+UkbJqOuNl2Ht3O1GuqNIg3Gl14qTEb4kZRAYFHXifDx9A==}
+    cpu: [x64]
+    os: [linux]
+    libc: [musl]
+
+  '@pnpm/exe.linux-x64@12.6.0':
+    resolution: {integrity: sha512-qFWBneHJAJ73W4whtbaFOL1M/7DBC6ILHXuxc7ZPtEhfPuT1zeZiGrmKHoMAfJA+mcm6xhOFljqVTUS+00Jabw==}
+    cpu: [x64]
+    os: [linux]
+    libc: [glibc]
+
+  '@pnpm/exe.win32-arm64@12.6.0':
+    resolution: {integrity: sha512-OhfefXEEykZlslSUhR8PPRe6MVPV3Oink/dVfIecE5velpc7j80cZYsHlaDrtRDcm3TPwQHkaRW1SJ1efX9oFg==}
+    cpu: [arm64]
+    os: [win32]
+
+  '@pnpm/exe.win32-x64@12.6.0':
+    resolution: {integrity: sha512-L2tuyrD2+Imgxs3VK/ST/2L3xD6vDP0ktJQxM0TaGw7TbAQEMq+RMc8iK6Ew7Id579uzjJe8jSfJID2ZGsOHCA==}
+    cpu: [x64]
+    os: [win32]
+
+  pnpm@12.6.0:
+    resolution: {integrity: sha512-PvaPlRyxEawgS0paFvCy3fDaVqluBBPoHYVdnwtV75JnFHCQKOHNAMQFwsX7e56OxNxGd3yAXQNzwvL/AP0g7A==}
+    engines: {node: '>=18.*'}
+    hasBin: true
+
+snapshots:
+
+  '@pnpm/exe.android-arm64@12.6.0':
+    optional: true
+
+  '@pnpm/exe.android-x64@12.6.0':
+    optional: true
+
+  '@pnpm/exe.darwin-arm64@12.6.0':
+    optional: true
+
+  '@pnpm/exe.darwin-x64@12.6.0':
+    optional: true
+
+  '@pnpm/exe.freebsd-x64@12.6.0':
+    optional: true
+
+  '@pnpm/exe.linux-arm64-musl@12.6.0':
+    optional: true
+
+  '@pnpm/exe.linux-arm64@12.6.0':
+    optional: true
+
+  '@pnpm/exe.linux-ppc64@12.6.0':
+    optional: true
+
+  '@pnpm/exe.linux-riscv64@12.6.0':
+    optional: true
+
+  '@pnpm/exe.linux-s390x@12.6.0':
+    optional: true
+
+  '@pnpm/exe.linux-x64-musl@12.6.0':
+    optional: true
+
+  '@pnpm/exe.linux-x64@12.6.0':
+    optional: true
+
+  '@pnpm/exe.win32-arm64@12.6.0':
+    optional: true
+
+  '@pnpm/exe.win32-x64@12.6.0':
+    optional: true
+
+  pnpm@12.6.0:
+    optionalDependencies:
+      '@pnpm/exe.android-arm64': 12.6.0
+      '@pnpm/exe.android-x64': 12.6.0
+      '@pnpm/exe.darwin-arm64': 12.6.0
+      '@pnpm/exe.darwin-x64': 12.6.0
+      '@pnpm/exe.freebsd-x64': 12.6.0
+      '@pnpm/exe.linux-arm64': 12.6.0
+      '@pnpm/exe.linux-arm64-musl': 12.6.0
+      '@pnpm/exe.linux-ppc64': 12.6.0
+      '@pnpm/exe.linux-riscv64': 12.6.0
+      '@pnpm/exe.linux-s390x': 12.6.0
+      '@pnpm/exe.linux-x64': 12.6.0
+      '@pnpm/exe.linux-x64-musl': 12.6.0
+      '@pnpm/exe.win32-arm64': 12.6.0
+      '@pnpm/exe.win32-x64': 12.6.0
+
+---
 lockfileVersion: '9.0'
 
 settings:
@@ -8,18 +166,21 @@ importers:
 
   .:
     dependencies:
+      '@lucide/svelte':
+        specifier: ^1.0.1
+        version: 1.34.0(svelte@5.56.4)
       '@tanstack/svelte-query':
         specifier: ^6.1.36
         version: 6.1.36(svelte@5.56.4)
       azucar-ui:
-        specifier: ^0.0.6
-        version: 0.0.6(@sveltejs/kit@2.69.2(@sveltejs/vite-plugin-svelte@7.2.0(svelte@5.56.4)(vite@8.1.4(@types/node@26.1.2)))(svelte@5.56.4)(typescript@6.0.3)(vite@8.1.4(@types/node@26.1.2)))(svelte@5.56.4)
+        specifier: ^0.0.11
+        version: 0.0.11(@sveltejs/kit@2.69.2(@sveltejs/vite-plugin-svelte@7.2.0(svelte@5.56.4)(vite@8.1.4(@types/node@26.1.2)))(svelte@5.56.4)(typescript@6.0.3)(vite@8.1.4(@types/node@26.1.2)))(svelte@5.56.4)
       cookie:
         specifier: ^2.0.1
         version: 2.0.1
       gql.tada:
         specifier: ^1.11.2
-        version: 1.11.2(graphql@16.14.2)(typescript@6.0.3)
+        version: 1.11.2(graphql@17.0.2)(typescript@6.0.3)
     devDependencies:
       '@inlang/paraglide-js':
         specifier: ^2.18.2
@@ -37,8 +198,8 @@ importers:
         specifier: ^26.1.2
         version: 26.1.2
       graphql:
-        specifier: ^16.14.2
-        version: 16.14.2
+        specifier: ^17.0.2
+        version: 17.0.2
       prettier:
         specifier: ^3.8.3
         version: 3.9.6
@@ -351,8 +512,8 @@ packages:
     resolution: {integrity: sha512-qIj0G9wZbMGNLjLmg1PT6v2mE9AH2zlnADJD/2tC6E00hgmhUOfEB6greHPAfLRSufHqROIUTkw6E+M3lH0PTQ==}
     engines: {node: '>= 0.4'}
 
-  azucar-ui@0.0.6:
-    resolution: {integrity: sha512-+qaQqL5TvwKLZ4VbaxybZPR/VtngB/c6YlKO0VQcqioJbhuq7i4d/eTa4IJIdWl/cheedl4Q7xgMsJrK3jFzNg==}
+  azucar-ui@0.0.11:
+    resolution: {integrity: sha512-I4r27JgdvJP6/wxmbWmmncN9THKNsaLo4fVTLxMBVU9X6SggAGcU7U95yCJQSzprtcJWJo2AO940bqAltWT8LA==}
     peerDependencies:
       svelte: ^5.0.0
 
@@ -442,9 +603,9 @@ packages:
     peerDependencies:
       typescript: ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0
 
-  graphql@16.14.2:
-    resolution: {integrity: sha512-Chq1s4CY7jmh8gO2qvLIJyfCDIN+EHLFW/9iShnp1z8FjBQMoodWP1kDC36VAMXXIvAjj4ARa7ntfAV2BrjsbA==}
-    engines: {node: ^12.22.0 || ^14.16.0 || ^16.0.0 || >=17.0.0}
+  graphql@17.0.2:
+    resolution: {integrity: sha512-FRWbddMxfkjiB7z+aQDWIR+E34xo9I8c9mtK2RPv8PmMzKRvrdsreHL/Ui/TmwHJfhHChEtsFPyMHKI+xuarQQ==}
+    engines: {node: ^22.0.0 || ^24.0.0 || ^25.0.0 || >=26.0.0}
 
   human-id@4.2.0:
     resolution: {integrity: sha512-K3GbkIWqyvvlpfhBPlbEvD97TtqBpAYA4kt+cn2lD2x2HuohzZCibcA2nOlnJT6exqvJLggoB5nv2dNf192nEA==}
@@ -468,6 +629,60 @@ packages:
   kysely@0.28.17:
     resolution: {integrity: sha512-nbD8lB9EB3wNdMhOCdx5Li8DxnLbvKByylRLcJ1h+4SkrowVeECAyZlyiKMThF7xFdRz0jSQ2MoJr+wXux2y0Q==}
     engines: {node: '>=20.0.0'}
+
+  lefthook-darwin-arm64@2.1.14:
+    resolution: {integrity: sha512-VMUAqY81+8ph7Mc0iROd3JWqj2sOuK7SYDyd8ZgzYVKChCt+Nnz8ehd4gUwprJy7QI28IFSUh1M3wnIRiYh+fA==}
+    cpu: [arm64]
+    os: [darwin]
+
+  lefthook-darwin-x64@2.1.14:
+    resolution: {integrity: sha512-uSmjcPRU+yB+D6vk+u6WJDnyHlB+XIv1QZw97N2+qNGG2bNSLH/7MuJ6puCdJv+lVPBEO5wBjE3JIbaEzPOQCw==}
+    cpu: [x64]
+    os: [darwin]
+
+  lefthook-freebsd-arm64@2.1.14:
+    resolution: {integrity: sha512-po/pmjbp/7BjE9RFfeDnh+CeNsA0d+utppOYKB425I7mgI1GcmT8GAZ9DDut4DIutNjVqKL/lzrj+F87Gm40Rg==}
+    cpu: [arm64]
+    os: [freebsd]
+
+  lefthook-freebsd-x64@2.1.14:
+    resolution: {integrity: sha512-+KiXiFjJf7YdHUYjzhDsklcA5bAFZN+pNcz/NbBftrhVTwzNALNoK+SYEKt+9QJsrzL6tpDWmHHFpeLGp+8t8w==}
+    cpu: [x64]
+    os: [freebsd]
+
+  lefthook-linux-arm64@2.1.14:
+    resolution: {integrity: sha512-bjeJB16ftJaPWGTedssh8ZrqRy1ACfQuTV7a0O3NU1FoIsJtfHOm0o0mV4cPf4q+ZCVCwq1Xf2I11qUpuJFV4Q==}
+    cpu: [arm64]
+    os: [linux]
+
+  lefthook-linux-x64@2.1.14:
+    resolution: {integrity: sha512-gYExzjU2w3uKrP1MklbHENS1cXUdCQRIiEJkykI7q4RjhIHi+mQEUAZLxZw93a6jE2pNWaO0me5tB8EbEt4/GQ==}
+    cpu: [x64]
+    os: [linux]
+
+  lefthook-openbsd-arm64@2.1.14:
+    resolution: {integrity: sha512-MCW76gTlEMBF3Ds8O63UTxjaSguha/5zT0U3Vr719I1sXueSpttfRmm/5YfIB4MygB116yA/Vi+DsizT/X0kcg==}
+    cpu: [arm64]
+    os: [openbsd]
+
+  lefthook-openbsd-x64@2.1.14:
+    resolution: {integrity: sha512-salAc1PAhLI6xrB9pth5UxALQlTOGvZAfaAvgFwixhkdu8D//uW8zS3faFq31ktd1bDAy5wDI8p9yg+fF5+2uA==}
+    cpu: [x64]
+    os: [openbsd]
+
+  lefthook-windows-arm64@2.1.14:
+    resolution: {integrity: sha512-q3JC6lBrYLzkhXEhfnmFxJF47gSd5JeDweH3aNrHoLGX/KkRiOrk9RSyoRwSuGq03EYxSkJhl1FLj2GUxF7VqQ==}
+    cpu: [arm64]
+    os: [win32]
+
+  lefthook-windows-x64@2.1.14:
+    resolution: {integrity: sha512-WwIxdwW1lDAaJUU3ETcKlCtdqluGr3Cy+LjKvP4QIQnFf0FEXL78THstIkZ6k6qhfUn7/WvyqSIf0cbTAKw2nQ==}
+    cpu: [x64]
+    os: [win32]
+
+  lefthook@2.1.14:
+    resolution: {integrity: sha512-Y9TL1dmpRlIdSp73SJ6bb+xAZ4s2SinGTK3pgC9PRWMSjMr2iOfowPGnlSOfAo5fu6S5rdiItsQDxeLEWCGk4g==}
+    hasBin: true
 
   lightningcss-android-arm64@1.32.0:
     resolution: {integrity: sha512-YK7/ClTt4kAK0vo6w3X+Pnm0D2cf2vPHbhOXdoNti1Ga0al1P4TBZhwjATvjNwLEBCnKvjJc2jQgHXH0NEwlAg==}
@@ -719,14 +934,14 @@ packages:
 
 snapshots:
 
-  '@0no-co/graphql.web@1.3.2(graphql@16.14.2)':
+  '@0no-co/graphql.web@1.3.2(graphql@17.0.2)':
     optionalDependencies:
-      graphql: 16.14.2
+      graphql: 17.0.2
 
-  '@0no-co/graphqlsp@1.17.3(graphql@16.14.2)(typescript@6.0.3)':
+  '@0no-co/graphqlsp@1.17.3(graphql@17.0.2)(typescript@6.0.3)':
     dependencies:
-      '@gql.tada/internal': 1.2.1(graphql@16.14.2)(typescript@6.0.3)
-      graphql: 16.14.2
+      '@gql.tada/internal': 1.2.1(graphql@17.0.2)(typescript@6.0.3)
+      graphql: 17.0.2
       typescript: 6.0.3
 
   '@emnapi/core@1.11.1':
@@ -745,17 +960,17 @@ snapshots:
       tslib: 2.8.1
     optional: true
 
-  '@gql.tada/cli-utils@1.9.2(@0no-co/graphqlsp@1.17.3(graphql@16.14.2)(typescript@6.0.3))(graphql@16.14.2)(typescript@6.0.3)':
+  '@gql.tada/cli-utils@1.9.2(@0no-co/graphqlsp@1.17.3(graphql@17.0.2)(typescript@6.0.3))(graphql@17.0.2)(typescript@6.0.3)':
     dependencies:
-      '@0no-co/graphqlsp': 1.17.3(graphql@16.14.2)(typescript@6.0.3)
-      '@gql.tada/internal': 1.2.1(graphql@16.14.2)(typescript@6.0.3)
-      graphql: 16.14.2
+      '@0no-co/graphqlsp': 1.17.3(graphql@17.0.2)(typescript@6.0.3)
+      '@gql.tada/internal': 1.2.1(graphql@17.0.2)(typescript@6.0.3)
+      graphql: 17.0.2
       typescript: 6.0.3
 
-  '@gql.tada/internal@1.2.1(graphql@16.14.2)(typescript@6.0.3)':
+  '@gql.tada/internal@1.2.1(graphql@17.0.2)(typescript@6.0.3)':
     dependencies:
-      '@0no-co/graphql.web': 1.3.2(graphql@16.14.2)
-      graphql: 16.14.2
+      '@0no-co/graphql.web': 1.3.2(graphql@17.0.2)
+      graphql: 17.0.2
       typescript: 6.0.3
 
   '@inlang/paraglide-js@2.23.0(typescript@6.0.3)(vite@8.1.4(@types/node@26.1.2))':
@@ -965,11 +1180,12 @@ snapshots:
 
   axobject-query@4.1.0: {}
 
-  azucar-ui@0.0.6(@sveltejs/kit@2.69.2(@sveltejs/vite-plugin-svelte@7.2.0(svelte@5.56.4)(vite@8.1.4(@types/node@26.1.2)))(svelte@5.56.4)(typescript@6.0.3)(vite@8.1.4(@types/node@26.1.2)))(svelte@5.56.4):
+  azucar-ui@0.0.11(@sveltejs/kit@2.69.2(@sveltejs/vite-plugin-svelte@7.2.0(svelte@5.56.4)(vite@8.1.4(@types/node@26.1.2)))(svelte@5.56.4)(typescript@6.0.3)(vite@8.1.4(@types/node@26.1.2)))(svelte@5.56.4):
     dependencies:
       '@lucide/svelte': 1.34.0(svelte@5.56.4)
       '@sveltejs/adapter-static': 3.0.10(@sveltejs/kit@2.69.2(@sveltejs/vite-plugin-svelte@7.2.0(svelte@5.56.4)(vite@8.1.4(@types/node@26.1.2)))(svelte@5.56.4)(typescript@6.0.3)(vite@8.1.4(@types/node@26.1.2)))
       csstype: 3.2.3
+      lefthook: 2.1.14
       svelte: 5.56.4
     transitivePeerDependencies:
       - '@sveltejs/kit'
@@ -1018,19 +1234,19 @@ snapshots:
   fsevents@2.3.3:
     optional: true
 
-  gql.tada@1.11.2(graphql@16.14.2)(typescript@6.0.3):
+  gql.tada@1.11.2(graphql@17.0.2)(typescript@6.0.3):
     dependencies:
-      '@0no-co/graphql.web': 1.3.2(graphql@16.14.2)
-      '@0no-co/graphqlsp': 1.17.3(graphql@16.14.2)(typescript@6.0.3)
-      '@gql.tada/cli-utils': 1.9.2(@0no-co/graphqlsp@1.17.3(graphql@16.14.2)(typescript@6.0.3))(graphql@16.14.2)(typescript@6.0.3)
-      '@gql.tada/internal': 1.2.1(graphql@16.14.2)(typescript@6.0.3)
+      '@0no-co/graphql.web': 1.3.2(graphql@17.0.2)
+      '@0no-co/graphqlsp': 1.17.3(graphql@17.0.2)(typescript@6.0.3)
+      '@gql.tada/cli-utils': 1.9.2(@0no-co/graphqlsp@1.17.3(graphql@17.0.2)(typescript@6.0.3))(graphql@17.0.2)(typescript@6.0.3)
+      '@gql.tada/internal': 1.2.1(graphql@17.0.2)(typescript@6.0.3)
       typescript: 6.0.3
     transitivePeerDependencies:
       - '@gql.tada/svelte-support'
       - '@gql.tada/vue-support'
       - graphql
 
-  graphql@16.14.2: {}
+  graphql@17.0.2: {}
 
   human-id@4.2.0: {}
 
@@ -1045,6 +1261,49 @@ snapshots:
   kleur@4.1.5: {}
 
   kysely@0.28.17: {}
+
+  lefthook-darwin-arm64@2.1.14:
+    optional: true
+
+  lefthook-darwin-x64@2.1.14:
+    optional: true
+
+  lefthook-freebsd-arm64@2.1.14:
+    optional: true
+
+  lefthook-freebsd-x64@2.1.14:
+    optional: true
+
+  lefthook-linux-arm64@2.1.14:
+    optional: true
+
+  lefthook-linux-x64@2.1.14:
+    optional: true
+
+  lefthook-openbsd-arm64@2.1.14:
+    optional: true
+
+  lefthook-openbsd-x64@2.1.14:
+    optional: true
+
+  lefthook-windows-arm64@2.1.14:
+    optional: true
+
+  lefthook-windows-x64@2.1.14:
+    optional: true
+
+  lefthook@2.1.14:
+    optionalDependencies:
+      lefthook-darwin-arm64: 2.1.14
+      lefthook-darwin-x64: 2.1.14
+      lefthook-freebsd-arm64: 2.1.14
+      lefthook-freebsd-x64: 2.1.14
+      lefthook-linux-arm64: 2.1.14
+      lefthook-linux-x64: 2.1.14
+      lefthook-openbsd-arm64: 2.1.14
+      lefthook-openbsd-x64: 2.1.14
+      lefthook-windows-arm64: 2.1.14
+      lefthook-windows-x64: 2.1.14
 
   lightningcss-android-arm64@1.32.0:
     optional: true
