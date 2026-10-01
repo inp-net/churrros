@@ -1,4 +1,4 @@
-import type { PageRequest, Page, EventDetail, GroupAvatar, Avatar } from '$lib/api';
+import type { PageRequest, Page, EventDetail, GroupAvatar, Avatar, UserInfos, UserGroups, UserFamily } from '$lib/api';
 import type { Event } from '$lib/api';
 import type { SessionToken } from '$lib/api';
 import type { User } from '$lib/api';
@@ -91,6 +91,27 @@ export interface UserRepository {
      * @returns l'avatar de l'utilisateur, ou null si non trouvé
      */
     getUserAvatarByUid(uid: string): Promise<Avatar | null>;
+
+    /**
+     * Returns the infos of a user by its uid.
+     * @param uid the uid of the user to retrieve
+     * @returns the infos of the user, or null if not found
+     */
+    getUserInfos(uid?: string): Promise<UserInfos | null>;
+
+    /**
+     * Returns the groups that a user is a member of by its uid.
+     * @param uid the uid of the user to retrieve
+     * @returns the groups that the user is a member of, or null if user is not found
+     */
+    getUserGroups(uid?: string): Promise<UserGroups | null>;
+
+    /**
+     * Returns the family of a user by its uid.
+     * @param uid the uid of the user to retrieve
+     * @returns the family of the user, or null if user is not found
+     */
+    getUserFamily(uid?: string): Promise<UserFamily | null>;
 }
 
 /**

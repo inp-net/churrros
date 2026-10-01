@@ -1,4 +1,6 @@
 import { graphql } from '$lib/api/graphql/graphql';
+import { GroupMemberFragment } from '../fragments/groupMember';
+import { StudentAssociationAvatar } from '../fragments/studentAssociationAvatar';
 import { UserFragment } from '../fragments/user';
 import { UserAvatarFragment } from '../fragments/userAvatar';
 
@@ -22,4 +24,53 @@ export const GetUserAvatarByUid = graphql(
         }
     `,
     [UserAvatarFragment]
+);
+
+export const GetUserInfos = graphql(
+    `
+        query GetUserInfos($uid: String!) {
+            user(uid: $uid) {
+                uid
+                address
+                nickname
+                birthday
+                phone
+                email
+                otherEmails
+                contributesTo {
+                    ...StudentAssociationAvatar
+                }
+            }
+        }
+    `,
+    [StudentAssociationAvatar]
+);
+
+export const GetUserGroups = graphql(
+    `
+        query GetUserGroups($uid: String!) {
+            user(uid: $uid) {
+                uid
+                groups {
+                    ...GroupMember
+                }
+            }
+        }
+    `, [GroupMemberFragment]
+);
+
+export const GetUserFamily = graphql(
+    `
+        query GetUserFamily($uid: String!) {
+            user(uid: $uid) {
+                uid
+                familyTree {
+                    nesting
+                    users {
+                        ...UserAvatar
+                    }
+                }
+            }
+        }
+    `, [UserAvatarFragment]
 );

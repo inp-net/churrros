@@ -1,11 +1,13 @@
-import type { Avatar, User } from '$lib/api';
+import type { Avatar, User, UserFamily, UserGroups, UserInfos } from '$lib/api';
 import { readFragment, type ResultOf } from '$lib/api/graphql/graphql';
-import type { GetUserByUid } from '$lib/api/graphql/queries/user';
+import type { GetUserByUid, GetUserFamily, GetUserGroups, GetUserInfos } from '$lib/api/graphql/queries/user';
 import { UserFragment } from '$lib/api/graphql/queries/fragments/user';
 import type { $tada } from 'gql.tada';
 import { MajorAvatarFragment } from '../../queries/fragments/majorAvatar';
 import { SchoolAvatarFragment } from '../../queries/fragments/schoolAvatar';
 import { UserAvatarFragment } from '../../queries/fragments/userAvatar';
+import { mapStudentAssociationAvatar } from '../studentassociation';
+import { mapGroupMember } from '../group';
 
 export function mapUser(user: ResultOf<typeof GetUserByUid>['user']): User {
     const userData = readFragment(UserFragment, user);
@@ -63,4 +65,32 @@ export function mapUserAvatar(user: UserAvatarFragmentType): Avatar {
         name: data.fullName,
         pictureURL: data.pictureURL
     };
+};
+
+export function mapUserInfos(user: ResultOf<typeof GetUserInfos>['user']): UserInfos {
+    return {
+        uid: user.uid,
+        address: user.address,
+        nickname: user.nickname,
+        birthday: user.birthday,
+        phone: user.phone,
+        email: user.email!,
+        otherEmails: user.otherEmails ? user.otherEmails : [],
+        contributesTo: user.contributesTo ? user.contributesTo.map(avatar => mapStudentAssociationAvatar(avatar)) : null
+    };
 }
+
+export function mapUserGroups(user: ResultOf<typeof GetUserGroups>['user']): UserGroups {
+    return {
+        uid: user.uid,
+        groups: user.groups.map(group => mapGroupMember(group))
+    };
+};
+
+export function mapUserFamily(user: ResultOf<typeof GetUserFamily>['user']): UserFamily {
+    return {
+        uid: user.uid,
+        nesting: user.familyTree.nesting,
+        users: user.familyTree.users.map(user => mapUserAvatar(user))
+    };
+};

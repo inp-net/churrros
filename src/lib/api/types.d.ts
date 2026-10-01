@@ -11,8 +11,8 @@ export type Event = {
     pictureURL: string;
     title: string;
     descriptionPreview: string;
-    organizer: GroupAvatar;
-    coOrganizers: GroupAvatar[];
+    organizer: Avatar;
+    coOrganizers: Avatar[];
     startsAt: string | null;
     endsAt: string | null;
     location: string;
@@ -36,8 +36,8 @@ export type EventDetail = {
     recurringUntil: string | null;
     externalTicketing: string | null;
     tickets: TicketDetail[];
-    organizer: GroupAvatar;
-    coOrganizers: GroupAvatar[];
+    organizer: Avatar;
+    coOrganizers: Avatar[];
 };
 
 export type Ticket = {
@@ -55,7 +55,7 @@ export type TicketDetail = Ticket & {
     capacity: number | 'Unlimited' | null;
     showCapacity: boolean;
     invited: boolean;
-    openToGroups: GroupAvatar[];
+    openToGroups: Avatar[];
     openToMajors: Avatar[];
     openToSchools: Avatar[];
 };
@@ -72,6 +72,50 @@ export type User = {
     pictureURL: string;
     admin: boolean;
 };
+
+export type UserInfos = {
+    uid: string;
+    address: string | null;
+    nickname: string;
+    birthday: string | null;
+    phone: string | null;
+    email: string;
+    otherEmails: string[];
+    contributesTo: Avatar[] | null;
+}
+
+export type UserGroups = {
+    uid: string;
+    groups: GroupMember[];
+}
+
+export type UserFamily = {
+    uid: string;
+    nesting: string;
+    users: Avatar[];
+}
+
+export type UserProfile = {
+    name: string;
+    pronouns: string;
+    nickname: string;
+    description: string;
+    yearTier: string;
+    major: Avatar;
+    school: Avatar[]; //PK ?????
+    links: Link
+}
+//#endregion
+
+//#region Groups
+export type GroupMember = {
+    title: string;
+    treasurer: boolean;
+    secretary: boolean;
+    vicePresident: boolean;
+    president: boolean;
+    group: Avatar;
+}
 //#endregion
 
 //#region Pagination
