@@ -1,6 +1,6 @@
 import type { Avatar, User, UserFamily, UserGroups, UserInfos } from '$lib/api';
 import { readFragment, type ResultOf } from '$lib/api/graphql/graphql';
-import type { GetUserByUid, GetUserFamily, GetUserGroups, GetUserInfos } from '$lib/api/graphql/queries/user';
+import type { GetUserByUid, GetUserFamily, GetUserGroups, GetUserInfos, GetBirthdays, GetGroupedBirthdays, } from '$lib/api/graphql/queries/user';
 import { UserFragment } from '$lib/api/graphql/queries/fragments/user';
 import type { $tada } from 'gql.tada';
 import { MajorAvatarFragment } from '../../queries/fragments/majorAvatar';
@@ -94,3 +94,24 @@ export function mapUserFamily(user: ResultOf<typeof GetUserFamily>['user']): Use
         users: user.familyTree.users.map(user => mapUserAvatar(user))
     };
 };
+export function mapBirthdays(birthdays: ResultOf<typeof GetBirthdays>['birthdays']): Avatar[] {
+    return birthdays.map(mapUserAvatar);
+}
+
+export function mapGroupedBirthdays(groupedBirthdays: ResultOf<typeof GetGroupedBirthdays>['birthdays']): Record<string, Avatar[]> {
+    const result: Record<string, Avatar[]> = {};
+    for (const item of groupedBirthdays) {
+        const date = item.birthday?.slice(5, 10); // Extract MM-DD from ISO
+        if (date === undefined) {
+            continue;
+        }
+        const avatar = mapUserAvatar(item);
+        if (!result[date]) {
+            result[date] = [];
+        }
+        result[date].push(avatar);
+    }
+    return Object.fromEntries(
+        Object.entries(result).sort(([a], [b]) => a.localeCompare(b)) //To sort the dates
+    );
+}

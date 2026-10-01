@@ -4,5 +4,7 @@
     "loading": "Chargement...",
     "login": "Se connecter",
     "logout": "Se déconnecter",
-    "events": "Événements"
+    "events": "Événements",
+    "birthdays": "Anniversaires",
+    "today": "Aujourd'hui"
 }

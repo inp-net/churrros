@@ -157,4 +157,27 @@ export type Avatar = {
     pictureURL: string;
 };
 
+export type Link = {
+    url: string | null;
+    text: string;
+};
+
+//#endregion
+
+//#region Articles
+
+export type Article = {
+    id: string;
+    title: string;
+    content: string;
+    publishedAt: string;
+    pictureURL: string;
+    links: Link[];
+    group: Avatar;
+};
+
+export type ArticleDetail = Article & {
+    event: Event | null;
+}
+
 //#endregion

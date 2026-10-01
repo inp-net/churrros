@@ -74,3 +74,25 @@ export const GetUserFamily = graphql(
         }
     `, [UserAvatarFragment]
 );
+export const GetBirthdays = graphql(
+    `
+        query GetBirthdays($activeOnly: Boolean, $width: Int, $date: DateTime) {
+            birthdays(activeOnly: $activeOnly, width: $width, now: $date) {
+                ...UserAvatar
+            }
+        }
+    `,
+    [UserAvatarFragment]
+);
+
+export const GetGroupedBirthdays = graphql(
+    `
+        query GetGroupedBirthdays($activeOnly: Boolean, $width: Int, $date: DateTime) {
+            birthdays(activeOnly: $activeOnly, width: $width, now: $date) {
+                birthday
+                ...UserAvatar
+            }
+        }
+    `,
+    [UserAvatarFragment]
+);
