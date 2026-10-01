@@ -83,6 +83,6 @@ export function mapGroupedBirthdays(groupedBirthdays: ResultOf<typeof GetGrouped
         result[date].push(avatar);
     }
     return Object.fromEntries(
-        Object.entries(result).sort(([a], [b]) => a.localeCompare(b)) //Pr trier les dates
+        Object.entries(result).sort(([a], [b]) => a.localeCompare(b)) //To sort the dates
     );
 }

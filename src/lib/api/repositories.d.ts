@@ -93,20 +93,20 @@ export interface UserRepository {
     getUserAvatarByUid(uid: string): Promise<Avatar | null>;
 
     /**
-     * Récupère les anniversaires des utilisateurs.
-     * @param date La date à partir de laquelle on veut récupérer les anniversaires (optionnel) (Par défaut la date actuelle)
-     * @param activeOnly True si on veut que les utilisateurs actifs 1,2 ou 3A uniquement, false si on veut tous les utilisateurs
-     * @param width La quantité de jours autour de date (optionnel) (Par défaut 1 jour)
-     * @returns Un tableau d'avatars des utilisateurs dont c'est l'anniversaire
+     * Fetches the birthdays of users. Only works when logged in.
+     * @param date The date around which to fetch birthdays in ISO format (optionnal) (By default the current date on the server)
+     * @param activeOnly True if we want only active users in first, second or third year, false if we want all users
+     * @param width The number of days around the date (optionnal) (By default 1 day)
+     * @returns A list of avatars of users whose birthday it is
      */
     getBirthdays(activeOnly: boolean, date?: string, width?: number): Promise<Avatar[]>;
 
     /**
-     * Récupère les anniversaires des utilisateurs groupés par jour.
-     * @param activeOnly True si on veut que les utilisateurs actifs 1,2 ou 3A uniquement, false si on veut tous les utilisateurs
-     * @param date La date à partir de laquelle on veut récupérer les anniversaires (optionnel) (Par défaut la date actuelle)
-     * @param width La quantité de jours autour de date (optionnel) (Par défaut 1 jour)
-     * @returns Un objet avec les dates comme clés et les tableaux d'avatars des utilisateurs dont c'est l'anniversaire comme valeurs
+     * Fetches the birthdays of users grouped by date. Only works when logged in.
+     * @param activeOnly True if we want only active users in first, second or third year, false if we want all users
+     * @param date The date around which to fetch birthdays in ISO format (optionnal) (By default the current date on the server)
+     * @param width The number of days around the date (optionnal) (By default 1 day)
+     * @returns An record where the keys are the dates in ISO format and the values are the list of avatars of users whose birthday it is on that date
      */
     getGroupedBirthdays(activeOnly: boolean, date?: string, width?: number): Promise<Record<string, Avatar[]>>;
 }
