@@ -1,7 +1,17 @@
 import type { UserRepository } from '$lib/api/repositories';
 import { request } from '$lib/api/graphql/client';
-import { GetBirthdays, GetGroupedBirthdays, GetUserAvatarByUid, GetUserByUid } from '$lib/api/graphql/queries/user';
-import { mapBirthdays, mapGroupedBirthdays, mapUser, mapUserAvatar } from '$lib/api/graphql/mappers/user';
+import {
+    GetBirthdays,
+    GetGroupedBirthdays,
+    GetUserAvatarByUid,
+    GetUserByUid
+} from '$lib/api/graphql/queries/user';
+import {
+    mapBirthdays,
+    mapGroupedBirthdays,
+    mapUser,
+    mapUserAvatar
+} from '$lib/api/graphql/mappers/user';
 
 export const userRepository: UserRepository = {
     async getUserByUid(uid) {
@@ -28,8 +38,7 @@ export const userRepository: UserRepository = {
         try {
             const response = await request(GetBirthdays, { date, activeOnly, width });
             return mapBirthdays(response.birthdays);
-        }
-        catch (error) {
+        } catch (error) {
             //TODO : Vrai gestion d'erreur
             console.error('Error fetching birthdays:', error);
             throw error;
@@ -39,8 +48,7 @@ export const userRepository: UserRepository = {
         try {
             const response = await request(GetGroupedBirthdays, { date, activeOnly, width });
             return mapGroupedBirthdays(response.birthdays);
-        }
-        catch (error) {
+        } catch (error) {
             //TODO : Vrai gestion d'erreur
             console.error('Error fetching grouped birthdays:', error);
             throw error;

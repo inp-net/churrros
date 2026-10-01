@@ -1,6 +1,10 @@
 import type { Avatar, User } from '$lib/api';
 import { readFragment, type ResultOf } from '$lib/api/graphql/graphql';
-import type { GetBirthdays, GetGroupedBirthdays, GetUserByUid } from '$lib/api/graphql/queries/user';
+import type {
+    GetBirthdays,
+    GetGroupedBirthdays,
+    GetUserByUid
+} from '$lib/api/graphql/queries/user';
 import { UserFragment } from '$lib/api/graphql/queries/fragments/user';
 import type { $tada } from 'gql.tada';
 import { MajorAvatarFragment } from '../../queries/fragments/majorAvatar';
@@ -69,7 +73,9 @@ export function mapBirthdays(birthdays: ResultOf<typeof GetBirthdays>['birthdays
     return birthdays.map(mapUserAvatar);
 }
 
-export function mapGroupedBirthdays(groupedBirthdays: ResultOf<typeof GetGroupedBirthdays>['birthdays']): Record<string, Avatar[]> {
+export function mapGroupedBirthdays(
+    groupedBirthdays: ResultOf<typeof GetGroupedBirthdays>['birthdays']
+): Record<string, Avatar[]> {
     const result: Record<string, Avatar[]> = {};
     for (const item of groupedBirthdays) {
         const date = item.birthday?.slice(5, 10); // Extract MM-DD from ISO
