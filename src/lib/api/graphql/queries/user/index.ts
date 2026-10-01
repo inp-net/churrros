@@ -1,5 +1,8 @@
 import { graphql } from '$lib/api/graphql/graphql';
 import { GroupMemberFragment } from '../fragments/groupMember';
+import { LinkFragment } from '../fragments/link';
+import { MajorAvatarFragment } from '../fragments/majorAvatar';
+import { SchoolAvatarFragment } from '../fragments/schoolAvatar';
 import { StudentAssociationAvatar } from '../fragments/studentAssociationAvatar';
 import { UserFragment } from '../fragments/user';
 import { UserAvatarFragment } from '../fragments/userAvatar';
@@ -24,6 +27,34 @@ export const GetUserAvatarByUid = graphql(
         }
     `,
     [UserAvatarFragment]
+);
+
+export const GetUserProfile = graphql(
+    `
+        query GetUserProfile($uid: String!) {
+            user(uid: $uid) {
+                ...UserAvatar
+                fullName
+                pronouns
+                nickname
+                descriptionHtml
+                yearTier
+                major {
+                    ...MajorAvatar
+                    schools {
+                        ...SchoolAvatar
+                    }
+                }
+                links {
+                    ...Link
+                }
+                bot
+                admin
+                studentAssociationAdmin
+            }
+        }
+    `,
+    [UserAvatarFragment, MajorAvatarFragment, SchoolAvatarFragment, LinkFragment]
 );
 
 export const GetUserInfos = graphql(

@@ -6,5 +6,8 @@
     "logout": "Se déconnecter",
     "events": "Événements",
     "birthdays": "Anniversaires",
-    "today": "Aujourd'hui"
+    "today": "Aujourd'hui",
+    "info": "Infos",
+    "groups": "Groupes",
+    "family": "Famille"
 }

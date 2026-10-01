@@ -1,6 +1,6 @@
-import type { Avatar, User, UserFamily, UserGroups, UserInfos } from '$lib/api';
+import type { Avatar, User, UserFamily, UserGroups, UserInfos, UserProfile } from '$lib/api';
 import { readFragment, type ResultOf } from '$lib/api/graphql/graphql';
-import type { GetUserByUid, GetUserFamily, GetUserGroups, GetUserInfos, GetBirthdays, GetGroupedBirthdays, } from '$lib/api/graphql/queries/user';
+import type { GetUserByUid, GetUserFamily, GetUserGroups, GetUserInfos, GetBirthdays, GetGroupedBirthdays, GetUserProfile, } from '$lib/api/graphql/queries/user';
 import { UserFragment } from '$lib/api/graphql/queries/fragments/user';
 import type { $tada } from 'gql.tada';
 import { MajorAvatarFragment } from '../../queries/fragments/majorAvatar';
@@ -8,6 +8,7 @@ import { SchoolAvatarFragment } from '../../queries/fragments/schoolAvatar';
 import { UserAvatarFragment } from '../../queries/fragments/userAvatar';
 import { mapStudentAssociationAvatar } from '../studentassociation';
 import { mapGroupMember } from '../group';
+import { mapLink } from '../link';
 
 export function mapUser(user: ResultOf<typeof GetUserByUid>['user']): User {
     const userData = readFragment(UserFragment, user);
@@ -66,6 +67,22 @@ export function mapUserAvatar(user: UserAvatarFragmentType): Avatar {
         pictureURL: data.pictureURL
     };
 };
+
+export function mapUserProfile(user: ResultOf<typeof GetUserProfile>['user']): UserProfile {
+    return {
+        ...mapUserAvatar(user),
+        fullName: user.fullName,
+        pronouns: user.pronouns,
+        nickname: user.nickname,
+        description: user.descriptionHtml,
+        yearTier: user.yearTier,
+        major: user.major ? mapMajor(user.major) : null,
+        school: user.major ? user.major.schools.map(mapSchool) : [],
+        links: user.links.map(mapLink),
+        bot: user.bot,
+        admin: user.admin || user.studentAssociationAdmin
+    };
+}
 
 export function mapUserInfos(user: ResultOf<typeof GetUserInfos>['user']): UserInfos {
     return {

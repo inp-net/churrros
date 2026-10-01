@@ -96,14 +96,19 @@ export type UserFamily = {
 }
 
 export type UserProfile = {
+    uid: string;
+    fullName: string;
     name: string;
+    pictureURL: string;
     pronouns: string;
     nickname: string;
     description: string;
-    yearTier: string;
-    major: Avatar;
-    school: Avatar[]; //PK ?????
-    links: Link
+    yearTier: number;
+    major: Avatar | null;
+    school: Avatar[];
+    links: Link[]
+    bot: boolean;
+    admin: boolean;
 }
 //#endregion
 

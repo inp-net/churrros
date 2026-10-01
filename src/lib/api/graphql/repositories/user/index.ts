@@ -1,7 +1,7 @@
 import type { UserRepository } from '$lib/api/repositories';
 import { request } from '$lib/api/graphql/client';
-import { GetUserAvatarByUid, GetUserByUid, GetUserFamily, GetUserGroups, GetUserInfos, GetBirthdays, GetGroupedBirthdays, } from '$lib/api/graphql/queries/user';
-import { mapUser, mapUserAvatar, mapUserFamily, mapUserGroups, mapUserInfos, mapBirthdays, mapGroupedBirthdays, } from '$lib/api/graphql/mappers/user';
+import { GetUserAvatarByUid, GetUserByUid, GetUserFamily, GetUserGroups, GetUserInfos, GetBirthdays, GetGroupedBirthdays, GetUserProfile, } from '$lib/api/graphql/queries/user';
+import { mapUser, mapUserAvatar, mapUserFamily, mapUserGroups, mapUserInfos, mapBirthdays, mapGroupedBirthdays, mapUserProfile, } from '$lib/api/graphql/mappers/user';
 
 export const userRepository: UserRepository = {
     async getUserByUid(uid) {
@@ -24,8 +24,25 @@ export const userRepository: UserRepository = {
             throw error;
         }
     },
-    async getUserInfos(uid: string) {
+    async getUserProfile(uid) {
         try {
+            if (!uid) {
+                throw new Error('UID is required to fetch user profile');
+            }
+            const response = await request(GetUserProfile, { uid });
+            return mapUserProfile(response.user);
+        }
+        catch (error) {
+            //TODO : Vrai gestion d'erreur
+            console.error('Error fetching user profile:', error);
+            throw error;
+        }
+    },
+    async getUserInfos(uid) {
+        try {
+            if (!uid) {
+                throw new Error('UID is required to fetch user infos');
+            }
             const response = await request(GetUserInfos, { uid });
             return mapUserInfos(response.user);
         } catch (error) {
@@ -34,8 +51,11 @@ export const userRepository: UserRepository = {
             throw error;
         }
     },
-    async getUserGroups(uid: string) {
+    async getUserGroups(uid) {
         try {
+            if (!uid) {
+                throw new Error('UID is required to fetch user groups');
+            }
             const response = await request(GetUserGroups, { uid });
             return mapUserGroups(response.user);
         } catch (error) {
@@ -44,8 +64,11 @@ export const userRepository: UserRepository = {
             throw error;
         }
     },
-    async getUserFamily(uid: string) {
+    async getUserFamily(uid) {
         try {
+            if (!uid) {
+                throw new Error('UID is required to fetch user family');
+            }
             const response = await request(GetUserFamily, { uid });
             return mapUserFamily(response.user);
         } catch (error) {
