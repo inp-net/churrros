@@ -31,7 +31,7 @@ type CardEventFragmentType = {
     };
 };
 
-function mapEvent(event: CardEventFragmentType): Event {
+export function mapEvent(event: CardEventFragmentType): Event {
     const data = readFragment(CardEventFragment, event);
     return {
         id: data.localID,

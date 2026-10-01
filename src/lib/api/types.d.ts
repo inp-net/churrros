@@ -11,8 +11,8 @@ export type Event = {
     pictureURL: string;
     title: string;
     descriptionPreview: string;
-    organizer: GroupAvatar;
-    coOrganizers: GroupAvatar[];
+    organizer: Avatar;
+    coOrganizers: Avatar[];
     startsAt: string | null;
     endsAt: string | null;
     location: string;
@@ -36,8 +36,8 @@ export type EventDetail = {
     recurringUntil: string | null;
     externalTicketing: string | null;
     tickets: TicketDetail[];
-    organizer: GroupAvatar;
-    coOrganizers: GroupAvatar[];
+    organizer: Avatar;
+    coOrganizers: Avatar[];
 };
 
 export type Ticket = {
@@ -55,7 +55,7 @@ export type TicketDetail = Ticket & {
     capacity: number | 'Unlimited' | null;
     showCapacity: boolean;
     invited: boolean;
-    openToGroups: GroupAvatar[];
+    openToGroups: Avatar[];
     openToMajors: Avatar[];
     openToSchools: Avatar[];
 };
@@ -112,5 +112,28 @@ export type Avatar = {
     uid: string;
     pictureURL: string;
 };
+
+export type Link = {
+    url: string | null;
+    text: string;
+};
+
+//#endregion
+
+//#region Articles
+
+export type Article = {
+    id: string;
+    title: string;
+    content: string;
+    publishedAt: string;
+    pictureURL: string;
+    links: Link[];
+    group: Avatar;
+};
+
+export type ArticleDetail = Article & {
+    event: Event | null;
+}
 
 //#endregion
