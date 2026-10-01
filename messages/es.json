@@ -1,5 +1,5 @@
 {
-	"$schema": "https://inlang.com/schema/inlang-message-format",
-	"hello_world": "Hola, {name} de es!",
-	"loading": "Cargando..."
+    "$schema": "https://inlang.com/schema/inlang-message-format",
+    "hello_world": "Hola, {name} de es!",
+    "loading": "Cargando..."
 }

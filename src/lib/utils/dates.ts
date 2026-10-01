@@ -7,12 +7,12 @@ import { getLocale } from '$lib/paraglide/runtime'; //Paraglide devient notre so
  * @returns la date formatée selon la locale actuelle de paraglide et le format spécifié
  */
 export function formatISODateToLocale(
-	date: string,
-	options: Intl.DateTimeFormatOptions = { dateStyle: 'medium', timeStyle: 'short' }
+    date: string,
+    options: Intl.DateTimeFormatOptions = { dateStyle: 'medium', timeStyle: 'short' }
 ): string {
-	const locale = getLocale();
+    const locale = getLocale();
 
-	return new Intl.DateTimeFormat(locale, options).format(new Date(date));
+    return new Intl.DateTimeFormat(locale, options).format(new Date(date));
 }
 
 /**
@@ -21,9 +21,9 @@ export function formatISODateToLocale(
  * @returns la date au format ISO (YYYY-MM-DD)
  */
 export function toISODate(date: Date): string {
-	const year = date.getFullYear();
-	const month = String(date.getMonth() + 1).padStart(2, '0');
-	const day = String(date.getDate()).padStart(2, '0');
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
 
-	return `${year}-${month}-${day}`;
+    return `${year}-${month}-${day}`;
 }

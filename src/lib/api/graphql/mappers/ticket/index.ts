@@ -6,40 +6,40 @@ import { mapGroupAvatar } from '../group';
 import { mapMajor, mapSchool } from '../user';
 
 type CardTicketFragmentType = {
-	[$tada.fragmentRefs]: {
-		CardTicket: 'Ticket';
-	};
+    [$tada.fragmentRefs]: {
+        CardTicket: 'Ticket';
+    };
 };
 
 type TicketDetailFragmentType = {
-	[$tada.fragmentRefs]: {
-		TicketDetail: 'Ticket';
-	};
+    [$tada.fragmentRefs]: {
+        TicketDetail: 'Ticket';
+    };
 };
 
 export function mapTicket(ticket: CardTicketFragmentType): Ticket {
-	const data = readFragment(CardTicketFragment, ticket);
-	return {
-		id: data.localID,
-		opensAt: data.opensAt,
-		closesAt: data.closesAt,
-		name: data.name,
-		price: data.minimumPrice,
-		priceIsVariable: data.priceIsVariable
-	};
+    const data = readFragment(CardTicketFragment, ticket);
+    return {
+        id: data.localID,
+        opensAt: data.opensAt,
+        closesAt: data.closesAt,
+        name: data.name,
+        price: data.minimumPrice,
+        priceIsVariable: data.priceIsVariable
+    };
 }
 
 export function mapTicketDetail(ticket: TicketDetailFragmentType): TicketDetail {
-	const data = readFragment(TicketDetailFragment, ticket);
-	return {
-		...mapTicket(data),
-		capacity: data.capacity,
-		showCapacity: data.event.showCapacity,
-		placesLeft: data.placesLeft,
-		showPlacesLeft: data.event.showPlacesLeft,
-		invited: data.invited,
-		openToGroups: data.openToGroups.map((group) => mapGroupAvatar(group)),
-		openToMajors: data.openToMajors.map((major) => mapMajor(major)),
-		openToSchools: data.openToSchools.map((school) => mapSchool(school))
-	};
+    const data = readFragment(TicketDetailFragment, ticket);
+    return {
+        ...mapTicket(data),
+        capacity: data.capacity,
+        showCapacity: data.event.showCapacity,
+        placesLeft: data.placesLeft,
+        showPlacesLeft: data.event.showPlacesLeft,
+        invited: data.invited,
+        openToGroups: data.openToGroups.map((group) => mapGroupAvatar(group)),
+        openToMajors: data.openToMajors.map((major) => mapMajor(major)),
+        openToSchools: data.openToSchools.map((school) => mapSchool(school))
+    };
 }

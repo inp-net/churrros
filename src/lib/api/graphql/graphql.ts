@@ -5,15 +5,15 @@ import { initGraphQLTada } from 'gql.tada';
 import type { introspection } from '$lib/api/graphql/graphql-env';
 
 export const graphql = initGraphQLTada<{
-	introspection: introspection;
-	scalars: {
-		DateTime: string;
-		Email: string;
-		LocalID: string;
-		HTML: string;
-		URL: string;
-		Capacity: number | 'Unlimited';
-	};
+    introspection: introspection;
+    scalars: {
+        DateTime: string;
+        Email: string;
+        LocalID: string;
+        HTML: string;
+        URL: string;
+        Capacity: number | 'Unlimited';
+    };
 }>();
 
 export type { FragmentOf, ResultOf, VariablesOf } from 'gql.tada';

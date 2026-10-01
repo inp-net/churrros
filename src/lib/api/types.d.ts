@@ -1,76 +1,76 @@
 //#region Auth
 export type SessionToken = {
-	token: string;
-	expiresAt: Date;
+    token: string;
+    expiresAt: Date;
 };
 //#endregion
 
 //#region Events
 export type Event = {
-	id: string;
-	pictureURL: string;
-	title: string;
-	descriptionPreview: string;
-	organizer: Avatar;
-	coOrganizers: Avatar[];
-	startsAt: string | null;
-	endsAt: string | null;
-	location: string;
-	tickets: Ticket[];
+    id: string;
+    pictureURL: string;
+    title: string;
+    descriptionPreview: string;
+    organizer: Avatar;
+    coOrganizers: Avatar[];
+    startsAt: string | null;
+    endsAt: string | null;
+    location: string;
+    tickets: Ticket[];
 };
 
 export type EventsByDay = {
-	date: string;
-	shotgunning: Event[];
-	happening: Event[];
+    date: string;
+    shotgunning: Event[];
+    happening: Event[];
 };
 
 export type EventDetail = {
-	title: string;
-	location: string;
-	description: string;
-	descriptionHtml: string;
-	startsAt: string | null;
-	endsAt: string | null;
-	frequency: string | null;
-	recurringUntil: string | null;
-	externalTicketing: string | null;
-	tickets: TicketDetail[];
-	organizer: Avatar;
-	coOrganizers: Avatar[];
+    title: string;
+    location: string;
+    description: string;
+    descriptionHtml: string;
+    startsAt: string | null;
+    endsAt: string | null;
+    frequency: string | null;
+    recurringUntil: string | null;
+    externalTicketing: string | null;
+    tickets: TicketDetail[];
+    organizer: Avatar;
+    coOrganizers: Avatar[];
 };
 
 export type Ticket = {
-	id: string;
-	opensAt: string | null;
-	closesAt: string | null;
-	name: string;
-	price: number;
-	priceIsVariable: boolean;
+    id: string;
+    opensAt: string | null;
+    closesAt: string | null;
+    name: string;
+    price: number;
+    priceIsVariable: boolean;
 };
 
 export type TicketDetail = Ticket & {
-	placesLeft: number | 'Unlimited' | null;
-	showPlacesLeft: boolean;
-	capacity: number | 'Unlimited' | null;
-	showCapacity: boolean;
-	invited: boolean;
-	openToGroups: Avatar[];
-	openToMajors: Avatar[];
-	openToSchools: Avatar[];
+    placesLeft: number | 'Unlimited' | null;
+    showPlacesLeft: boolean;
+    capacity: number | 'Unlimited' | null;
+    showCapacity: boolean;
+    invited: boolean;
+    openToGroups: Avatar[];
+    openToMajors: Avatar[];
+    openToSchools: Avatar[];
 };
 //#endregion
 
 //#region Users
 export type User = {
-	uid: string;
-	email: string;
-	firstName: string;
-	lastName: string;
-	nickname: string;
-	phone: string | null;
-	pictureURL: string;
-	admin: boolean;
+    uid: string;
+    email: string;
+    firstName: string;
+    lastName: string;
+    nickname: string;
+    phone: string | null;
+    pictureURL: string;
+    admin: boolean;
 };
 //#endregion
 
@@ -81,8 +81,8 @@ export type User = {
  * After c'est le curseur à partir duquel récupérer les éléments. (Si null, on récupère les éléments depuis le début)
  */
 export type PageRequest = {
-	first: number;
-	after: string | null;
+    first: number;
+    after: string | null;
 };
 
 /**
@@ -91,8 +91,8 @@ export type PageRequest = {
  * pageInfo c'est les informations de pagination (hasNextPage et endCursor)
  */
 export type Page<T> = {
-	items: T[];
-	pageInfo: PageInfo;
+    items: T[];
+    pageInfo: PageInfo;
 };
 
 /**
@@ -101,16 +101,16 @@ export type Page<T> = {
  * endCursor c'est le curseur de la dernière page récupérée.
  */
 export type PageInfo = {
-	hasNextPage: boolean;
-	endCursor: string | null;
+    hasNextPage: boolean;
+    endCursor: string | null;
 };
 //#endregion
 
 //#region Utils
 export type Avatar = {
-	name: string;
-	uid: string;
-	pictureURL: string;
+    name: string;
+    uid: string;
+    pictureURL: string;
 };
 
 //#endregion

@@ -4,17 +4,17 @@ import type { User } from '$lib/api';
 
 // for information about these interfaces
 declare global {
-	namespace App {
-		// interface Error {}
-		interface Locals {
-			user: User | null;
-		}
-		interface PageData {
-			user: User | null;
-		}
-		// interface PageState {}
-		// interface Platform {}
-	}
+    namespace App {
+        // interface Error {}
+        interface Locals {
+            user: User | null;
+        }
+        interface PageData {
+            user: User | null;
+        }
+        // interface PageState {}
+        // interface Platform {}
+    }
 }
 
 export {};

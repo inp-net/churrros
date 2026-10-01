@@ -10,26 +10,26 @@ import { SchoolAvatarFragment } from './schoolAvatar';
  * Avec ses droits de manager
  */
 export const TicketDetailFragment = graphql(
-	`
-		fragment TicketDetail on Ticket {
-			...CardTicket
-			capacity
-			placesLeft
-			invited
-			openToGroups {
-				...GroupAvatar
-			}
-			openToMajors(smart: true) {
-				...MajorAvatar
-			}
-			openToSchools {
-				...SchoolAvatar
-			}
-			event {
-				showCapacity
-				showPlacesLeft
-			}
-		}
-	`,
-	[GroupAvatarFragment, CardTicketFragment, MajorAvatarFragment, SchoolAvatarFragment]
+    `
+        fragment TicketDetail on Ticket {
+            ...CardTicket
+            capacity
+            placesLeft
+            invited
+            openToGroups {
+                ...GroupAvatar
+            }
+            openToMajors(smart: true) {
+                ...MajorAvatar
+            }
+            openToSchools {
+                ...SchoolAvatar
+            }
+            event {
+                showCapacity
+                showPlacesLeft
+            }
+        }
+    `,
+    [GroupAvatarFragment, CardTicketFragment, MajorAvatarFragment, SchoolAvatarFragment]
 );

@@ -9,9 +9,10 @@ const initialSessionToken = loadToken();
 const sessionTokenStore = writable<SessionToken | null>(initialSessionToken);
 
 function isTokenExpired(sessionToken: SessionToken) {
-	return (
-		Number.isNaN(sessionToken.expiresAt.getTime()) || sessionToken.expiresAt.getTime() <= Date.now()
-	);
+    return (
+        Number.isNaN(sessionToken.expiresAt.getTime()) ||
+        sessionToken.expiresAt.getTime() <= Date.now()
+    );
 }
 
 /**
@@ -19,8 +20,8 @@ function isTokenExpired(sessionToken: SessionToken) {
  * Uniquement coté browser car recupère le cookie via document.cookie
  */
 function readCookie(name: string): string | null {
-	const cookies = parseCookie(document.cookie);
-	return cookies[name] ?? null;
+    const cookies = parseCookie(document.cookie);
+    return cookies[name] ?? null;
 }
 
 /**
@@ -31,14 +32,14 @@ function readCookie(name: string): string | null {
  * @param expiresAt date d'expiration du cookie
  */
 export function writeCookie(name: string, value: string, expiresAt?: Date) {
-	document.cookie = stringifySetCookie({
-		name,
-		value,
-		path: '/',
-		expires: expiresAt,
-		sameSite: 'lax',
-		secure: location.protocol === 'https:'
-	});
+    document.cookie = stringifySetCookie({
+        name,
+        value,
+        path: '/',
+        expires: expiresAt,
+        sameSite: 'lax',
+        secure: location.protocol === 'https:'
+    });
 }
 
 /**
@@ -47,7 +48,7 @@ export function writeCookie(name: string, value: string, expiresAt?: Date) {
  * @param name le nom du cookie à supprimer
  */
 export function deleteCookie(name: string) {
-	document.cookie = stringifySetCookie({ name, value: '', path: '/', maxAge: 0 });
+    document.cookie = stringifySetCookie({ name, value: '', path: '/', maxAge: 0 });
 }
 
 /**
@@ -56,63 +57,63 @@ export function deleteCookie(name: string) {
  * @returns Le token de session désérialisé ou null si la chaîne est invalide
  */
 export function deserializeToken(raw: string | null | undefined): SessionToken | null {
-	if (!raw) return null;
+    if (!raw) return null;
 
-	try {
-		const parsed = JSON.parse(raw) as { token: string; expiresAt: string };
-		return { token: parsed.token, expiresAt: new Date(parsed.expiresAt) };
-	} catch {
-		return null;
-	}
+    try {
+        const parsed = JSON.parse(raw) as { token: string; expiresAt: string };
+        return { token: parsed.token, expiresAt: new Date(parsed.expiresAt) };
+    } catch {
+        return null;
+    }
 }
 
 function loadToken(): SessionToken | null {
-	if (!browser) {
-		return null;
-	}
+    if (!browser) {
+        return null;
+    }
 
-	const storedSessionToken = deserializeToken(readCookie(SESSION_TOKEN_COOKIE_NAME));
+    const storedSessionToken = deserializeToken(readCookie(SESSION_TOKEN_COOKIE_NAME));
 
-	if (!storedSessionToken || isTokenExpired(storedSessionToken)) {
-		deleteCookie(SESSION_TOKEN_COOKIE_NAME);
-		return null;
-	}
+    if (!storedSessionToken || isTokenExpired(storedSessionToken)) {
+        deleteCookie(SESSION_TOKEN_COOKIE_NAME);
+        return null;
+    }
 
-	return storedSessionToken;
+    return storedSessionToken;
 }
 
 export function getToken(): SessionToken | null {
-	const currentSessionToken = get(sessionTokenStore);
-	if (currentSessionToken && isTokenExpired(currentSessionToken)) {
-		clearToken();
-		return null;
-	}
+    const currentSessionToken = get(sessionTokenStore);
+    if (currentSessionToken && isTokenExpired(currentSessionToken)) {
+        clearToken();
+        return null;
+    }
 
-	return get(sessionTokenStore);
+    return get(sessionTokenStore);
 }
 
 export function setToken(newSessionToken: SessionToken | null) {
-	sessionTokenStore.set(newSessionToken);
+    sessionTokenStore.set(newSessionToken);
 
-	if (!browser) {
-		return;
-	}
+    if (!browser) {
+        return;
+    }
 
-	if (!newSessionToken) {
-		deleteCookie(SESSION_TOKEN_COOKIE_NAME);
-		return;
-	}
+    if (!newSessionToken) {
+        deleteCookie(SESSION_TOKEN_COOKIE_NAME);
+        return;
+    }
 
-	writeCookie(
-		SESSION_TOKEN_COOKIE_NAME,
-		JSON.stringify({
-			token: newSessionToken.token,
-			expiresAt: newSessionToken.expiresAt.toISOString()
-		}),
-		newSessionToken.expiresAt
-	);
+    writeCookie(
+        SESSION_TOKEN_COOKIE_NAME,
+        JSON.stringify({
+            token: newSessionToken.token,
+            expiresAt: newSessionToken.expiresAt.toISOString()
+        }),
+        newSessionToken.expiresAt
+    );
 }
 
 export function clearToken() {
-	setToken(null);
+    setToken(null);
 }
