@@ -15,7 +15,7 @@
 
 <div>
     {avatar.name}
-    <a href={link} target="_blank" rel="noopener noreferrer">
+    <a href={link} rel="noopener noreferrer">
         {avatar.uid}
     </a>
     <img src={avatar.pictureURL} alt="Groupe" {width} {height} />
