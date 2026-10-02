@@ -17,7 +17,7 @@ export const GetGroupProfile = graphql(
                     ...Link
                 }
                 membersCount
-                activeMembersCount : membersCount(yearTiers: [1,2,3])
+                activeMembersCount: membersCount(yearTiers: [1, 2, 3])
                 studentAssociation {
                     ...StudentAssociationAvatar
                 }
@@ -44,7 +44,7 @@ export const GetBoardGroupMembers = graphql(
 
 export const GetGroupMembers = graphql(
     `
-        query GetGroupMembers($uid: String!,$first: Int, $after: String) {
+        query GetGroupMembers($uid: String!, $first: Int, $after: String) {
             group(uid: $uid) {
                 members(first: $first, after: $after) {
                     edges {
@@ -63,18 +63,16 @@ export const GetGroupMembers = graphql(
     [GroupMemberWithUserFragment, PageInfoFragment]
 );
 
-export const GetGroupInfos = graphql(
-    `
-        query GetGroupInfos($uid: String!) {
-            group(uid: $uid) {
-                roomIsOpen
-                address
-                color
-                email
-            }
+export const GetGroupInfos = graphql(`
+    query GetGroupInfos($uid: String!) {
+        group(uid: $uid) {
+            roomIsOpen
+            address
+            color
+            email
         }
-    `
-);
+    }
+`);
 
 export const GetGroupSeeAlso = graphql(
     `

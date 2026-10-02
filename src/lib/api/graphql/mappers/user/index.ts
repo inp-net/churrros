@@ -1,4 +1,12 @@
-import type { Avatar, GroupMember, User, UserFamily, UserGroups, UserInfos, UserProfile } from '$lib/api';
+import type {
+    Avatar,
+    GroupMember,
+    User,
+    UserFamily,
+    UserGroups,
+    UserInfos,
+    UserProfile
+} from '$lib/api';
 import { readFragment, type ResultOf } from '$lib/api/graphql/graphql';
 import type {
     GetUserByUid,

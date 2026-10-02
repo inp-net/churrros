@@ -124,7 +124,8 @@ export type GroupMemberByDate = GroupMember & {
     createdAt: string;
 };
 
-export type GroupType = "Association" | "Club" | "Group" | "Integration" | "List" | "StudentAssociationSection"
+export type GroupType =
+    'Association' | 'Club' | 'Group' | 'Integration' | 'List' | 'StudentAssociationSection';
 
 export type GroupProfile = {
     group: Avatar;
@@ -136,28 +137,28 @@ export type GroupProfile = {
     activeMembersCount: number;
     studentAssociation: Avatar;
     selfJoinable: boolean;
-}
+};
 
 export type GroupInfos = {
     roomIsOpen: boolean;
     address: string;
     color: string | null;
     email: string | null;
-}
+};
 
 export type GroupBoardMembers = {
     membersCount: number;
     boardMembers: GroupMember[];
-}
+};
 
 export type GroupAvatar = Avatar & {
     description: string;
-}
+};
 
 export type GroupSeeAlso = {
     familyChildren: GroupAvatar[];
     related: GroupAvatar[];
-}
+};
 //#endregion
 
 //#region Pagination

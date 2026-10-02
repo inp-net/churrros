@@ -11,5 +11,6 @@
     "groups": "Groupes",
     "family": "Famille",
     "members": "Membres",
-    "seealso": "Voir aussi"
+    "seealso": "Voir aussi",
+    "group.see-all": "Voir les {count} membres"
 }

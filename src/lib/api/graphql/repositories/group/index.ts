@@ -1,7 +1,19 @@
 import type { GroupRepository } from '$lib/api/repositories';
 import { request } from '$lib/api/graphql/client';
-import { GetBoardGroupMembers, GetGroupInfos, GetGroupMembers, GetGroupProfile, GetGroupSeeAlso } from '../../queries/group';
-import { mapGroupBoardMembers, mapGroupInfos, mapGroupMembers, mapGroupProfile, mapGroupSeeAlso } from '../../mappers/group';
+import {
+    GetBoardGroupMembers,
+    GetGroupInfos,
+    GetGroupMembers,
+    GetGroupProfile,
+    GetGroupSeeAlso
+} from '../../queries/group';
+import {
+    mapGroupBoardMembers,
+    mapGroupInfos,
+    mapGroupMembers,
+    mapGroupProfile,
+    mapGroupSeeAlso
+} from '../../mappers/group';
 
 export const groupRepository: GroupRepository = {
     async getGroupProfile(uid) {
@@ -61,7 +73,11 @@ export const groupRepository: GroupRepository = {
             if (!uid) {
                 throw new Error('UID is required to fetch group members');
             }
-            const response = await request(GetGroupMembers, { uid, args });
+            const response = await request(GetGroupMembers, {
+                uid,
+                first: args.first,
+                after: args.after
+            });
             return mapGroupMembers(response.group.members);
         } catch (error) {
             //TODO : Vrai gestion d'erreur

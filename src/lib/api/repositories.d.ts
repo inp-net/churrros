@@ -71,7 +71,7 @@ export interface EventRepository {
         beneficiary?: string,
         churrosBeneficiary?: string
     ): Promise<string>;
-};
+}
 
 /**
  * Repository sur les intéractions avec l'API en rapport avec l'authentification
@@ -84,7 +84,7 @@ export interface AuthRepository {
      * @returns un token de session si l'authentification est réussie, sinon une erreur est levée
      */
     login(emailOrUid: string, password: string): Promise<SessionToken>;
-};
+}
 
 /**
  * Repository qui permet de récuperer les informations sur les utilisateurs
@@ -153,7 +153,7 @@ export interface UserRepository {
         date?: string,
         width?: number
     ): Promise<Record<string, Avatar[]>>;
-};
+}
 
 /**
  * Le repository qui permet de récuperer les informations et permissions de l'utilisateur actuellement connecté
@@ -172,7 +172,7 @@ export interface MeRepository {
      * @returns Avatar sur tous ces groupes
      */
     getCanCreateEventsOn(): Promise<Avatar[]>;
-};
+}
 
 /**
  * Repository to handle articles
@@ -192,7 +192,7 @@ export interface ArticleRepository {
      * @throws an error if the article does not exist
      */
     getArticleById(id: string | undefined): Promise<ArticleDetail>;
-};
+}
 
 /**
  * Repository that handles group-related API interactions
@@ -233,4 +233,4 @@ export interface GroupRepository {
      * @returns a page of group members with pagination information, or null if the group is not found
      */
     getGroupMembers(uid?: string, args: PageRequest): Promise<Page<GroupMemberByDate> | null>;
-};
+}

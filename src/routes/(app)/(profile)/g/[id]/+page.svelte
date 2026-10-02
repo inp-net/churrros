@@ -68,6 +68,9 @@
             <p>ERROR</p>
         {:else if queryBoardMembers.data}
             <GroupBoardMembers groupBoardMembers={queryBoardMembers.data} />
+            <a href="/g/{page.params.id}/members">
+                {m['group.see-all']({ count: queryBoardMembers.data.membersCount })}
+            </a>
         {/if}
     {:else if tab === 'see-also'}
         {#if querySeeAlso.isLoading}
