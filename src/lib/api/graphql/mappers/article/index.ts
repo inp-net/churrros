@@ -1,11 +1,11 @@
-import { readFragment, type ResultOf } from "gql.tada";
-import type { GetArticleById, GetArticles } from "../../queries/article";
-import type { Article, ArticleDetail, Page } from "$lib/api/types";
-import { PageInfoFragment } from "../../queries/fragments/pagination";
-import { CardArticleFragment } from "../../queries/fragments/cardArticle";
-import { mapLink } from "../link";
-import { mapGroupAvatar } from "../group";
-import { mapEvent } from "../event";
+import { readFragment, type ResultOf } from 'gql.tada';
+import type { GetArticleById, GetArticles } from '../../queries/article';
+import type { Article, ArticleDetail, Page } from '$lib/api/types';
+import { PageInfoFragment } from '../../queries/fragments/pagination';
+import { CardArticleFragment } from '../../queries/fragments/cardArticle';
+import { mapLink } from '../link';
+import { mapGroupAvatar } from '../group';
+import { mapEvent } from '../event';
 
 export function mapArticles(articles: ResultOf<typeof GetArticles>['homepage']): Page<Article> {
     const pageInfo = readFragment(PageInfoFragment, articles.pageInfo);
@@ -15,7 +15,9 @@ export function mapArticles(articles: ResultOf<typeof GetArticles>['homepage']):
     };
 }
 
-function mapArticle(article: ResultOf<typeof GetArticles>['homepage']['edges'][number]['node']): Article {
+function mapArticle(
+    article: ResultOf<typeof GetArticles>['homepage']['edges'][number]['node']
+): Article {
     const data = readFragment(CardArticleFragment, article);
     return {
         id: data.localID,
@@ -26,9 +28,11 @@ function mapArticle(article: ResultOf<typeof GetArticles>['homepage']['edges'][n
         links: data.links.map((link) => mapLink(link)),
         group: mapGroupAvatar(data.group)
     };
-};
+}
 
-export function mapArticleDetail(article: ResultOf<typeof GetArticleById>['article']): ArticleDetail {
+export function mapArticleDetail(
+    article: ResultOf<typeof GetArticleById>['article']
+): ArticleDetail {
     const event = article.event ? mapEvent(article.event) : null;
     return {
         id: article.localID,
@@ -40,4 +44,4 @@ export function mapArticleDetail(article: ResultOf<typeof GetArticleById>['artic
         group: mapGroupAvatar(article.group),
         event
     };
-};
+}

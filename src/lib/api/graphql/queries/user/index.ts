@@ -87,7 +87,8 @@ export const GetUserGroups = graphql(
                 }
             }
         }
-    `, [GroupMemberFragment]
+    `,
+    [GroupMemberFragment]
 );
 
 export const GetUserFamily = graphql(
@@ -103,7 +104,8 @@ export const GetUserFamily = graphql(
                 }
             }
         }
-    `, [UserAvatarFragment]
+    `,
+    [UserAvatarFragment]
 );
 export const GetBirthdays = graphql(
     `

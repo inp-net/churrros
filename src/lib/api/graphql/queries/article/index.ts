@@ -23,7 +23,6 @@ export const GetArticles = graphql(
     [CardArticleFragment, PageInfoFragment]
 );
 
-
 export const GetArticleById = graphql(
     `
         query GetArticleById($id: LocalID!) {

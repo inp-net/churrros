@@ -1,6 +1,14 @@
 import type { Avatar, User, UserFamily, UserGroups, UserInfos, UserProfile } from '$lib/api';
 import { readFragment, type ResultOf } from '$lib/api/graphql/graphql';
-import type { GetUserByUid, GetUserFamily, GetUserGroups, GetUserInfos, GetBirthdays, GetGroupedBirthdays, GetUserProfile, } from '$lib/api/graphql/queries/user';
+import type {
+    GetUserByUid,
+    GetUserFamily,
+    GetUserGroups,
+    GetUserInfos,
+    GetBirthdays,
+    GetGroupedBirthdays,
+    GetUserProfile
+} from '$lib/api/graphql/queries/user';
 import { UserFragment } from '$lib/api/graphql/queries/fragments/user';
 import type { $tada } from 'gql.tada';
 import { MajorAvatarFragment } from '../../queries/fragments/majorAvatar';
@@ -66,7 +74,7 @@ export function mapUserAvatar(user: UserAvatarFragmentType): Avatar {
         name: data.fullName,
         pictureURL: data.pictureURL
     };
-};
+}
 
 export function mapUserProfile(user: ResultOf<typeof GetUserProfile>['user']): UserProfile {
     return {
@@ -93,29 +101,33 @@ export function mapUserInfos(user: ResultOf<typeof GetUserInfos>['user']): UserI
         phone: user.phone,
         email: user.email!,
         otherEmails: user.otherEmails ? user.otherEmails : [],
-        contributesTo: user.contributesTo ? user.contributesTo.map(avatar => mapStudentAssociationAvatar(avatar)) : null
+        contributesTo: user.contributesTo
+            ? user.contributesTo.map((avatar) => mapStudentAssociationAvatar(avatar))
+            : null
     };
 }
 
 export function mapUserGroups(user: ResultOf<typeof GetUserGroups>['user']): UserGroups {
     return {
         uid: user.uid,
-        groups: user.groups.map(group => mapGroupMember(group))
+        groups: user.groups.map((group) => mapGroupMember(group))
     };
-};
+}
 
 export function mapUserFamily(user: ResultOf<typeof GetUserFamily>['user']): UserFamily {
     return {
         uid: user.uid,
         nesting: user.familyTree.nesting,
-        users: user.familyTree.users.map(user => mapUserAvatar(user))
+        users: user.familyTree.users.map((user) => mapUserAvatar(user))
     };
-};
+}
 export function mapBirthdays(birthdays: ResultOf<typeof GetBirthdays>['birthdays']): Avatar[] {
     return birthdays.map(mapUserAvatar);
 }
 
-export function mapGroupedBirthdays(groupedBirthdays: ResultOf<typeof GetGroupedBirthdays>['birthdays']): Record<string, Avatar[]> {
+export function mapGroupedBirthdays(
+    groupedBirthdays: ResultOf<typeof GetGroupedBirthdays>['birthdays']
+): Record<string, Avatar[]> {
     const result: Record<string, Avatar[]> = {};
     for (const item of groupedBirthdays) {
         const date = item.birthday?.slice(5, 10); // Extract MM-DD from ISO

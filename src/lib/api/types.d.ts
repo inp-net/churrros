@@ -82,18 +82,18 @@ export type UserInfos = {
     email: string;
     otherEmails: string[];
     contributesTo: Avatar[] | null;
-}
+};
 
 export type UserGroups = {
     uid: string;
     groups: GroupMember[];
-}
+};
 
 export type UserFamily = {
     uid: string;
     nesting: string;
     users: Avatar[];
-}
+};
 
 export type UserProfile = {
     uid: string;
@@ -106,10 +106,10 @@ export type UserProfile = {
     yearTier: number;
     major: Avatar | null;
     school: Avatar[];
-    links: Link[]
+    links: Link[];
     bot: boolean;
     admin: boolean;
-}
+};
 //#endregion
 
 //#region Groups
@@ -120,7 +120,7 @@ export type GroupMember = {
     vicePresident: boolean;
     president: boolean;
     group: Avatar;
-}
+};
 //#endregion
 
 //#region Pagination
@@ -183,6 +183,6 @@ export type Article = {
 
 export type ArticleDetail = Article & {
     event: Event | null;
-}
+};
 
 //#endregion

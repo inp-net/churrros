@@ -8,7 +8,9 @@ type StudentAssociationAvatarFragmentType = {
     };
 };
 
-export function mapStudentAssociationAvatar(studentAssociation: StudentAssociationAvatarFragmentType): Avatar {
+export function mapStudentAssociationAvatar(
+    studentAssociation: StudentAssociationAvatarFragmentType
+): Avatar {
     const data = readFragment(StudentAssociationAvatar, studentAssociation);
     return {
         uid: data.uid,

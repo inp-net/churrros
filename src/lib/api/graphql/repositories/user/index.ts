@@ -1,7 +1,25 @@
 import type { UserRepository } from '$lib/api/repositories';
 import { request } from '$lib/api/graphql/client';
-import { GetUserAvatarByUid, GetUserByUid, GetUserFamily, GetUserGroups, GetUserInfos, GetBirthdays, GetGroupedBirthdays, GetUserProfile, } from '$lib/api/graphql/queries/user';
-import { mapUser, mapUserAvatar, mapUserFamily, mapUserGroups, mapUserInfos, mapBirthdays, mapGroupedBirthdays, mapUserProfile, } from '$lib/api/graphql/mappers/user';
+import {
+    GetUserAvatarByUid,
+    GetUserByUid,
+    GetUserFamily,
+    GetUserGroups,
+    GetUserInfos,
+    GetBirthdays,
+    GetGroupedBirthdays,
+    GetUserProfile
+} from '$lib/api/graphql/queries/user';
+import {
+    mapUser,
+    mapUserAvatar,
+    mapUserFamily,
+    mapUserGroups,
+    mapUserInfos,
+    mapBirthdays,
+    mapGroupedBirthdays,
+    mapUserProfile
+} from '$lib/api/graphql/mappers/user';
 
 export const userRepository: UserRepository = {
     async getUserByUid(uid) {
@@ -31,8 +49,7 @@ export const userRepository: UserRepository = {
             }
             const response = await request(GetUserProfile, { uid });
             return mapUserProfile(response.user);
-        }
-        catch (error) {
+        } catch (error) {
             //TODO : Vrai gestion d'erreur
             console.error('Error fetching user profile:', error);
             throw error;
@@ -81,8 +98,7 @@ export const userRepository: UserRepository = {
         try {
             const response = await request(GetBirthdays, { date, activeOnly, width });
             return mapBirthdays(response.birthdays);
-        }
-        catch (error) {
+        } catch (error) {
             //TODO : Vrai gestion d'erreur
             console.error('Error fetching birthdays:', error);
             throw error;
@@ -92,8 +108,7 @@ export const userRepository: UserRepository = {
         try {
             const response = await request(GetGroupedBirthdays, { date, activeOnly, width });
             return mapGroupedBirthdays(response.birthdays);
-        }
-        catch (error) {
+        } catch (error) {
             //TODO : Vrai gestion d'erreur
             console.error('Error fetching grouped birthdays:', error);
             throw error;
