@@ -71,7 +71,7 @@ export interface EventRepository {
         beneficiary?: string,
         churrosBeneficiary?: string
     ): Promise<string>;
-}
+};
 
 /**
  * Repository sur les intéractions avec l'API en rapport avec l'authentification
@@ -84,7 +84,7 @@ export interface AuthRepository {
      * @returns un token de session si l'authentification est réussie, sinon une erreur est levée
      */
     login(emailOrUid: string, password: string): Promise<SessionToken>;
-}
+};
 
 /**
  * Repository qui permet de récuperer les informations sur les utilisateurs
@@ -153,7 +153,7 @@ export interface UserRepository {
         date?: string,
         width?: number
     ): Promise<Record<string, Avatar[]>>;
-}
+};
 
 /**
  * Le repository qui permet de récuperer les informations et permissions de l'utilisateur actuellement connecté
@@ -172,7 +172,7 @@ export interface MeRepository {
      * @returns Avatar sur tous ces groupes
      */
     getCanCreateEventsOn(): Promise<Avatar[]>;
-}
+};
 
 /**
  * Repository to handle articles
@@ -192,4 +192,45 @@ export interface ArticleRepository {
      * @throws an error if the article does not exist
      */
     getArticleById(id: string | undefined): Promise<ArticleDetail>;
-}
+};
+
+/**
+ * Repository that handles group-related API interactions
+ */
+export interface GroupRepository {
+    /**
+     * Returns the profile of a group by its uid.
+     * @param uid the uid of the group to retrieve
+     * @returns the profile of the group, or null if not found
+     */
+    getGroupProfile(uid?: string): Promise<GroupProfile | null>;
+
+    /**
+     * Returns the infos of a group by its uid.
+     * @param uid the uid of the group to retrieve
+     * @returns the infos of the group, or null if not found
+     */
+    getGroupInfos(uid?: string): Promise<GroupInfos | null>;
+
+    /**
+     * Returns the board members of a group by its uid.
+     * @param uid the uid of the group to retrieve
+     * @returns the board members of the group, or null if not found
+     */
+    getGroupBoardMembers(uid?: string): Promise<GroupBoardMembers | null>;
+
+    /**
+     * Returns the "see also" information of a group by its uid.
+     * @param uid the uid of the group to retrieve
+     * @returns the "see also" information of the group, or null if not found
+     */
+    getGroupSeeAlso(uid?: string): Promise<GroupSeeAlso | null>;
+
+    /**
+     * Returns a paginated list of members of a group by its uid.
+     * @param uid the uid of the group to retrieve
+     * @param args the pagination information, first for the number of items to retrieve, after for the cursor of the previous page (if null, we retrieve the items from the beginning)
+     * @returns a page of group members with pagination information, or null if the group is not found
+     */
+    getGroupMembers(uid?: string, args: PageRequest): Promise<Page<GroupMemberByDate> | null>;
+};

@@ -2,11 +2,11 @@ import { graphql } from '$lib/api/graphql/graphql';
 import { GroupAvatarFragment } from './groupAvatar';
 
 /**
- * Graphql fragment to represent a group member.
+ * Graphql fragment to represent a group member with their associated group.
  */
-export const GroupMemberFragment = graphql(
+export const GroupMemberWithGroupFragment = graphql(
     `
-        fragment GroupMember on GroupMember {
+        fragment GroupMemberGroup on GroupMember {
             title
             treasurer
             secretary

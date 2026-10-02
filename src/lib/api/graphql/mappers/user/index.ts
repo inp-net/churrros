@@ -1,4 +1,4 @@
-import type { Avatar, User, UserFamily, UserGroups, UserInfos, UserProfile } from '$lib/api';
+import type { Avatar, GroupMember, User, UserFamily, UserGroups, UserInfos, UserProfile } from '$lib/api';
 import { readFragment, type ResultOf } from '$lib/api/graphql/graphql';
 import type {
     GetUserByUid,
@@ -15,8 +15,9 @@ import { MajorAvatarFragment } from '../../queries/fragments/majorAvatar';
 import { SchoolAvatarFragment } from '../../queries/fragments/schoolAvatar';
 import { UserAvatarFragment } from '../../queries/fragments/userAvatar';
 import { mapStudentAssociationAvatar } from '../studentassociation';
-import { mapGroupMember } from '../group';
+import { mapGroupMemberGroup } from '../group';
 import { mapLink } from '../link';
+import { GroupMemberWithUserFragment } from '../../queries/fragments/groupMemberWithUser';
 
 export function mapUser(user: ResultOf<typeof GetUserByUid>['user']): User {
     const userData = readFragment(UserFragment, user);
@@ -94,7 +95,6 @@ export function mapUserProfile(user: ResultOf<typeof GetUserProfile>['user']): U
 
 export function mapUserInfos(user: ResultOf<typeof GetUserInfos>['user']): UserInfos {
     return {
-        uid: user.uid,
         address: user.address,
         nickname: user.nickname,
         birthday: user.birthday,
@@ -109,8 +109,7 @@ export function mapUserInfos(user: ResultOf<typeof GetUserInfos>['user']): UserI
 
 export function mapUserGroups(user: ResultOf<typeof GetUserGroups>['user']): UserGroups {
     return {
-        uid: user.uid,
-        groups: user.groups.map((group) => mapGroupMember(group))
+        groups: user.groups.map((group) => mapGroupMemberGroup(group))
     };
 }
 
@@ -143,4 +142,22 @@ export function mapGroupedBirthdays(
     return Object.fromEntries(
         Object.entries(result).sort(([a], [b]) => a.localeCompare(b)) //To sort the dates
     );
+}
+
+type GroupMemberWithUserFragmentType = {
+    [$tada.fragmentRefs]: {
+        GroupMemberUser: 'GroupMember';
+    };
+};
+
+export function mapGroupMemberWithUser(groupMember: GroupMemberWithUserFragmentType): GroupMember {
+    const data = readFragment(GroupMemberWithUserFragment, groupMember);
+    return {
+        title: data.title,
+        treasurer: data.treasurer,
+        secretary: data.secretary,
+        vicePresident: data.vicePresident,
+        president: data.president,
+        avatar: mapUserAvatar(data.user)
+    };
 }

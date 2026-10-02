@@ -1,5 +1,5 @@
 import { graphql } from '$lib/api/graphql/graphql';
-import { GroupMemberFragment } from '../fragments/groupMember';
+import { GroupMemberWithGroupFragment } from '../fragments/groupMemberWithGroup';
 import { LinkFragment } from '../fragments/link';
 import { MajorAvatarFragment } from '../fragments/majorAvatar';
 import { SchoolAvatarFragment } from '../fragments/schoolAvatar';
@@ -61,7 +61,6 @@ export const GetUserInfos = graphql(
     `
         query GetUserInfos($uid: String!) {
             user(uid: $uid) {
-                uid
                 address
                 nickname
                 birthday
@@ -81,14 +80,13 @@ export const GetUserGroups = graphql(
     `
         query GetUserGroups($uid: String!) {
             user(uid: $uid) {
-                uid
                 groups {
-                    ...GroupMember
+                    ...GroupMemberGroup
                 }
             }
         }
     `,
-    [GroupMemberFragment]
+    [GroupMemberWithGroupFragment]
 );
 
 export const GetUserFamily = graphql(

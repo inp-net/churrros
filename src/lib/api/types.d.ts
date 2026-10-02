@@ -74,7 +74,6 @@ export type User = {
 };
 
 export type UserInfos = {
-    uid: string;
     address: string | null;
     nickname: string;
     birthday: string | null;
@@ -85,7 +84,6 @@ export type UserInfos = {
 };
 
 export type UserGroups = {
-    uid: string;
     groups: GroupMember[];
 };
 
@@ -114,13 +112,52 @@ export type UserProfile = {
 
 //#region Groups
 export type GroupMember = {
+    avatar: Avatar; //Either the avatar of the user or the avatar of the group
     title: string;
     treasurer: boolean;
     secretary: boolean;
     vicePresident: boolean;
     president: boolean;
-    group: Avatar;
 };
+
+export type GroupMemberByDate = GroupMember & {
+    createdAt: string;
+};
+
+export type GroupType = "Association" | "Club" | "Group" | "Integration" | "List" | "StudentAssociationSection"
+
+export type GroupProfile = {
+    group: Avatar;
+    email: string | null;
+    type: GroupType;
+    description: string;
+    links: Link[];
+    membersCount: number;
+    activeMembersCount: number;
+    studentAssociation: Avatar;
+    selfJoinable: boolean;
+}
+
+export type GroupInfos = {
+    roomIsOpen: boolean;
+    address: string;
+    color: string | null;
+    email: string | null;
+}
+
+export type GroupBoardMembers = {
+    membersCount: number;
+    boardMembers: GroupMember[];
+}
+
+export type GroupAvatar = Avatar & {
+    description: string;
+}
+
+export type GroupSeeAlso = {
+    familyChildren: GroupAvatar[];
+    related: GroupAvatar[];
+}
 //#endregion
 
 //#region Pagination
