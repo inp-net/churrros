@@ -4,3 +4,4 @@ export * from './user';
 export * from './me';
 export * from './article';
 export * from './group';
+export * from './studentassociation';

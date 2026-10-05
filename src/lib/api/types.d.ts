@@ -224,3 +224,28 @@ export type ArticleDetail = Article & {
 };
 
 //#endregion
+
+//#region Services 
+export type CardService = {
+    id: string;
+    name: string;
+    url: string;
+    description: string;
+    logo: string;
+    pinned: boolean;
+}
+
+//#endregion
+
+//#region Student Association 
+export type StudentAssociationProfile = {
+    studentAssociation: Avatar;
+    email: string | null;
+    description: string;
+    activeMembersCount: number;
+    membersCount: number;
+    links: Link[];
+    school: Avatar;
+}
+
+//#endregion

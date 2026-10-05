@@ -9,7 +9,9 @@ import type {
     UserFamily,
     Article,
     ArticleDetail,
-    UserProfile
+    UserProfile,
+    StudentAssociationProfile,
+    GroupType
 } from '$lib/api';
 import type { Event } from '$lib/api';
 import type { SessionToken } from '$lib/api';
@@ -233,4 +235,33 @@ export interface GroupRepository {
      * @returns a page of group members with pagination information, or null if the group is not found
      */
     getGroupMembers(uid?: string, args: PageRequest): Promise<Page<GroupMemberByDate> | null>;
+}
+
+/**
+ * Repostory that handles student association-related API interactions
+ */
+export interface StudentAssociationRepository {
+
+    /**
+     * Returns the profile of a student association by its uid.
+     * @param uid the uid of the student association to retrieve
+     * @returns the profile of the student association, or null if not found
+     */
+    getStudentAssociationProfile(uid?: string): Promise<StudentAssociationProfile>;
+    /**
+     * Returns the groups belonging to a certain type of a student association by its uid.
+     * @param uid the uid of the student association to retrieve
+     * @param types the types of groups to retrieve
+     * @param args the pagination information, first for the number of items to retrieve, after for the cursor of the previous page (if null, we retrieve the items from the beginning)
+     * @returns a page of group avatars with pagination information, or null if the student association is not found
+     */
+    getStudentAssociationGroups(uid?: string, types: GroupType[], args?: PageRequest): Promise<Page<GroupAvatar>>;
+
+    /**
+     * Returns the services of a student association by its uid.
+     * @param uid the uid of the student association to retrieve
+     * @param args the pagination information, first for the number of items to retrieve, after for the cursor of the previous page (if null, we retrieve the items from the beginning)
+     * @returns a page of card services with pagination information, or null if the student association is not found
+     */
+    getStudentAssociationServices(uid?: string, args?: PageRequest): Promise<Page<CardService>>;
 }

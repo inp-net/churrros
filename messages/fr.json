@@ -12,5 +12,11 @@
     "family": "Famille",
     "members": "Membres",
     "seealso": "Voir aussi",
-    "group.see-all": "Voir les {count} membres"
+    "group.see-all": "Voir les {count} membres",
+    "boards": "Bureaux",
+    "board.see-all": "Voir tous les bureaux",
+    "clubs": "Clubs et associations",
+    "clubs.see-all": "Voir tous les clubs et associations",
+    "services": "Services",
+    "services.see-all": "Voir tous les services"
 }
