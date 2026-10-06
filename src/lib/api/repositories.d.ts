@@ -11,7 +11,10 @@ import type {
     ArticleDetail,
     UserProfile,
     StudentAssociationProfile,
-    GroupType
+    GroupType,
+    MajorInfos,
+    SchoolInfos,
+    SchoolProfile
 } from '$lib/api';
 import type { Event } from '$lib/api';
 import type { SessionToken } from '$lib/api';
@@ -264,4 +267,37 @@ export interface StudentAssociationRepository {
      * @returns a page of card services with pagination information, or null if the student association is not found
      */
     getStudentAssociationServices(uid?: string, args?: PageRequest): Promise<Page<CardService>>;
+}
+
+/**
+ * Repository that handles school related API interactions
+ */
+export interface SchoolRepository {
+    /**
+     * Returns the profile of a school by its uid.
+     * @param uid the uid of the school to retrieve
+     * @returns the profile of the school
+     */
+    getSchoolProfile(uid?: string): Promise<SchoolProfile>;
+
+    /**
+     * Returns the infos of a school by its uid. The infos are mainly the address and the list of student associations of the school.
+     * @param uid the uid of the school to retrieve
+     * @returns the infos of the school
+     */
+    getSchoolInfos(uid?: string): Promise<SchoolInfos>;
+
+    /**
+     * Returns the list of majors of a school by its uid.
+     * @param uid the uid of the school to retrieve
+     * @returns the list of majors of the school
+     */
+    getSchoolMajors(uid?: string): Promise<MajorInfos[]>;
+
+    /**
+     * Returns the services of a school by its uid.
+     * @param uid the uid of the school to retrieve
+     * @returns a page of card services with pagination information
+     */
+    getSchoolServices(uid?: string, args?: PageRequest): Promise<CardService[]>;
 }

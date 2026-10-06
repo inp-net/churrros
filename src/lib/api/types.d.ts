@@ -249,3 +249,25 @@ export type StudentAssociationProfile = {
 }
 
 //#endregion
+
+//#region School
+
+export type SchoolProfile = {
+    school: Avatar;
+    activeStudentsCount: number;
+    studentsCount: number;
+    description: string;
+}
+
+export type SchoolInfos = {
+    address: string;
+    studentAssociations: Avatar[];
+}
+
+export type MajorInfos = {
+    avatar: Avatar;
+    discontinued: boolean;
+    fullName: string;
+}
+
+//#endregion
