@@ -301,3 +301,15 @@ export interface SchoolRepository {
      */
     getSchoolServices(uid?: string, args?: PageRequest): Promise<CardService[]>;
 }
+
+/**
+ * Repository that handles major related API interactions
+ */
+export interface MajorRepository {
+    /**
+     * Returns the profile of a major by its uid.
+     * @param uid the uid of the major to retrieve
+     * @returns the profile of the major
+     */
+    getMajorProfile(uid?: string): Promise<MajorInfos>;
+}

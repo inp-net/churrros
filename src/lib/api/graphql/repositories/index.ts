@@ -6,3 +6,4 @@ export * from './article';
 export * from './group';
 export * from './studentassociation';
 export * from './school';
+export * from './major';
