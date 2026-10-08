@@ -2,7 +2,7 @@ import { readFragment, type $tada, type ResultOf } from 'gql.tada';
 import { StudentAssociationAvatar } from '../../queries/fragments/studentAssociationAvatar';
 import type { Avatar, CardService, GroupAvatar, Page, StudentAssociationProfile } from '$lib/api/types';
 import type { GetStudentAssociationGroups, GetStudentAssociationProfile, GetStudentAssociationServices } from '../../queries/studentassociation';
-import { mapSchool } from '../user';
+import { mapSchool } from '../school';
 import { mapLink } from '../link';
 import { PageInfoFragment } from '../../queries/fragments/pagination';
 import { mapGroupAvatarWithDescription } from '../group';

@@ -3,7 +3,8 @@ import { readFragment, type $tada } from 'gql.tada';
 import { CardTicketFragment } from '$lib/api/graphql/queries/fragments/cardTicket';
 import { TicketDetailFragment } from '../../queries/fragments/ticketDetail';
 import { mapGroupAvatar } from '../group';
-import { mapMajor, mapSchool } from '../user';
+import { mapMajor } from '../major';
+import { mapSchool } from '../school';
 
 type CardTicketFragmentType = {
     [$tada.fragmentRefs]: {

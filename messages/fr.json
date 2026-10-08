@@ -18,5 +18,7 @@
     "clubs": "Clubs et associations",
     "clubs.see-all": "Voir tous les clubs et associations",
     "services": "Services",
-    "services.see-all": "Voir tous les services"
+    "services.see-all": "Voir tous les services",
+    "majors": "Filières",
+    "major.discontinued": "Fermée"
 }
