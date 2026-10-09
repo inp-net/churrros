@@ -1,4 +1,4 @@
-import { $tada, readFragment, type ResultOf } from 'gql.tada';
+import { type $tada, readFragment, type ResultOf } from 'gql.tada';
 import { SchoolAvatarFragment } from '../../queries/fragments/schoolAvatar';
 import type {
     Avatar,

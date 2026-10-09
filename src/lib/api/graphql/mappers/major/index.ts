@@ -1,4 +1,4 @@
-import { $tada, readFragment } from 'gql.tada';
+import { readFragment, type $tada } from 'gql.tada';
 import { MajorAvatarFragment } from '../../queries/fragments/majorAvatar';
 import type { Avatar, MajorInfos } from '#lib/api/types.d.ts';
 import { MajorInfosFragment } from '../../queries/fragments/majorInfos';
