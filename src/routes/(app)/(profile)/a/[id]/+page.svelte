@@ -1,11 +1,11 @@
 <script lang="ts">
     import { page } from '$app/state';
-    import { studentAssociationRepository } from '$lib/api';
-    import StudentAssociationGroups from '$lib/components/tabs/StudentAssociationGroups.svelte';
-    import StudentAssociationProfile from '$lib/components/tabs/StudentAssociationProfile.svelte';
-    import StudentAssociationServices from '$lib/components/tabs/StudentAssociationServices.svelte';
+    import { studentAssociationRepository } from '#lib/api/index.ts';
+    import StudentAssociationGroups from '#lib/components/tabs/StudentAssociationGroups.svelte';
+    import StudentAssociationProfile from '#lib/components/tabs/StudentAssociationProfile.svelte';
+    import StudentAssociationServices from '#lib/components/tabs/StudentAssociationServices.svelte';
 
-    import { m } from '$lib/paraglide/messages';
+    import { m } from '#lib/paraglide/messages.js';
     import { createQuery } from '@tanstack/svelte-query';
     import { Stack } from 'azucar-ui';
 

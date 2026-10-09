@@ -1,19 +1,19 @@
-import type { GroupRepository } from '$lib/api/repositories';
-import { request } from '$lib/api/graphql/client';
+import type { GroupRepository } from '#lib/api/repositories.d.ts';
+import { request } from '#lib/api/graphql/client.ts';
 import {
     GetBoardGroupMembers,
     GetGroupInfos,
     GetGroupMembers,
     GetGroupProfile,
     GetGroupSeeAlso
-} from '../../queries/group';
+} from '#lib/api/graphql/queries/group/index.ts';
 import {
     mapGroupBoardMembers,
     mapGroupInfos,
     mapGroupMembers,
     mapGroupProfile,
     mapGroupSeeAlso
-} from '../../mappers/group';
+} from '#lib/api/graphql/mappers/group/index.ts';
 
 export const groupRepository: GroupRepository = {
     async getGroupProfile(uid) {

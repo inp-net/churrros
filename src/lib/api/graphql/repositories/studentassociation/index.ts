@@ -1,7 +1,15 @@
-import type { StudentAssociationRepository } from '$lib/api/repositories';
-import { request } from '$lib/api/graphql/client';
-import { GetStudentAssociationGroups, GetStudentAssociationProfile, GetStudentAssociationServices } from '../../queries/studentassociation';
-import { mapStudentAssociationGroups, mapStudentAssociationProfile, mapStudentAssociationServices } from '../../mappers/studentassociation';
+import type { StudentAssociationRepository } from '#lib/api/repositories.d.ts';
+import { request } from '#lib/api/graphql/client.ts';
+import {
+    GetStudentAssociationGroups,
+    GetStudentAssociationProfile,
+    GetStudentAssociationServices
+} from '../../queries/studentassociation';
+import {
+    mapStudentAssociationGroups,
+    mapStudentAssociationProfile,
+    mapStudentAssociationServices
+} from '../../mappers/studentassociation';
 
 export const studentAssociationRepository: StudentAssociationRepository = {
     async getStudentAssociationProfile(uid) {
@@ -11,8 +19,7 @@ export const studentAssociationRepository: StudentAssociationRepository = {
             }
             const response = await request(GetStudentAssociationProfile, { id: uid });
             return mapStudentAssociationProfile(response.studentAssociation);
-        }
-        catch (error) {
+        } catch (error) {
             //TODO : Vrai gestion d'erreur
             console.error('Error fetching student association profile:', error);
             throw error;
@@ -23,10 +30,13 @@ export const studentAssociationRepository: StudentAssociationRepository = {
             if (!uid) {
                 throw new Error('UID is required to fetch student association groups');
             }
-            const response = await request(GetStudentAssociationGroups, { id: uid, types, ...args });
+            const response = await request(GetStudentAssociationGroups, {
+                id: uid,
+                types,
+                ...args
+            });
             return mapStudentAssociationGroups(response.studentAssociation);
-        }
-        catch (error) {
+        } catch (error) {
             //TODO : Vrai gestion d'erreur
             console.error('Error fetching student association groups:', error);
             throw error;
@@ -39,8 +49,7 @@ export const studentAssociationRepository: StudentAssociationRepository = {
             }
             const response = await request(GetStudentAssociationServices, { id: uid, ...args });
             return mapStudentAssociationServices(response.studentAssociation);
-        }
-        catch (error) {
+        } catch (error) {
             //TODO : Vrai gestion d'erreur
             console.error('Error fetching student association services:', error);
             throw error;

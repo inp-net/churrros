@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type { GroupMember } from '$lib/api';
+    import type { GroupMember } from '#lib/api/index.ts';
     import Avatar from './Avatar.svelte';
 
     interface Props {

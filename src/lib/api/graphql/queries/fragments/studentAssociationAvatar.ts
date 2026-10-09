@@ -1,4 +1,4 @@
-import { graphql } from '$lib/api/graphql/graphql';
+import { graphql } from '#lib/api/graphql/graphql.ts';
 
 /**
  * Graphql fragment to represent a student association for the Avatar component.

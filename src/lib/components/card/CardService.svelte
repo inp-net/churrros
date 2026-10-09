@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type { CardService } from '$lib/api';
+    import type { CardService } from '#lib/api/index.ts';
 
     interface Props {
         service: CardService;

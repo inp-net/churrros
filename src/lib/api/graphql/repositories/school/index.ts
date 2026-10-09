@@ -1,7 +1,17 @@
-import type { SchoolRepository } from '$lib/api/repositories';
-import { request } from '$lib/api/graphql/client';
-import { GetSchoolInfos, GetSchoolMajors, GetSchoolProfile, GetSchoolServices } from '../../queries/school';
-import { mapSchoolInfos, mapSchoolMajors, mapSchoolProfile, mapSchoolServices } from '../../mappers/school';
+import type { SchoolRepository } from '#lib/api/repositories.d.ts';
+import { request } from '#lib/api/graphql/client.ts';
+import {
+    GetSchoolInfos,
+    GetSchoolMajors,
+    GetSchoolProfile,
+    GetSchoolServices
+} from '../../queries/school';
+import {
+    mapSchoolInfos,
+    mapSchoolMajors,
+    mapSchoolProfile,
+    mapSchoolServices
+} from '../../mappers/school';
 
 export const schoolRepository: SchoolRepository = {
     async getSchoolProfile(uid) {
@@ -11,8 +21,7 @@ export const schoolRepository: SchoolRepository = {
             }
             const response = await request(GetSchoolProfile, { uid });
             return mapSchoolProfile(response.school);
-        }
-        catch (error) {
+        } catch (error) {
             //TODO : Vrai gestion d'erreur
             console.error('Error fetching school profile:', error);
             throw error;
@@ -25,8 +34,7 @@ export const schoolRepository: SchoolRepository = {
             }
             const response = await request(GetSchoolInfos, { uid });
             return mapSchoolInfos(response.school);
-        }
-        catch (error) {
+        } catch (error) {
             //TODO : Vrai gestion d'erreur
             console.error('Error fetching school infos:', error);
             throw error;
@@ -39,8 +47,7 @@ export const schoolRepository: SchoolRepository = {
             }
             const response = await request(GetSchoolMajors, { uid });
             return mapSchoolMajors(response.school);
-        }
-        catch (error) {
+        } catch (error) {
             //TODO : Vrai gestion d'erreur
             console.error('Error fetching school majors:', error);
             throw error;
@@ -53,8 +60,7 @@ export const schoolRepository: SchoolRepository = {
             }
             const response = await request(GetSchoolServices, { uid });
             return mapSchoolServices(response.school);
-        }
-        catch (error) {
+        } catch (error) {
             //TODO : Vrai gestion d'erreur
             console.error('Error fetching school services:', error);
             throw error;

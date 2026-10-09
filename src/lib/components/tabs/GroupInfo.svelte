@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type { GroupInfos } from '$lib/api';
+    import type { GroupInfos } from '#lib/api/index.ts';
 
     interface Props {
         groupInfo: GroupInfos;

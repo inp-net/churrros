@@ -1,4 +1,4 @@
-import { graphql } from '$lib/api/graphql/graphql';
+import { graphql } from '#lib/api/graphql/graphql.ts';
 import { CardServiceFragment } from '../fragments/cardService';
 import { GroupAvatarFragment } from '../fragments/groupAvatar';
 import { LinkFragment } from '../fragments/link';
@@ -13,7 +13,7 @@ export const GetStudentAssociationProfile = graphql(
                 ...StudentAssociationAvatar
                 email
                 descriptionHtml
-                activeMembersCount: studentsCount(yearTiers : [1,2,3])
+                activeMembersCount: studentsCount(yearTiers: [1, 2, 3])
                 membersCount: studentsCount
                 links {
                     ...Link
@@ -29,7 +29,12 @@ export const GetStudentAssociationProfile = graphql(
 
 export const GetStudentAssociationGroups = graphql(
     `
-        query GetStudentAssociationGroups($id: String!, $types: [GroupType!], $first: Int, $after: String) {
+        query GetStudentAssociationGroups(
+            $id: String!
+            $types: [GroupType!]
+            $first: Int
+            $after: String
+        ) {
             studentAssociation(uid: $id) {
                 groups(types: $types, first: $first, after: $after) {
                     edges {

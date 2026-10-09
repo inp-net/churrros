@@ -1,11 +1,11 @@
 <script lang="ts">
     import { page } from '$app/state';
-    import { userRepository } from '$lib/api';
-    import UserFamily from '$lib/components/tabs/UserFamily.svelte';
-    import UserGroups from '$lib/components/tabs/UserGroups.svelte';
-    import UserInfo from '$lib/components/tabs/UserInfo.svelte';
-    import UserProfile from '$lib/components/tabs/UserProfile.svelte';
-    import { m } from '$lib/paraglide/messages';
+    import { userRepository } from '#lib/api/index.ts';
+    import UserFamily from '#lib/components/tabs/UserFamily.svelte';
+    import UserGroups from '#lib/components/tabs/UserGroups.svelte';
+    import UserInfo from '#lib/components/tabs/UserInfo.svelte';
+    import UserProfile from '#lib/components/tabs/UserProfile.svelte';
+    import { m } from '#lib/paraglide/messages.js';
     import { createQuery } from '@tanstack/svelte-query';
     import { Stack } from 'azucar-ui';
 

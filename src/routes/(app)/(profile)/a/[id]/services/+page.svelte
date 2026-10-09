@@ -1,9 +1,12 @@
 <script lang="ts">
     import { page } from '$app/state';
-    import { studentAssociationRepository, type CardService as CardServiceType } from '$lib/api';
-    import CardService from '$lib/components/card/CardService.svelte';
-    import InfiniteScroll from '$lib/components/InfiniteScroll.svelte';
-    import { m } from '$lib/paraglide/messages';
+    import {
+        studentAssociationRepository,
+        type CardService as CardServiceType
+    } from '#lib/api/index.ts';
+    import CardService from '#lib/components/card/CardService.svelte';
+    import InfiniteScroll from '#lib/components/InfiniteScroll.svelte';
+    import { m } from '#lib/paraglide/messages.js';
     import { createInfiniteQuery } from '@tanstack/svelte-query';
 
     const query = createInfiniteQuery(() => ({

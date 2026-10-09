@@ -1,11 +1,11 @@
 <script lang="ts">
     import { page } from '$app/state';
-    import { groupRepository } from '$lib/api';
-    import GroupBoardMembers from '$lib/components/tabs/GroupBoardMembers.svelte';
-    import GroupInfo from '$lib/components/tabs/GroupInfo.svelte';
-    import GroupProfile from '$lib/components/tabs/GroupProfile.svelte';
-    import GroupSeeAlso from '$lib/components/tabs/GroupSeeAlso.svelte';
-    import { m } from '$lib/paraglide/messages';
+    import { groupRepository } from '#lib/api/index.ts';
+    import GroupBoardMembers from '#lib/components/tabs/GroupBoardMembers.svelte';
+    import GroupInfo from '#lib/components/tabs/GroupInfo.svelte';
+    import GroupProfile from '#lib/components/tabs/GroupProfile.svelte';
+    import GroupSeeAlso from '#lib/components/tabs/GroupSeeAlso.svelte';
+    import { m } from '#lib/paraglide/messages.js';
     import { createQuery } from '@tanstack/svelte-query';
     import { Stack } from 'azucar-ui';
 

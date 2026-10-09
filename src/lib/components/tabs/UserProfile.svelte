@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type { UserProfile } from '$lib/api';
+    import type { UserProfile } from '#lib/api/index.ts';
     import Avatar from '../avatar/Avatar.svelte';
     import LinkPill from '../LinkPill.svelte';
 

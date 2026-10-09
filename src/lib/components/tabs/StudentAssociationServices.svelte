@@ -1,6 +1,6 @@
 <script lang="ts">
-    import { m } from '$lib/paraglide/messages';
-    import type { Page, CardService as CardServiceType, Link } from '$lib/api';
+    import { m } from '#lib/paraglide/messages.js';
+    import type { Page, CardService as CardServiceType, Link } from '#lib/api/index.ts';
     import CardService from '../card/CardService.svelte';
 
     interface Props {

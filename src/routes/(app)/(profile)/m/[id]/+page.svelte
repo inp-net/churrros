@@ -1,8 +1,8 @@
 <script lang="ts">
     import { page } from '$app/state';
-    import { majorRepository } from '$lib/api';
-    import CardMajor from '$lib/components/card/CardMajor.svelte';
-    import { m } from '$lib/paraglide/messages';
+    import { majorRepository } from '#lib/api/index.ts';
+    import CardMajor from '#lib/components/card/CardMajor.svelte';
+    import { m } from '#lib/paraglide/messages.js';
     import { createQuery } from '@tanstack/svelte-query';
 
     const queryProfile = createQuery(() => ({

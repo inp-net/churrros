@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type { Page, GroupAvatar, Link } from '$lib/api';
+    import type { Page, GroupAvatar, Link } from '#lib/api/index.ts';
     import Avatar from '../avatar/Avatar.svelte';
 
     interface Props {

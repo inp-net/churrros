@@ -1,4 +1,4 @@
-import { graphql } from '$lib/api/graphql/graphql';
+import { graphql } from '#lib/api/graphql/graphql.ts';
 import { MajorInfosFragment } from '../fragments/majorInfos';
 
 export const GetMajorProfile = graphql(
@@ -8,5 +8,6 @@ export const GetMajorProfile = graphql(
                 ...MajorInfos
             }
         }
-    `, [MajorInfosFragment]
+    `,
+    [MajorInfosFragment]
 );

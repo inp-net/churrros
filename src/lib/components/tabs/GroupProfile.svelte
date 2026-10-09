@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type { GroupProfile } from '$lib/api';
+    import type { GroupProfile } from '#lib/api/index.ts';
     import Avatar from '../avatar/Avatar.svelte';
     import LinkPill from '../LinkPill.svelte';
 

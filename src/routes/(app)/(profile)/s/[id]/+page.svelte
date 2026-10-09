@@ -1,11 +1,11 @@
 <script lang="ts">
     import { page } from '$app/state';
-    import { schoolRepository } from '$lib/api';
-    import SchoolInfo from '$lib/components/tabs/SchoolInfo.svelte';
-    import SchoolMajors from '$lib/components/tabs/SchoolMajors.svelte';
-    import SchoolProfile from '$lib/components/tabs/SchoolProfile.svelte';
-    import SchoolServices from '$lib/components/tabs/SchoolServices.svelte';
-    import { m } from '$lib/paraglide/messages';
+    import { schoolRepository } from '#lib/api/index.ts';
+    import SchoolInfo from '#lib/components/tabs/SchoolInfo.svelte';
+    import SchoolMajors from '#lib/components/tabs/SchoolMajors.svelte';
+    import SchoolProfile from '#lib/components/tabs/SchoolProfile.svelte';
+    import SchoolServices from '#lib/components/tabs/SchoolServices.svelte';
+    import { m } from '#lib/paraglide/messages.js';
     import { createQuery } from '@tanstack/svelte-query';
     import { Stack } from 'azucar-ui';
 

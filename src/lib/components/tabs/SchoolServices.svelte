@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type { CardService as CardServiceType } from '$lib/api';
+    import type { CardService as CardServiceType } from '#lib/api/index.ts';
     import CardService from '../card/CardService.svelte';
 
     interface Props {

@@ -1,9 +1,9 @@
 <script lang="ts">
     import { page } from '$app/state';
-    import { studentAssociationRepository, type GroupAvatar } from '$lib/api';
-    import Avatar from '$lib/components/avatar/Avatar.svelte';
-    import InfiniteScroll from '$lib/components/InfiniteScroll.svelte';
-    import { m } from '$lib/paraglide/messages';
+    import { studentAssociationRepository, type GroupAvatar } from '#lib/api/index.ts';
+    import Avatar from '#lib/components/avatar/Avatar.svelte';
+    import InfiniteScroll from '#lib/components/InfiniteScroll.svelte';
+    import { m } from '#lib/paraglide/messages.js';
     import { createInfiniteQuery } from '@tanstack/svelte-query';
 
     const query = createInfiniteQuery(() => ({

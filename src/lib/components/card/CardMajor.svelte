@@ -1,6 +1,6 @@
 <script lang="ts">
-    import type { MajorInfos } from '$lib/api';
-    import { m } from '$lib/paraglide/messages';
+    import type { MajorInfos } from '#lib/api/index.ts';
+    import { m } from '#lib/paraglide/messages.js';
     import Avatar from '../avatar/Avatar.svelte';
 
     interface Props {

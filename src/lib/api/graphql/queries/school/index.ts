@@ -1,4 +1,4 @@
-import { graphql } from '$lib/api/graphql/graphql';
+import { graphql } from '#lib/api/graphql/graphql.ts';
 import { CardServiceFragment } from '../fragments/cardService';
 import { MajorInfosFragment } from '../fragments/majorInfos';
 import { SchoolAvatarFragment } from '../fragments/schoolAvatar';
@@ -9,12 +9,13 @@ export const GetSchoolProfile = graphql(
         query GetSchoolProfile($uid: String!) {
             school(uid: $uid) {
                 ...SchoolAvatar
-                activeStudentsCount : studentsCount(yearTiers : [1,2,3]),
+                activeStudentsCount: studentsCount(yearTiers: [1, 2, 3])
                 studentsCount
                 description
             }
         }
-    `, [SchoolAvatarFragment]
+    `,
+    [SchoolAvatarFragment]
 );
 
 export const GetSchoolInfos = graphql(
@@ -27,7 +28,8 @@ export const GetSchoolInfos = graphql(
                 }
             }
         }
-    `, [StudentAssociationAvatar]
+    `,
+    [StudentAssociationAvatar]
 );
 
 export const GetSchoolMajors = graphql(
@@ -39,7 +41,8 @@ export const GetSchoolMajors = graphql(
                 }
             }
         }
-    `, [MajorInfosFragment]
+    `,
+    [MajorInfosFragment]
 );
 
 export const GetSchoolServices = graphql(
