@@ -1,7 +1,7 @@
 <script lang="ts">
-    import type { TicketDetail } from '$lib/api';
-    import { formatISODateToLocale } from '$lib/utils/dates';
-    import Avatar from '$lib/components/avatar/Avatar.svelte';
+    import type { TicketDetail } from '#lib/api/index.ts';
+    import { formatISODateToLocale } from '#lib/utils/dates.ts';
+    import Avatar from '#lib/components/avatar/Avatar.svelte';
 
     interface Props {
         ticket: TicketDetail;

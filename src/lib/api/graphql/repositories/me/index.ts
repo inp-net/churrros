@@ -1,8 +1,8 @@
-import type { MeRepository } from '$lib/api/repositories';
-import { request, requestServer } from '$lib/api/graphql/client';
+import type { MeRepository } from '#lib/api/repositories.d.ts';
+import { request, requestServer } from '#lib/api/graphql/client.ts';
 import type { Cookies } from '@sveltejs/kit';
-import { GetCanCreateEventsOn, GetMe } from '$lib/api/graphql/queries/me';
-import { mapMe } from '$lib/api/graphql/mappers/me';
+import { GetCanCreateEventsOn, GetMe } from '#lib/api/graphql/queries/me/index.ts';
+import { mapMe } from '#lib/api/graphql/mappers/me/index.ts';
 import { mapGroupAvatar } from '../../mappers/group';
 
 export const meRepository: MeRepository = {

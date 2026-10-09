@@ -1,12 +1,12 @@
 <script lang="ts">
     import { createMutation, createQuery, useQueryClient } from '@tanstack/svelte-query';
-    import { eventRepository, type TicketDetail } from '$lib/api';
-    import { m } from '$lib/paraglide/messages';
+    import { eventRepository, type TicketDetail } from '#lib/api/index.ts';
+    import { m } from '#lib/paraglide/messages.js';
     import { page } from '$app/state';
-    import CardTicketDetail from '$lib/components/card/CardTicketDetail.svelte';
-    import { formatISODateToLocale } from '$lib/utils/dates';
-    import Avatar from '$lib/components/avatar/Avatar.svelte';
-    import BookEventModal from '$lib/components/modal/BookEventModal.svelte';
+    import CardTicketDetail from '#lib/components/card/CardTicketDetail.svelte';
+    import { formatISODateToLocale } from '#lib/utils/dates.ts';
+    import Avatar from '#lib/components/avatar/Avatar.svelte';
+    import BookEventModal from '#lib/components/modal/BookEventModal.svelte';
     import { goto } from '$app/navigation';
 
     const queryClient = useQueryClient();

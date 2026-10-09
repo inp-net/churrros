@@ -1,4 +1,4 @@
-import type { SessionToken } from '$lib/api';
+import type { SessionToken } from '#lib/api/index.ts';
 
 export type AuthProvider = CredentialsProvider | OAuthProvider;
 

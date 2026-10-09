@@ -1,7 +1,7 @@
 <script lang="ts">
     import { goto } from '$app/navigation';
-    import { credentialsProvider } from '$lib/auth/providers';
-    import { oAuthProviders } from '$lib/auth/providers/oauth';
+    import { credentialsProvider } from '#lib/auth/providers/index.ts';
+    import { oAuthProviders } from '#lib/auth/providers/oauth/index.ts';
     import { page } from '$app/state';
 
     async function handleSubmit(event: Event) {

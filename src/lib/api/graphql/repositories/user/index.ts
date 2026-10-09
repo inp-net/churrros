@@ -1,17 +1,17 @@
-import type { UserRepository } from '$lib/api/repositories';
-import { request } from '$lib/api/graphql/client';
+import type { UserRepository } from '#lib/api/repositories.d.ts';
+import { request } from '#lib/api/graphql/client.ts';
 import {
     GetBirthdays,
     GetGroupedBirthdays,
     GetUserAvatarByUid,
     GetUserByUid
-} from '$lib/api/graphql/queries/user';
+} from '#lib/api/graphql/queries/user/index.ts';
 import {
     mapBirthdays,
     mapGroupedBirthdays,
     mapUser,
     mapUserAvatar
-} from '$lib/api/graphql/mappers/user';
+} from '#lib/api/graphql/mappers/user/index.ts';
 
 export const userRepository: UserRepository = {
     async getUserByUid(uid) {
