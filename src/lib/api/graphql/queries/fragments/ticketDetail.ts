@@ -1,4 +1,4 @@
-import { graphql } from '$lib/api/graphql/graphql';
+import { graphql } from '#lib/api/graphql/graphql.ts';
 import { CardTicketFragment } from './cardTicket';
 import { GroupAvatarFragment } from './groupAvatar';
 import { MajorAvatarFragment } from './majorAvatar';

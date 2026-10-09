@@ -1,7 +1,6 @@
-import { browser } from '$app/environment';
+import { browser } from '$app/env';
 import { get, writable } from 'svelte/store';
-import { parseCookie, stringifySetCookie } from 'cookie';
-import type { SessionToken } from '$lib/api';
+import type { SessionToken } from '#lib/api/index.ts';
 
 export const SESSION_TOKEN_COOKIE_NAME = 'session_token';
 
@@ -20,8 +19,8 @@ function isTokenExpired(sessionToken: SessionToken) {
  * Uniquement coté browser car recupère le cookie via document.cookie
  */
 function readCookie(name: string): string | null {
-    const cookies = parseCookie(document.cookie);
-    return cookies[name] ?? null;
+    const match = document.cookie.split('; ').find((row) => row.startsWith(`${name}=`));
+    return match ? decodeURIComponent(match.slice(name.length + 1)) : null;
 }
 
 /**
@@ -32,14 +31,10 @@ function readCookie(name: string): string | null {
  * @param expiresAt date d'expiration du cookie
  */
 export function writeCookie(name: string, value: string, expiresAt?: Date) {
-    document.cookie = stringifySetCookie({
-        name,
-        value,
-        path: '/',
-        expires: expiresAt,
-        sameSite: 'lax',
-        secure: location.protocol === 'https:'
-    });
+    const parts = [`${name}=${encodeURIComponent(value)}`, 'path=/', 'SameSite=Lax'];
+    if (expiresAt) parts.push(`expires=${expiresAt.toUTCString()}`);
+    if (location.protocol === 'https:') parts.push('Secure');
+    document.cookie = parts.join('; ');
 }
 
 /**
@@ -48,7 +43,7 @@ export function writeCookie(name: string, value: string, expiresAt?: Date) {
  * @param name le nom du cookie à supprimer
  */
 export function deleteCookie(name: string) {
-    document.cookie = stringifySetCookie({ name, value: '', path: '/', maxAge: 0 });
+    document.cookie = `${name}=; path=/; max-age=0`;
 }
 
 /**

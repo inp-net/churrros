@@ -1,8 +1,8 @@
 <script lang="ts">
-    import { userRepository } from '$lib/api';
-    import Avatar from '$lib/components/avatar/Avatar.svelte';
-    import { m } from '$lib/paraglide/messages';
-    import { formatISODateToLocale, toISODate } from '$lib/utils/dates';
+    import { userRepository } from '#lib/api/index.ts';
+    import Avatar from '#lib/components/avatar/Avatar.svelte';
+    import { m } from '#lib/paraglide/messages.js';
+    import { formatISODateToLocale, toISODate } from '#lib/utils/dates.ts';
     import { createQuery } from '@tanstack/svelte-query';
 
     const now = new Date();

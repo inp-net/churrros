@@ -1,0 +1,87 @@
+workflow:
+    rules:
+        - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+        - if: $CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS
+          when: never
+        - if: $CI_COMMIT_BRANCH
+        - if: $CI_COMMIT_TAG
+
+stages:
+    - verify
+    - build
+
+.node:
+    image: node:24-slim
+    cache:
+        key:
+            files: [pnpm-lock.yaml]
+        paths:
+            - .pnpm-store
+    variables:
+        LEFTHOOK: '0'
+    before_script:
+        - corepack enable
+        - pnpm config set store-dir .pnpm-store
+        # env vars (with dummy values) required to build...
+        - cp .env.example .env
+        - pnpm i --frozen-lockfile
+
+.builder:
+    stage: build
+    image:
+        name: moby/buildkit:rootless
+        entrypoint: [sh, -c]
+    rules:
+        - when: on_success
+    variables:
+        BUILDKITD_FLAGS: --oci-worker-no-process-sandbox
+    before_script:
+        - |
+            mkdir -p ~/.docker && cat > ~/.docker/config.json <<EOF
+            {
+              "auths": {
+                "$CI_REGISTRY": {
+                  "auth": "$(echo -n "$CI_REGISTRY_USER:$CI_REGISTRY_PASSWORD" | base64)"
+                }
+              }
+            }
+            EOF
+        - |
+            dockerbuild() {
+              buildctl-daemonless.sh build \
+                --frontend=dockerfile.v0 \
+                --local context=. \
+                --local dockerfile=. \
+                --opt build-arg:VERSION=$1 \
+                --opt build-arg:COMMIT=$CI_COMMIT_SHA \
+                --output type=image,name=$CI_REGISTRY_IMAGE:$1,push=$2
+            }
+
+lint:
+    extends: .node
+    stage: verify
+    allow_failure: true
+    script:
+        - pnpm lint
+
+check:
+    extends: .node
+    stage: verify
+    script:
+        - pnpm check
+
+build:
+    extends: .node
+    stage: build
+    rules:
+        - if: $CI_COMMIT_TAG !~ /^v\d+\.\d+\.\d+.*$/
+    script:
+        - pnpm build
+
+deploy:
+    extends: .builder
+    stage: build
+    rules:
+        - if: $CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+.*$/
+    script:
+        - dockerbuild "$CI_COMMIT_TAG" "true"

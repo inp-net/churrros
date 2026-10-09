@@ -1,10 +1,10 @@
 <script lang="ts">
     import { createInfiniteQuery } from '@tanstack/svelte-query';
-    import { eventRepository, type EventsByDay } from '$lib/api';
-    import { m } from '$lib/paraglide/messages';
-    import InfiniteScroll from '$lib/components/InfiniteScroll.svelte';
-    import CardEventsByDay from '$lib/components/card/CardEventsByDay.svelte';
-    import { toISODate } from '$lib/utils/dates';
+    import { eventRepository, type EventsByDay } from '#lib/api/index.ts';
+    import { m } from '#lib/paraglide/messages.js';
+    import InfiniteScroll from '#lib/components/InfiniteScroll.svelte';
+    import CardEventsByDay from '#lib/components/card/CardEventsByDay.svelte';
+    import { toISODate } from '#lib/utils/dates.ts';
 
     const today = toISODate(new Date());
 

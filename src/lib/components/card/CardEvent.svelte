@@ -1,7 +1,7 @@
 <script lang="ts">
-    import type { Event } from '$lib/api';
+    import type { Event } from '#lib/api/index.ts';
     import CardTicket from './CardTicket.svelte';
-    import { formatISODateToLocale } from '$lib/utils/dates';
+    import { formatISODateToLocale } from '#lib/utils/dates.ts';
     import Avatar from '../avatar/Avatar.svelte';
 
     interface Props {

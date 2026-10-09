@@ -1,9 +1,9 @@
-import { graphql } from '$lib/api/graphql/graphql';
-import { CardArticleFragment } from '../fragments/cardArticle';
-import { CardEventFragment } from '../fragments/cardEvent';
-import { GroupAvatarFragment } from '../fragments/groupAvatar';
-import { LinkFragment } from '../fragments/link';
-import { PageInfoFragment } from '../fragments/pagination';
+import { graphql } from '#lib/api/graphql/graphql.ts';
+import { CardArticleFragment } from '../fragments/cardArticle.ts';
+import { CardEventFragment } from '../fragments/cardEvent.ts';
+import { GroupAvatarFragment } from '../fragments/groupAvatar.ts';
+import { LinkFragment } from '../fragments/link.ts';
+import { PageInfoFragment } from '../fragments/pagination.ts';
 
 export const GetArticles = graphql(
     `
@@ -22,7 +22,6 @@ export const GetArticles = graphql(
     `,
     [CardArticleFragment, PageInfoFragment]
 );
-
 
 export const GetArticleById = graphql(
     `

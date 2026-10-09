@@ -1,4 +1,4 @@
-import { graphql } from '$lib/api/graphql/graphql';
+import { graphql } from '#lib/api/graphql/graphql.ts';
 import { MutationErrorsFragment } from '../fragments/mutation';
 import { SessionTokenFragment } from '../fragments/session';
 

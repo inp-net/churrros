@@ -7,7 +7,7 @@
         "dev": "vite dev --host",
         "build": "vite build",
         "preview": "vite preview",
-        "prepare": "svelte-kit sync || echo ''",
+        "prepare": "svelte-kit sync || echo 'svelte-kit sync skipped'; lefthook install || echo 'lefthook skipped'",
         "check": "pnpm paraglide:compile && svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
         "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
         "lint": "prettier --check .",
@@ -15,23 +15,28 @@
         "paraglide:compile": "paraglide-js compile --project ./project.inlang --outdir ./src/lib/paraglide"
     },
     "devDependencies": {
-        "@inlang/paraglide-js": "^2.18.2",
-        "@sveltejs/adapter-auto": "^7.0.1",
-        "@sveltejs/kit": "^2.63.0",
-        "@sveltejs/vite-plugin-svelte": "^7.1.2",
-        "@types/node": "^26.1.2",
-        "graphql": "^16.14.2",
-        "prettier": "^3.8.3",
-        "prettier-plugin-svelte": "^4.1.0",
-        "svelte": "^5.56.1",
-        "svelte-check": "^4.6.0",
+        "@gql.tada/svelte-support": "^1.0.3",
+        "@inlang/paraglide-js": "^2.26.0",
+        "@sveltejs/adapter-node": "^6.0.0",
+        "@sveltejs/kit": "^3.0.1",
+        "@sveltejs/vite-plugin-svelte": "^7.3.1",
+        "@types/node": "^26.6.4",
+        "graphql": "^17.0.2",
+        "lefthook": "^2.2.1",
+        "prettier": "^3.9.9",
+        "prettier-plugin-svelte": "^4.1.1",
+        "svelte": "^5.57.2",
+        "svelte-check": "^4.7.6",
         "typescript": "^6.0.3",
-        "vite": "^8.0.16"
+        "vite": "^8.3.3"
     },
     "dependencies": {
-        "@tanstack/svelte-query": "^6.1.36",
-        "azucar-ui": "^0.0.6",
-        "cookie": "^2.0.1",
-        "gql.tada": "^1.11.2"
+        "@tanstack/svelte-query": "^6.3.1",
+        "azucar-ui": "^0.0.11",
+        "gql.tada": "^1.11.4"
+    },
+    "imports": {
+        "#lib": "./src/lib/index.ts",
+        "#lib/*": "./src/lib/*"
     }
 }

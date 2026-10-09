@@ -1,7 +1,15 @@
-import type { PageRequest, Page, EventDetail, GroupAvatar, Avatar, BookingDetail, Article, ArticleDetail } from '$lib/api';
-import type { Event } from '$lib/api';
-import type { SessionToken } from '$lib/api';
-import type { User } from '$lib/api';
+import type {
+    PageRequest,
+    Page,
+    EventDetail,
+    GroupAvatar,
+    Avatar,
+    Article,
+    ArticleDetail,
+    Event,
+    SessionToken,
+    User
+} from '#lib/api/index.ts';
 import type { Cookies } from '@sveltejs/kit';
 
 /**
@@ -108,7 +116,11 @@ export interface UserRepository {
      * @param width The number of days around the date (optionnal) (By default 1 day)
      * @returns An record where the keys are the dates in ISO format and the values are the list of avatars of users whose birthday it is on that date
      */
-    getGroupedBirthdays(activeOnly: boolean, date?: string, width?: number): Promise<Record<string, Avatar[]>>;
+    getGroupedBirthdays(
+        activeOnly: boolean,
+        date?: string,
+        width?: number
+    ): Promise<Record<string, Avatar[]>>;
 }
 
 /**

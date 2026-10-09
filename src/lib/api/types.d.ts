@@ -188,6 +188,6 @@ export type Article = {
 
 export type ArticleDetail = Article & {
     event: Event | null;
-}
+};
 
 //#endregion

@@ -1,7 +1,7 @@
-import type { User } from '$lib/api';
-import { readFragment, type ResultOf } from '$lib/api/graphql/graphql';
-import type { GetMe, RememberPaymentPhone } from '$lib/api/graphql/queries/me';
-import { UserFragment } from '$lib/api/graphql/queries/fragments/user';
+import type { User } from '#lib/api/index.ts';
+import { readFragment, type ResultOf } from '#lib/api/graphql/graphql.ts';
+import type { GetMe, RememberPaymentPhone } from '#lib/api/graphql/queries/me/index.ts';
+import { UserFragment } from '#lib/api/graphql/queries/fragments/user.ts';
 
 export function mapMe(user: ResultOf<typeof GetMe>['me']): User | null {
     if (!user) {
