@@ -225,7 +225,7 @@ export type ArticleDetail = Article & {
 
 //#endregion
 
-//#region Services 
+//#region Services
 export type CardService = {
     id: string;
     name: string;
@@ -233,11 +233,11 @@ export type CardService = {
     description: string;
     logo: string;
     pinned: boolean;
-}
+};
 
 //#endregion
 
-//#region Student Association 
+//#region Student Association
 export type StudentAssociationProfile = {
     studentAssociation: Avatar;
     email: string | null;
@@ -246,7 +246,7 @@ export type StudentAssociationProfile = {
     membersCount: number;
     links: Link[];
     school: Avatar;
-}
+};
 
 //#endregion
 
@@ -257,17 +257,17 @@ export type SchoolProfile = {
     activeStudentsCount: number;
     studentsCount: number;
     description: string;
-}
+};
 
 export type SchoolInfos = {
     address: string;
     studentAssociations: Avatar[];
-}
+};
 
 export type MajorInfos = {
     avatar: Avatar;
     discontinued: boolean;
     fullName: string;
-}
+};
 
 //#endregion
