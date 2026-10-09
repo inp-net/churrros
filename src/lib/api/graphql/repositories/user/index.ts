@@ -1,5 +1,5 @@
-import type { UserRepository } from '$lib/api/repositories';
-import { request } from '$lib/api/graphql/client';
+import type { UserRepository } from '#lib/api/repositories.d.ts';
+import { request } from '#lib/api/graphql/client.ts';
 import {
     GetUserAvatarByUid,
     GetUserByUid,
@@ -9,7 +9,7 @@ import {
     GetBirthdays,
     GetGroupedBirthdays,
     GetUserProfile
-} from '$lib/api/graphql/queries/user';
+} from '#lib/api/graphql/queries/user/index.ts';
 import {
     mapUser,
     mapUserAvatar,
@@ -19,7 +19,7 @@ import {
     mapBirthdays,
     mapGroupedBirthdays,
     mapUserProfile
-} from '$lib/api/graphql/mappers/user';
+} from '#lib/api/graphql/mappers/user/index.ts';
 
 export const userRepository: UserRepository = {
     async getUserByUid(uid) {

@@ -14,11 +14,11 @@ import type {
     GroupType,
     MajorInfos,
     SchoolInfos,
-    SchoolProfile
-} from '$lib/api';
-import type { Event } from '$lib/api';
-import type { SessionToken } from '$lib/api';
-import type { User } from '$lib/api';
+    SchoolProfile,
+    Event,
+    SessionToken,
+    User
+} from '#lib/api/index.ts';
 import type { Cookies } from '@sveltejs/kit';
 
 /**
@@ -244,7 +244,6 @@ export interface GroupRepository {
  * Repostory that handles student association-related API interactions
  */
 export interface StudentAssociationRepository {
-
     /**
      * Returns the profile of a student association by its uid.
      * @param uid the uid of the student association to retrieve
@@ -258,7 +257,11 @@ export interface StudentAssociationRepository {
      * @param args the pagination information, first for the number of items to retrieve, after for the cursor of the previous page (if null, we retrieve the items from the beginning)
      * @returns a page of group avatars with pagination information, or null if the student association is not found
      */
-    getStudentAssociationGroups(uid?: string, types: GroupType[], args?: PageRequest): Promise<Page<GroupAvatar>>;
+    getStudentAssociationGroups(
+        uid?: string,
+        types: GroupType[],
+        args?: PageRequest
+    ): Promise<Page<GroupAvatar>>;
 
     /**
      * Returns the services of a student association by its uid.

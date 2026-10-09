@@ -1,11 +1,11 @@
-import { graphql } from '$lib/api/graphql/graphql';
-import { GroupMemberWithGroupFragment } from '../fragments/groupMemberWithGroup';
-import { LinkFragment } from '../fragments/link';
-import { MajorAvatarFragment } from '../fragments/majorAvatar';
-import { SchoolAvatarFragment } from '../fragments/schoolAvatar';
-import { StudentAssociationAvatar } from '../fragments/studentAssociationAvatar';
-import { UserFragment } from '../fragments/user';
-import { UserAvatarFragment } from '../fragments/userAvatar';
+import { graphql } from '#lib/api/graphql/graphql.ts';
+import { GroupMemberWithGroupFragment } from '../fragments/groupMemberWithGroup.ts';
+import { LinkFragment } from '../fragments/link.ts';
+import { MajorAvatarFragment } from '../fragments/majorAvatar.ts';
+import { SchoolAvatarFragment } from '../fragments/schoolAvatar.ts';
+import { StudentAssociationAvatar } from '../fragments/studentAssociationAvatar.ts';
+import { UserFragment } from '../fragments/user.ts';
+import { UserAvatarFragment } from '../fragments/userAvatar.ts';
 
 export const GetUserByUid = graphql(
     `

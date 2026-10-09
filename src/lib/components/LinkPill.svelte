@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type { Link } from '$lib/api';
+    import type { Link } from '#lib/api/index.ts';
 
     interface Props {
         link: Link;

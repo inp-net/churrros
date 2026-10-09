@@ -1,6 +1,6 @@
-import type { Ticket, TicketDetail } from '$lib/api/types';
+import type { Ticket, TicketDetail } from '#lib/api/types.d.ts';
 import { readFragment, type $tada } from 'gql.tada';
-import { CardTicketFragment } from '$lib/api/graphql/queries/fragments/cardTicket';
+import { CardTicketFragment } from '#lib/api/graphql/queries/fragments/cardTicket.ts';
 import { TicketDetailFragment } from '../../queries/fragments/ticketDetail';
 import { mapGroupAvatar } from '../group';
 import { mapMajor } from '../major';

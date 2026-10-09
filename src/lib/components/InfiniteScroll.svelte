@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { m } from '$lib/paraglide/messages';
+    import { m } from '#lib/paraglide/messages.js';
     import type { Snippet } from 'svelte';
     //Inspiré de https://github.com/ndom91/svelte-infinite
     //Note : Ce composant a un souci sur les grands écrans, si le contenu est plus petit que la hauteur de l'écran alors le loadMore n'est pas appelé

@@ -1,8 +1,12 @@
-import type { EventRepository } from '$lib/api/repositories';
-import { request } from '$lib/api/graphql/client';
-import { mapBookingEventResult, mapEventDetail, mapEvents } from '$lib/api/graphql/mappers/event';
-import { BookEvent, GetEventById, GetEvents } from '$lib/api/graphql/queries/event';
-import type { PageRequest } from '$lib/api';
+import type { EventRepository } from '#lib/api/repositories.d.ts';
+import { request } from '#lib/api/graphql/client.ts';
+import {
+    mapBookingEventResult,
+    mapEventDetail,
+    mapEvents
+} from '#lib/api/graphql/mappers/event/index.ts';
+import { BookEvent, GetEventById, GetEvents } from '#lib/api/graphql/queries/event/index.ts';
+import type { PageRequest } from '#lib/api/index.ts';
 
 export const eventRepository: EventRepository = {
     async getEvents(args: PageRequest) {

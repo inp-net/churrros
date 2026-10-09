@@ -6,8 +6,8 @@ import type {
     UserGroups,
     UserInfos,
     UserProfile
-} from '$lib/api';
-import { readFragment, type ResultOf } from '$lib/api/graphql/graphql';
+} from '#lib/api/index.ts';
+import { readFragment, type ResultOf } from '#lib/api/graphql/graphql.ts';
 import type {
     GetUserByUid,
     GetUserFamily,
@@ -16,16 +16,16 @@ import type {
     GetBirthdays,
     GetGroupedBirthdays,
     GetUserProfile
-} from '$lib/api/graphql/queries/user';
-import { UserFragment } from '$lib/api/graphql/queries/fragments/user';
+} from '#lib/api/graphql/queries/user/index.ts';
+import { UserFragment } from '#lib/api/graphql/queries/fragments/user.ts';
 import type { $tada } from 'gql.tada';
-import { UserAvatarFragment } from '../../queries/fragments/userAvatar';
-import { mapStudentAssociationAvatar } from '../studentassociation';
-import { mapGroupMemberGroup } from '../group';
-import { mapLink } from '../link';
-import { GroupMemberWithUserFragment } from '../../queries/fragments/groupMemberWithUser';
-import { mapMajor } from '../major';
-import { mapSchool } from '../school';
+import { UserAvatarFragment } from '../../queries/fragments/userAvatar.ts';
+import { mapStudentAssociationAvatar } from '../studentassociation/index.ts';
+import { mapGroupMemberGroup } from '../group/index.ts';
+import { mapLink } from '../link/index.ts';
+import { GroupMemberWithUserFragment } from '../../queries/fragments/groupMemberWithUser.ts';
+import { mapMajor } from '../major/index.ts';
+import { mapSchool } from '../school/index.ts';
 
 export function mapUser(user: ResultOf<typeof GetUserByUid>['user']): User {
     const userData = readFragment(UserFragment, user);

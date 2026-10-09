@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type { TicketDetail } from '$lib/api';
+    import type { TicketDetail } from '#lib/api/index.ts';
 
     interface Props {
         ticket: TicketDetail;
