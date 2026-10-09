@@ -1,11 +1,11 @@
 <script lang="ts">
-    import type { Pathname } from '$app/types';
+    import type { Path } from '$app/types';
     import { resolve } from '$app/paths';
     import { page } from '$app/state';
-    import { locales, localizeHref } from '$lib/paraglide/runtime';
-    import { browser } from '$app/environment';
+    import { locales, localizeHref } from '#lib/paraglide/runtime.js';
+    import { browser } from '$app/env';
     import { QueryClient, QueryClientProvider } from '@tanstack/svelte-query';
-    import favicon from '$lib/assets/favicon.svg';
+    import favicon from '#lib/assets/favicon.svg';
     import 'azucar-ui/tokens.css';
     import 'azucar-ui/base.css';
 
@@ -31,7 +31,7 @@
 
 <div style="display:none">
     {#each locales as locale (locale)}
-        <a href={resolve(localizeHref(page.url.pathname, { locale }) as Pathname)}>{locale}</a>
+        <a href={resolve(localizeHref(page.url.pathname, { locale }) as Path)}>{locale}</a>
     {/each}
 </div>
 

@@ -1,6 +1,6 @@
 import type { CredentialsProvider } from '../types';
-import { authRepository } from '$lib/api';
-import { setToken, writeCookie } from '$lib/auth/session';
+import { authRepository } from '#lib/api/index.ts';
+import { setToken, writeCookie } from '#lib/auth/session.ts';
 
 export const credentialsProvider: CredentialsProvider = {
     async login(emailOrUid: string, password: string) {

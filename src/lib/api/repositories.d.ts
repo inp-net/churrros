@@ -6,10 +6,10 @@ import type {
     Avatar,
     Article,
     ArticleDetail
-} from '$lib/api';
-import type { Event } from '$lib/api';
-import type { SessionToken } from '$lib/api';
-import type { User } from '$lib/api';
+} from '#lib/api/index.ts';
+import type { Event } from '#lib/api/index.ts';
+import type { SessionToken } from '#lib/api/index.ts';
+import type { User } from '#lib/api/index.ts';
 import type { Cookies } from '@sveltejs/kit';
 
 /**

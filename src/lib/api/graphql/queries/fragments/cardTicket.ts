@@ -1,4 +1,4 @@
-import { graphql } from '$lib/api/graphql/graphql';
+import { graphql } from '#lib/api/graphql/graphql.ts';
 
 /**
  * Fragment graphql qui permet de récupérer les informations d'un ticket pour l'afficher dans le composant CardTicket.
