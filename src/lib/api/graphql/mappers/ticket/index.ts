@@ -1,4 +1,4 @@
-import type { Ticket, TicketDetail } from '#lib/api/types.d.ts';
+import type { Ticket, TicketDetail } from '#lib/api/types.ts';
 import { readFragment, type $tada } from 'gql.tada';
 import { CardTicketFragment } from '#lib/api/graphql/queries/fragments/cardTicket.ts';
 import { TicketDetailFragment } from '../../queries/fragments/ticketDetail';

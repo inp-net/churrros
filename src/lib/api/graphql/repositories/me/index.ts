@@ -1,4 +1,4 @@
-import type { MeRepository } from '#lib/api/repositories.d.ts';
+import type { MeRepository } from '#lib/api/repositories.ts';
 import { request, requestServer } from '#lib/api/graphql/client.ts';
 import type { Cookies } from '@sveltejs/kit';
 import {

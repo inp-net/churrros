@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type { QrCode } from '$lib/api';
+    import type { QrCode } from '#lib/api/index.ts';
 
     interface Props {
         qrCode: QrCode;

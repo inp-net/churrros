@@ -5,18 +5,18 @@ import {
     type BookingDetail,
     type Page,
     type QrCode
-} from '$lib/api';
-import { readFragment, type ResultOf } from '$lib/api/graphql/graphql';
+} from '#lib/api/index.ts';
+import { readFragment, type ResultOf } from '#lib/api/graphql/graphql.ts';
 import {
     GetAppleWalletPass,
     GetBookingByCode,
     GetGoogleWalletPass,
     GetMyBookings,
     PayBooking
-} from '$lib/api/graphql/queries/booking';
-import { PageInfoFragment } from '$lib/api/graphql/queries/fragments/pagination';
+} from '#lib/api/graphql/queries/booking/index.ts';
+import { PageInfoFragment } from '#lib/api/graphql/queries/fragments/pagination.ts';
 import type { $tada } from 'gql.tada';
-import { CardBookingFragment } from '$lib/api/graphql/queries/fragments/cardBooking';
+import { CardBookingFragment } from '#lib/api/graphql/queries/fragments/cardBooking.ts';
 import { mapUserAvatar } from '../user';
 import { QrCodeFragment } from '../../queries/fragments/qrcode';
 import { mapLightEvent } from '../event';

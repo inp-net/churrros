@@ -1,9 +1,9 @@
 <script lang="ts">
     import { createInfiniteQuery } from '@tanstack/svelte-query';
-    import { bookingRepository, type Booking } from '$lib/api';
-    import { m } from '$lib/paraglide/messages';
-    import InfiniteScroll from '$lib/components/InfiniteScroll.svelte';
-    import CardBooking from '$lib/components/card/CardBooking.svelte';
+    import { bookingRepository, type Booking } from '#lib/api/index.ts';
+    import { m } from '#lib/paraglide/messages.js';
+    import InfiniteScroll from '#lib/components/InfiniteScroll.svelte';
+    import CardBooking from '#lib/components/card/CardBooking.svelte';
 
     const query = createInfiniteQuery(() => ({
         queryKey: ['bookings'],

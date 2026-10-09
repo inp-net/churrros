@@ -1,6 +1,6 @@
 <script lang="ts">
-    import { m } from '$lib/paraglide/messages';
-    import type { PaymentFollowUpProps } from '$lib/utils/payment';
+    import { m } from '#lib/paraglide/messages.js';
+    import type { PaymentFollowUpProps } from '#lib/utils/payment.ts';
 
     let { onBack, onDone }: PaymentFollowUpProps = $props();
 </script>

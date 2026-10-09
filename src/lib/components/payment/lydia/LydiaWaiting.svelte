@@ -1,6 +1,6 @@
 <script lang="ts">
-    import { m } from '$lib/paraglide/messages';
-    import { PAYMENT_PROVIDERS, type PaymentWaitingProps } from '$lib/utils/payment';
+    import { m } from '#lib/paraglide/messages.js';
+    import { PAYMENT_PROVIDERS, type PaymentWaitingProps } from '#lib/utils/payment.ts';
 
     let { onBack, onRecheck }: PaymentWaitingProps = $props();
 </script>

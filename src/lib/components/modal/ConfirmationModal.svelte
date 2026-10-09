@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { m } from '$lib/paraglide/messages';
+    import { m } from '#lib/paraglide/messages.js';
 
     //Sera surement remplacé par un composant modal bien fait dans azucar
     //Mais en gros en terme de design on est sur du Confirm Cancel

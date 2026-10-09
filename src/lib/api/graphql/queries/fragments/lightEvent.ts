@@ -1,5 +1,5 @@
 import { GroupAvatarFragment } from './groupAvatar';
-import { graphql } from '$lib/api/graphql/graphql';
+import { graphql } from '#lib/api/graphql/graphql.ts';
 
 export const LightEventFragment = graphql(
     `

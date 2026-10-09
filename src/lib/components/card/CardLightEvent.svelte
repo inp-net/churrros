@@ -1,6 +1,6 @@
 <script lang="ts">
-    import type { LightEvent } from '$lib/api';
-    import { formatISODateToLocale } from '$lib/utils/dates';
+    import type { LightEvent } from '#lib/api/index.ts';
+    import { formatISODateToLocale } from '#lib/utils/dates.ts';
     import Avatar from '../avatar/Avatar.svelte';
 
     interface Props {

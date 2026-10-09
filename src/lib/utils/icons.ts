@@ -1,5 +1,5 @@
-import { WalletTarget } from '$lib/api';
-import { getLocale } from '$lib/paraglide/runtime';
+import { WalletTarget } from '#lib/api/index.ts';
+import { getLocale } from '#lib/paraglide/runtime.js';
 
 //#region Wallets
 

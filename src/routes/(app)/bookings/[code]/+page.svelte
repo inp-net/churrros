@@ -1,25 +1,21 @@
 <script lang="ts">
     import { createMutation, createQuery, useQueryClient } from '@tanstack/svelte-query';
-    import { bookingRepository, WalletTarget } from '$lib/api';
-    import { m } from '$lib/paraglide/messages';
+    import { bookingRepository, WalletTarget } from '#lib/api/index.ts';
+    import { m } from '#lib/paraglide/messages.js';
     import { page } from '$app/state';
-    import QRCode from '$lib/components/QRCode.svelte';
-    import AddToWallet from '$lib/components/AddToWallet.svelte';
-    import Avatar from '$lib/components/avatar/Avatar.svelte';
-    import PaymentMethodDisplay from '$lib/components/PaymentMethodDisplay.svelte';
-    import CardLightEvent from '$lib/components/card/CardLightEvent.svelte';
-    import ConfirmationModal from '$lib/components/modal/ConfirmationModal.svelte';
-    import PaymentModal from '$lib/components/modal/PaymentModal.svelte';
+    import QRCode from '#lib/components/QRCode.svelte';
+    import AddToWallet from '#lib/components/AddToWallet.svelte';
+    import Avatar from '#lib/components/avatar/Avatar.svelte';
+    import PaymentMethodDisplay from '#lib/components/PaymentMethodDisplay.svelte';
+    import CardLightEvent from '#lib/components/card/CardLightEvent.svelte';
+    import ConfirmationModal from '#lib/components/modal/ConfirmationModal.svelte';
+    import PaymentModal from '#lib/components/modal/PaymentModal.svelte';
 
     const queryClient = useQueryClient();
 
     const query = createQuery(() => ({
         queryKey: ['booking', page.params.code],
-        queryFn: () =>
-            bookingRepository.getBookingByCode(
-                page.params.code,
-                `${page.url.origin}/bookings/[code]`
-            )
+        queryFn: () => bookingRepository.getBookingByCode(page.params.code)
     }));
 
     let confirmationModalIsOpen = $state(false);

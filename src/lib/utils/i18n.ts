@@ -1,6 +1,6 @@
-import { BookingStatus, type PaymentMethod, WalletTarget } from '$lib/api';
-import { m } from '$lib/paraglide/messages';
-import { getLocale } from '$lib/paraglide/runtime';
+import { BookingStatus, WalletTarget } from '#lib/api/index.ts';
+import { m } from '#lib/paraglide/messages.js';
+import { getLocale } from '#lib/paraglide/runtime.js';
 
 /**
  * Renvoie la traduction d'un status de booking

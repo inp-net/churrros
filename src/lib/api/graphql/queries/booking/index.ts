@@ -1,4 +1,4 @@
-import { graphql } from '$lib/api/graphql/graphql';
+import { graphql } from '#lib/api/graphql/graphql.ts';
 import { CardBookingFragment } from '../fragments/cardBooking';
 import { LightEventFragment } from '../fragments/lightEvent';
 import { PageInfoFragment } from '../fragments/pagination';

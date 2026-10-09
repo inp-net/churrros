@@ -1,6 +1,6 @@
 import { readFragment, type ResultOf } from 'gql.tada';
 import type { GetArticleById, GetArticles } from '../../queries/article/index.ts';
-import type { Article, ArticleDetail, Page } from '#lib/api/types.d.ts';
+import type { Article, ArticleDetail, Page } from '#lib/api/types.ts';
 import { PageInfoFragment } from '../../queries/fragments/pagination';
 import { CardArticleFragment } from '../../queries/fragments/cardArticle';
 import { mapLink } from '../link';

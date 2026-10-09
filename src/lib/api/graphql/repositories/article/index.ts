@@ -1,4 +1,4 @@
-import type { ArticleRepository } from '#lib/api/repositories.d.ts';
+import type { ArticleRepository } from '#lib/api/repositories.ts';
 import { GetArticleById, GetArticles } from '#lib/api/graphql/queries/article/index.ts';
 import { request } from '#lib/api/graphql/client.ts';
 import { mapArticleDetail, mapArticles } from '../../mappers/article';

@@ -1,9 +1,9 @@
 <script lang="ts">
-    import { browser } from '$app/environment';
-    import type { PaymentMethod } from '$lib/api';
-    import { m } from '$lib/paraglide/messages';
-    import { formatMoney } from '$lib/utils/i18n';
-    import { PAYMENT_PROVIDERS } from '$lib/utils/payment';
+    import { browser } from '$app/env';
+    import type { PaymentMethod } from '#lib/api/index.ts';
+    import { m } from '#lib/paraglide/messages.js';
+    import { formatMoney } from '#lib/utils/i18n.ts';
+    import { PAYMENT_PROVIDERS } from '#lib/utils/payment.ts';
     import PaymentMethodDisplay from '../PaymentMethodDisplay.svelte';
 
     type Step =

@@ -2,13 +2,16 @@ import type {
     PageRequest,
     Page,
     EventDetail,
-    GroupAvatar,
     Avatar,
     Article,
     ArticleDetail,
     Event,
     SessionToken,
-    User
+    User,
+    BookingDetail,
+    EventsByDay,
+    Booking,
+    PaymentMethod
 } from '#lib/api/index.ts';
 import type { Cookies } from '@sveltejs/kit';
 
@@ -45,13 +48,13 @@ export interface EventRepository {
      * Modifie un event
      * WIP
      */
-    editEvent();
+    editEvent(): Promise<void>;
 
     /**
      * Supprime un event
      * WIP
      */
-    deleteEvent();
+    deleteEvent(): Promise<void>;
 
     /**
      * Crée une reservation pour un event
@@ -163,11 +166,10 @@ export interface BookingRepository {
     /**
      * Récupère une réservation par son code
      * @param code le code de la réservation
-     * @param qrCodeUrlTemplate le template de l'url du QR code pour la réservation avec [code] comme placeholder pour le code de la réservation
      * @returns la réservation si elle existe
      * @throws une erreur si la réservation n'existe pas
      */
-    getBookingByCode(code?: string, qrCodeUrlTemplate: string): Promise<BookingDetail>;
+    getBookingByCode(code?: string): Promise<BookingDetail>;
 
     /**
      * Annule une réservation
@@ -204,9 +206,9 @@ export interface BookingRepository {
     payBooking(
         code: string,
         paymentMethod: PaymentMethod,
-        phone?: string,
         callbackUrl: string,
-        amount: number
+        amount: number,
+        phone?: string
     ): Promise<void>;
 }
 

@@ -1,7 +1,7 @@
 <script lang="ts">
-    import { WalletTarget } from '$lib/api';
-    import { walletTargetToLocalizedString } from '$lib/utils/i18n';
-    import { getWalletAsset } from '$lib/utils/icons';
+    import { WalletTarget } from '#lib/api/index.ts';
+    import { walletTargetToLocalizedString } from '#lib/utils/i18n.ts';
+    import { getWalletAsset } from '#lib/utils/icons.ts';
 
     interface Props {
         walletTarget: WalletTarget;

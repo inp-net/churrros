@@ -1,11 +1,11 @@
-import type { PaymentMethod } from '$lib/api';
-import { m } from '$lib/paraglide/messages';
+import type { PaymentMethod } from '#lib/api/index.ts';
+import { m } from '#lib/paraglide/messages.js';
 import type { Component } from 'svelte';
 
-import LydiaForm from '$lib/components/payment/lydia/LydiaForm.svelte';
-import LydiaWaiting from '$lib/components/payment/lydia/LydiaWaiting.svelte';
+import LydiaForm from '#lib/components/payment/lydia/LydiaForm.svelte';
+import LydiaWaiting from '#lib/components/payment/lydia/LydiaWaiting.svelte';
 
-import ManualFollowUp from '$lib/components/payment/manual/ManualFollowUp.svelte';
+import ManualFollowUp from '#lib/components/payment/manual/ManualFollowUp.svelte';
 
 interface PaymentProvider {
     //Le label affiché pour le provider

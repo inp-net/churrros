@@ -1,9 +1,9 @@
 <script lang="ts">
-    import type { PaymentFormProps } from '$lib/utils/payment';
-    import { bookingRepository, meRepository, type PaymentMethod } from '$lib/api';
+    import type { PaymentFormProps } from '#lib/utils/payment.ts';
+    import { bookingRepository, meRepository, type PaymentMethod } from '#lib/api/index.ts';
     import { createMutation } from '@tanstack/svelte-query';
-    import { m } from '$lib/paraglide/messages';
-    import { formatMoney } from '$lib/utils/i18n';
+    import { m } from '#lib/paraglide/messages.js';
+    import { formatMoney } from '#lib/utils/i18n.ts';
     import { page } from '$app/state';
 
     const rememberPaymentPhoneMutation = createMutation(() => ({
@@ -30,7 +30,7 @@
             phone: string;
             callbackUrl: string;
             amount: number;
-        }) => bookingRepository.payBooking(code, paymentMethod, phone, callbackUrl, amount),
+        }) => bookingRepository.payBooking(code, paymentMethod, callbackUrl, amount, phone),
         onSuccess: (data) => {
             console.log('Booking paid:', data);
             onPaid();

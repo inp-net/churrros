@@ -1,4 +1,4 @@
-import { graphql } from '$lib/api/graphql/graphql';
+import { graphql } from '#lib/api/graphql/graphql.ts';
 
 export const CardBookingFragment = graphql(`
     fragment CardBooking on Registration {

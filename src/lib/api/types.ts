@@ -1,3 +1,5 @@
+import type { BookingStatus } from './enums';
+
 //#region Auth
 export type SessionToken = {
     token: string;

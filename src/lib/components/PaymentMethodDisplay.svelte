@@ -1,7 +1,7 @@
 <script lang="ts">
-    import type { PaymentMethod } from '$lib/api';
-    import { m } from '$lib/paraglide/messages';
-    import { PAYMENT_PROVIDERS } from '$lib/utils/payment';
+    import type { PaymentMethod } from '#lib/api/index.ts';
+    import { m } from '#lib/paraglide/messages.js';
+    import { PAYMENT_PROVIDERS } from '#lib/utils/payment.ts';
 
     interface Props {
         paymentMethod: PaymentMethod | null;
