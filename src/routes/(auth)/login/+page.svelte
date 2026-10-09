@@ -18,6 +18,8 @@
             console.error('Login failed:', error);
         }
     }
+
+    const currentUrl = $derived(new URL(page.url.href));
 </script>
 
 <form title="Se connecter" method="POST" onsubmit={handleSubmit}>
@@ -27,7 +29,7 @@
 </form>
 
 {#each oAuthProviders as provider}
-    <a href={provider.loginUrl(new URL(page.url)).toString()}>
+    <a href={provider.loginUrl(currentUrl).toString()}>
         <img src={provider.iconUrl} alt={provider.name} />
         Se connecter avec {provider.name}
     </a>

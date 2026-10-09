@@ -1,3 +1,21 @@
+stages:
+    - verify
+    - build
+
+.node:
+    image: node:24-slim
+    cache:
+        key:
+            files: [pnpm-lock.yaml]
+        paths:
+            - .pnpm-store
+    before_script:
+        - corepack enable
+        - pnpm config set store-dir .pnpm-store
+        # env vars (with dummy values) required to build...
+        - cp .env.example .env
+        - pnpm i --frozen-lockfile
+
 .builder:
     stage: build
     image:
@@ -34,6 +52,19 @@
                 --opt build-arg:COMMIT=$CI_COMMIT_SHA \
                 --output type=image,name=$CI_REGISTRY_IMAGE:latest,push=$2
             }
+
+lint:
+    extends: .node
+    stage: verify
+    allow_failure: true
+    script:
+        - pnpm lint
+
+check:
+    extends: .node
+    stage: verify
+    script:
+        - pnpm check
 
 deploy:
     extends: .builder

@@ -3,15 +3,18 @@ import { paraglideMiddleware } from '#lib/paraglide/server.js';
 import { meRepository } from '#lib/api/index.ts';
 import { sequence, type Handle } from '@sveltejs/kit/hooks';
 
-//Solved by https://github.com/opral/paraglide-js/issues/737 
+//Solved by https://github.com/opral/paraglide-js/issues/737
 const handleParaglide: Handle = ({ event, resolve }) =>
     paraglideMiddleware(event.request, ({ request, locale }) => {
-        return resolve(({ ...event, request }), {
-            transformPageChunk: ({ html }) =>
-                html
-                    .replace('%paraglide.lang%', locale)
-                    .replace('%paraglide.dir%', getTextDirection(locale))
-        });
+        return resolve(
+            { ...event, request },
+            {
+                transformPageChunk: ({ html }) =>
+                    html
+                        .replace('%paraglide.lang%', locale)
+                        .replace('%paraglide.dir%', getTextDirection(locale))
+            }
+        );
     });
 
 const handleAuth: Handle = async ({ event, resolve }) => {
