@@ -9,6 +9,8 @@ stages:
             files: [pnpm-lock.yaml]
         paths:
             - .pnpm-store
+    variables:
+        LEFTHOOK: '0'
     before_script:
         - corepack enable
         - pnpm config set store-dir .pnpm-store
@@ -43,14 +45,6 @@ stages:
                 --opt build-arg:VERSION=$1 \
                 --opt build-arg:COMMIT=$CI_COMMIT_SHA \
                 --output type=image,name=$CI_REGISTRY_IMAGE:$1,push=$2
-
-              buildctl-daemonless.sh build \
-                --frontend=dockerfile.v0 \
-                --local context=. \
-                --local dockerfile=. \
-                --opt build-arg:VERSION=$1 \
-                --opt build-arg:COMMIT=$CI_COMMIT_SHA \
-                --output type=image,name=$CI_REGISTRY_IMAGE:latest,push=$2
             }
 
 lint:
@@ -66,22 +60,18 @@ check:
     script:
         - pnpm check
 
+build:
+    extends: .node
+    stage: build
+    rules:
+        - if: $CI_COMMIT_TAG !~ /^v\d+\.\d+\.\d+.*$/
+    script:
+        - pnpm build
+
 deploy:
     extends: .builder
     stage: build
     rules:
         - if: $CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+.*$/
     script:
-        - dockerbuild $(echo $CI_COMMIT_TAG || echo "dev-$CI_COMMIT_SHA" || echo dev) "true"
-
-build:
-    stage: build
-    rules:
-        - if: $CI_COMMIT_TAG !~ /^v\d+\.\d+\.\d+.*$/
-    image: node:24-slim
-    script:
-        - corepack enable
-        # env vars (with dummy values) required to build...
-        - cp .env.example .env
-        - pnpm i --frozen-lockfile
-        - pnpm build
+        - dockerbuild "$CI_COMMIT_TAG" "true"
