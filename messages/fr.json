@@ -6,5 +6,6 @@
     "logout": "Se déconnecter",
     "events": "Événements",
     "birthdays": "Anniversaires",
-    "today": "Aujourd'hui"
+    "today": "Aujourd'hui",
+    "search_placeholder": "Rechercher..."
 }

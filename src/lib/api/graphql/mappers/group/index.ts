@@ -1,4 +1,4 @@
-import type { Avatar } from '#lib/api/types.d.ts';
+import type { Avatar } from '#lib/api/types.ts';
 import { readFragment, type $tada } from 'gql.tada';
 import { GroupAvatarFragment } from '#lib/api/graphql/queries/fragments/groupAvatar.ts';
 

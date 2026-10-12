@@ -2,10 +2,12 @@ import type {
     PageRequest,
     Page,
     EventDetail,
-    GroupAvatar,
     Avatar,
     Article,
-    ArticleDetail
+    ArticleDetail,
+    EventsByDay,
+    Searchable,
+    SearchResult
 } from '#lib/api/index.ts';
 import type { Event } from '#lib/api/index.ts';
 import type { SessionToken } from '#lib/api/index.ts';
@@ -45,13 +47,13 @@ export interface EventRepository {
      * Modifie un event
      * WIP
      */
-    editEvent();
+    editEvent(): Promise<void>;
 
     /**
      * Supprime un event
      * WIP
      */
-    deleteEvent();
+    deleteEvent(): Promise<void>;
 
     /**
      * Crée une reservation pour un event
@@ -160,4 +162,17 @@ export interface ArticleRepository {
      * @throws an error if the article does not exist
      */
     getArticleById(id: string | undefined): Promise<ArticleDetail>;
+}
+
+/**
+ * Repository to handle search
+ */
+export interface SearchRepository {
+    /**
+     * Returns a list of search results based on the query and the types of resources to search for.
+     * @param q the search query
+     * @param only the types of resources to search for
+     * @returns a list of search results
+     */
+    search(q: string, only: Searchable[]): Promise<SearchResult[]>;
 }

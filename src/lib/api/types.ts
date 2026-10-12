@@ -118,6 +118,16 @@ export type Link = {
     text: string;
 };
 
+export type Searchable = 'Events' | 'Groups' | 'Users';
+
+export type SearchResult = {
+    id: string;
+    type: Searchable;
+    rank: number | null;
+    similarity: number;
+    content: Event | Avatar;
+};
+
 //#endregion
 
 //#region Articles
