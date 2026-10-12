@@ -1,4 +1,4 @@
-import type { SchoolRepository } from '#lib/api/repositories.d.ts';
+import type { SchoolRepository } from '#lib/api/repositories.ts';
 import { request } from '#lib/api/graphql/client.ts';
 import {
     GetSchoolInfos,

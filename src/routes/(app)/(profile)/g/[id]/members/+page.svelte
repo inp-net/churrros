@@ -9,7 +9,7 @@
     const query = createInfiniteQuery(() => ({
         queryKey: ['group', page.params.id, 'members'],
         queryFn: ({ pageParam }) =>
-            groupRepository.getGroupMembers(page.params.id, { first: 20, after: pageParam }),
+            groupRepository.getGroupMembers({ first: 20, after: pageParam }, page.params.id),
         initialPageParam: null as string | null,
         getNextPageParam: (lastPage) =>
             lastPage?.pageInfo.hasNextPage ? lastPage.pageInfo.endCursor : null,
@@ -17,7 +17,7 @@
     }));
 
     const groupMembers: GroupMemberByDate[] = $derived(
-        query.data?.pages.flatMap((page) => page?.items) ?? []
+        query.data?.pages.flatMap((page) => page!.items) ?? []
     );
 </script>
 

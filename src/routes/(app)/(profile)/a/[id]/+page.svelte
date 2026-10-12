@@ -22,9 +22,9 @@
         queryKey: ['studentAssociation', page.params.id, 'boards'],
         queryFn: () =>
             studentAssociationRepository.getStudentAssociationGroups(
-                page.params.id,
                 ['StudentAssociationSection'],
-                { first: 10, after: null }
+                { first: 10, after: null },
+                page.params.id
             ),
         enabled: tab === 'boards'
     }));
@@ -33,12 +33,12 @@
         queryKey: ['studentAssociation', page.params.id, 'clubs'],
         queryFn: () =>
             studentAssociationRepository.getStudentAssociationGroups(
-                page.params.id,
                 ['Association', 'Club'],
                 {
                     first: 10,
                     after: null
-                }
+                },
+                page.params.id
             ),
         enabled: tab === 'clubs'
     }));

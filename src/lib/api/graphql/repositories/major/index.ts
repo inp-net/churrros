@@ -1,4 +1,4 @@
-import type { MajorRepository } from '#lib/api/repositories.d.ts';
+import type { MajorRepository } from '#lib/api/repositories.ts';
 import { request } from '#lib/api/graphql/client.ts';
 import { mapMajorInfos } from '#lib/api/graphql/mappers/major/index.ts';
 import { GetMajorProfile } from '#lib/api/graphql/queries/major/index.ts';
