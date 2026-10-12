@@ -37,8 +37,7 @@ export const bookingRepository: BookingRepository = {
                 throw new Error('Not found');
             }
             const response = await request(GetBookingByCode, {
-                code,
-                qrCodeURLTemplate: `${page.url.origin}/bookings/[code]`
+                code
             });
             return mapBookingDetail(response.booking);
         } catch (error) {

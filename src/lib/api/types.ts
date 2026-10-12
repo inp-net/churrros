@@ -208,11 +208,6 @@ export type Avatar = {
     pictureURL: string;
 };
 
-export type QrCode = {
-    path: string;
-    viewbox: string;
-};
-
 export type Link = {
     url: string | null;
     text: string;
@@ -248,7 +243,6 @@ export type BookingDetail = {
     pendingPayment: boolean;
     createdAt: string;
     wantsToPay: number | null;
-    qrCode: QrCode;
     linkURLs: string[];
     linkNames: string[];
     ticket: {

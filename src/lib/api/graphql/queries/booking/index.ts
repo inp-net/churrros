@@ -2,7 +2,6 @@ import { graphql } from '#lib/api/graphql/graphql.ts';
 import { CardBookingFragment } from '../fragments/cardBooking';
 import { LightEventFragment } from '../fragments/lightEvent';
 import { PageInfoFragment } from '../fragments/pagination';
-import { QrCodeFragment } from '../fragments/qrcode';
 import { UserAvatarFragment } from '../fragments/userAvatar';
 
 export const GetMyBookings = graphql(
@@ -27,7 +26,7 @@ export const GetMyBookings = graphql(
 
 export const GetBookingByCode = graphql(
     `
-        query PageBooking($code: String!, $qrCodeURLTemplate: URL!) {
+        query PageBooking($code: String!) {
             booking(code: $code) {
                 code
                 beneficiaryUser {
@@ -47,9 +46,6 @@ export const GetBookingByCode = graphql(
                 pendingPayment
                 createdAt
                 wantsToPay
-                qrCode(url: $qrCodeURLTemplate) {
-                    ...QrCode
-                }
                 linkURLs
                 linkNames
                 ticket {
@@ -66,7 +62,7 @@ export const GetBookingByCode = graphql(
             }
         }
     `,
-    [LightEventFragment, UserAvatarFragment, QrCodeFragment]
+    [LightEventFragment, UserAvatarFragment]
 );
 
 export const CancelBooking = graphql(`

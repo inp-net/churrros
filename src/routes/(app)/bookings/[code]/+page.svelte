@@ -86,7 +86,7 @@
         {#if query.data.cancelled}
             <p>{m['booking.cancelled']()}</p>
         {:else}
-            <QRCode qrCode={query.data.qrCode} />
+            <QRCode text={`${page.url.origin}/bookings/[code]`} />
             <p>{query.data.code}</p>
         {/if}
     </div>

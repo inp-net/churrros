@@ -3,8 +3,7 @@ import {
     type PaymentMethod,
     type Booking,
     type BookingDetail,
-    type Page,
-    type QrCode
+    type Page
 } from '#lib/api/index.ts';
 import { readFragment, type ResultOf } from '#lib/api/graphql/graphql.ts';
 import {
@@ -18,7 +17,6 @@ import { PageInfoFragment } from '#lib/api/graphql/queries/fragments/pagination.
 import type { $tada } from 'gql.tada';
 import { CardBookingFragment } from '#lib/api/graphql/queries/fragments/cardBooking.ts';
 import { mapUserAvatar } from '../user';
-import { QrCodeFragment } from '../../queries/fragments/qrcode';
 import { mapLightEvent } from '../event';
 
 export function mapBookings(
@@ -71,20 +69,6 @@ function mapBookingStatus(
     return BookingStatus.WAITING;
 }
 
-type QRCodeFragmentType = {
-    [$tada.fragmentRefs]: {
-        QrCode: 'QRCode';
-    };
-};
-
-export function mapQRCode(fragment: QRCodeFragmentType): QrCode {
-    const data = readFragment(QrCodeFragment, fragment);
-    return {
-        path: data.path,
-        viewbox: data.viewbox
-    };
-}
-
 export function mapBookingDetail(
     booking: ResultOf<typeof GetBookingByCode>['booking']
 ): BookingDetail {
@@ -103,7 +87,6 @@ export function mapBookingDetail(
         pendingPayment: booking.pendingPayment,
         createdAt: booking.createdAt,
         wantsToPay: booking.wantsToPay,
-        qrCode: mapQRCode(booking.qrCode),
         linkURLs: booking.linkURLs,
         linkNames: booking.linkNames,
         ticket: {
