@@ -6,7 +6,7 @@ import type {
     GroupAvatar,
     Page,
     StudentAssociationProfile
-} from '#lib/api/types.d.ts';
+} from '#lib/api/types.ts';
 import type {
     GetStudentAssociationGroups,
     GetStudentAssociationProfile,

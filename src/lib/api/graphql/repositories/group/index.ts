@@ -1,4 +1,4 @@
-import type { GroupRepository } from '#lib/api/repositories.d.ts';
+import type { GroupRepository } from '#lib/api/repositories.ts';
 import { request } from '#lib/api/graphql/client.ts';
 import {
     GetBoardGroupMembers,
@@ -68,7 +68,7 @@ export const groupRepository: GroupRepository = {
             throw error;
         }
     },
-    async getGroupMembers(uid, args) {
+    async getGroupMembers(args, uid) {
         try {
             if (!uid) {
                 throw new Error('UID is required to fetch group members');
