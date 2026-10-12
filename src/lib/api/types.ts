@@ -80,6 +80,93 @@ export type User = {
     pictureURL: string;
     admin: boolean;
 };
+
+export type UserInfos = {
+    address: string | null;
+    nickname: string;
+    birthday: string | null;
+    phone: string | null;
+    email: string;
+    otherEmails: string[];
+    contributesTo: Avatar[] | null;
+};
+
+export type UserGroups = {
+    groups: GroupMember[];
+};
+
+export type UserFamily = {
+    uid: string;
+    nesting: string;
+    users: Avatar[];
+};
+
+export type UserProfile = {
+    uid: string;
+    fullName: string;
+    name: string;
+    pictureURL: string;
+    pronouns: string;
+    nickname: string;
+    description: string;
+    yearTier: number;
+    major: Avatar | null;
+    school: Avatar[];
+    links: Link[];
+    bot: boolean;
+    admin: boolean;
+};
+//#endregion
+
+//#region Groups
+export type GroupMember = {
+    avatar: Avatar; //Either the avatar of the user or the avatar of the group
+    title: string;
+    treasurer: boolean;
+    secretary: boolean;
+    vicePresident: boolean;
+    president: boolean;
+};
+
+export type GroupMemberByDate = GroupMember & {
+    createdAt: string;
+};
+
+export type GroupType =
+    'Association' | 'Club' | 'Group' | 'Integration' | 'List' | 'StudentAssociationSection';
+
+export type GroupProfile = {
+    group: Avatar;
+    email: string | null;
+    type: GroupType;
+    description: string;
+    links: Link[];
+    membersCount: number;
+    activeMembersCount: number;
+    studentAssociation: Avatar;
+    selfJoinable: boolean;
+};
+
+export type GroupInfos = {
+    roomIsOpen: boolean;
+    address: string;
+    color: string | null;
+    email: string | null;
+};
+
+export type GroupBoardMembers = {
+    membersCount: number;
+    boardMembers: GroupMember[];
+};
+
+export type GroupAvatar = Avatar & {
+    description: string;
+};
+
+export type GroupSeeAlso = {
+    familyChildren: GroupAvatar[];
+    related: GroupAvatar[];
+};
 //#endregion
 
 //#region Pagination
@@ -190,6 +277,53 @@ export type Article = {
 
 export type ArticleDetail = Article & {
     event: Event | null;
+};
+
+//#endregion
+
+//#region Services
+export type CardService = {
+    id: string;
+    name: string;
+    url: string;
+    description: string;
+    logo: string;
+    pinned: boolean;
+};
+
+//#endregion
+
+//#region Student Association
+export type StudentAssociationProfile = {
+    studentAssociation: Avatar;
+    email: string | null;
+    description: string;
+    activeMembersCount: number;
+    membersCount: number;
+    links: Link[];
+    school: Avatar;
+};
+
+//#endregion
+
+//#region School
+
+export type SchoolProfile = {
+    school: Avatar;
+    activeStudentsCount: number;
+    studentsCount: number;
+    description: string;
+};
+
+export type SchoolInfos = {
+    address: string;
+    studentAssociations: Avatar[];
+};
+
+export type MajorInfos = {
+    avatar: Avatar;
+    discontinued: boolean;
+    fullName: string;
 };
 
 //#endregion

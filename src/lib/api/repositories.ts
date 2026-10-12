@@ -3,15 +3,30 @@ import type {
     Page,
     EventDetail,
     Avatar,
+    UserInfos,
+    UserGroups,
+    UserFamily,
     Article,
     ArticleDetail,
-    Event,
     SessionToken,
     User,
     BookingDetail,
     EventsByDay,
     Booking,
-    PaymentMethod
+    PaymentMethod,
+    UserProfile,
+    StudentAssociationProfile,
+    GroupType,
+    MajorInfos,
+    SchoolInfos,
+    SchoolProfile,
+    GroupBoardMembers,
+    GroupInfos,
+    GroupProfile,
+    GroupSeeAlso,
+    GroupMemberByDate,
+    GroupAvatar,
+    CardService
 } from '#lib/api/index.ts';
 import type { Cookies } from '@sveltejs/kit';
 
@@ -104,10 +119,38 @@ export interface UserRepository {
     getUserAvatarByUid(uid: string): Promise<Avatar | null>;
 
     /**
-     * Fetches the birthdays of users. Only works when logged in.
-     * @param date The date around which to fetch birthdays in ISO format (optionnal) (By default the current date on the server)
+     * Fetches the profile of a user by their uid.
+     * @param uid the uid of the user to retrieve
+     * @returns the profile of the user, or null if not found
+     */
+    getUserProfile(uid?: string): Promise<UserProfile | null>;
+
+    /**
+     * Returns the infos of a user by its uid.
+     * @param uid the uid of the user to retrieve
+     * @returns the infos of the user, or null if not found
+     */
+    getUserInfos(uid?: string): Promise<UserInfos | null>;
+
+    /**
+     * Returns the groups that a user is a member of by its uid.
+     * @param uid the uid of the user to retrieve
+     * @returns the groups that the user is a member of, or null if user is not found
+     */
+    getUserGroups(uid?: string): Promise<UserGroups | null>;
+
+    /**
+     * Returns the family of a user by its uid.
+     * @param uid the uid of the user to retrieve
+     * @returns the family of the user, or null if user is not found
+     */
+    getUserFamily(uid?: string): Promise<UserFamily | null>;
+
+    /**
+     * Fetches the birthdays of users.Only works when logged in.
+     * @param date The date around which to fetch birthdays in ISO format(optionnal)(By default the current date on the server)
      * @param activeOnly True if we want only active users in first, second or third year, false if we want all users
-     * @param width The number of days around the date (optionnal) (By default 1 day)
+     * @param width The number of days around the date(optionnal)(By default 1 day)
      * @returns A list of avatars of users whose birthday it is
      */
     getBirthdays(activeOnly: boolean, date?: string, width?: number): Promise<Avatar[]>;
@@ -230,4 +273,122 @@ export interface ArticleRepository {
      * @throws an error if the article does not exist
      */
     getArticleById(id: string | undefined): Promise<ArticleDetail>;
+}
+
+/**
+ * Repository that handles group-related API interactions
+ */
+export interface GroupRepository {
+    /**
+     * Returns the profile of a group by its uid.
+     * @param uid the uid of the group to retrieve
+     * @returns the profile of the group, or null if not found
+     */
+    getGroupProfile(uid?: string): Promise<GroupProfile | null>;
+
+    /**
+     * Returns the infos of a group by its uid.
+     * @param uid the uid of the group to retrieve
+     * @returns the infos of the group, or null if not found
+     */
+    getGroupInfos(uid?: string): Promise<GroupInfos | null>;
+
+    /**
+     * Returns the board members of a group by its uid.
+     * @param uid the uid of the group to retrieve
+     * @returns the board members of the group, or null if not found
+     */
+    getGroupBoardMembers(uid?: string): Promise<GroupBoardMembers | null>;
+
+    /**
+     * Returns the "see also" information of a group by its uid.
+     * @param uid the uid of the group to retrieve
+     * @returns the "see also" information of the group, or null if not found
+     */
+    getGroupSeeAlso(uid?: string): Promise<GroupSeeAlso | null>;
+
+    /**
+     * Returns a paginated list of members of a group by its uid.
+     * @param uid the uid of the group to retrieve
+     * @param args the pagination information, first for the number of items to retrieve, after for the cursor of the previous page (if null, we retrieve the items from the beginning)
+     * @returns a page of group members with pagination information, or null if the group is not found
+     */
+    getGroupMembers(args: PageRequest, uid?: string): Promise<Page<GroupMemberByDate> | null>;
+}
+
+/**
+ * Repostory that handles student association-related API interactions
+ */
+export interface StudentAssociationRepository {
+    /**
+     * Returns the profile of a student association by its uid.
+     * @param uid the uid of the student association to retrieve
+     * @returns the profile of the student association, or null if not found
+     */
+    getStudentAssociationProfile(uid?: string): Promise<StudentAssociationProfile>;
+    /**
+     * Returns the groups belonging to a certain type of a student association by its uid.
+     * @param uid the uid of the student association to retrieve
+     * @param types the types of groups to retrieve
+     * @param args the pagination information, first for the number of items to retrieve, after for the cursor of the previous page (if null, we retrieve the items from the beginning)
+     * @returns a page of group avatars with pagination information, or null if the student association is not found
+     */
+    getStudentAssociationGroups(
+        types: GroupType[],
+        args: PageRequest,
+        uid?: string
+    ): Promise<Page<GroupAvatar>>;
+
+    /**
+     * Returns the services of a student association by its uid.
+     * @param uid the uid of the student association to retrieve
+     * @param args the pagination information, first for the number of items to retrieve, after for the cursor of the previous page (if null, we retrieve the items from the beginning)
+     * @returns a page of card services with pagination information, or null if the student association is not found
+     */
+    getStudentAssociationServices(uid?: string, args?: PageRequest): Promise<Page<CardService>>;
+}
+
+/**
+ * Repository that handles school related API interactions
+ */
+export interface SchoolRepository {
+    /**
+     * Returns the profile of a school by its uid.
+     * @param uid the uid of the school to retrieve
+     * @returns the profile of the school
+     */
+    getSchoolProfile(uid?: string): Promise<SchoolProfile>;
+
+    /**
+     * Returns the infos of a school by its uid. The infos are mainly the address and the list of student associations of the school.
+     * @param uid the uid of the school to retrieve
+     * @returns the infos of the school
+     */
+    getSchoolInfos(uid?: string): Promise<SchoolInfos>;
+
+    /**
+     * Returns the list of majors of a school by its uid.
+     * @param uid the uid of the school to retrieve
+     * @returns the list of majors of the school
+     */
+    getSchoolMajors(uid?: string): Promise<MajorInfos[]>;
+
+    /**
+     * Returns the services of a school by its uid.
+     * @param uid the uid of the school to retrieve
+     * @returns a page of card services with pagination information
+     */
+    getSchoolServices(uid?: string, args?: PageRequest): Promise<CardService[]>;
+}
+
+/**
+ * Repository that handles major related API interactions
+ */
+export interface MajorRepository {
+    /**
+     * Returns the profile of a major by its uid.
+     * @param uid the uid of the major to retrieve
+     * @returns the profile of the major
+     */
+    getMajorProfile(uid?: string): Promise<MajorInfos>;
 }
