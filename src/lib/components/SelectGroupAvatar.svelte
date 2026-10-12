@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type { Avatar } from '$lib/api';
+    import type { Avatar } from '#lib/api/index.ts';
 
     interface Props {
         /**

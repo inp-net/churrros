@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type { Avatar } from '$lib/api';
+    import type { Avatar } from '#lib/api/index.ts';
 
     //Vieux dump pr le moment mais je pense on peut avoir un truc réutilisable pour tous les avatars tranquille
 

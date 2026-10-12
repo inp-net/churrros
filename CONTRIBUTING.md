@@ -79,6 +79,6 @@ Lorsque vous ajoutez des textes sur le front de l'appli, il est nécessaire d'ut
 2. Ajouter la clé et le texte correspondant dans le fichier messages/fr.json pour la langue française qui est la langue principale du projet.
 3. (Optionnel) ajouter la clé et le texte correspondant dans les autres fichiers de langues si vous savez déjà la traduction.
 4. Compiler les fichiers de traduction avec la commande `pnpm paraglide:compile` qui va générer le fichier messages.js dans le dossier src/lib/paraglide.
-5. Utiliser la clé dans le code avec la fonction m. Exemple : `m['ma_cle_de_traduction']()` avec un import de la fonction m depuis le fichier messages.js : `import { m } from '$lib/paraglide/messages.js';`
+5. Utiliser la clé dans le code avec la fonction m. Exemple : `m['ma_cle_de_traduction']()` avec un import de la fonction m depuis le fichier messages.js : `import { m } from '#lib/paraglide/messages.js';`
 
 La traduction du projet est externalisée avec [Weblate](https://weblate.inpt.fr/projects/churros/churros) qui permet à des contributeurs externes de traduire facilement le projet.

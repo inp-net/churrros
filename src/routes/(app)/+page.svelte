@@ -1,13 +1,14 @@
 <script lang="ts">
     import { page } from '$app/state';
-    import { setLocale, getLocale } from '$lib/paraglide/runtime';
-    import { m } from '$lib/paraglide/messages';
+    import { setLocale, getLocale } from '#lib/paraglide/runtime.js';
+    import { m } from '#lib/paraglide/messages.js';
     import { Button, ButtonGroup, Stack } from 'azucar-ui';
     import { createInfiniteQuery, createQuery } from '@tanstack/svelte-query';
     import { articleRepository, userRepository } from '$lib/api';
     import InfiniteScroll from '$lib/components/InfiniteScroll.svelte';
     import CardArticle from '$lib/components/card/CardArticle.svelte';
     import Avatar from '$lib/components/avatar/Avatar.svelte';
+    import CardBirthday from '$lib/components/card/CardBirthday.svelte';
 
     const query = createInfiniteQuery(() => ({
         queryKey: ['articles'],
@@ -74,6 +75,8 @@
         {/each}
     {/if}
 </div>
+
+<CardBirthday />
 
 <!--Temporaire, dans tous les cas on aura pas ça-->
 <h2>Articles</h2>

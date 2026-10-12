@@ -1,7 +1,7 @@
-import type { AuthRepository } from '$lib/api/repositories';
-import { request } from '$lib/api/graphql/client';
-import { LoginMutation } from '$lib/api/graphql/queries/auth';
-import { mapSessionToken } from '$lib/api/graphql/mappers/auth';
+import type { AuthRepository } from '#lib/api/repositories.d.ts';
+import { request } from '#lib/api/graphql/client.ts';
+import { LoginMutation } from '#lib/api/graphql/queries/auth/index.ts';
+import { mapSessionToken } from '#lib/api/graphql/mappers/auth/index.ts';
 
 export const authRepository: AuthRepository = {
     async login(emailOrUid: string, password: string) {

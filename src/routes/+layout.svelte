@@ -1,7 +1,11 @@
 <script lang="ts">
-    import { browser } from '$app/environment';
+    import type { Path } from '$app/types';
+    import { resolve } from '$app/paths';
+    import { page } from '$app/state';
+    import { locales, localizeHref } from '#lib/paraglide/runtime.js';
+    import { browser } from '$app/env';
     import { QueryClient, QueryClientProvider } from '@tanstack/svelte-query';
-    import favicon from '$lib/assets/favicon.svg';
+    import favicon from '#lib/assets/favicon.svg';
     import 'azucar-ui/tokens.css';
     import 'azucar-ui/base.css';
     import Header from '$lib/components/Header.svelte';
@@ -34,6 +38,12 @@
         </Stack>
     </div>
 </QueryClientProvider>
+
+<div style="display:none">
+    {#each locales as locale (locale)}
+        <a href={resolve(localizeHref(page.url.pathname, { locale }) as Path)}>{locale}</a>
+    {/each}
+</div>
 
 <style>
     /* set azucar-ui theme */

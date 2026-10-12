@@ -1,6 +1,6 @@
-import type { Avatar } from '$lib/api/types';
+import type { Avatar } from '#lib/api/types.d.ts';
 import { readFragment, type $tada } from 'gql.tada';
-import { GroupAvatarFragment } from '$lib/api/graphql/queries/fragments/groupAvatar';
+import { GroupAvatarFragment } from '#lib/api/graphql/queries/fragments/groupAvatar.ts';
 
 //Type gql.tada dans la réponse d'une query
 type GroupAvatarFragment = {

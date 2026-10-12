@@ -1,9 +1,9 @@
 import type { TadaDocumentNode } from 'gql.tada';
 import { print } from 'graphql';
-import { PUBLIC_API_URL } from '$env/static/public';
-import { getToken, deserializeToken } from '$lib/auth/session';
+import { PUBLIC_API_URL } from '$app/env/public';
+import { getToken, deserializeToken } from '#lib/auth/session.ts';
 import type { Cookies } from '@sveltejs/kit';
-import { SESSION_TOKEN_COOKIE_NAME } from '$lib/auth/session';
+import { SESSION_TOKEN_COOKIE_NAME } from '#lib/auth/session.ts';
 
 /**
  * Fonction générique pour effectuer une requête GraphQL, en utilisant le token d'authentification fourni
@@ -77,5 +77,5 @@ export async function requestServer<Result, Variables>(
 
     const token = deserializeToken(rawToken)?.token;
 
-    return requestGraphQL(document, variables, { token: token, fetch: event?.fetch });
+    return requestGraphQL(document, variables, { token, fetch: event?.fetch });
 }

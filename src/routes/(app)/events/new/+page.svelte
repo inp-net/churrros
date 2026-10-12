@@ -2,8 +2,8 @@
     //Je vais focus surtout sur faire un client pour les utilisateurs lambda et pas les formulaires
     //et tout
 
-    import { meRepository } from '$lib/api';
-    import { m } from '$lib/paraglide/messages';
+    import { meRepository } from '#lib/api/index.ts';
+    import { m } from '#lib/paraglide/messages.js';
     import { createQuery } from '@tanstack/svelte-query';
 
     //Dans churros v2 le formulaire de création d'event n'existe quasi pas c'est juste un modal

@@ -1,11 +1,11 @@
-import type { Avatar, User } from '$lib/api';
-import { readFragment, type ResultOf } from '$lib/api/graphql/graphql';
+import type { Avatar, User } from '#lib/api/index.ts';
+import { readFragment, type ResultOf } from '#lib/api/graphql/graphql.ts';
 import type {
     GetBirthdays,
     GetGroupedBirthdays,
     GetUserByUid
-} from '$lib/api/graphql/queries/user';
-import { UserFragment } from '$lib/api/graphql/queries/fragments/user';
+} from '#lib/api/graphql/queries/user/index.ts';
+import { UserFragment } from '#lib/api/graphql/queries/fragments/user.ts';
 import type { $tada } from 'gql.tada';
 import { MajorAvatarFragment } from '../../queries/fragments/majorAvatar';
 import { SchoolAvatarFragment } from '../../queries/fragments/schoolAvatar';

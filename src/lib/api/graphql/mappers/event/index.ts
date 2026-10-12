@@ -1,7 +1,7 @@
-import type { Event, EventDetail, EventsByDay, Page } from '$lib/api';
-import { readFragment, type ResultOf } from '$lib/api/graphql/graphql';
-import type { BookEvent, GetEventById, GetEvents } from '$lib/api/graphql/queries/event';
-import { PageInfoFragment } from '$lib/api/graphql/queries/fragments/pagination';
+import type { Event, EventDetail, EventsByDay, Page } from '#lib/api/index.ts';
+import { readFragment, type ResultOf } from '#lib/api/graphql/graphql.ts';
+import type { BookEvent, GetEventById, GetEvents } from '#lib/api/graphql/queries/event/index.ts';
+import { PageInfoFragment } from '#lib/api/graphql/queries/fragments/pagination.ts';
 import type { $tada } from 'gql.tada';
 import { CardEventFragment } from '../../queries/fragments/cardEvent';
 import { mapGroupAvatar } from '../group';

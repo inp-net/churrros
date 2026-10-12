@@ -7,3 +7,6 @@ bun.lockb
 
 # Miscellaneous
 /static/
+
+#gql.tada
+graphql-env.d.ts

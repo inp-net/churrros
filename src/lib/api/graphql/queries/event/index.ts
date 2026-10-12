@@ -1,5 +1,5 @@
-import { graphql } from '$lib/api/graphql/graphql';
-import { PageInfoFragment } from '$lib/api/graphql/queries/fragments/pagination';
+import { graphql } from '#lib/api/graphql/graphql.ts';
+import { PageInfoFragment } from '#lib/api/graphql/queries/fragments/pagination.ts';
 import { GroupAvatarFragment } from '../fragments/groupAvatar';
 import { CardEventFragment } from '../fragments/cardEvent';
 import { TicketDetailFragment } from '../fragments/ticketDetail';

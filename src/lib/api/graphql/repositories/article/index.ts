@@ -1,6 +1,6 @@
-import type { ArticleRepository } from '$lib/api/repositories';
-import { GetArticleById, GetArticles } from '$lib/api/graphql/queries/article';
-import { request } from '$lib/api/graphql/client';
+import type { ArticleRepository } from '#lib/api/repositories.d.ts';
+import { GetArticleById, GetArticles } from '#lib/api/graphql/queries/article/index.ts';
+import { request } from '#lib/api/graphql/client.ts';
 import { mapArticleDetail, mapArticles } from '../../mappers/article';
 
 export const articleRepository: ArticleRepository = {

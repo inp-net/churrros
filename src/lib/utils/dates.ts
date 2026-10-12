@@ -1,4 +1,4 @@
-import { getLocale } from '$lib/paraglide/runtime'; //Paraglide devient notre source de vérité pour la locale.
+import { getLocale } from '#lib/paraglide/runtime.js'; //Paraglide devient notre source de vérité pour la locale.
 
 /**
  * Formate une date ISO en date locale selon la locale actuelle de paraglide.
