@@ -4,12 +4,12 @@ import { getLocale } from '#lib/paraglide/runtime.js';
 //#region Wallets
 
 //Ne pas factoriser les params sinon vite ne resolve pas le type
-const appleWalletAssets = import.meta.glob('$lib/assets/wallet/apple/*.svg', {
+const appleWalletAssets = import.meta.glob('#lib/assets/wallet/apple/*.svg', {
     eager: true,
     query: '?url',
     import: 'default'
 }); //Pour trouver les assets de wallet apple : https://developer.apple.com/wallet/add-to-apple-wallet-guidelines/
-const googleWalletAssets = import.meta.glob('$lib/assets/wallet/google/*.svg', {
+const googleWalletAssets = import.meta.glob('#lib/assets/wallet/google/*.svg', {
     eager: true,
     query: '?url',
     import: 'default'
