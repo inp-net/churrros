@@ -1,6 +1,6 @@
 <script lang="ts">
-    import type { Event } from '$lib/api';
-    import { formatISODateToLocale } from '$lib/utils/dates';
+    import type { Event } from '#lib/api/index.ts';
+    import { formatISODateToLocale } from '#lib/utils/dates.ts';
     import { Avatar, Button, Flex, Frame, Stack } from 'azucar-ui';
     import { ArrowRightIcon, CalendarIcon, MapPinIcon } from '@lucide/svelte';
 

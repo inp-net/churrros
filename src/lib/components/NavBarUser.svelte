@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type { User } from '$lib/api';
+    import type { User } from '#lib/api/index.ts';
     import { UserIcon } from '@lucide/svelte';
     import { Avatar } from 'azucar-ui';
 

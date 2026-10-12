@@ -8,8 +8,8 @@
     import favicon from '#lib/assets/favicon.svg';
     import 'azucar-ui/tokens.css';
     import 'azucar-ui/base.css';
-    import Header from '$lib/components/Header.svelte';
-    import NavBar from '$lib/components/NavBar.svelte';
+    import Header from '#lib/components/Header.svelte';
+    import NavBar from '#lib/components/NavBar.svelte';
     import { Stack } from 'azucar-ui';
     import type { LayoutProps } from './$types';
 

@@ -1,5 +1,5 @@
 <script lang="ts">
-    import ChurrosBorderIcon from '$lib/assets/ChurrosBorderIcon.svelte';
+    import ChurrosBorderIcon from '#lib/assets/ChurrosBorderIcon.svelte';
     import { Button, Flex } from 'azucar-ui';
     import { PlusIcon } from '@lucide/svelte';
 </script>

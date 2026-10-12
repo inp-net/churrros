@@ -1,7 +1,7 @@
 <script lang="ts">
     import { Details, Flex } from 'azucar-ui';
     import { CakeIcon } from '@lucide/svelte';
-    import { m } from '$lib/paraglide/messages';
+    import { m } from '#lib/paraglide/messages.js';
 </script>
 
 <Details shadow border>

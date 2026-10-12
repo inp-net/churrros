@@ -1,12 +1,12 @@
 <script lang="ts">
-    import type { User } from '$lib/api/types';
+    import type { User } from '#lib/api/index.ts';
     import { Flex, Tooltip } from 'azucar-ui';
     import { BlocksIcon, HouseIcon, SearchIcon, TicketIcon } from '@lucide/svelte';
     import { page } from '$app/state';
     import NavBarUser from './NavBarUser.svelte';
     import { MediaQuery } from 'svelte/reactivity';
     import type { Component } from 'svelte';
-    import { m } from '$lib/paraglide/messages';
+    import { m } from '#lib/paraglide/messages.js';
 
     const { user }: { user: User | null } = $props();
 
