@@ -169,9 +169,9 @@ export type GroupSeeAlso = {
 
 //#region Pagination
 /**
- * Arguments pour request de la pagination.
- * First c'est le nombre d'éléments à récupérer.
- * After c'est le curseur à partir duquel récupérer les éléments. (Si null, on récupère les éléments depuis le début)
+ * Parameters for a paginated request.
+ * First is the number of items to retrieve.
+ * After is the cursor from which to retrieve the items. (If null, we retrieve the items from the beginning)
  */
 export type PageRequest = {
     first: number;
@@ -179,9 +179,9 @@ export type PageRequest = {
 };
 
 /**
- * Resultat d'une requête paginée.
- * items c'est les éléments récupérés.
- * pageInfo c'est les informations de pagination (hasNextPage et endCursor)
+ * Result of a paginated request.
+ * Items are the requested items.
+ * pageInfo contains the pagination information.
  */
 export type Page<T> = {
     items: T[];
@@ -189,9 +189,9 @@ export type Page<T> = {
 };
 
 /**
- * Informations de pagination.
- * hasNextPage c'est un booléen qui indique s'il y a une page suivante.
- * endCursor c'est le curseur de la dernière page récupérée.
+ * Pagination information for a paginated request.
+ * hasNextPage is a boolean indicating whether there are more items to retrieve.
+ * endCursor is the cursor of the last item retrieved, or null if there are no more items to retrieve.
  */
 export type PageInfo = {
     hasNextPage: boolean;

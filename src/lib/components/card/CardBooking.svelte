@@ -4,7 +4,7 @@
 
     interface Props {
         /**
-         * La réservation à afficher sur la carte
+         * The booking to display in the card booking component
          */
         booking: Booking;
     }

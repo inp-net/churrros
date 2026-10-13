@@ -30,49 +30,39 @@ import type {
 } from '#lib/api/index.ts';
 import type { Cookies } from '@sveltejs/kit';
 
-/**
- * Repository to handled API interactions related to events
- */
 export interface EventRepository {
     /**
-     * Recupère les événements avec pagination.
-     * @param args les informations de pagination, first pour le nombre d'éléments à récupérer, after pour le curseur de la page précédente (si null, on récupère les éléments depuis le début)
-     * @returns une page d'événements avec les informations de pagination
+     * Fetches a paginated list of events.
+     * @param args the pagination information, first for the number of elements to retrieve, after for the cursor of the previous page (if null, we retrieve the elements from the beginning)
+     * @returns a page of events with the pagination information
      */
     getEvents(args: PageRequest): Promise<Page<EventsByDay>>;
 
     /**
-     * Recupère le detail d'un event par son id.
-     * @param id L'id de l'event
-     * @returns Le detail de l'event si il existe
-     * @throws une erreur si l'event n'existe pas
+     * Fetches the details of an event by its ID.
+     * @param id the ID of the event to retrieve
+     * @returns the details of the event
+     * @throws an error if the event does not exist
      */
     getEventById(id: string | undefined): Promise<EventDetail>;
 
     /**
-     * Crée un event presque vide
-     * WIP
-     * @param groupId l'uid du groupe qui va organiser l'event
-     * @param title le titre de l'event
-     * @param createManagerInvite si on crée un lien pour inviter d'autres gens à manager l'event
-     * @returns l'id de l'event créé
+     * NOT IMPLEMENTED
      */
     createEvent(groupId: string, title: string, createManagerInvite: boolean): Promise<string>;
 
     /**
-     * Modifie un event
-     * WIP
+     * NOT IMPLEMENTED
      */
     editEvent(): Promise<void>;
 
     /**
-     * Supprime un event
-     * WIP
+     * NOT IMPLEMENTED
      */
     deleteEvent(): Promise<void>;
 
     /**
-     * Crée une reservation pour un event
+     * Creates a booking for an event with the given parameters.
      * @param bookingUrl : URL vers la page du billet (Reliquat churros V2)
      * @param ticketId : Id du ticket à reserver
      * @param beneficiary : Nom et prénom du bénéficiaire (Pour les extés) (Optionnel)
@@ -89,10 +79,11 @@ export interface EventRepository {
 
 export interface AuthRepository {
     /**
-     * Recupère un token de session pour l'utilisateur avec l'email ou l'uid et le mot de passe fourni.
-     * @param emailOrUid l'email ou l'uid de l'utilisateur
-     * @param password le mot de passe de l'utilisateur
-     * @returns un token de session si l'authentification est réussie, sinon une erreur est levée
+     * Fetches a session token for the user with the provided email or uid and password.
+     * @param emailOrUid the email or uid of the user to authenticate
+     * @param password the password of the user to authenticate
+     * @returns a session token for the authenticated user
+     * @throws an error if the authentication fails
      */
     login(emailOrUid: string, password: string): Promise<SessionToken>;
 }
@@ -100,51 +91,59 @@ export interface AuthRepository {
 export interface UserRepository {
     /**
      * Recupère les informations d'un utilisateur par son uid.
-     * @param uid l'uid de l'utilisateur à récupérer
-     * @returns les informations de l'utilisateur, ou null si non trouvé
+     * Fetches the information of a user by their uid.
+     * @param uid the uid of the user to retrieve
+     * @returns the informations of the user
+     * @throws an error if the user does not exist
      */
-    getUserByUid(uid: string): Promise<User | null>;
+    getUserByUid(uid: string): Promise<User>;
 
     /**
-     * Récupère l'avatar d'un utilisateur par son uid.
-     * @param uid l'uid de l'utilisateur à récupérer
-     * @returns l'avatar de l'utilisateur, ou null si non trouvé
+     * Fetches the avatar of a user by their uid.
+     * @param uid the uid of the user to retrieve
+     * @returns the avatar of the user
+     * @throws an error if the user does not exist
      */
-    getUserAvatarByUid(uid: string): Promise<Avatar | null>;
+    getUserAvatarByUid(uid: string): Promise<Avatar>;
 
     /**
      * Fetches the profile of a user by their uid.
      * @param uid the uid of the user to retrieve
-     * @returns the profile of the user, or null if not found
+     * @returns the profile of the user
+     * @throws an error if the user does not exist
      */
-    getUserProfile(uid?: string): Promise<UserProfile | null>;
+    getUserProfile(uid?: string): Promise<UserProfile>;
 
     /**
      * Returns the infos of a user by its uid.
      * @param uid the uid of the user to retrieve
-     * @returns the infos of the user, or null if not found
+     * @returns the infos of the user
+     * @throws an error if the user does not exist
      */
-    getUserInfos(uid?: string): Promise<UserInfos | null>;
+    getUserInfos(uid?: string): Promise<UserInfos>;
 
     /**
      * Returns the groups that a user is a member of by its uid.
      * @param uid the uid of the user to retrieve
-     * @returns the groups that the user is a member of, or null if user is not found
+     * @returns the groups that the user is a member of
+     * @throws an error if the user does not exist
      */
-    getUserGroups(uid?: string): Promise<UserGroups | null>;
+    getUserGroups(uid?: string): Promise<UserGroups>;
 
     /**
      * Returns the family of a user by its uid.
      * @param uid the uid of the user to retrieve
-     * @returns the family of the user, or null if user is not found
+     * @returns the family of the user
+     * @throws an error if the user does not exist
      */
-    getUserFamily(uid?: string): Promise<UserFamily | null>;
+    getUserFamily(uid?: string): Promise<UserFamily>;
 
     /**
-     * Fetches the birthdays of users.Only works when logged in.
+     * Fetches the birthdays of users.
+     * Only works when logged in.
      * @param date The date around which to fetch birthdays in ISO format(optionnal)(By default the current date on the server)
      * @param activeOnly True if we want only active users in first, second or third year, false if we want all users
-     * @param width The number of days around the date(optionnal)(By default 1 day)
+     * @param width The number of days around the date (optionnal) (By default 1 day)
      * @returns A list of avatars of users whose birthday it is
      */
     getBirthdays(activeOnly: boolean, date?: string, width?: number): Promise<Avatar[]>;
@@ -165,74 +164,74 @@ export interface UserRepository {
 
 export interface MeRepository {
     /**
-     * Recupère les informations de l'utilisateur actuellement connecté.
-     * Requete GraphQL côté serveur
-     * @param event l'event serveur contenant la fonction fetch et les cookies
-     * @returns les informations de l'utilisateur actuellement connecté, ou null si non connecté
+     * Fetches the information of the currently authenticated user.
+     * GraphQL server side request
+     * @param event the server event containing the fetch and cookies objects
+     * @returns the information of the currently authenticated user, or null if not authenticated
      */
     getMe(event?: { fetch: typeof fetch; cookies: Cookies }): Promise<User | null>;
 
     /**
-     * Recupère la liste des groupes sur lesquels l'utilisateur connecté peut créer des events
-     * @returns Avatar sur tous ces groupes
+     * Fetches the list of groups on which the currently authenticated user can create events
+     * @returns an array of avatars of the groups on which the user can create events
      */
     getCanCreateEventsOn(): Promise<Avatar[]>;
 
     /**
-     * Sauvegarde le numéro de téléphone de l'utilisateur utilisé pour les paiements
-     * @param phone le numéro de téléphone à sauvegarder
-     * @returns le numéro de téléphone sauvegardé
+     * Saves the payment phone number of the currently authenticated user.
+     * @param phone the phone number to save
+     * @returns the saved phone number, or null if the user is not authenticated
      */
     rememberPaymentPhone(phone: string): Promise<string | null>;
 }
 
 export interface BookingRepository {
     /**
-     * Récupère les réservations de l'utilisateur connecté avec pagination
-     * @param args les informations de pagination, first pour le nombre d'éléments à récupérer, after pour le curseur de la page précédente (si null, on récupère les éléments depuis le début)
-     * @returns une page de reservations avec les informations de pagination
+     * Fetches a paginated list of bookings for the currently authenticated user.
+     * @param args the pagination information, first for the number of items to retrieve, after for the cursor of the previous page (if null, we retrieve the items from the beginning)
+     * @returns a page of bookings with pagination information
      */
     getMyBookings(args: PageRequest): Promise<Page<Booking>>;
 
     /**
-     * Récupère une réservation par son code
-     * @param code le code de la réservation
-     * @returns la réservation si elle existe
-     * @throws une erreur si la réservation n'existe pas
+     * Fetches the details of a booking by its code.
+     * @param code the code of the booking to retrieve
+     * @returns the booking details if it exists
+     * @throws an error if the booking does not exist
      */
     getBookingByCode(code?: string): Promise<BookingDetail>;
 
     /**
-     * Annule une réservation
-     * @param code le code de la réservation
-     * @throws une erreur si la réservation n'existe pas
+     * Cancels a booking by its code.
+     * @param code the code of the booking to cancel
+     * @throws an error if the booking does not exist
      */
     cancelBooking(code?: string): Promise<void>;
 
     /**
-     * Récupère l'url pour le pass Google Wallet d'une réservation
-     * @param code le code de la réservation
-     * @returns l'url du pass Google Wallet
-     * @throws une erreur si la réservation n'existe pas
+     * Fetches the URL for the Google Wallet pass of a booking by its code.
+     * @param code the code of the booking to retrieve the Google Wallet pass for
+     * @returns the URL of the Google Wallet pass
+     * @throws an error if the booking does not exist
      */
     getGoogleWalletPass(code?: string): Promise<string>;
 
     /**
-     * Récupère l'url pour le pass Apple Wallet d'une réservation
-     * @param code le code de la réservation
-     * @returns l'url du pass Apple Wallet
-     * @throws une erreur si la réservation n'existe pas
+     * Fetches the URL for the Apple Wallet pass of a booking by its code.
+     * @param code the code of the booking to retrieve the Apple Wallet pass for
+     * @returns the URL of the Apple Wallet pass
+     * @throws an error if the booking does not exist
      */
     getAppleWalletPass(code?: string): Promise<string>;
 
     /**
-     * Effectue le paiement sur une réservation avec son code
-     * NOTE : Cette méthode est également utilisée pour sauvegarder les informations de paiement ce qui est pas fou, pour moi il faudra d'abord sauvegarder pour pouvoir revenir plus tard, mais bon on verra quand on s'attaquera à l'api.
-     * @param code le code de la réservation
-     * @param paymentMethod la methode de paiement utilisée pour le paiement
-     * @param phone le numéro de téléphone de l'utilisateur pour les paiements (optionnel, utilisé pour certaines méthodes de paiement)
-     * @param callbackUrl l'url de callback à appeler après le paiement
-     * @param amount le montant à payer
+     * Handles the payment of a booking by its code with the specified parmaters
+     * NOTE : This method is also used to save the payment information which is not ideal, in my opinion we should first save the information to be able to come back later, but we'll see when we tackle the API.
+     * @param code the code of the booking to pay
+     * @param paymentMethod the payment method to use for the payment
+     * @param callbackUrl the URL to call after the payment
+     * @param amount the amount to pay
+     * @param phone the phone number of the user for the payments (optional, used for certain payment methods)
      */
     payBooking(
         code: string,
@@ -264,38 +263,43 @@ export interface GroupRepository {
     /**
      * Returns the profile of a group by its uid.
      * @param uid the uid of the group to retrieve
-     * @returns the profile of the group, or null if not found
+     * @returns the profile of the group
+     * @throws an error if the group does not exist
      */
-    getGroupProfile(uid?: string): Promise<GroupProfile | null>;
+    getGroupProfile(uid?: string): Promise<GroupProfile>;
 
     /**
      * Returns the infos of a group by its uid.
      * @param uid the uid of the group to retrieve
-     * @returns the infos of the group, or null if not found
+     * @returns the infos of the group
+     * @throws an error if the group does not exist
      */
-    getGroupInfos(uid?: string): Promise<GroupInfos | null>;
+    getGroupInfos(uid?: string): Promise<GroupInfos>;
 
     /**
      * Returns the board members of a group by its uid.
      * @param uid the uid of the group to retrieve
-     * @returns the board members of the group, or null if not found
+     * @returns the board members of the group
+     * @throws an error if the group does not exist
      */
-    getGroupBoardMembers(uid?: string): Promise<GroupBoardMembers | null>;
+    getGroupBoardMembers(uid?: string): Promise<GroupBoardMembers>;
 
     /**
      * Returns the "see also" information of a group by its uid.
      * @param uid the uid of the group to retrieve
-     * @returns the "see also" information of the group, or null if not found
+     * @returns the "see also" information of the group
+     * @throws an error if the group does not exist
      */
-    getGroupSeeAlso(uid?: string): Promise<GroupSeeAlso | null>;
+    getGroupSeeAlso(uid?: string): Promise<GroupSeeAlso>;
 
     /**
      * Returns a paginated list of members of a group by its uid.
      * @param uid the uid of the group to retrieve
      * @param args the pagination information, first for the number of items to retrieve, after for the cursor of the previous page (if null, we retrieve the items from the beginning)
-     * @returns a page of group members with pagination information, or null if the group is not found
+     * @returns a page of group members with pagination information,
+     * @throws an error if the group does not exist
      */
-    getGroupMembers(args: PageRequest, uid?: string): Promise<Page<GroupMemberByDate> | null>;
+    getGroupMembers(args: PageRequest, uid?: string): Promise<Page<GroupMemberByDate>>;
 }
 
 export interface StudentAssociationRepository {

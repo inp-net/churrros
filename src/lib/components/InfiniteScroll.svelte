@@ -5,27 +5,27 @@
 
     interface Props {
         /**
-         * Indique si il y a une page suivante à charger, si false alors y a plus de données.
+         * Boolean that shows if there is a next page to load.
          */
         hasNextPage: boolean;
         /**
-         * Indique si on est en train de charger la page suivante, pour empêcher de faire plusieurs requêtes en même temps.
+         * Boolean that shows if the next page is currently being fetched. This is used to show a loading indicator and to prevent multiple calls.
          */
         isFetching: boolean;
         /**
-         * Callback a appeler pour charger la page suivante.
+         * Callback to use to load the next page.
          */
         loadMore: () => unknown;
         /**
-         * Distance en px entre le bas de la page et le bas de l'élément pour déclencher le chargement de la page suivante.
+         * CSS margin to use for the intersection observer. This is used to trigger the loadMore callback before the user reaches the bottom of the page. Default is '0px 0px 400px 0px'
          */
         rootMargin?: string;
         /**
-         * Contenu à afficher dans le composant, (la liste d'éléments à afficher avec scroll infini).
+         * Content to display inside the infinite scroll component. This is usually a list of items.
          */
         children: Snippet;
         /**
-         * Contenu à afficher lorsque la page suivante est en train de se charger.
+         * Content to display while the next page is being fetched (optionnal). If not provided, a default loading indicator will be used.
          */
         loading?: Snippet;
     }
