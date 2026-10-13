@@ -1,8 +1,12 @@
 import type { MeRepository } from '#lib/api/repositories.ts';
 import { request, requestServer } from '#lib/api/graphql/client.ts';
 import type { Cookies } from '@sveltejs/kit';
-import { GetCanCreateEventsOn, GetMe } from '#lib/api/graphql/queries/me/index.ts';
-import { mapMe } from '#lib/api/graphql/mappers/me/index.ts';
+import {
+    GetCanCreateEventsOn,
+    GetMe,
+    RememberPaymentPhone
+} from '#lib/api/graphql/queries/me/index.ts';
+import { mapMe, mapRememberPaymentPhone } from '#lib/api/graphql/mappers/me/index.ts';
 import { mapGroupAvatar } from '../../mappers/group';
 
 export const meRepository: MeRepository = {
@@ -26,6 +30,16 @@ export const meRepository: MeRepository = {
         } catch (error) {
             //TODO : Vrai gestion d'erreur
             console.error('Error fetching current user:', error);
+            throw error;
+        }
+    },
+    async rememberPaymentPhone(phone: string) {
+        try {
+            const response = await request(RememberPaymentPhone, { phone });
+            return mapRememberPaymentPhone(response.saveLydiaPhoneNumber);
+        } catch (error) {
+            //TODO : Vrai gestion d'erreur
+            console.error('Error remembering payment phone:', error);
             throw error;
         }
     }

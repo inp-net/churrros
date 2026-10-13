@@ -1,3 +1,5 @@
+import type { BookingStatus } from './enums';
+
 //#region Auth
 export type SessionToken = {
     token: string;
@@ -18,6 +20,11 @@ export type Event = {
     location: string;
     tickets: Ticket[];
 };
+
+export type LightEvent = Pick<
+    Event,
+    'id' | 'organizer' | 'title' | 'startsAt' | 'endsAt' | 'location'
+>;
 
 export type EventsByDay = {
     date: string;
@@ -69,6 +76,7 @@ export type User = {
     lastName: string;
     nickname: string;
     phone: string | null;
+    paymentPhone: string | null;
     pictureURL: string;
     admin: boolean;
 };
@@ -215,6 +223,48 @@ export type SearchResult = {
     content: Event | Avatar;
 };
 
+export type PaymentMethod =
+    'Card' | 'Cash' | 'Check' | 'External' | 'Lydia' | 'Other' | 'PayPal' | 'Transfer';
+
+//#endregion
+
+//#region Bookings
+export type Booking = {
+    id: string;
+    code: string;
+    status: BookingStatus;
+    ticket: Pick<Ticket, 'name'> & {
+        event: Pick<Event, 'pictureURL' | 'title'>;
+    };
+};
+
+export type BookingDetail = {
+    code: string;
+    beneficiaryUser: Avatar | null;
+    author: Avatar | null;
+    externalBeneficiary: string | null;
+    paymentMethod: PaymentMethod | null;
+    canManage: boolean;
+    paid: boolean;
+    cancelled: boolean;
+    opposed: boolean;
+    verified: boolean;
+    awaitingPayment: boolean;
+    pendingPayment: boolean;
+    createdAt: string;
+    wantsToPay: number | null;
+    linkURLs: string[];
+    linkNames: string[];
+    ticket: {
+        name: string;
+        actualMinimumPrice: number;
+        minimumPrice: number;
+        maximumPrice: number;
+        priceIsVariable: boolean;
+        allowedPaymentMethods: PaymentMethod[];
+        event: LightEvent;
+    };
+};
 //#endregion
 
 //#region Articles

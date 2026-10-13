@@ -25,7 +25,10 @@ import type {
     GroupSeeAlso,
     GroupMemberByDate,
     GroupAvatar,
-    CardService
+    CardService,
+    Booking,
+    BookingDetail,
+    PaymentMethod
 } from '#lib/api/index.ts';
 import type { Cookies } from '@sveltejs/kit';
 
@@ -35,7 +38,7 @@ import type { Cookies } from '@sveltejs/kit';
 export interface EventRepository {
     /**
      * Recupère les événements avec pagination.
-     * @param args les informations de pagination, first pour le nombre d'éléments à récupérer, after pour le curseur de la page précédente (si null, on récupère les éléments depuis le début
+     * @param args les informations de pagination, first pour le nombre d'éléments à récupérer, after pour le curseur de la page précédente (si null, on récupère les éléments depuis le début)
      * @returns une page d'événements avec les informations de pagination
      */
     getEvents(args: PageRequest): Promise<Page<EventsByDay>>;
@@ -169,7 +172,7 @@ export interface UserRepository {
 }
 
 /**
- * Le repository qui permet de récuperer les informations et permissions de l'utilisateur actuellement connecté
+ * Repository qui permet de récuperer les informations et permissions de l'utilisateur actuellement connecté
  */
 export interface MeRepository {
     /**
@@ -185,6 +188,73 @@ export interface MeRepository {
      * @returns Avatar sur tous ces groupes
      */
     getCanCreateEventsOn(): Promise<Avatar[]>;
+
+    /**
+     * Sauvegarde le numéro de téléphone de l'utilisateur utilisé pour les paiements
+     * @param phone le numéro de téléphone à sauvegarder
+     * @returns le numéro de téléphone sauvegardé
+     */
+    rememberPaymentPhone(phone: string): Promise<string | null>;
+}
+
+/**
+ * Repository qui permet de récuperer les informations sur les réservations et de les modifier
+ */
+export interface BookingRepository {
+    /**
+     * Récupère les réservations de l'utilisateur connecté avec pagination
+     * @param args les informations de pagination, first pour le nombre d'éléments à récupérer, after pour le curseur de la page précédente (si null, on récupère les éléments depuis le début)
+     * @returns une page de reservations avec les informations de pagination
+     */
+    getMyBookings(args: PageRequest): Promise<Page<Booking>>;
+
+    /**
+     * Récupère une réservation par son code
+     * @param code le code de la réservation
+     * @returns la réservation si elle existe
+     * @throws une erreur si la réservation n'existe pas
+     */
+    getBookingByCode(code?: string): Promise<BookingDetail>;
+
+    /**
+     * Annule une réservation
+     * @param code le code de la réservation
+     * @throws une erreur si la réservation n'existe pas
+     */
+    cancelBooking(code?: string): Promise<void>;
+
+    /**
+     * Récupère l'url pour le pass Google Wallet d'une réservation
+     * @param code le code de la réservation
+     * @returns l'url du pass Google Wallet
+     * @throws une erreur si la réservation n'existe pas
+     */
+    getGoogleWalletPass(code?: string): Promise<string>;
+
+    /**
+     * Récupère l'url pour le pass Apple Wallet d'une réservation
+     * @param code le code de la réservation
+     * @returns l'url du pass Apple Wallet
+     * @throws une erreur si la réservation n'existe pas
+     */
+    getAppleWalletPass(code?: string): Promise<string>;
+
+    /**
+     * Effectue le paiement sur une réservation avec son code
+     * NOTE : Cette méthode est également utilisée pour sauvegarder les informations de paiement ce qui est pas fou, pour moi il faudra d'abord sauvegarder pour pouvoir revenir plus tard, mais bon on verra quand on s'attaquera à l'api.
+     * @param code le code de la réservation
+     * @param paymentMethod la methode de paiement utilisée pour le paiement
+     * @param phone le numéro de téléphone de l'utilisateur pour les paiements (optionnel, utilisé pour certaines méthodes de paiement)
+     * @param callbackUrl l'url de callback à appeler après le paiement
+     * @param amount le montant à payer
+     */
+    payBooking(
+        code: string,
+        paymentMethod: PaymentMethod,
+        callbackUrl: string,
+        amount: number,
+        phone?: string
+    ): Promise<void>;
 }
 
 /**

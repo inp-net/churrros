@@ -1,4 +1,4 @@
-import type { Event, EventDetail, EventsByDay, Page } from '#lib/api/index.ts';
+import type { Event, EventDetail, EventsByDay, Page, LightEvent } from '#lib/api/index.ts';
 import { readFragment, type ResultOf } from '#lib/api/graphql/graphql.ts';
 import type { BookEvent, GetEventById, GetEvents } from '#lib/api/graphql/queries/event/index.ts';
 import { PageInfoFragment } from '#lib/api/graphql/queries/fragments/pagination.ts';
@@ -6,6 +6,7 @@ import type { $tada } from 'gql.tada';
 import { CardEventFragment } from '../../queries/fragments/cardEvent';
 import { mapGroupAvatar } from '../group';
 import { mapTicket, mapTicketDetail } from '../ticket';
+import { LightEventFragment } from '#lib/api/graphql/queries/fragments/lightEvent.ts';
 
 type EventGraphQLNode = ResultOf<typeof GetEvents>['eventsByDay'];
 
@@ -65,6 +66,24 @@ export function mapEventDetail(event: ResultOf<typeof GetEventById>['event']): E
             mapGroupAvatar(coOrganizerAvatar)
         ),
         tickets: event.tickets.map((ticket) => mapTicketDetail(ticket))
+    };
+}
+
+type LightEventFragmentType = {
+    [$tada.fragmentRefs]: {
+        LightEvent: 'Event';
+    };
+};
+
+export function mapLightEvent(event: LightEventFragmentType): LightEvent {
+    const data = readFragment(LightEventFragment, event);
+    return {
+        id: data.localID,
+        title: data.title,
+        organizer: mapGroupAvatar(data.organizer),
+        startsAt: data.startsAt,
+        endsAt: data.endsAt,
+        location: data.location
     };
 }
 
