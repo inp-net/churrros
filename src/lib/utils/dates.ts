@@ -12,7 +12,7 @@ export function formatISODateToLocale(
 ): string {
     const locale = getLocale();
 
-    return new Intl.DateTimeFormat(locale, options).format(new Date(date));
+    return Intl.DateTimeFormat(locale, options).format(new Date(date));
 }
 
 /**

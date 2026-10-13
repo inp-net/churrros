@@ -1,4 +1,4 @@
-import type { AuthRepository } from '#lib/api/repositories.d.ts';
+import type { AuthRepository } from '#lib/api/repositories.ts';
 import { request } from '#lib/api/graphql/client.ts';
 import { LoginMutation } from '#lib/api/graphql/queries/auth/index.ts';
 import { mapSessionToken } from '#lib/api/graphql/mappers/auth/index.ts';

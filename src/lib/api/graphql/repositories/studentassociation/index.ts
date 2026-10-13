@@ -1,4 +1,4 @@
-import type { StudentAssociationRepository } from '#lib/api/repositories.d.ts';
+import type { StudentAssociationRepository } from '#lib/api/repositories.ts';
 import { request } from '#lib/api/graphql/client.ts';
 import {
     GetStudentAssociationGroups,
@@ -25,7 +25,7 @@ export const studentAssociationRepository: StudentAssociationRepository = {
             throw error;
         }
     },
-    async getStudentAssociationGroups(uid, types, args) {
+    async getStudentAssociationGroups(types, args, uid) {
         try {
             if (!uid) {
                 throw new Error('UID is required to fetch student association groups');

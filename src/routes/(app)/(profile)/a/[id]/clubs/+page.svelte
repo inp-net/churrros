@@ -10,9 +10,9 @@
         queryKey: ['studentAssociation', page.params.id, 'clubs', 'all'],
         queryFn: ({ pageParam }) =>
             studentAssociationRepository.getStudentAssociationGroups(
-                page.params.id,
                 ['Club', 'Association'],
-                { first: 10, after: pageParam }
+                { first: 10, after: pageParam },
+                page.params.id
             ),
         initialPageParam: null as string | null,
         getNextPageParam: (lastPage) =>

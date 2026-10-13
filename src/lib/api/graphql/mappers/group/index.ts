@@ -8,7 +8,7 @@ import type {
     GroupProfile,
     GroupSeeAlso,
     Page
-} from '#lib/api/types.d.ts';
+} from '#lib/api/types.ts';
 import { readFragment, type $tada, type ResultOf } from 'gql.tada';
 import { GroupAvatarFragment } from '#lib/api/graphql/queries/fragments/groupAvatar.ts';
 import { GroupMemberWithGroupFragment } from '#lib/api/graphql/queries/fragments/groupMemberWithGroup.ts';
