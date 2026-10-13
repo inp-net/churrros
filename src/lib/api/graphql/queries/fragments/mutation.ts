@@ -1,6 +1,6 @@
 import { graphql } from '#lib/api/graphql/graphql.ts';
-//Problème avec les fragments, quand on importe un fragment d'un fichier, il faut qu'on utilise tous les fragments du fichier sinon on a un warning
-//typescript donc pour le moment ils sont tous repartis dans différents fichiers.
+// The issue with graphql fragments is that when we import a fragment from a file, we need to use all the fragments from that file, otherwise we get a TypeScript warning.
+// So all fragments are currently spread across different files.
 export const MutationErrorsFragment = graphql(`
     fragment MutationErrors on ErrorInterface {
         __typename

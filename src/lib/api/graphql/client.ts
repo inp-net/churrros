@@ -6,11 +6,11 @@ import type { Cookies } from '@sveltejs/kit';
 import { SESSION_TOKEN_COOKIE_NAME } from '#lib/auth/session.ts';
 
 /**
- * Fonction générique pour effectuer une requête GraphQL, en utilisant le token d'authentification fourni
- * @param document La requête GraphQL à exécuter
- * @param variables Les variables de la requête GraphQL
- * @param options La fonction fetch à utiliser et le token d'authentification
- * @returns le résultat de la requête GraphQL
+ * Generic function to perform a GraphQL request, using the provided authentication token
+ * @param document the graphql document to execute
+ * @param variables the variables for the graphql document
+ * @param options the fetch function to use and the authentication token
+ * @returns the result of the GraphQL request
  */
 async function requestGraphQL<Result, Variables>(
     document: TadaDocumentNode<Result, Variables>,
@@ -40,6 +40,7 @@ async function requestGraphQL<Result, Variables>(
     const result = await response.json();
     console.log('GraphQL response:', result);
     if (result.errors) {
+        // TODO : This is where errors should be correctly handled
         throw new Error(result.errors.map((error: any) => error.message).join('\n'));
     }
 
@@ -47,10 +48,10 @@ async function requestGraphQL<Result, Variables>(
 }
 
 /**
- * Effectue une requête GraphQL côté client, en utilisant le token de session pour l'authentification.
- * @param document La requête GraphQL à exécuter
- * @param variables Les variables de la requête GraphQL
- * @returns Le résultat de la requête GraphQL
+ * Client-side function to perform a GraphQL request, using the session token for authentication.
+ * @param document the graphql document to execute
+ * @param variables the variables for the graphql document
+ * @returns the result of the GraphQL request
  */
 export async function request<Result, Variables>(
     document: TadaDocumentNode<Result, Variables>,
@@ -62,11 +63,11 @@ export async function request<Result, Variables>(
 }
 
 /**
- * Effectue une requête GraphQL côté serveur, en utilisant les cookies pour l'authentification.
- * @param document la requête GraphQL à exécuter
- * @param variables les variables de la requête GraphQL
- * @param event l'event contenant la fonction fetch et les cookies
- * @returns Le résultat de la requête GraphQL
+ * Server-side function to perform a GraphQL request, using the cookies for authentication.
+ * @param document the graphql document to execute
+ * @param variables the variables for the graphql document
+ * @param event the event containing the fetch function and the cookies
+ * @returns the result of the GraphQL request
  */
 export async function requestServer<Result, Variables>(
     document: TadaDocumentNode<Result, Variables>,

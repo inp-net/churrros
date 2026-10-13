@@ -5,7 +5,6 @@ import { MutationErrorsFragment } from '#lib/api/graphql/queries/fragments/mutat
 import { SessionTokenFragment } from '#lib/api/graphql/queries/fragments/session.ts';
 
 export const mapSessionToken = (data: ResultOf<typeof LoginMutation>['login']): SessionToken => {
-    //TODO : Gestion d'erreurs mais ptet plus tot
     if (!data) {
         throw new Error('No session token data found');
     }
@@ -30,7 +29,7 @@ export const mapSessionToken = (data: ResultOf<typeof LoginMutation>['login']): 
 
             return {
                 token: rawTokenFragment.token,
-                expiresAt: new Date(rawTokenFragment.expiresAt ?? new Date().toISOString()) //Techniquement jamais null mais vu qu'on force la conversion du type scalaire vers string il passe en nullable
+                expiresAt: new Date(rawTokenFragment.expiresAt ?? new Date().toISOString()) // Technically never null, but with the scalar conversion it's marked as nullable, so we provide a fallback just in case
             };
         }
         default:

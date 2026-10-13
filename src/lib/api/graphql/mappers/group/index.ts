@@ -24,7 +24,7 @@ import { mapStudentAssociationAvatar } from '../studentassociation';
 import { mapGroupMemberWithUser } from '../user';
 import { PageInfoFragment } from '../../queries/fragments/pagination';
 
-//Type gql.tada dans la réponse d'une query
+// Gql.tada fragment types
 type GroupAvatarFragment = {
     [$tada.fragmentRefs]: {
         GroupAvatar: 'Group';

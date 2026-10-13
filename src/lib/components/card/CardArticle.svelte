@@ -6,7 +6,7 @@
 
     interface Props {
         /**
-         * L'article à afficher dans la carte
+         * The article to display in the card article component
          */
         article: Article;
     }

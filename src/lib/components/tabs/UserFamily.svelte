@@ -6,7 +6,6 @@
     }
 
     let { userFamily }: Props = $props();
-    //TODO Voir comment faire pour que le graphe soit bien affiché
 </script>
 
 {userFamily}

@@ -8,34 +8,67 @@ import LydiaWaiting from '#lib/components/payment/lydia/LydiaWaiting.svelte';
 import ManualFollowUp from '#lib/components/payment/manual/ManualFollowUp.svelte';
 
 interface PaymentProvider {
-    //Le label affiché pour le provider
+    /**
+     * The label of the payment provider, used for display purposes
+     */
     label: string;
     icon?: Component;
-    //Indique si le provider est géré en ligne ou non, un provider hors ligne ne nécessite pas de formulaire ou autre et doit être géré par les membres organisateurs.
+    /**
+     * Indicates whether the provider is managed online or not, an offline provider does not require a form or anything else and must be managed by the organizing members.
+     */
     automated: boolean;
-    //Composant de formulaire utilisé par certaines methodes de paiement pour enregistrer les infos de l'utilisateur
+    /**
+     * The form component used by some payment methods to collect user information.
+     */
     FormComponent?: Component<PaymentFormProps>;
-    //Composant affiché en attente de la réponse de provider
+    /**
+     * The component displayed while waiting for the provider's response.
+     */
     WaitingComponent?: Component<PaymentWaitingProps>;
-    //Composant affiché à la fin des méthodes pour afficher les informations sur le paiement
+    /**
+     * The component displayed after the payment is completed, used for follow-up actions.
+     */
     FollowUpComponent?: Component<PaymentFollowUpProps>;
 }
 
 export interface PaymentFormProps {
+    /**
+     * The code associated with the payment (Right now only the booking code is used)
+     */
     code: string;
+    /**
+     * The amount to be paid, used for display purposes
+     */
     amount: number;
+    /**
+     * Callback function to be called when the user wants to go back to the previous step.
+     */
     onBack: () => void;
-    //Callback appelé lorsque le paiement est effectué avec succès
+    /**
+     * Callback function to be called when the payment is successfully completed.
+     */
     onPaid: () => void;
 }
 
 export interface PaymentWaitingProps {
+    /**
+     * Callback function to be called when the user wants to go back a step
+     */
     onBack: () => void;
+    /**
+     * Callback function to be called when the user wants to recheck the payment status
+     */
     onRecheck: () => void;
 }
 
 export interface PaymentFollowUpProps {
+    /**
+     * Callback function to be called when the user wants to go back a step
+     */
     onBack: () => void;
+    /**
+     * Callback function that indicates that the user has completed the follow-up step and wants to close the payment modal.
+     */
     onDone: () => void;
 }
 
