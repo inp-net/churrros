@@ -13,6 +13,4 @@
     }
 
     let { groups, selected = $bindable() }: Props = $props();
-
-    //Un select qui permet de choisir parmi plusieurs group avatars
 </script>

@@ -6,8 +6,8 @@ export const authentikProvider: OAuthProvider = {
     name: 'Authentik',
     iconUrl: 'https://git.inpt.fr/inp-net/visual-identity/-/raw/main/favicon-color.svg',
     loginUrl(url: URL) {
-        const loginUrl = new URL(PUBLIC_API_AUTH_URL + '/oauth2'); //Dans l'ideal j'aimerais qu'on puisse spécifier le provider, mais pr le moment l'api gère pas ça.
-        //TODO : Gestion des searchParams pour le from comme sur churros
+        const loginUrl = new URL(PUBLIC_API_AUTH_URL + '/oauth2'); // I would like to use a parameter to specify the provider, but the api doesn't allow it as of now.
+        // TODO : Handle search params to handle redirects after login
         return loginUrl;
     },
     logoutUrl() {

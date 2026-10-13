@@ -31,7 +31,7 @@ import type {
 import type { Cookies } from '@sveltejs/kit';
 
 /**
- * Repository pour la gestion des évents
+ * Repository to handled API interactions related to events
  */
 export interface EventRepository {
     /**
@@ -87,9 +87,6 @@ export interface EventRepository {
     ): Promise<string>;
 }
 
-/**
- * Repository sur les intéractions avec l'API en rapport avec l'authentification
- */
 export interface AuthRepository {
     /**
      * Recupère un token de session pour l'utilisateur avec l'email ou l'uid et le mot de passe fourni.
@@ -100,9 +97,6 @@ export interface AuthRepository {
     login(emailOrUid: string, password: string): Promise<SessionToken>;
 }
 
-/**
- * Repository qui permet de récuperer les informations sur les utilisateurs
- */
 export interface UserRepository {
     /**
      * Recupère les informations d'un utilisateur par son uid.
@@ -169,9 +163,6 @@ export interface UserRepository {
     ): Promise<Record<string, Avatar[]>>;
 }
 
-/**
- * Repository qui permet de récuperer les informations et permissions de l'utilisateur actuellement connecté
- */
 export interface MeRepository {
     /**
      * Recupère les informations de l'utilisateur actuellement connecté.
@@ -195,9 +186,6 @@ export interface MeRepository {
     rememberPaymentPhone(phone: string): Promise<string | null>;
 }
 
-/**
- * Repository qui permet de récuperer les informations sur les réservations et de les modifier
- */
 export interface BookingRepository {
     /**
      * Récupère les réservations de l'utilisateur connecté avec pagination
@@ -255,9 +243,6 @@ export interface BookingRepository {
     ): Promise<void>;
 }
 
-/**
- * Repository to handle articles
- */
 export interface ArticleRepository {
     /**
      * Returns a paginated list of articles.
@@ -275,9 +260,6 @@ export interface ArticleRepository {
     getArticleById(id: string | undefined): Promise<ArticleDetail>;
 }
 
-/**
- * Repository that handles group-related API interactions
- */
 export interface GroupRepository {
     /**
      * Returns the profile of a group by its uid.
@@ -316,9 +298,6 @@ export interface GroupRepository {
     getGroupMembers(args: PageRequest, uid?: string): Promise<Page<GroupMemberByDate> | null>;
 }
 
-/**
- * Repostory that handles student association-related API interactions
- */
 export interface StudentAssociationRepository {
     /**
      * Returns the profile of a student association by its uid.
@@ -348,9 +327,6 @@ export interface StudentAssociationRepository {
     getStudentAssociationServices(uid?: string, args?: PageRequest): Promise<Page<CardService>>;
 }
 
-/**
- * Repository that handles school related API interactions
- */
 export interface SchoolRepository {
     /**
      * Returns the profile of a school by its uid.
@@ -381,9 +357,6 @@ export interface SchoolRepository {
     getSchoolServices(uid?: string, args?: PageRequest): Promise<CardService[]>;
 }
 
-/**
- * Repository that handles major related API interactions
- */
 export interface MajorRepository {
     /**
      * Returns the profile of a major by its uid.

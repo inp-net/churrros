@@ -45,8 +45,7 @@ function mapBookingStatus(
     cancelled: boolean,
     paid: boolean
 ): BookingStatus {
-    //Dans le back il peut être intéressant de garder les infos des différents états (on peut ne pas avoir payé et annulé)
-    //Mais dans le front on affiche que le dernier etat
+    // In the API we have multiple booleans for the status, but in the front we only display the last state
     if (opposed) {
         return 'Opposed';
     }
@@ -59,7 +58,7 @@ function mapBookingStatus(
     if (paid) {
         return 'Paid';
     }
-    //Fallback obligatoire
+    // Fallback just in case
     return 'Waiting';
 }
 

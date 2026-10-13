@@ -17,7 +17,7 @@
         notifyOnChangeProps: 'all'
     }));
 
-    //On dérive car la valeur qu'on recup est vraiment à rallonge et on veut juste les items
+    // We derive the events from the query data, to have them in an iterable format.
     const events: EventsByDay[] = $derived(query.data?.pages.flatMap((page) => page.items) ?? []);
 </script>
 

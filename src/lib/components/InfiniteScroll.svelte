@@ -1,8 +1,7 @@
 <script lang="ts">
     import { m } from '#lib/paraglide/messages.js';
     import type { Snippet } from 'svelte';
-    //Inspiré de https://github.com/ndom91/svelte-infinite
-    //Note : Ce composant a un souci sur les grands écrans, si le contenu est plus petit que la hauteur de l'écran alors le loadMore n'est pas appelé
+    // Inspired by https://github.com/ndom91/svelte-infinite
 
     interface Props {
         /**
@@ -41,7 +40,7 @@
     }: Props = $props();
 
     let intersectionTarget: HTMLDivElement | undefined = $state();
-    //Pr eviter de loadMore plusieurs fois
+    // To avoid calling loadMore multiple times
     let isLoading = false;
 
     async function attemptLoadMore() {
@@ -55,13 +54,12 @@
         }
     }
 
-    //En gros effect est appelé à chaque modification sur les valeurs utilisées, ici intersectionTarget.
-    //Donc quand intersectionTarget change
+    // $effect is called whenever the values used inside it change, here intersectionTarget.
     $effect(() => {
         if (!intersectionTarget) return;
 
-        //Trigger quand l'objet observé est à l'intérieur de la zone d'intersection (le viewport) + rootMargin qui agrandit cette zone
-        //Donc par défaut on va trigger quand l'objet cherché est à 400px du bas de la page
+        // Triggered when the observed object is inside the intersection area (the viewport) + rootMargin which enlarges this area
+        // So by default we will trigger when the searched object is 400px from the bottom of the page
         const observer = new IntersectionObserver(
             async (entries) => {
                 if (entries[0]?.isIntersecting) {
@@ -72,7 +70,7 @@
         );
         observer.observe(intersectionTarget);
 
-        //Nettoyage de l'observer car il n'est plus nécessaire
+        // Cleanup of the observer
         return () => {
             observer.disconnect();
         };

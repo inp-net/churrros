@@ -30,22 +30,21 @@ export const eventRepository: EventRepository = {
             }
             return mapEventDetail(response.event);
         } catch (error) {
-            //L'api throw une erreur en cas de NOT Found donc on peut pas faire d'erreurs custom depuis ici
             //TODO : Vrai gestion d'erreur
             console.error('Error fetching events:', error);
             throw error;
         }
     },
     async createEvent(groupId: string, title: string, createManagerInvite: boolean) {
-        //TODO : Implémenter la création d'event
+        //TODO : Implement createEvent
         throw new Error('Not implemented');
     },
     async editEvent() {
-        //TODO : Implémenter l'édition d'event
+        //TODO : Implement event editing
         throw new Error('Not implemented');
     },
     async deleteEvent() {
-        //TODO : Implémenter la suppression d'event
+        //TODO : Implement event deletion
         throw new Error('Not implemented');
     },
     async bookEvent(

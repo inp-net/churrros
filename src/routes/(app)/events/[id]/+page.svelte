@@ -36,9 +36,9 @@
         onSuccess: (data) => {
             console.log('Booking successful:', data);
             openBookEventModal = false;
-            //On invalidate car le nombre de place à changé
+            // The number of bookings has changed, so we need to invalidate the query
             queryClient.invalidateQueries({ queryKey: ['event', page.params.id] });
-            goto(`/bookings/${data}`); // Redirige vers la page de la reservation car on renvoie l'id de reservation
+            goto(`/bookings/${data}`); // Redirect to the booking page after a successful booking
         },
         onError: (error) => {
             console.error('Booking failed:', error);
@@ -57,7 +57,7 @@
     function handleBooking(ticketId: string, churrosBeneficiary?: string, beneficiary?: string) {
         console.log('Booking ticket:', ticketId, churrosBeneficiary, beneficiary);
         bookingMutation.mutateAsync({ ticketId, churrosBeneficiary, beneficiary });
-        //Pas besoin d'attendre car y a onSuccess et onError qui gèrent la suite
+        // No need to wait for the mutation, as the handlers onSuccess and onError will handle the next steps.
     }
 </script>
 

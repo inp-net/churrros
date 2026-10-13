@@ -14,9 +14,9 @@
     const queryClient = new QueryClient({
         defaultOptions: {
             queries: {
-                //Pour desactiver les query coté serveur : https://tanstack.com/query/latest/docs/framework/svelte/ssr
+                // To disabled server side queries : https://tanstack.com/query/latest/docs/framework/svelte/ssr
                 enabled: browser,
-                staleTime: 15 * 60 * 1000 // 15 minutes de cache
+                staleTime: 15 * 60 * 1000 // 15 minutes of cache
             }
         }
     });

@@ -8,8 +8,6 @@
     }
 
     let { walletTarget }: Props = $props();
-
-    //TODO : Ajouter le support pour un bouton qui exporte vers le wallet
 </script>
 
 <img
