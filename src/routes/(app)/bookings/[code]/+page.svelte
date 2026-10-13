@@ -1,6 +1,6 @@
 <script lang="ts">
     import { createMutation, createQuery, useQueryClient } from '@tanstack/svelte-query';
-    import { bookingRepository, WalletTarget } from '#lib/api/index.ts';
+    import { bookingRepository } from '#lib/api/index.ts';
     import { m } from '#lib/paraglide/messages.js';
     import { page } from '$app/state';
     import QRCode from '#lib/components/QRCode.svelte';
@@ -94,10 +94,10 @@
     <div>
         {#if !query.data.cancelled}
             <button onclick={() => googleWalletMutation.mutateAsync({ code: page.params.code })}>
-                <AddToWallet walletTarget={WalletTarget.GOOGLE} />
+                <AddToWallet walletTarget={'Google'} />
             </button>
             <button onclick={() => appleWalletMutation.mutateAsync({ code: page.params.code })}>
-                <AddToWallet walletTarget={WalletTarget.APPLE} />
+                <AddToWallet walletTarget={'Apple'} />
             </button>
         {/if}
     </div>

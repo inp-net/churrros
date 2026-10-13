@@ -1,4 +1,4 @@
-import { BookingStatus, WalletTarget } from '#lib/api/index.ts';
+import type { BookingStatus, WalletTarget } from '#lib/api/index.ts';
 import { m } from '#lib/paraglide/messages.js';
 import { getLocale } from '#lib/paraglide/runtime.js';
 
@@ -9,15 +9,15 @@ import { getLocale } from '#lib/paraglide/runtime.js';
  */
 export function bookingStatusToLocalizedString(status: BookingStatus): string {
     switch (status) {
-        case BookingStatus.OPPOSED:
+        case 'Opposed':
             return m['booking.status.cancelled']();
-        case BookingStatus.VERIFIED:
+        case 'Verified':
             return m['booking.status.verified']();
-        case BookingStatus.CANCELLED:
+        case 'Cancelled':
             return m['booking.status.cancelled']();
-        case BookingStatus.PAID:
+        case 'Paid':
             return m['booking.status.paid']();
-        case BookingStatus.WAITING:
+        case 'Waiting':
             return m['booking.status.waiting']();
     }
 }
@@ -29,9 +29,9 @@ export function bookingStatusToLocalizedString(status: BookingStatus): string {
  */
 export function walletTargetToLocalizedString(walletTarget: WalletTarget): string {
     switch (walletTarget) {
-        case WalletTarget.APPLE:
+        case 'Apple':
             return m['apple.wallet']();
-        case WalletTarget.GOOGLE:
+        case 'Google':
             return m['google.wallet']();
     }
 }

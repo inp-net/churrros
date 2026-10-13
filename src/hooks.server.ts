@@ -23,18 +23,18 @@ const handleAuth: Handle = async ({ event, resolve }) => {
         const authed_via = event.cookies.get('authed_via');
         switch (authed_via) {
             case 'credentials':
-            case 'oauth2': //Valeur prise direct de churros
+            case 'oauth2': // Taken directly from the backend
                 event.locals.user = await meRepository.getMe({
                     fetch: event.fetch,
                     cookies: event.cookies
                 });
                 break;
             default:
-                //Valeur inconnue ou pas de cookie pour authed_via, on ignore
+                //Unknown value or no value, we don't do anything and user remains null
                 break;
         }
     } catch (error) {
-        //Impossible de se connecter à l'API, on ne fait rien et on laisse user à null
+        //Can't connect to the API or the API returned an error, we don't do anything and user remains null
         console.error('Error in auth handle:', error);
     }
 

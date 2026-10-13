@@ -1,5 +1,3 @@
-import type { BookingStatus } from './enums';
-
 //#region Auth
 export type SessionToken = {
     token: string;
@@ -216,9 +214,13 @@ export type Link = {
 export type PaymentMethod =
     'Card' | 'Cash' | 'Check' | 'External' | 'Lydia' | 'Other' | 'PayPal' | 'Transfer';
 
+export type WalletTarget = 'Apple' | 'Google';
+
 //#endregion
 
 //#region Bookings
+export type BookingStatus = 'Opposed' | 'Verified' | 'Cancelled' | 'Paid' | 'Waiting';
+
 export type Booking = {
     id: string;
     code: string;

@@ -1,4 +1,4 @@
-import { WalletTarget } from '#lib/api/index.ts';
+import type { WalletTarget } from '#lib/api/index.ts';
 import { getLocale } from '#lib/paraglide/runtime.js';
 
 //#region Wallets
@@ -24,9 +24,9 @@ export function getWalletAsset(walletTarget: WalletTarget): string | undefined {
     const locale = getLocale();
 
     switch (walletTarget) {
-        case WalletTarget.APPLE:
+        case 'Apple':
             return findAsset(appleWalletAssets, locale);
-        case WalletTarget.GOOGLE:
+        case 'Google':
             return findAsset(googleWalletAssets, locale);
     }
 }
