@@ -1,9 +1,6 @@
 import { graphql } from '#lib/api/graphql/graphql.ts';
 import { GroupAvatarFragment } from './groupAvatar';
 
-/**
- * Graphql fragment to represent a group member with their associated group.
- */
 export const GroupMemberWithGroupFragment = graphql(
     `
         fragment GroupMemberGroup on GroupMember {

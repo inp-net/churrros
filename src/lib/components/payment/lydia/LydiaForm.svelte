@@ -13,7 +13,7 @@
         },
         onError: (error) => {
             console.error('Remember payment phone failed:', error);
-            //TODO afficher une erreur à l'utilisateur
+            // TODO Display an error to the user
         }
     }));
 
@@ -37,7 +37,7 @@
         },
         onError: (error) => {
             console.error('Pay booking failed:', error);
-            //TODO afficher une erreur à l'utilisateur
+            // TODO Display an error to the user
         }
     }));
 

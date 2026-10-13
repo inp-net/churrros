@@ -1,6 +1,6 @@
 <script lang="ts">
     import { createMutation, createQuery, useQueryClient } from '@tanstack/svelte-query';
-    import { bookingRepository, WalletTarget } from '#lib/api/index.ts';
+    import { bookingRepository } from '#lib/api/index.ts';
     import { m } from '#lib/paraglide/messages.js';
     import { page } from '$app/state';
     import QRCode from '#lib/components/QRCode.svelte';
@@ -26,7 +26,7 @@
         onSuccess: (data) => {
             console.log('Cancel successful:', data);
             confirmationModalIsOpen = false;
-            //On invalidate car le statut à changé
+            // The state of the booking has changed, so we need to invalidate the query to fetch the updated data.
             queryClient.invalidateQueries({ queryKey: ['booking', page.params.code] });
         },
         onError: (error) => {
@@ -61,8 +61,8 @@
 
     $effect(() => {
         if (query.isSuccess) {
-            //Si on attends le paiement de l'utilisateur on ouvre la modal de paiement direct
-            paymentModalIsOpen = query.data.awaitingPayment; //C'est un peu chiant mais à voir
+            // If we are wainting for payment, we open the payment modal. This is a bit annoying but we'll see.
+            paymentModalIsOpen = query.data.awaitingPayment;
         }
     });
 </script>
@@ -94,10 +94,10 @@
     <div>
         {#if !query.data.cancelled}
             <button onclick={() => googleWalletMutation.mutateAsync({ code: page.params.code })}>
-                <AddToWallet walletTarget={WalletTarget.GOOGLE} />
+                <AddToWallet walletTarget={'Google'} />
             </button>
             <button onclick={() => appleWalletMutation.mutateAsync({ code: page.params.code })}>
-                <AddToWallet walletTarget={WalletTarget.APPLE} />
+                <AddToWallet walletTarget={'Apple'} />
             </button>
         {/if}
     </div>

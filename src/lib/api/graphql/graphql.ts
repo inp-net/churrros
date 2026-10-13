@@ -1,5 +1,5 @@
-//Ce fichier permet l'initilisation de gql.tada manuellement, notamment pour définir les scalar types. Cf : https://gql-tada.0no.co/get-started/installation#initializing-gql-tada-manually
-//Il faut importer tout depuis ce fichier pour que les types soient bien pris en compte par TypeScript.
+// This file allows manual initialization of gql.tada, especially to define scalar types. See: https://gql-tada.0no.co/get-started/installation#initializing-gql-tada-manually
+// You must import everything from this file for the types to be properly recognized by TypeScript.
 
 import { initGraphQLTada } from 'gql.tada';
 import type { introspection } from '#lib/api/graphql/graphql-env.d.ts';

@@ -1,10 +1,4 @@
-import {
-    BookingStatus,
-    type PaymentMethod,
-    type Booking,
-    type BookingDetail,
-    type Page
-} from '#lib/api/index.ts';
+import type { BookingStatus, PaymentMethod, Booking, BookingDetail, Page } from '#lib/api/index.ts';
 import { readFragment, type ResultOf } from '#lib/api/graphql/graphql.ts';
 import {
     GetAppleWalletPass,
@@ -51,22 +45,21 @@ function mapBookingStatus(
     cancelled: boolean,
     paid: boolean
 ): BookingStatus {
-    //Dans le back il peut être intéressant de garder les infos des différents états (on peut ne pas avoir payé et annulé)
-    //Mais dans le front on affiche que le dernier etat
+    // In the API we have multiple booleans for the status, but in the front we only display the last state
     if (opposed) {
-        return BookingStatus.OPPOSED;
+        return 'Opposed';
     }
     if (verified) {
-        return BookingStatus.VERIFIED;
+        return 'Verified';
     }
     if (cancelled) {
-        return BookingStatus.CANCELLED;
+        return 'Cancelled';
     }
     if (paid) {
-        return BookingStatus.PAID;
+        return 'Paid';
     }
-    //Fallback obligatoire
-    return BookingStatus.WAITING;
+    // Fallback just in case
+    return 'Waiting';
 }
 
 export function mapBookingDetail(

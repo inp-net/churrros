@@ -15,8 +15,8 @@ function isTokenExpired(sessionToken: SessionToken) {
 }
 
 /**
- * Recupère le cookie avec le nom donné si il existe, sinon retourne null
- * Uniquement coté browser car recupère le cookie via document.cookie
+ * Fetches the cookie with the given name if it exists, otherwise returns null
+ * Only client-side as it reads the cookie via document.cookie
  */
 function readCookie(name: string): string | null {
     const match = document.cookie.split('; ').find((row) => row.startsWith(`${name}=`));
@@ -24,11 +24,11 @@ function readCookie(name: string): string | null {
 }
 
 /**
- * Ecrit un cookie dans le navigateur avec le nom, la valeur et la date d'expiration donnée
- * Uniquement coté browser car ecrit le cookie via document.cookie
- * @param name Nom du cookie
- * @param value Valeur du cookie
- * @param expiresAt date d'expiration du cookie
+ * Writes a cookie with the given name and value, and optional expiration date
+ * Only client-side as it writes the cookie via document.cookie
+ * @param name name of the cookie
+ * @param value value of the cookie
+ * @param expiresAt expiration date of the cookie (optional)
  */
 export function writeCookie(name: string, value: string, expiresAt?: Date) {
     const parts = [`${name}=${encodeURIComponent(value)}`, 'path=/', 'SameSite=Lax'];
@@ -38,18 +38,18 @@ export function writeCookie(name: string, value: string, expiresAt?: Date) {
 }
 
 /**
- * Supprime le cookie avec le nom donné en le réécrivant avec une date d'expiration passée
- * Uniquement coté browser car supprime le cookie via document.cookie
- * @param name le nom du cookie à supprimer
+ * Deletes a cookie with the given name by setting its max-age to 0
+ * Only client-side as it deletes the cookie via document.cookie
+ * @param name the name of the cookie to delete
  */
 export function deleteCookie(name: string) {
     document.cookie = `${name}=; path=/; max-age=0`;
 }
 
 /**
- * Désérialise un token de session à partir d'une chaîne de caractères
- * @param raw La chaine de caractères représentant le token de session
- * @returns Le token de session désérialisé ou null si la chaîne est invalide
+ * Deserializes a session token from a string
+ * @param raw the string to deserialize
+ * @returns the deserialized session token or null if the string is invalid
  */
 export function deserializeToken(raw: string | null | undefined): SessionToken | null {
     if (!raw) return null;

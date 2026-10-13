@@ -1,10 +1,10 @@
-import { getLocale } from '#lib/paraglide/runtime.js'; //Paraglide devient notre source de vérité pour la locale.
+import { getLocale } from '#lib/paraglide/runtime.js'; // Paraglide becomes our source of truth for the locale.
 
 /**
- * Formate une date ISO en date locale selon la locale actuelle de paraglide.
- * @param date la date ISO en string à formater
- * @param options les options de formatage de date
- * @returns la date formatée selon la locale actuelle de paraglide et le format spécifié
+ * Format an ISO date string to a localized date string according to the current locale of Paraglide.
+ * @param date the ISO date string to format
+ * @param options the options for formatting the date, defaulting to long date style and short time style
+ * @returns the formatted date string according to the current locale of Paraglide and the specified format
  */
 export function formatISODateToLocale(
     date: string,
@@ -16,9 +16,9 @@ export function formatISODateToLocale(
 }
 
 /**
- * Convertit un objet Date en une chaîne de caractères au format ISO (YYYY-MM-DD).
- * @param date la date à convertir
- * @returns la date au format ISO (YYYY-MM-DD)
+ * Convert a Date object to an ISO date string (YYYY-MM-DD).
+ * @param date the date to convert
+ * @returns the date as an ISO string (YYYY-MM-DD)
  */
 export function toISODate(date: Date): string {
     const year = date.getFullYear();

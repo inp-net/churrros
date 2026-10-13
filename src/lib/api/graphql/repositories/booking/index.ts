@@ -22,7 +22,7 @@ export const bookingRepository: BookingRepository = {
         try {
             const response = await request(GetMyBookings, args);
             if (!response.me) {
-                //On est pas connecté
+                // We are not connected
                 throw new Error('Not connected');
             }
             return mapBookings(response.me.bookings);

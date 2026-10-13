@@ -9,25 +9,40 @@
     type Step =
         'payment-options' | 'provider-form' | 'provider-waiting' | 'follow-up' | 'links' | 'end';
 
-    //TODO Après modif de l'api l'objectif serait de modifier ce composant pour qu'il marche pour tous les types de paiements
     interface Props {
-        //Code de associé au paiement (Actuellement celui de la réservation)
+        /**
+         * The id associated with the payment (currently the reservation code)
+         */
         code: string;
         isOpen: boolean;
-        //Prix minimum du ticket
+        /**
+         * Minimum price of the ticket.
+         */
         minimumPrice: number;
-        //Prix maximum du ticket, undefined si le ticket est à prix fixe
-        maximumPrice: number | undefined;
-        //Montant que l'utilisateur veut payer, par défaut minimumPrice
+        /**
+         * Maximum price of the ticket (optional). If not provided it will default to the minimum price.
+         */
+        maximumPrice?: number;
+        /**
+         * The amount the user wants to pay, defaults to minimumPrice (Used when maximumPrice is provided which means the user can choose how much to pay)
+         */
         wantsToPay: number;
-        //Méthode de paiement autorisé pour le paiement
+        /**
+         * The payment methods allowed for the payment.
+         */
         allowedPaymentMethods: PaymentMethod[];
-        //Méthode de paiement déjà choisie
-        selectedPaymentMethod: PaymentMethod | undefined;
-        //Callback quand l'utilisateur a choisi une méthode de paiement et un montant, renvoie true si le changement a bien marché, false sinon
-        //Dans l'ideal on ferait ça mais l'api permet pas donc bon ;(
+        /**
+         * The payment method selected by the user (optional).
+         */
+        selectedPaymentMethod?: PaymentMethod;
+        /**
+         * Callback to be called when the user selects a payment method and wants to pay. It should return true if the payment was successful, false otherwise.
+         * Right now the current API doesn't support this, so it won't be used.
+         */
         //onSelectPaymentInfo: (paymentMethod: PaymentMethod, wantsToPay: number) => Promise<boolean>;
-        //Liens à afficher à la fin du paiement, si y en a
+        /**
+         * The links to be displayed at the end of the payment process (optional). Each link has a name and a url.
+         */
         links: { name: string; url: string }[];
     }
 
@@ -52,9 +67,9 @@
         } else dialog?.close();
     });
 
-    //Ptet un peu too much mais en gros si on reload on perd tout ce qui est chiant en vrai
-    //Donc je sauvegarde en sessionStorage la stack d'etat pr pouvoir faire un reload
-    //C'est utile pour le waiting (ex: Lydia)
+    // This might be a bit too much, but basically if we reload we lose everything which is annoying
+    // So I save the state stack in sessionStorage to be able to reload.
+    // This is useful for the waiting (e.g., Lydia).
     function savePersistedStep(stack: Step[]) {
         if (!browser) return;
         try {
@@ -86,7 +101,7 @@
         try {
             sessionStorage.removeItem(`PaymentModal${code}`);
         } catch {
-            return; //C'est pas grave si on peut pas clear
+            return; // Ignore errors, if we can't clear it will be cleared when the session ends
         }
     }
 
