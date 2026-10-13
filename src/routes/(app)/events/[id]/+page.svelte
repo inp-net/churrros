@@ -25,13 +25,7 @@
             ticketId: string;
             churrosBeneficiary?: string;
             beneficiary?: string;
-        }) =>
-            eventRepository.bookEvent(
-                `${page.url.origin}/bookings/[code]`,
-                ticketId,
-                beneficiary,
-                churrosBeneficiary
-            ),
+        }) => eventRepository.bookEvent(ticketId, beneficiary, churrosBeneficiary),
 
         onSuccess: (data) => {
             console.log('Booking successful:', data);

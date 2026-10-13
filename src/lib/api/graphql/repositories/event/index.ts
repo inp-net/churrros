@@ -7,6 +7,7 @@ import {
 } from '#lib/api/graphql/mappers/event/index.ts';
 import { BookEvent, GetEventById, GetEvents } from '#lib/api/graphql/queries/event/index.ts';
 import type { PageRequest } from '#lib/api/index.ts';
+import { page } from '$app/state';
 
 export const eventRepository: EventRepository = {
     async getEvents(args: PageRequest) {
@@ -47,15 +48,10 @@ export const eventRepository: EventRepository = {
         //TODO : Implement event deletion
         throw new Error('Not implemented');
     },
-    async bookEvent(
-        bookingUrl: string,
-        ticketId: string,
-        beneficiary?: string,
-        churrosBeneficiary?: string
-    ) {
+    async bookEvent(ticketId: string, beneficiary?: string, churrosBeneficiary?: string) {
         try {
             const response = await request(BookEvent, {
-                bookingUrl,
+                bookingUrl: `${page.url.origin}/bookings/[code]`,
                 ticketId,
                 beneficiary,
                 churrosBeneficiary

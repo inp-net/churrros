@@ -63,18 +63,11 @@ export interface EventRepository {
 
     /**
      * Creates a booking for an event with the given parameters.
-     * @param bookingUrl : URL vers la page du billet (Reliquat churros V2)
-     * @param ticketId : Id du ticket à reserver
-     * @param beneficiary : Nom et prénom du bénéficiaire (Pour les extés) (Optionnel)
-     * @param churrosBeneficiary : UID churros du bénéficiaire si ce n'est pas l'utilisateur actuel (Optionnel)
-     *
+     * @param ticketId : the id of the ticket to book
+     * @param beneficiary : first name and last name of the beneficiary (for external users) (optional)
+     * @param churrosBeneficiary : uid of the beneficiary (if different from the current user) (optional)
      */
-    bookEvent(
-        bookingUrl: string,
-        ticketId: string,
-        beneficiary?: string,
-        churrosBeneficiary?: string
-    ): Promise<string>;
+    bookEvent(ticketId: string, beneficiary?: string, churrosBeneficiary?: string): Promise<string>;
 }
 
 export interface AuthRepository {
