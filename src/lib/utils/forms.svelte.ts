@@ -1,4 +1,5 @@
-import { type, type Type } from 'arktype';
+import { m } from '#lib/paraglide/messages.js';
+import { ArkErrors, type, type Type } from 'arktype';
 
 export function createForm<S extends Type<any>>(schema: S, initial: S['inferIn']) {
     let values = $state(initial);
@@ -9,7 +10,7 @@ export function createForm<S extends Type<any>>(schema: S, initial: S['inferIn']
         const result = schema(values);
 
         if (result instanceof type.errors) {
-            errors = Object.fromEntries(result.map((e) => [e.path.join('.'), e.message]));
+            errors = translateErrors(result);
             return;
         }
 
@@ -34,4 +35,26 @@ export function createForm<S extends Type<any>>(schema: S, initial: S['inferIn']
         },
         submit
     };
+}
+
+function translateErrors(errors: ArkErrors): Record<string, string> {
+    const result: Record<string, string> = {};
+
+    for (const [path, list] of Object.entries(errors.flatByPath)) {
+        // TODO : This looks awful
+        const e = list[0];
+        result[path] = e.hasCode('required')
+            ? m['form.error.required']()
+            : e.hasCode('domain')
+              ? m['form.error.invalid_type']()
+              : e.hasCode('minLength')
+                ? m['form.error.min_length']({ min: e.rule })
+                : e.hasCode('maxLength')
+                  ? m['form.error.max_length']({ max: e.rule })
+                  : e.hasCode('pattern')
+                    ? m['form.error.invalid_format']()
+                    : m['form.error.invalid']();
+    }
+
+    return result;
 }

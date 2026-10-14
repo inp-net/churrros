@@ -65,5 +65,11 @@
     "form.login.password.placeholder": "Mot de passe",
     "form.login.password.error": "Mot de passe invalide",
     "form.login.submit": "Se connecter",
+    "form.error.required": "Ce champ est requis",
+    "form.error.invalid_type": "Type de champ invalide",
+    "form.error.min_length": "Doit contenir au moins {min} caractères",
+    "form.error.max_length": "Doit contenir au maximum {max} caractères",
+    "form.error.invalid_format": "Format invalide",
+    "form.error.invalid": "Valeur invalide",
     "login.with": "Se connecter avec {provider}"
 }
