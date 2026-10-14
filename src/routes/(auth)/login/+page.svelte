@@ -3,34 +3,22 @@
     import { credentialsProvider } from '#lib/auth/providers/index.ts';
     import { oAuthProviders } from '#lib/auth/providers/oauth/index.ts';
     import { page } from '$app/state';
+    import LoginForm from '#lib/forms/auth/LoginForm.svelte';
+    import { m } from '#lib/paraglide/messages.js';
 
-    async function handleSubmit(event: Event) {
-        event.preventDefault();
-        const form = event.target as HTMLFormElement;
-        const formData = new FormData(form);
-        const username = formData.get('username') as string;
-        const password = formData.get('password') as string;
-
-        try {
-            await credentialsProvider.login(username, password);
-            await goto('/login/done');
-        } catch (error) {
-            console.error('Login failed:', error);
-        }
+    async function login({ username, password }: { username: string; password: string }) {
+        await credentialsProvider.login(username, password);
+        await goto('/login/done');
     }
 
     const currentUrl = $derived(new URL(page.url.href));
 </script>
 
-<form title="Se connecter" method="POST" onsubmit={handleSubmit}>
-    <input type="text" name="username" placeholder="Email ou uid" required />
-    <input type="password" name="password" placeholder="Mot de passe" required />
-    <button type="submit">Se connecter</button>
-</form>
+<LoginForm onsubmit={login} />
 
 {#each oAuthProviders as provider}
     <a href={provider.loginUrl(currentUrl).toString()}>
         <img src={provider.iconUrl} alt={provider.name} />
-        Se connecter avec {provider.name}
+        {m['login.with']({ provider: provider.name })}
     </a>
 {/each}

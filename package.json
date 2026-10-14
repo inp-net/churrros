@@ -34,6 +34,7 @@
     },
     "dependencies": {
         "@tanstack/svelte-query": "^6.3.1",
+        "arktype": "^2.2.8",
         "azucar-ui": "^0.0.11",
         "gql.tada": "^1.11.4"
     },

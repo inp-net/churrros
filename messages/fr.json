@@ -57,5 +57,13 @@
     "services": "Services",
     "services.see-all": "Voir tous les services",
     "majors": "Filières",
-    "major.discontinued": "Fermée"
+    "major.discontinued": "Fermée",
+    "form.login.username": "Email ou uid",
+    "form.login.username.placeholder": "Email ou uid",
+    "form.login.username.error": "Email ou uid invalide",
+    "form.login.password": "Mot de passe",
+    "form.login.password.placeholder": "Mot de passe",
+    "form.login.password.error": "Mot de passe invalide",
+    "form.login.submit": "Se connecter",
+    "login.with": "Se connecter avec {provider}"
 }
