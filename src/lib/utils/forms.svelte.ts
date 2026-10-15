@@ -1,5 +1,5 @@
 import { m } from '#lib/paraglide/messages.js';
-import { ArkErrors, type, type Type } from 'arktype';
+import { ArkError, ArkErrors, type, type Type } from 'arktype';
 
 export function createForm<S extends Type<any>>(schema: S, initial: S['inferIn']) {
     let values = $state(initial);
@@ -41,20 +41,31 @@ function translateErrors(errors: ArkErrors): Record<string, string> {
     const result: Record<string, string> = {};
 
     for (const [path, list] of Object.entries(errors.flatByPath)) {
-        // TODO : This looks awful
-        const e = list[0];
-        result[path] = e.hasCode('required')
-            ? m['form.error.required']()
-            : e.hasCode('domain')
-              ? m['form.error.invalid_type']()
-              : e.hasCode('minLength')
-                ? m['form.error.min_length']({ min: e.rule })
-                : e.hasCode('maxLength')
-                  ? m['form.error.max_length']({ max: e.rule })
-                  : e.hasCode('pattern')
-                    ? m['form.error.invalid_format']()
-                    : m['form.error.invalid']();
+        // We only take the first error, because all errors would be unreadable
+        result[path] = getErrorMessage(list[0]);
     }
 
     return result;
+}
+
+function getErrorMessage(error: ArkError): string {
+    if (error.hasCode('union')) {
+        return getErrorMessage(error.errors[0]); // We only take the first error because all errors would be unreadable
+    }
+    if (error.hasCode('required')) {
+        return m['form.error.required']();
+    }
+    if (error.hasCode('domain')) {
+        return m['form.error.invalid_type']();
+    }
+    if (error.hasCode('minLength')) {
+        return m['form.error.min_length']({ min: error.rule });
+    }
+    if (error.hasCode('maxLength')) {
+        return m['form.error.max_length']({ max: error.rule });
+    }
+    if (error.hasCode('pattern')) {
+        return m['form.error.invalid_format']();
+    }
+    return m['form.error.invalid']();
 }

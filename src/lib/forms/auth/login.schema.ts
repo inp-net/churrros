@@ -1,7 +1,7 @@
 import { type } from 'arktype';
 
 export const loginSchema = type({
-    username: type('(string.email | string.alphanumeric) & string > 0'),
+    username: type('string.email | string >= 2'),
     password: type('string >= 8')
 });
 
