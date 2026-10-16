@@ -16,13 +16,13 @@
             try {
                 await onsubmit(data);
             } catch {
-                submitError = 'Identifiants incorrects ou erreur serveur';
+                submitError = m['form.login.error']();
             }
         });
     }
 </script>
 
-<form title="Se connecter" onsubmit={handleSubmit} novalidate>
+<form title={m['login']()} onsubmit={handleSubmit} novalidate>
     <FormField label={m['form.login.username']()} error={form.errors.username}>
         <input
             type="text"

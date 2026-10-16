@@ -5,8 +5,9 @@
     import { page } from '$app/state';
     import LoginForm from '#lib/forms/auth/LoginForm.svelte';
     import { m } from '#lib/paraglide/messages.js';
+    import type { LoginInput } from '#lib/forms/auth/login.schema.ts';
 
-    async function login({ username, password }: { username: string; password: string }) {
+    async function login({ username, password }: LoginInput) {
         await credentialsProvider.login(username, password);
         await goto('/login/done');
     }

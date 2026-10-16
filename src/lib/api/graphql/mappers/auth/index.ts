@@ -1,7 +1,7 @@
 import type { SessionToken } from '#lib/api/index.ts';
 import { readFragment, type ResultOf } from '#lib/api/graphql/graphql.ts';
 import type { LoginMutation } from '#lib/api/graphql/queries/auth/index.ts';
-import { MutationErrorsFragment } from '#lib/api/graphql/queries/fragments/mutation.ts';
+import { MutationErrorsFragment } from '#lib/api/graphql/queries/fragments/mutationErrors.ts';
 import { SessionTokenFragment } from '#lib/api/graphql/queries/fragments/session.ts';
 
 export const mapSessionToken = (data: ResultOf<typeof LoginMutation>['login']): SessionToken => {

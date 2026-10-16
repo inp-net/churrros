@@ -1,16 +1,20 @@
 import { m } from '#lib/paraglide/messages.js';
 import { ArkError, ArkErrors, type, type Type } from 'arktype';
 
+type FormErrors<T> = Partial<Record<keyof T & string, string>>;
+
 export function createForm<S extends Type<any>>(schema: S, initial: S['inferIn']) {
-    let values = $state(initial);
-    let errors = $state<Record<string, string>>({});
+    type In = S['inferIn'];
+
+    let values = $state<In>(initial);
+    let errors = $state<FormErrors<In>>({});
     let submitting = $state(false);
 
     async function submit(handler: (data: S['infer']) => Promise<void>) {
         const result = schema(values);
 
         if (result instanceof type.errors) {
-            errors = translateErrors(result);
+            errors = translateErrors<In>(result);
             return;
         }
 
@@ -37,15 +41,14 @@ export function createForm<S extends Type<any>>(schema: S, initial: S['inferIn']
     };
 }
 
-function translateErrors(errors: ArkErrors): Record<string, string> {
+function translateErrors<T>(errors: ArkErrors): FormErrors<T> {
     const result: Record<string, string> = {};
 
     for (const [path, list] of Object.entries(errors.flatByPath)) {
-        // We only take the first error, because all errors would be unreadable
         result[path] = getErrorMessage(list[0]);
     }
 
-    return result;
+    return result as FormErrors<T>;
 }
 
 function getErrorMessage(error: ArkError): string {

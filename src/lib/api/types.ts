@@ -1,3 +1,5 @@
+import { type } from 'arktype';
+
 //#region Auth
 export type SessionToken = {
     token: string;
@@ -118,7 +120,7 @@ export type UserProfile = {
 
 //#region Groups
 export type GroupMember = {
-    avatar: Avatar; //Either the avatar of the user or the avatar of the group
+    avatar: Avatar; // Either the avatar of the user or the avatar of the group
     title: string;
     treasurer: boolean;
     secretary: boolean;
@@ -130,8 +132,18 @@ export type GroupMemberByDate = GroupMember & {
     createdAt: string;
 };
 
-export type GroupType =
-    'Association' | 'Club' | 'Group' | 'Integration' | 'List' | 'StudentAssociationSection';
+// We user arktype here so it can be reused in forms
+export const GROUP_TYPES = [
+    'Association',
+    'Club',
+    'Group',
+    'Integration',
+    'List',
+    'StudentAssociationSection'
+] as const;
+
+export const GroupType = type.enumerated(...GROUP_TYPES);
+export type GroupType = typeof GroupType.infer;
 
 export type GroupProfile = {
     group: Avatar;
