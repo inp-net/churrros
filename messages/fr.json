@@ -79,6 +79,7 @@
     "form.group.type": "Type de groupe",
     "form.group.submit": "Créer le groupe",
     "form.group.error": "Erreur lors de la création du groupe",
+    "form.group.studentAssociation": "Association étudiante de rattachement",
     "group.type.association": "Association",
     "group.type.club": "Club",
     "group.type.group": "Groupe",

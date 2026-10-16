@@ -1,8 +1,9 @@
 <script lang="ts">
     import { createForm } from '#lib/utils/forms.svelte.ts';
-    import FormField from '#lib/components/FormField.svelte';
+    import FormField from '#lib/components/forms/FormField.svelte';
     import { loginSchema, type LoginInput } from './login.schema';
     import { m } from '#lib/paraglide/messages.js';
+    import { ApiValidationError } from '#lib/api/errors.ts';
 
     let { onsubmit }: { onsubmit: (data: LoginInput) => Promise<void> } = $props();
 
@@ -15,7 +16,10 @@
         form.submit(async (data) => {
             try {
                 await onsubmit(data);
-            } catch {
+            } catch (err) {
+                if (err instanceof ApiValidationError) {
+                    throw err; // We need to throw those error so createForm catches them
+                }
                 submitError = m['form.login.error']();
             }
         });
@@ -41,7 +45,11 @@
         />
     </FormField>
 
-    {#if submitError}<p role="alert">{submitError}</p>{/if}
+    {#if submitError || form.formError}
+        <p role="alert">
+            {submitError || form.formError}
+        </p>
+    {/if}
 
     <button type="submit" disabled={form.submitting}>{m['form.login.submit']()}</button>
 </form>

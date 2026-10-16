@@ -109,6 +109,7 @@ export const CreateGroup = graphql(
             ) {
                 ...MutationErrors
                 ... on MutationCreateGroupSuccess {
+                    __typename
                     data {
                         uid
                     }
@@ -125,6 +126,7 @@ export const EditGroupProfile = graphql(
             updateGroupProfile(uid: $uid, profile: $profile) {
                 ...MutationErrors
                 ... on MutationUpdateGroupProfileSuccess {
+                    __typename
                     data {
                         name
                         shortDescription
@@ -150,6 +152,7 @@ export const EditGroupJoinPolicy = graphql(
             setGroupJoinPolicy(uid: $uid, policy: $joinPolicy) {
                 ...MutationErrors
                 ... on MutationSetGroupJoinPolicySuccess {
+                    __typename
                     data {
                         selfJoinable
                     }
@@ -166,6 +169,7 @@ export const EditGroupParent = graphql(
             setParentGroup(child: $uid, parent: $parentUid) {
                 ...MutationErrors
                 ... on MutationSetParentGroupSuccess {
+                    __typename
                     data {
                         parent {
                             ...GroupAvatar
@@ -187,6 +191,7 @@ export const EditGroupStudentAssociation = graphql(
             setGroupStudentAssociation(group: $uid, studentAssociation: $studentAssociation) {
                 ...MutationErrors
                 ... on MutationSetGroupStudentAssociationSuccess {
+                    __typename
                     data {
                         studentAssociation {
                             ...StudentAssociationAvatar
@@ -205,6 +210,7 @@ export const EditGroupType = graphql(
             setGroupType(uid: $uid, type: $type, unlisted: $unlisted) {
                 ...MutationErrors
                 ... on MutationSetGroupTypeSuccess {
+                    __typename
                     data {
                         type
                         unlisted

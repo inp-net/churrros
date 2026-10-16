@@ -171,6 +171,12 @@ export interface MeRepository {
     getCanCreateEventsOn(): Promise<Avatar[]>;
 
     /**
+     * Fetches the list of student associations on which the currently authenticated user can create groups
+     * @returns an array of avatars of the student associations on which the user can create groups
+     */
+    getCanCreateGroupsOn(): Promise<Avatar[]>;
+
+    /**
      * Saves the payment phone number of the currently authenticated user.
      * @param phone the phone number to save
      * @returns the saved phone number, or null if the user is not authenticated
@@ -293,6 +299,22 @@ export interface GroupRepository {
      * @throws an error if the group does not exist
      */
     getGroupMembers(args: PageRequest, uid?: string): Promise<Page<GroupMemberByDate>>;
+
+    /**
+     * Creates a new group with the specified parameters.
+     * @param studentAssociationId the student association associated with the group
+     * @param uid the unique identifier for the group
+     * @param name the name of the group
+     * @param type the type of the group
+     * @returns the uid of the newly created group
+     * @throws an error if the group could not be created
+     */
+    createGroup(
+        studentAssociationId: string,
+        uid: string,
+        name: string,
+        type: GroupType
+    ): Promise<string>;
 }
 
 export interface StudentAssociationRepository {

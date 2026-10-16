@@ -13,6 +13,7 @@ import { readFragment, type $tada, type ResultOf } from 'gql.tada';
 import { GroupAvatarFragment } from '#lib/api/graphql/queries/fragments/groupAvatar.ts';
 import { GroupMemberWithGroupFragment } from '#lib/api/graphql/queries/fragments/groupMemberWithGroup.ts';
 import type {
+    CreateGroup,
     GetBoardGroupMembers,
     GetGroupInfos,
     GetGroupMembers,
@@ -23,6 +24,8 @@ import { mapLink } from '../link';
 import { mapStudentAssociationAvatar } from '../studentassociation';
 import { mapGroupMemberWithUser } from '../user';
 import { PageInfoFragment } from '../../queries/fragments/pagination';
+import { MutationErrorsFragment } from '../../queries/fragments/mutationErrors';
+import { ApiValidationError } from '#lib/api/errors.ts';
 
 // Gql.tada fragment types
 type GroupAvatarFragment = {
@@ -130,4 +133,20 @@ export function mapGroupMembersByDate(
         ...mapGroupMemberWithUser(groupMembers),
         createdAt: groupMembers.createdAt
     };
+}
+
+export function mapCreateGroup(result: ResultOf<typeof CreateGroup>['createGroup']): string {
+    console.log(result);
+    switch (result.__typename) {
+        case 'Error':
+            const errorsFragment = readFragment(MutationErrorsFragment, result);
+            throw new Error(errorsFragment.message);
+        case 'ZodError':
+            const zodErrorsFragment = readFragment(MutationErrorsFragment, result);
+            throw new ApiValidationError(zodErrorsFragment.fieldErrors);
+        case 'MutationCreateGroupSuccess':
+            return result.data.uid;
+        default:
+            throw new Error('Unknown error while creating group');
+    }
 }

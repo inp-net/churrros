@@ -1,6 +1,7 @@
 import type { GroupRepository } from '#lib/api/repositories.ts';
 import { request } from '#lib/api/graphql/client.ts';
 import {
+    CreateGroup,
     GetBoardGroupMembers,
     GetGroupInfos,
     GetGroupMembers,
@@ -8,6 +9,7 @@ import {
     GetGroupSeeAlso
 } from '#lib/api/graphql/queries/group/index.ts';
 import {
+    mapCreateGroup,
     mapGroupBoardMembers,
     mapGroupInfos,
     mapGroupMembers,
@@ -82,6 +84,21 @@ export const groupRepository: GroupRepository = {
         } catch (error) {
             //TODO : Vrai gestion d'erreur
             console.error('Error fetching group members:', error);
+            throw error;
+        }
+    },
+    async createGroup(studentAssociationId, uid, name, type) {
+        try {
+            const response = await request(CreateGroup, {
+                studentAssociation: studentAssociationId,
+                uid,
+                name,
+                type
+            });
+            return mapCreateGroup(response.createGroup);
+        } catch (error) {
+            //TODO : Vrai gestion d'erreur
+            console.error('Error creating group:', error);
             throw error;
         }
     }
