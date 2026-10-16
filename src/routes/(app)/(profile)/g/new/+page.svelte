@@ -4,9 +4,16 @@
     import CreateGroupForm from '#lib/forms/group/CreateGroupForm.svelte';
     import type { CreateGroupInput } from '#lib/forms/group/group.schema.ts';
     import { createQuery } from '@tanstack/svelte-query';
+    import { goto } from '$app/navigation';
 
     async function createGroup({ studentAssociationId, name, uid, groupType }: CreateGroupInput) {
-        await groupRepository.createGroup(studentAssociationId, name, uid, groupType);
+        const result = await groupRepository.createGroup(
+            studentAssociationId,
+            name,
+            uid,
+            groupType
+        );
+        await goto(`/g/${result}`);
     }
 
     const query = createQuery(() => ({
