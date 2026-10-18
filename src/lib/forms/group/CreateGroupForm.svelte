@@ -48,7 +48,7 @@
     }
 </script>
 
-<form title={m['form.group.title']()} onsubmit={handleSubmit} novalidate>
+<form title={m['form.group.create.title']()} onsubmit={handleSubmit} novalidate>
     <FormField
         label={m['form.group.studentAssociation']()}
         error={form.errors.studentAssociationId}
@@ -85,7 +85,8 @@
         </select>
     </FormField>
 
+    {#if form.formError}<p role="alert">{form.formError}</p>{/if}
     {#if submitError}<p role="alert">{submitError}</p>{/if}
 
-    <button type="submit" disabled={form.submitting}>{m['form.group.submit']()}</button>
+    <button type="submit" disabled={form.submitting}>{m['form.group.create.submit']()}</button>
 </form>
