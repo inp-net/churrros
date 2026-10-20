@@ -1,15 +1,31 @@
-import type { Avatar, User } from '#lib/api/index.ts';
+import type {
+    Avatar,
+    GroupMember,
+    User,
+    UserFamily,
+    UserGroups,
+    UserInfos,
+    UserProfile
+} from '#lib/api/index.ts';
 import { readFragment, type ResultOf } from '#lib/api/graphql/graphql.ts';
 import type {
+    GetUserByUid,
+    GetUserFamily,
+    GetUserGroups,
+    GetUserInfos,
     GetBirthdays,
     GetGroupedBirthdays,
-    GetUserByUid
+    GetUserProfile
 } from '#lib/api/graphql/queries/user/index.ts';
 import { UserFragment } from '#lib/api/graphql/queries/fragments/user.ts';
 import type { $tada } from 'gql.tada';
-import { MajorAvatarFragment } from '../../queries/fragments/majorAvatar';
-import { SchoolAvatarFragment } from '../../queries/fragments/schoolAvatar';
-import { UserAvatarFragment } from '../../queries/fragments/userAvatar';
+import { UserAvatarFragment } from '../../queries/fragments/userAvatar.ts';
+import { mapStudentAssociationAvatar } from '../studentassociation/index.ts';
+import { mapGroupMemberGroup } from '../group/index.ts';
+import { mapLink } from '../link/index.ts';
+import { GroupMemberWithUserFragment } from '../../queries/fragments/groupMemberWithUser.ts';
+import { mapMajor } from '../major/index.ts';
+import { mapSchool } from '../school/index.ts';
 
 export function mapUser(user: ResultOf<typeof GetUserByUid>['user']): User {
     const userData = readFragment(UserFragment, user);
@@ -21,37 +37,8 @@ export function mapUser(user: ResultOf<typeof GetUserByUid>['user']): User {
         nickname: userData.nickname,
         pictureURL: userData.pictureURL,
         phone: userData.phone,
+        paymentPhone: userData.lydiaPhone,
         admin: userData.admin
-    };
-}
-
-type MajorFragmentType = {
-    [$tada.fragmentRefs]: {
-        MajorAvatar: 'Major';
-    };
-};
-
-export function mapMajor(major: MajorFragmentType): Avatar {
-    const data = readFragment(MajorAvatarFragment, major);
-    return {
-        uid: data.uid,
-        name: data.name,
-        pictureURL: data.pictureURL
-    };
-}
-
-type SchoolFragmentType = {
-    [$tada.fragmentRefs]: {
-        SchoolAvatar: 'School';
-    };
-};
-
-export function mapSchool(school: SchoolFragmentType): Avatar {
-    const data = readFragment(SchoolAvatarFragment, school);
-    return {
-        uid: data.uid,
-        name: data.name,
-        pictureURL: data.pictureURL
     };
 }
 
@@ -69,6 +56,49 @@ export function mapUserAvatar(user: UserAvatarFragmentType): Avatar {
     };
 }
 
+export function mapUserProfile(user: ResultOf<typeof GetUserProfile>['user']): UserProfile {
+    return {
+        ...mapUserAvatar(user),
+        fullName: user.fullName,
+        pronouns: user.pronouns,
+        nickname: user.nickname,
+        description: user.descriptionHtml,
+        yearTier: user.yearTier,
+        major: user.major ? mapMajor(user.major) : null,
+        school: user.major ? user.major.schools.map(mapSchool) : [],
+        links: user.links.map(mapLink),
+        bot: user.bot,
+        admin: user.admin || user.studentAssociationAdmin
+    };
+}
+
+export function mapUserInfos(user: ResultOf<typeof GetUserInfos>['user']): UserInfos {
+    return {
+        address: user.address,
+        nickname: user.nickname,
+        birthday: user.birthday,
+        phone: user.phone,
+        email: user.email!,
+        otherEmails: user.otherEmails ? user.otherEmails : [],
+        contributesTo: user.contributesTo
+            ? user.contributesTo.map((avatar) => mapStudentAssociationAvatar(avatar))
+            : null
+    };
+}
+
+export function mapUserGroups(user: ResultOf<typeof GetUserGroups>['user']): UserGroups {
+    return {
+        groups: user.groups.map((group) => mapGroupMemberGroup(group))
+    };
+}
+
+export function mapUserFamily(user: ResultOf<typeof GetUserFamily>['user']): UserFamily {
+    return {
+        uid: user.uid,
+        nesting: user.familyTree.nesting,
+        users: user.familyTree.users.map((user) => mapUserAvatar(user))
+    };
+}
 export function mapBirthdays(birthdays: ResultOf<typeof GetBirthdays>['birthdays']): Avatar[] {
     return birthdays.map(mapUserAvatar);
 }
@@ -91,4 +121,22 @@ export function mapGroupedBirthdays(
     return Object.fromEntries(
         Object.entries(result).sort(([a], [b]) => a.localeCompare(b)) //To sort the dates
     );
+}
+
+type GroupMemberWithUserFragmentType = {
+    [$tada.fragmentRefs]: {
+        GroupMemberUser: 'GroupMember';
+    };
+};
+
+export function mapGroupMemberWithUser(groupMember: GroupMemberWithUserFragmentType): GroupMember {
+    const data = readFragment(GroupMemberWithUserFragment, groupMember);
+    return {
+        title: data.title,
+        treasurer: data.treasurer,
+        secretary: data.secretary,
+        vicePresident: data.vicePresident,
+        president: data.president,
+        avatar: mapUserAvatar(data.user)
+    };
 }

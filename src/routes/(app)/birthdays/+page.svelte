@@ -6,7 +6,7 @@
     import { createQuery } from '@tanstack/svelte-query';
 
     const now = new Date();
-    const today = `${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`; // Format MM-DD
+    const today = `${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`; // MM-DD Format
 
     const query = createQuery(() => ({
         queryKey: ['birthdays'],

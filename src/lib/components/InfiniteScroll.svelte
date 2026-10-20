@@ -1,31 +1,31 @@
 <script lang="ts">
     import { m } from '#lib/paraglide/messages.js';
     import type { Snippet } from 'svelte';
-    //Inspiré de https://github.com/ndom91/svelte-infinite
+    // Inspired by https://github.com/ndom91/svelte-infinite
 
     interface Props {
         /**
-         * Indique si il y a une page suivante à charger, si false alors y a plus de données.
+         * Boolean that shows if there is a next page to load.
          */
         hasNextPage: boolean;
         /**
-         * Indique si on est en train de charger la page suivante, pour empêcher de faire plusieurs requêtes en même temps.
+         * Boolean that shows if the next page is currently being fetched. This is used to show a loading indicator and to prevent multiple calls.
          */
         isFetching: boolean;
         /**
-         * Callback a appeler pour charger la page suivante.
+         * Callback to use to load the next page.
          */
         loadMore: () => unknown;
         /**
-         * Distance en px entre le bas de la page et le bas de l'élément pour déclencher le chargement de la page suivante.
+         * CSS margin to use for the intersection observer. This is used to trigger the loadMore callback before the user reaches the bottom of the page. Default is '0px 0px 400px 0px'
          */
         rootMargin?: string;
         /**
-         * Contenu à afficher dans le composant, (la liste d'éléments à afficher avec scroll infini).
+         * Content to display inside the infinite scroll component. This is usually a list of items.
          */
         children: Snippet;
         /**
-         * Contenu à afficher lorsque la page suivante est en train de se charger.
+         * Content to display while the next page is being fetched (optionnal). If not provided, a default loading indicator will be used.
          */
         loading?: Snippet;
     }
@@ -40,7 +40,7 @@
     }: Props = $props();
 
     let intersectionTarget: HTMLDivElement | undefined = $state();
-    //Pr eviter de loadMore plusieurs fois
+    // To avoid calling loadMore multiple times
     let isLoading = false;
 
     async function attemptLoadMore() {
@@ -54,13 +54,12 @@
         }
     }
 
-    //En gros effect est appelé à chaque modification sur les valeurs utilisées, ici intersectionTarget.
-    //Donc quand intersectionTarget change
+    // $effect is called whenever the values used inside it change, here intersectionTarget.
     $effect(() => {
         if (!intersectionTarget) return;
 
-        //Trigger quand l'objet observé est à l'intérieur de la zone d'intersection (le viewport) + rootMargin qui agrandit cette zone
-        //Donc par défaut on va trigger quand l'objet cherché est à 400px du bas de la page
+        // Triggered when the observed object is inside the intersection area (the viewport) + rootMargin which enlarges this area
+        // So by default we will trigger when the searched object is 400px from the bottom of the page
         const observer = new IntersectionObserver(
             async (entries) => {
                 if (entries[0]?.isIntersecting) {
@@ -71,7 +70,7 @@
         );
         observer.observe(intersectionTarget);
 
-        //Nettoyage de l'observer car il n'est plus nécessaire
+        // Cleanup of the observer
         return () => {
             observer.disconnect();
         };

@@ -2,11 +2,12 @@
     import { goto } from '$app/navigation';
     import { clearToken } from '#lib/auth/session.ts';
     import { onMount } from 'svelte';
-    //TODO : Supprimer le cookie d'oAuth2 aussi
+    import { m } from '#lib/paraglide/messages.js';
+    // TODO : Delete the authed via token
     onMount(async () => {
         clearToken();
         await goto('/');
     });
 </script>
 
-<p>CHARGEMENT...</p>
+<p>{m['loading']()}</p>

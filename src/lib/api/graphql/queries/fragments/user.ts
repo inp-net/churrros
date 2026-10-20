@@ -9,6 +9,7 @@ export const UserFragment = graphql(`
         nickname
         pictureURL
         phone
+        lydiaPhone
         admin
     }
 `);

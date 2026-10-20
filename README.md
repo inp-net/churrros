@@ -6,8 +6,13 @@ L'objectif de ce projet est de créer un nouveau client léger et rapide pour l'
 Pour ce faire, nous utilisons :
 
 - Svelte, sveltekit et typescript pour le front-end/backend.
-- Tanstack query, gql.tada pour l'intéraction avec l'API graphql Churros.
+- Tanstack query pour l'interaction avec l'API Churros.
 - Paraglide pour les traductions.
+
+Nous avons essayer d'abstraire au maximum certaines partie du code pour permettre d'ajouter facilement des remplacements.
+Notamment pour l'api, Churros V2 utilise une API graphql.
+
+Pour intéragir avec l'API graphql nous utilisons gql.tada pour le typage avec introspection de l'API et un client basique fait avec un simple fetch.
 
 ## Contribution
 

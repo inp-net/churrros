@@ -3,16 +3,16 @@
 
     interface Props {
         /**
-         * Les groupes en options à selectionner
+         * The list of avatars to display in the select group avatar component
          */
         groups: Avatar[];
         /**
-         * L'uid du groupe selectionné
+         * The uid of the selected avatar.
          */
         selected: string | null;
     }
 
     let { groups, selected = $bindable() }: Props = $props();
-
-    //Un select qui permet de choisir parmi plusieurs group avatars
 </script>
+
+<!-- NOT IMPLEMENTED -->

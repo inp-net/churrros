@@ -6,11 +6,11 @@
 
     interface Props {
         /**
-         * L'event à afficher dans la carte
+         * The event to display in the card event component
          */
         event: Event;
         /**
-         * Si on annonce le shotgun qui s'ouvre plutot que l'event
+         * If the event is a shotgun event or not
          */
         shotgun?: boolean;
     }

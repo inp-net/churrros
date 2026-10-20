@@ -4,7 +4,7 @@
     import CardEvent from './CardEvent.svelte';
 
     /**
-     * Composant pour afficher les events sur une journée donnée, en différenciant les events par ceux dont le shotgun s'ouvre et ceux qui commencent ce jour là.
+     * Component to display events on a given day, differentiating between events whose shotgun opens and those that start that day.
      */
     interface Props {
         event: EventsByDay;
