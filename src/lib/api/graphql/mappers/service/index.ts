@@ -1,6 +1,6 @@
 import { readFragment, type $tada } from 'gql.tada';
 import { CardServiceFragment } from '../../queries/fragments/cardService';
-import type { CardService } from '#lib/api/types.ts';
+import type { CardService } from '#lib/api/index.ts';
 
 type CardServiceFragmentType = {
     [$tada.fragmentRefs]: {

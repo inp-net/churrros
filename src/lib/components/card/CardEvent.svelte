@@ -16,16 +16,6 @@
     }
 
     let { event }: Props = $props();
-
-    const formatDate = (date: string | null) => {
-        if (!date) return 'N/A';
-        return formatISODateToLocale(date, {
-            month: 'short',
-            day: '2-digit',
-            hour: 'numeric',
-            minute: 'numeric'
-        });
-    };
 </script>
 
 <Frame
@@ -55,11 +45,11 @@
                     <CalendarIcon />
                     <p>
                         <span>
-                            {formatDate(event.startsAt)}
+                            {formatISODateToLocale(event.startsAt)}
                         </span>
                         -
                         <span>
-                            {formatDate(event.endsAt)}
+                            {formatISODateToLocale(event.endsAt)}
                         </span>
                     </p>
                 </Flex>

@@ -43,6 +43,7 @@
     "payment.waiting": "En attente de ",
     "open": "Ouvrir",
     "birthdays": "Anniversaires",
+    "no_birthdays_today": "Aucun anniversaire aujourd'hui",
     "today": "Aujourd'hui",
     "navigation": {
         "home": "Accueil",

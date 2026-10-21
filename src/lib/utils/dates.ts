@@ -7,11 +7,16 @@ import { getLocale } from '#lib/paraglide/runtime.js'; // Paraglide becomes our 
  * @returns the formatted date string according to the current locale of Paraglide and the specified format
  */
 export function formatISODateToLocale(
-    date: string,
-    options: Intl.DateTimeFormatOptions = { dateStyle: 'medium', timeStyle: 'short' }
+    date: string | null,
+    options: Intl.DateTimeFormatOptions = {
+        month: 'short',
+        day: '2-digit',
+        hour: 'numeric',
+        minute: 'numeric'
+    }
 ): string {
     const locale = getLocale();
-
+    if (!date) return 'N/A';
     return Intl.DateTimeFormat(locale, options).format(new Date(date));
 }
 
