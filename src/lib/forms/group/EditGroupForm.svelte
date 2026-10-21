@@ -4,7 +4,7 @@
     import FormField from '#lib/components/forms/FormField.svelte';
     import { updateGroupSchema, type UpdateGroupInput } from './group.schema';
     import { m } from '#lib/paraglide/messages.js';
-    import { GROUP_TYPES, type Avatar } from '#lib/api/types.ts';
+    import { GROUP_TYPES, type Avatar, type GroupPermissions } from '#lib/api/types.ts';
     import { groupTypeToLocalizedString } from '#lib/utils/i18n.ts';
     import { ApiValidationError } from '#lib/api/errors.ts';
     import SelectAvatar from '#lib/components/forms/SelectAvatar.svelte';
@@ -25,9 +25,14 @@
          * This is used to populate the select input for choosing a student association when creating a group.
          */
         studentAssociations: Avatar[];
+        /**
+         * The permissions of the currently authenticated user on the group being edited.
+         * Used to hide and disable certain fields in the form based on the user's permissions.
+         */
+        permissions: GroupPermissions;
     }
 
-    let { group, onsubmit, studentAssociations }: Props = $props();
+    let { group, onsubmit, studentAssociations, permissions }: Props = $props();
 
     const form = createForm(
         updateGroupSchema,

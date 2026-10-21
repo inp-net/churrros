@@ -20,13 +20,24 @@
         queryFn: () => groupRepository.getGroupPermissions(page.params.id)
     }));
 
+    const queryGroup = createQuery(() => ({
+        queryKey: ['group', page.params.id, 'edit-info'],
+        queryFn: () => groupRepository.getGroupEditInfo(queryPermissions.data!, page.params.id),
+        enabled: queryPermissions.isSuccess
+    }));
+
     // TODO: Handle permissions (right now everybody can be here despite not having the right to create/modify any groups)
 </script>
 
-{#if query.isLoading}
+{#if query.isPending || queryPermissions.isPending || queryGroup.isPending}
     <p>{m['loading']()}</p>
-{:else if query.isError}
+{:else if query.isError || queryPermissions.isError || queryGroup.isError}
     <p>ERROR</p>
-{:else if query.data}
-    <EditGroupForm onsubmit={updateGroup} studentAssociations={query.data} {group} />
+{:else if query.data && queryPermissions.data && queryGroup.data}
+    <EditGroupForm
+        onsubmit={updateGroup}
+        studentAssociations={query.data}
+        group={queryGroup.data}
+        permissions={queryPermissions.data}
+    />
 {/if}

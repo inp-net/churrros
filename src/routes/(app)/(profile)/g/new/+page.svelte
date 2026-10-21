@@ -24,7 +24,7 @@
     // TODO: Handle permissions (right now everybody can be here despite not having the right to create any groups)
 </script>
 
-{#if query.isLoading}
+{#if query.isPending}
     <p>{m['loading']()}</p>
 {:else if query.isError}
     <p>ERROR</p>
