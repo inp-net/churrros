@@ -8,26 +8,28 @@ import type {
     UserFamily,
     Article,
     ArticleDetail,
-    SessionToken,
-    User,
-    BookingDetail,
     EventsByDay,
-    Booking,
-    PaymentMethod,
+    Searchable,
+    SearchResult,
     UserProfile,
     StudentAssociationProfile,
     GroupType,
     MajorInfos,
     SchoolInfos,
     SchoolProfile,
-    GroupBoardMembers,
-    GroupInfos,
+    SessionToken,
+    User,
     GroupProfile,
+    GroupInfos,
+    GroupBoardMembers,
     GroupSeeAlso,
     GroupMemberByDate,
     GroupAvatar,
     CardService,
-    GroupPermissions
+    GroupPermissions,
+    Booking,
+    BookingDetail,
+    PaymentMethod
 } from '#lib/api/index.ts';
 import type { UpdateGroupInput, UpdateGroupPatch } from '#lib/forms/group/group.schema.ts';
 import type { Cookies } from '@sveltejs/kit';
@@ -260,6 +262,16 @@ export interface ArticleRepository {
     getArticleById(id: string | undefined): Promise<ArticleDetail>;
 }
 
+export interface SearchRepository {
+    /**
+     * Returns a list of search results based on the query and the types of resources to search for.
+     * @param q the search query
+     * @param only the types of resources to search for
+     * @returns a list of search results
+     */
+    search(q: string, only: Searchable[]): Promise<SearchResult[]>;
+}
+
 export interface GroupRepository {
     /**
      * Returns the profile of a group by its uid.
@@ -409,4 +421,15 @@ export interface MajorRepository {
      * @returns the profile of the major
      */
     getMajorProfile(uid?: string): Promise<MajorInfos>;
+}
+
+/**
+ * Repository that handles services related API interactions
+ */
+export interface ServiceRepository {
+    /**
+     * Returns the list of services that are available for the user to see.
+     * @returns a list of card services
+     */
+    getServices(): Promise<CardService[]>;
 }

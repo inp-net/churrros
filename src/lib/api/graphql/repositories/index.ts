@@ -8,3 +8,4 @@ export * from './group';
 export * from './studentassociation';
 export * from './school';
 export * from './major';
+export * from './service';
