@@ -8,6 +8,7 @@
     import favicon from '#lib/assets/favicon.svg';
     import 'azucar-ui/tokens.css';
     import 'azucar-ui/base.css';
+    import { Toaster } from 'svelte-sonner';
 
     let { data, children } = $props();
 
@@ -27,6 +28,7 @@
     <div class="container">
         {@render children()}
     </div>
+    <Toaster />
 </QueryClientProvider>
 
 <div style="display:none">

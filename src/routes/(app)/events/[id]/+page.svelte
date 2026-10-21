@@ -8,6 +8,7 @@
     import Avatar from '#lib/components/avatar/Avatar.svelte';
     import BookEventModal from '#lib/components/modal/BookEventModal.svelte';
     import { goto } from '$app/navigation';
+    import { showToast } from '#lib/utils/toast.ts';
 
     const queryClient = useQueryClient();
 
@@ -28,15 +29,14 @@
         }) => eventRepository.bookEvent(ticketId, beneficiary, churrosBeneficiary),
 
         onSuccess: (data) => {
-            console.log('Booking successful:', data);
+            showToast(m['booking.toast.success'](), 'success', true);
             openBookEventModal = false;
             // The number of bookings has changed, so we need to invalidate the query
             queryClient.invalidateQueries({ queryKey: ['event', page.params.id] });
             goto(`/bookings/${data}`); // Redirect to the booking page after a successful booking
         },
         onError: (error) => {
-            console.error('Booking failed:', error);
-            //TODO afficher une erreur à l'utilisateur
+            showToast(m['booking.toast.failed'](), 'danger', true);
         }
     }));
 
