@@ -14,6 +14,7 @@
     import { ApiValidationError } from '#lib/api/errors.ts';
     import SelectAvatar from '#lib/components/forms/SelectAvatar.svelte';
     import { untrack } from 'svelte';
+    import { diffPatch } from '#lib/utils/diff.ts';
 
     interface Props {
         /**
@@ -57,18 +58,20 @@
         };
     }
 
-    const form = createForm(
-        updateGroupSchema,
-        groupEditInfoToDefaultValues(untrack(() => group)) // No need for reactivity here, we just want to pre-fill the form with the initial group data
-    );
+    const initialValues = groupEditInfoToDefaultValues(untrack(() => group)); // No need for reactivity here, we just want to pre-fill the form with the initial group data
+
+    const form = createForm(updateGroupSchema, initialValues);
     let submitError = $state('');
 
     function handleSubmit(e: SubmitEvent) {
         e.preventDefault();
         submitError = '';
         form.submit(async (data) => {
+            const patch = diffPatch(initialValues, data);
+            console.log('Patch : ', patch);
+            if (Object.keys(patch).length === 0) return;
             try {
-                await onsubmit(data);
+                await onsubmit(patch);
             } catch (err) {
                 console.error('Error submitting form:', err);
                 if (err instanceof ApiValidationError) {
