@@ -64,5 +64,7 @@
     "services": "Services",
     "services.see-all": "Voir tous les services",
     "majors": "Filières",
-    "major.discontinued": "Fermée"
+    "major.discontinued": "Fermée",
+    "see_more": "Voir plus",
+    "see_less": "Voir moins"
 }

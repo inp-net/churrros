@@ -1,8 +1,8 @@
 <script lang="ts">
-    import { getLocale } from '#lib/paraglide/runtime.js';
     import type { User, UserInfos } from '#lib/api/index.ts';
-    import { Avatar, Flex, Stack, Tabs, Frame, Skeleton, SkeletonText } from 'azucar-ui';
-    import { type LucideIcon, Phone, Mail, MapPin, Cake } from '@lucide/svelte';
+    import { Avatar, Flex, Stack, Tabs, Skeleton, SkeletonText } from 'azucar-ui';
+    import UserInfo from '#lib/components/tabs/UserInfo.svelte';
+    import ParagraphSeeMore from '#lib/components/ParagraphSeeMore.svelte';
 
     interface Props {
         profile?: User & UserInfos;
@@ -11,54 +11,13 @@
 
     let { profile, loading = false }: Props = $props();
 
-    interface IconMap {
-        data: string | null | undefined;
-        icon: LucideIcon;
-    }
-
-    const showcaseInfos: IconMap[] = $derived(
-        profile
-            ? [
-                  {
-                      data: profile.birthday
-                          ? new Date(profile.birthday).toLocaleDateString(getLocale())
-                          : null,
-                      icon: Cake
-                  },
-                  { data: profile.email?.toLowerCase(), icon: Mail },
-                  { data: profile.phone, icon: Phone },
-                  { data: profile.address, icon: MapPin }
-              ]
-            : []
-    );
-
     const fullName = $derived(
         profile ? [profile.firstName, profile.lastName].filter(Boolean).join(' ') : ''
     );
 </script>
 
-<!-- prints user infos details in the tab -->
-{#snippet showInfo()}
-    <Stack gap="sm">
-        {#each showcaseInfos as info}
-            {#if info.data}
-                <button
-                    type="button"
-                    onclick={() => navigator.clipboard.writeText(info.data ?? '')}
-                >
-                    <Frame interactive>
-                        <Flex wrap={false} gap="md" align="center">
-                            <info.icon size="1rem" />
-                            <p>{info.data}</p>
-                        </Flex>
-                    </Frame>
-                </button>
-            {/if}
-        {/each}
-    </Stack>
-{/snippet}
-
 <Stack align="stretch">
+    <!-- profile pictures, names and badged -->
     <Flex wrap={false}>
         {#if !loading}
             <Avatar src={profile?.pictureURL} alt={fullName} size="xxl" class="profile-avatar" />
@@ -90,13 +49,31 @@
             {/if}
         </Stack>
     </Flex>
+
+    <!-- description -->
     {#if !loading}
-        <p class="profile-description">bla bla bla</p>
+        <ParagraphSeeMore>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus malesuada vel eros at
+            accumsan. Integer tempor purus leo, ac pellentesque ex sollicitudin sit amet. Aliquam
+            ullamcorper tristique magna sed varius. Phasellus pharetra faucibus tellus, iaculis
+            mattis lorem lacinia at. Nunc suscipit turpis eu libero pretium laoreet. In molestie,
+            diam quis molestie elementum, leo ante egestas orci, ac feugiat nisl purus id velit.
+            Nunc velit urna, commodo sed velit sit amet, pulvinar molestie lectus. In eu interdum
+            augue. Donec a felis et ante tempor ornare eu eget sem. Morbi commodo mattis viverra.
+            Aliquam sollicitudin suscipit mauris euismod sagittis. In pharetra urna vel velit
+            pulvinar venenatis. Etiam ac est eu neque tincidunt egestas. Sed eu diam pellentesque
+            dui aliquet placerat. Phasellus et fringilla sapien. Ut sit amet elit ex.
+        </ParagraphSeeMore>
+        <!-- <ParagraphSeeMore> -->
+        <!--     Lorem ipsum dolor sit amet. -->
+        <!-- </ParagraphSeeMore> -->
     {/if}
+
+    <!-- tabs -->
     <Tabs tabs={['Info', 'Groups', 'Family']}>
         {#snippet content(tab)}
-            {#if tab === 'Info' && !loading}
-                {@render showInfo()}
+            {#if tab === 'Info' && profile && !loading}
+                <UserInfo userInfo={profile} />
             {:else if tab === 'Groups'}
                 <p>Bonjour</p>
             {:else if tab === 'Family'}

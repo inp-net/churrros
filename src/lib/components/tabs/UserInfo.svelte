@@ -1,27 +1,42 @@
 <script lang="ts">
     import type { UserInfos } from '#lib/api/index.ts';
+    import { Flex, Stack, Frame } from 'azucar-ui';
+    import { type LucideIcon, Phone, Mail, MapPin, Cake } from '@lucide/svelte';
     import { formatISODateToLocale } from '#lib/utils/dates.ts';
-    import Avatar from '../avatar/Avatar.svelte';
 
     interface Props {
         userInfo: UserInfos;
     }
     let { userInfo }: Props = $props();
+
+    interface IconMap {
+        data: string | null;
+        icon: LucideIcon;
+    }
+
+    const showcaseInfos: IconMap[] = $derived(
+        userInfo
+            ? [
+                  { data: formatISODateToLocale(userInfo.birthday ?? ''), icon: Cake },
+                  { data: userInfo.email?.toLowerCase(), icon: Mail },
+                  { data: userInfo.phone, icon: Phone },
+                  { data: userInfo.address, icon: MapPin }
+              ]
+            : []
+    );
 </script>
 
-<div>
-    {#if userInfo?.birthday}
-        {formatISODateToLocale(userInfo.birthday)}
-    {/if}
-    {userInfo?.email}
-    {#each userInfo?.otherEmails as email (email)}
-        {email}
+<Stack gap="sm">
+    {#each showcaseInfos as info}
+        {#if info.data}
+            <button type="button" onclick={() => navigator.clipboard.writeText(info.data ?? '')}>
+                <Frame interactive>
+                    <Flex wrap={false} gap="md" align="center">
+                        <info.icon size="1rem" />
+                        <p>{info.data}</p>
+                    </Flex>
+                </Frame>
+            </button>
+        {/if}
     {/each}
-    {userInfo?.phone}
-    {userInfo?.address}
-    {#if userInfo?.contributesTo}
-        {#each userInfo.contributesTo as studentAssociation (studentAssociation.uid)}
-            <Avatar avatar={studentAssociation} />
-        {/each}
-    {/if}
-</div>
+</Stack>
