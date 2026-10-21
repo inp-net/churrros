@@ -12,9 +12,9 @@
     const debouncedSearchQuery = debounced(() => searchQuery, 300);
 
     const query = createQuery(() => ({
-        queryKey: ['search', debouncedSearchQuery.current, searchCategories],
-        queryFn: () => searchRepository.search(debouncedSearchQuery.current, searchCategories),
-        enabled: debouncedSearchQuery.current.trim().length > 0,
+        queryKey: ['search', debouncedSearchQuery, searchCategories],
+        queryFn: () => searchRepository.search(debouncedSearchQuery, searchCategories),
+        enabled: debouncedSearchQuery.trim().length > 0,
         placeholderData: keepPreviousData,
         staleTime: 0 //We disable caching
     }));
