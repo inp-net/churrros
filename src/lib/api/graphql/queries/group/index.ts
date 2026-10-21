@@ -221,3 +221,68 @@ export const EditGroupType = graphql(
     `,
     [MutationErrorsFragment]
 );
+
+export const GetGroupPermissions = graphql(`
+    query GetGroupPermissions($uid: String!) {
+        group(uid: $uid) {
+            canEditDetails
+            canEditJoinPolicy
+            canEditParent
+            canEditStudentAssociation
+            canEditType
+            canEditUnlisted
+            canEditLydiaAccounts
+        }
+    }
+`);
+
+export const GetGroupInfoForEdition = graphql(
+    `
+        query GetGroupInfoForEdition(
+            $uid: String!
+            $withDetails: Boolean!
+            $withStudentAssociation: Boolean!
+            $withParent: Boolean!
+            $withJoinPolicy: Boolean!
+            $withType: Boolean!
+            $withUnlisted: Boolean!
+            $withLydiaAccounts: Boolean!
+        ) {
+            group(uid: $uid) {
+                ...GroupAvatar
+                canEditDetails @include(if: $withDetails)
+                shortDescription @include(if: $withDetails)
+                color @include(if: $withDetails)
+                email @include(if: $withDetails)
+                address @include(if: $withDetails)
+                related @include(if: $withDetails) {
+                    ...GroupAvatar
+                }
+
+                canEditStudentAssociation @include(if: $withStudentAssociation)
+                studentAssociation @include(if: $withStudentAssociation) {
+                    ...StudentAssociationAvatar
+                }
+
+                canEditParent @include(if: $withParent)
+                parent @include(if: $withParent) {
+                    ...GroupAvatar
+                }
+
+                canEditJoinPolicy @include(if: $withJoinPolicy)
+                selfJoinable @include(if: $withJoinPolicy)
+                canEditType @include(if: $withType)
+                type @include(if: $withType)
+                canEditUnlisted @include(if: $withUnlisted)
+                unlisted @include(if: $withUnlisted)
+                canEditLydiaAccounts @include(if: $withLydiaAccounts)
+                lydiaAccounts @include(if: $withLydiaAccounts) {
+                    id
+                    name
+                    eventsCount
+                }
+            }
+        }
+    `,
+    [GroupAvatarFragment, StudentAssociationAvatar]
+);

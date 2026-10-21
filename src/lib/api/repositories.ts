@@ -26,8 +26,10 @@ import type {
     GroupSeeAlso,
     GroupMemberByDate,
     GroupAvatar,
-    CardService
+    CardService,
+    GroupPermissions
 } from '#lib/api/index.ts';
+import type { UpdateGroupInput, UpdateGroupPatch } from '#lib/forms/group/group.schema.ts';
 import type { Cookies } from '@sveltejs/kit';
 
 export interface EventRepository {
@@ -315,6 +317,30 @@ export interface GroupRepository {
         name: string,
         type: GroupType
     ): Promise<string>;
+
+    /**
+     * Returns the permissions of the connected user for a group by its uid.
+     * @param uid the uid of the group to retrieve
+     * @returns the list of permissions of the connected user for the group
+     * @throws an error if the group does not exist
+     */
+    getGroupPermissions(uid?: string): Promise<GroupPermissions>;
+
+    /**
+     * Returns the information needed to edit a group.
+     * @param permissions the permissions of the connected user for the group
+     * @param uid the uid of the group to retrieve
+     * @returns the information needed to edit the group
+     * @throws an error if the group does not exist
+     */
+    getGroupEditInfo(permissions: GroupPermissions, uid?: string): Promise<UpdateGroupInput>;
+
+    /**
+     * Updates a group with the specified parameters.
+     * @param data the data to update the group with
+     * @throws an error if the group could not be updated
+     */
+    updateGroup(data: UpdateGroupPatch): Promise<void>;
 }
 
 export interface StudentAssociationRepository {

@@ -177,6 +177,17 @@ export type GroupSeeAlso = {
     familyChildren: GroupAvatar[];
     related: GroupAvatar[];
 };
+
+export type GroupPermissions = {
+    canEditDetails: boolean;
+    canEditJoinPolicy: boolean;
+    canEditParent: boolean;
+    canEditStudentAssociation: boolean;
+    canEditType: boolean;
+    canEditUnlisted: boolean;
+    canEditLydiaAccounts: boolean;
+};
+
 //#endregion
 
 //#region Pagination
