@@ -362,3 +362,14 @@ export interface MajorRepository {
      */
     getMajorProfile(uid?: string): Promise<MajorInfos>;
 }
+
+/**
+ * Repository that handles services related API interactions
+ */
+export interface ServiceRepository {
+    /**
+     * Returns the list of services that are available for the user to see.
+     * @returns a list of card services
+     */
+    getServices(): Promise<CardService[]>;
+}

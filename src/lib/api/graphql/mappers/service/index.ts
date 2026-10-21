@@ -1,6 +1,7 @@
-import { readFragment, type $tada } from 'gql.tada';
+import { readFragment, type $tada, type ResultOf } from 'gql.tada';
 import { CardServiceFragment } from '../../queries/fragments/cardService';
 import type { CardService } from '#lib/api/types.ts';
+import type { GetServices } from '../../queries/service';
 
 type CardServiceFragmentType = {
     [$tada.fragmentRefs]: {
@@ -18,4 +19,8 @@ export function mapCardService(cardService: CardServiceFragmentType): CardServic
         logo: data.logo,
         pinned: data.pinned
     };
+}
+
+export function mapServices(services: ResultOf<typeof GetServices>['services']): CardService[] {
+    return services.map((service) => mapCardService(service));
 }
