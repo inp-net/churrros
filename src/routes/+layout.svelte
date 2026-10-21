@@ -8,8 +8,12 @@
     import favicon from '#lib/assets/favicon.svg';
     import 'azucar-ui/tokens.css';
     import 'azucar-ui/base.css';
+    import Header from '#lib/components/Header.svelte';
+    import NavBar from '#lib/components/NavBar.svelte';
+    import { Stack } from 'azucar-ui';
+    import type { LayoutProps } from './$types';
 
-    let { data, children } = $props();
+    let { data, children }: LayoutProps = $props();
 
     const queryClient = new QueryClient({
         defaultOptions: {
@@ -22,10 +26,17 @@
     });
 </script>
 
-<svelte:head><link rel="icon" href={favicon} /></svelte:head>
+<svelte:head>
+    <link rel="icon" href={favicon} />
+</svelte:head>
+
 <QueryClientProvider client={queryClient}>
     <div class="container">
-        {@render children()}
+        <Stack gap="lg">
+            <Header />
+            {@render children()}
+            <NavBar user={data.user} />
+        </Stack>
     </div>
 </QueryClientProvider>
 
@@ -39,12 +50,14 @@
     /* set azucar-ui theme */
     :root {
         --base-color: oklch(80.45% 0.1666 72.92);
-        color-scheme: dark;
+        color-scheme: light dark;
     }
 
     /* limit page width */
     .container {
-        max-width: min(900px, 100%);
-        margin: 0 auto;
+        width: calc(100% - var(--size-md) * 2);
+        max-width: 550px;
+        margin: var(--size-md) auto;
+        overflow-x: hidden;
     }
 </style>
