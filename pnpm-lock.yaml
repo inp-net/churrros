@@ -20,6 +20,9 @@ importers:
       gql.tada:
         specifier: ^1.11.4
         version: 1.11.4(@gql.tada/svelte-support@1.0.3(svelte@5.57.2)(typescript@6.0.3))(graphql@17.0.2)(typescript@6.0.3)
+      svelte-sonner:
+        specifier: ^1.2.1
+        version: 1.2.1(svelte@5.57.2)
     devDependencies:
       '@gql.tada/svelte-support':
         specifier: ^1.0.3
@@ -928,6 +931,11 @@ packages:
     engines: {node: ^20.19.0 || >=22.12.0}
     hasBin: true
 
+  runed@0.28.0:
+    resolution: {integrity: sha512-k2xx7RuO9hWcdd9f+8JoBeqWtYrm5CALfgpkg2YDB80ds/QE4w0qqu34A7fqiAwiBBSBQOid7TLxwxVC27ymWQ==}
+    peerDependencies:
+      svelte: ^5.7.0
+
   sade@1.8.1:
     resolution: {integrity: sha512-xal3CZX1Xlo/k4ApwCFrHVACi9fBqJ7V+mwhBsuf/1IOKbBy098Fex+Wa/5QMubw09pSZ/u8EY8PWgevJsXp1A==}
     engines: {node: '>=6'}
@@ -961,6 +969,11 @@ packages:
     peerDependencies:
       svelte: ^4.0.0 || ^5.0.0-next.0
       typescript: ^5.0.0 || ^6.0.0
+
+  svelte-sonner@1.2.1:
+    resolution: {integrity: sha512-N00LOWb60fjKXULbpngku+7E9Krb16KpNq4/Eax5Vu7o1Dpbca55QpaLPsB+yp82JIEdFhfJuv5cVXLoe0ZtVA==}
+    peerDependencies:
+      svelte: ^5.0.0
 
   svelte2tsx@0.7.61:
     resolution: {integrity: sha512-EpQ/+UHITBULeUojx/LLD3uTYasZXcX1BrqlrzfLUnT9vdUhaOWK59a3ryWcFU8L0sY1SP+gRhJ2Beiis98+qw==}
@@ -1753,6 +1766,11 @@ snapshots:
       '@rolldown/binding-win32-arm64-msvc': 1.2.13
       '@rolldown/binding-win32-x64-msvc': 1.2.13
 
+  runed@0.28.0(svelte@5.57.2):
+    dependencies:
+      esm-env: 1.2.2
+      svelte: 5.57.2
+
   sade@1.8.1:
     dependencies:
       mri: 1.2.0
@@ -1791,6 +1809,11 @@ snapshots:
       typescript: 6.0.3
     transitivePeerDependencies:
       - picomatch
+
+  svelte-sonner@1.2.1(svelte@5.57.2):
+    dependencies:
+      runed: 0.28.0(svelte@5.57.2)
+      svelte: 5.57.2
 
   svelte2tsx@0.7.61(svelte@5.57.2)(typescript@6.0.3):
     dependencies:

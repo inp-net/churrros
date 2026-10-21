@@ -52,6 +52,7 @@
         "services": "Services",
         "profile": "Profil"
     },
+    "search_placeholder": "Rechercher...",
     "info": "Infos",
     "groups": "Groupes",
     "family": "Famille",
