@@ -8,25 +8,27 @@ import type {
     UserFamily,
     Article,
     ArticleDetail,
-    SessionToken,
-    User,
-    BookingDetail,
     EventsByDay,
-    Booking,
-    PaymentMethod,
+    Searchable,
+    SearchResult,
     UserProfile,
     StudentAssociationProfile,
     GroupType,
     MajorInfos,
     SchoolInfos,
     SchoolProfile,
-    GroupBoardMembers,
-    GroupInfos,
+    SessionToken,
+    User,
     GroupProfile,
+    GroupInfos,
+    GroupBoardMembers,
     GroupSeeAlso,
     GroupMemberByDate,
     GroupAvatar,
-    CardService
+    CardService,
+    Booking,
+    BookingDetail,
+    PaymentMethod
 } from '#lib/api/index.ts';
 import type { Cookies } from '@sveltejs/kit';
 
@@ -250,6 +252,16 @@ export interface ArticleRepository {
      * @throws an error if the article does not exist
      */
     getArticleById(id: string | undefined): Promise<ArticleDetail>;
+}
+
+export interface SearchRepository {
+    /**
+     * Returns a list of search results based on the query and the types of resources to search for.
+     * @param q the search query
+     * @param only the types of resources to search for
+     * @returns a list of search results
+     */
+    search(q: string, only: Searchable[]): Promise<SearchResult[]>;
 }
 
 export interface GroupRepository {
