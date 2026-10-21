@@ -19,13 +19,13 @@
 
 ## Lancer le projet
 
-Vu que churros v3 est la nouvelle version du frontend du projet, il est
-nécessaire de lancer le backend pour que le frontend fonctionne correctement.
+Vu que churros v3 est la nouvelle version du frontend du projet, il est nécessaire de lancer le backend pour que le frontend fonctionne correctement.
 Pour ce faire, il faut installer churros v2 et le lancer. Pour plus d'informations sur l'installation de churros v2, vous pouvez consulter le fichier [CONTRIBUTING.md](https://git.inpt.fr/churros/churros/-/blob/main/CONTRIBUTING.md).
+
 Une fois le pull effectué, voici les étapes à réaliser.
 
 Il faut setup les variables d'environnement dans Churros V2. Voici les étapes à réaliser pour régler le problème `Cannot GET /auth/oauth2`.
-Exécuter la commande suivante dans la racine de Churros V2 : `yarn dev:env`. Ce script écoute tout changement du `.env`.
+Exécuter la commande suivante dans la racine de Churros V2 : `yarn dev:env`. Ce script écoute tout changement du `.env` racine et met à jour le fichier `.env` de tous les packages en conséquent.
 
 ```
 PUBLIC_OAUTH_ENABLED="0"
@@ -81,7 +81,6 @@ Lorsque vous ajoutez des textes sur le front de l'appli, il est nécessaire d'ut
 5. Utiliser la clé dans le code avec la fonction m. Exemple : `m['ma_cle_de_traduction']()` avec un import de la fonction m depuis le fichier messages.js : `import { m } from '#lib/paraglide/messages.js';`
 
 La traduction du projet est externalisée avec [Weblate](https://weblate.inpt.fr/projects/churros/churros) qui permet à des contributeurs externes de traduire facilement le projet.
-
 
 ### Tanstack Query
 
