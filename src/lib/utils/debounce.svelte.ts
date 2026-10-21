@@ -14,5 +14,9 @@ export function debounced<T>(getValue: () => T, delay = 300) {
         return () => clearTimeout(timeout);
     });
 
-    return current;
+    return {
+        get current() {
+            return current;
+        }
+    };
 }

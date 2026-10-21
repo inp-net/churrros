@@ -30,13 +30,14 @@
         "svelte": "^5.57.2",
         "svelte-check": "^4.7.6",
         "typescript": "^6.0.3",
-        "vite": "^8.3.3"
+        "vite": "^8.3.3",
+        "arktype": "^2.2.8"
     },
     "dependencies": {
         "@tanstack/svelte-query": "^6.3.1",
-        "arktype": "^2.2.8",
-        "azucar-ui": "^0.0.11",
-        "gql.tada": "^1.11.4"
+        "azucar-ui": "^0.0.14",
+        "gql.tada": "^1.11.4",
+        "svelte-sonner": "^1.2.1"
     },
     "imports": {
         "#lib": "./src/lib/index.ts",
