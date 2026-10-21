@@ -1,7 +1,7 @@
 <script lang="ts">
     import { userRepository } from '#lib/api/index.ts';
     import { createQuery } from '@tanstack/svelte-query';
-    import type { User, UserInfos, ProfileData } from '#lib/api/index.ts';
+    import type { User, UserInfos } from '#lib/api/index.ts';
     import Profile from '#lib/components/Profile.svelte';
 
     interface PageData {
@@ -15,24 +15,14 @@
         queryFn: () => userRepository.getUserInfos(data.user!.uid)
     }));
 
-    const profileData = $derived<ProfileData | null>(
-        data.user && userInfosQuery.data
-            ? {
-                  firstName: data.user.firstName,
-                  lastName: data.user.lastName,
-                  pictureURL: data.user.pictureURL,
-                  email: userInfosQuery.data.email,
-                  phone: userInfosQuery.data.phone,
-                  birthday: userInfosQuery.data.birthday,
-                  address: userInfosQuery.data.address
-              }
-            : null
+    const profileData: User & UserInfos = $derived(
+        Object.assign({}, data.user, userInfosQuery.data)
     );
 </script>
 
 <br />
 
-{#if profileData}
+{#if userInfosQuery.data && data.user}
     <Profile profile={profileData} />
 {:else if userInfosQuery.isLoading}
     <Profile loading />

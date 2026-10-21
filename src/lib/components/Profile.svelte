@@ -1,11 +1,11 @@
 <script lang="ts">
     import { getLocale } from '#lib/paraglide/runtime.js';
-    import type { ProfileData } from '#lib/api/index.ts';
+    import type { User, UserInfos } from '#lib/api/index.ts';
     import { Avatar, Flex, Stack, Tabs, Frame, Skeleton, SkeletonText } from 'azucar-ui';
     import { type LucideIcon, Phone, Mail, MapPin, Cake } from '@lucide/svelte';
 
     interface Props {
-        profile?: ProfileData;
+        profile?: User & UserInfos;
         loading?: boolean;
     }
 
@@ -70,14 +70,10 @@
             />
         {/if}
         <Stack gap="xs">
-            {#if loading}
-                <Stack padding="xs">
-                    <SkeletonText lines={1} width="20rem" />
-                    <SkeletonText lines={2} width="10rem" />
-                </Stack>
-            {:else}
+            {#if !loading && profile}
                 <h3 class="profile-name">
                     {fullName}
+                    <p>{profile.nickname}</p>
                 </h3>
                 <Flex align="center">
                     <p>67A SN</p>
@@ -86,6 +82,11 @@
                         <p>ENSEEIHT</p>
                     </Flex>
                 </Flex>
+            {:else}
+                <Stack padding="xs">
+                    <SkeletonText lines={1} width="20rem" />
+                    <SkeletonText lines={2} width="10rem" />
+                </Stack>
             {/if}
         </Stack>
     </Flex>
