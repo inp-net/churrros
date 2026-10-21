@@ -42,7 +42,7 @@
                 if (err instanceof ApiValidationError) {
                     throw err; // We need to throw those error so createForm catches them
                 }
-                submitError = m['form.group.error']();
+                submitError = m['form.group.create.error']();
             }
         });
     }

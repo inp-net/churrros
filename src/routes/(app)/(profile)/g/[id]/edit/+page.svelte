@@ -5,9 +5,13 @@
     import EditGroupForm from '#lib/forms/group/EditGroupForm.svelte';
     import { page } from '$app/state';
     import type { UpdateGroupPatch } from '#lib/forms/group/group.schema.ts';
+    import { goto } from '$app/navigation';
 
     async function updateGroup(data: UpdateGroupPatch) {
-        await groupRepository.updateGroup(data);
+        console.log('Updating group with data:', data);
+        await groupRepository.updateGroup(data, page.params.id);
+        // TODO : Show toast
+        goto(`/g/${page.params.id}`);
     }
 
     const query = createQuery(() => ({

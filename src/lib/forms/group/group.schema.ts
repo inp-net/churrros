@@ -15,7 +15,7 @@ const updateGroupBaseSchema = type({
     shortDescription: type('string'),
     longDescription: type('string'),
     email: type('string.email | null'),
-    address: type('string'),
+    room: type('string'),
     color: type('string | null'),
     relatedGroups: type('string[]'),
     joinPolicy: "'Open' | 'Closed'",

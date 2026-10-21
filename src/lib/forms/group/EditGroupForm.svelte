@@ -46,10 +46,10 @@
             longDescription: group.longDescription ?? '',
             color: group.color ?? '#000000',
             email: group.email ?? null,
-            address: group.address ?? '',
+            room: group.address ?? '',
             relatedGroups: group.relatedGroups?.map((g) => g.uid) ?? [],
             studentAssociationId: group.studentAssociation?.uid ?? undefined,
-            parentUid: group.parent?.uid ?? undefined,
+            parentUid: group.parent?.uid ?? null,
             joinPolicy: group.selfJoinable ? 'Open' : 'Closed',
             groupType: group.type,
             unlisted: group.unlisted
@@ -70,10 +70,11 @@
             try {
                 await onsubmit(data);
             } catch (err) {
+                console.error('Error submitting form:', err);
                 if (err instanceof ApiValidationError) {
                     throw err; // We need to throw those error so createForm catches them
                 }
-                submitError = m['form.group.error']();
+                submitError = m['form.group.edit.error']();
             }
         });
     }
@@ -113,8 +114,9 @@
             <!-- To handle null values (To indicate unset)-->
         </FormField>
 
-        <FormField label={m['form.group.address']()} error={form.errors.address}>
-            <input type="text" bind:value={form.values.address} />
+        <!-- Right now it's room but when we change the good name will be address -->
+        <FormField label={m['form.group.address']()} error={form.errors.room}>
+            <input type="text" bind:value={form.values.room} />
         </FormField>
 
         <FormField label={m['form.group.color']()} error={form.errors.color}>
@@ -123,6 +125,13 @@
                 bind:value={() => form.values.color ?? '#000000', (v) => (form.values.color = v)}
             />
         </FormField>
+
+        <FormField label={m['form.group.parent']()} error={form.errors.parentUid}>
+            <input type="string" value={form.values.parentUid} />
+        </FormField>
+
+        <!-- TODO : Add parentUid and relatedGroups with select of all groups -->
+        <!-- Related groups is a multi select ?? -->
     {/if}
 
     {#if permissions.canEditType}
@@ -153,9 +162,6 @@
     {#if permissions.canEditLydiaAccounts}
         <!-- TODO : Add lydia accounts management -->
     {/if}
-
-    <!-- TODO : Add parentUid and relateGroups with select of all groups -->
-    <!-- Related groups is a multi select ?? -->
 
     {#if form.formError}<p role="alert">{form.formError}</p>{/if}
     {#if submitError}<p role="alert">{submitError}</p>{/if}
