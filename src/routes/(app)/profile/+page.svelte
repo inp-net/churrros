@@ -30,10 +30,18 @@
     );
 </script>
 
+<br />
+
 {#if profileData}
     <Profile profile={profileData} />
 {:else if userInfosQuery.isLoading}
-    <p>Loading profile...</p>
+    <Profile loading />
 {:else if userInfosQuery.isError}
-    <p>Error loading user information.</p>
+    <p>Error: {userInfosQuery.error.message}</p>
 {/if}
+
+<style>
+    br {
+        height: var(--size-xl);
+    }
+</style>
