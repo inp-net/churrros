@@ -67,13 +67,11 @@
         e.preventDefault();
         submitError = '';
         form.submit(async (data) => {
-            const patch = diffPatch(initialValues, data);
-            console.log('Patch : ', patch);
+            const patch = diffPatch(initialValues, data); // We only want to send the fields that have been changed
             if (Object.keys(patch).length === 0) return;
             try {
                 await onsubmit(patch);
             } catch (err) {
-                console.error('Error submitting form:', err);
                 if (err instanceof ApiValidationError) {
                     throw err; // We need to throw those error so createForm catches them
                 }
