@@ -32,7 +32,7 @@
             {#if !loading && profile}
                 <h3 class="profile-name">
                     {fullName}
-                    <p>{profile.nickname}</p>
+                    <p><i>{profile.nickname}</i></p>
                 </h3>
                 <Flex align="center">
                     <p>67A SN</p>
