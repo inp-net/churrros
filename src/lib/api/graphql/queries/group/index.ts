@@ -236,6 +236,7 @@ export const GetGroupPermissions = graphql(`
     }
 `);
 
+// We also fetch the conditions as they will throw errors if the user is not allowed to edit the group
 export const GetGroupInfoForEdition = graphql(
     `
         query GetGroupInfoForEdition(
@@ -250,8 +251,10 @@ export const GetGroupInfoForEdition = graphql(
         ) {
             group(uid: $uid) {
                 ...GroupAvatar
-                canEditDetails @include(if: $withDetails)
+                canEditDetails(assert: "You are not allowed to edit this group's details.")
+                    @include(if: $withDetails)
                 shortDescription @include(if: $withDetails)
+                longDescription @include(if: $withDetails)
                 color @include(if: $withDetails)
                 email @include(if: $withDetails)
                 address @include(if: $withDetails)
@@ -259,23 +262,31 @@ export const GetGroupInfoForEdition = graphql(
                     ...GroupAvatar
                 }
 
-                canEditStudentAssociation @include(if: $withStudentAssociation)
+                canEditStudentAssociation(
+                    assert: "You are not allowed to edit this group's student association."
+                ) @include(if: $withStudentAssociation)
                 studentAssociation @include(if: $withStudentAssociation) {
                     ...StudentAssociationAvatar
                 }
 
-                canEditParent @include(if: $withParent)
+                canEditParent(assert: "You are not allowed to edit this group's parent.")
+                    @include(if: $withParent)
                 parent @include(if: $withParent) {
                     ...GroupAvatar
                 }
 
-                canEditJoinPolicy @include(if: $withJoinPolicy)
+                canEditJoinPolicy(assert: "You are not allowed to edit this group's join policy.")
+                    @include(if: $withJoinPolicy)
                 selfJoinable @include(if: $withJoinPolicy)
-                canEditType @include(if: $withType)
+                canEditType(assert: "You are not allowed to edit this group's type.")
+                    @include(if: $withType)
                 type @include(if: $withType)
-                canEditUnlisted @include(if: $withUnlisted)
+                canEditUnlisted(assert: "You are not allowed to edit this group's visibility.")
+                    @include(if: $withUnlisted)
                 unlisted @include(if: $withUnlisted)
-                canEditLydiaAccounts @include(if: $withLydiaAccounts)
+                canEditLydiaAccounts(
+                    assert: "You are not allowed to edit this group's bank accounts."
+                ) @include(if: $withLydiaAccounts)
                 lydiaAccounts @include(if: $withLydiaAccounts) {
                     id
                     name

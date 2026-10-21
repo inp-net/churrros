@@ -1,12 +1,12 @@
 <script lang="ts">
     import { meRepository, groupRepository } from '#lib/api/index.ts';
     import { m } from '#lib/paraglide/messages.js';
-    import type { UpdateGroupInput } from '#lib/forms/group/group.schema.ts';
     import { createQuery } from '@tanstack/svelte-query';
     import EditGroupForm from '#lib/forms/group/EditGroupForm.svelte';
     import { page } from '$app/state';
+    import type { UpdateGroupPatch } from '#lib/forms/group/group.schema.ts';
 
-    async function updateGroup(data: UpdateGroupInput) {
+    async function updateGroup(data: UpdateGroupPatch) {
         await groupRepository.updateGroup(data);
     }
 

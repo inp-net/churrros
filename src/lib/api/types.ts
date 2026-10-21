@@ -188,6 +188,30 @@ export type GroupPermissions = {
     canEditLydiaAccounts: boolean;
 };
 
+// We use partial here because you only get the parts you are allowed to see
+export type GroupEditInfo = Partial<{
+    avatar: Avatar;
+    shortDescription: string;
+    longDescription: string;
+    color: string | null;
+    email: string | null;
+    address: string;
+    relatedGroups: Avatar[];
+
+    studentAssociation: Avatar;
+
+    parent: Avatar;
+
+    selfJoinable: boolean;
+    type: GroupType;
+    unlisted: boolean;
+    accounts: {
+        id: string;
+        name: string;
+        eventsCount: number;
+    }[];
+}>;
+
 //#endregion
 
 //#region Pagination

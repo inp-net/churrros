@@ -29,9 +29,10 @@ import type {
     GroupPermissions,
     Booking,
     BookingDetail,
-    PaymentMethod
+    PaymentMethod,
+    GroupEditInfo
 } from '#lib/api/index.ts';
-import type { UpdateGroupInput, UpdateGroupPatch } from '#lib/forms/group/group.schema.ts';
+import type { UpdateGroupPatch } from '#lib/forms/group/group.schema.ts';
 import type { Cookies } from '@sveltejs/kit';
 
 export interface EventRepository {
@@ -345,14 +346,16 @@ export interface GroupRepository {
      * @returns the information needed to edit the group
      * @throws an error if the group does not exist
      */
-    getGroupEditInfo(permissions: GroupPermissions, uid?: string): Promise<UpdateGroupInput>;
+    getGroupEditInfo(permissions: GroupPermissions, uid?: string): Promise<GroupEditInfo>;
 
     /**
      * Updates a group with the specified parameters.
      * @param data the data to update the group with
+     * @param uid the uid of the group to update
+     * @throws an error if the group does not exist
      * @throws an error if the group could not be updated
      */
-    updateGroup(data: UpdateGroupPatch): Promise<void>;
+    updateGroup(data: UpdateGroupPatch, uid?: string): Promise<void>;
 }
 
 export interface StudentAssociationRepository {

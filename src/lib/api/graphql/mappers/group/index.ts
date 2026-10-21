@@ -2,6 +2,7 @@ import type {
     Avatar,
     GroupAvatar,
     GroupBoardMembers,
+    GroupEditInfo,
     GroupInfos,
     GroupMember,
     GroupMemberByDate,
@@ -9,12 +10,13 @@ import type {
     GroupSeeAlso,
     Page
 } from '#lib/api/types.ts';
-import { readFragment, type $tada, type ResultOf } from 'gql.tada';
+import { readFragment, type $tada, type FragmentOf, type ResultOf } from 'gql.tada';
 import { GroupAvatarFragment } from '#lib/api/graphql/queries/fragments/groupAvatar.ts';
 import { GroupMemberWithGroupFragment } from '#lib/api/graphql/queries/fragments/groupMemberWithGroup.ts';
 import type {
     CreateGroup,
     GetBoardGroupMembers,
+    GetGroupInfoForEdition,
     GetGroupInfos,
     GetGroupMembers,
     GetGroupProfile,
@@ -136,7 +138,6 @@ export function mapGroupMembersByDate(
 }
 
 export function mapCreateGroup(result: ResultOf<typeof CreateGroup>['createGroup']): string {
-    console.log(result);
     switch (result.__typename) {
         case 'Error':
             const errorsFragment = readFragment(MutationErrorsFragment, result);
@@ -148,5 +149,58 @@ export function mapCreateGroup(result: ResultOf<typeof CreateGroup>['createGroup
             return result.data.uid;
         default:
             throw new Error('Unknown error while creating group');
+    }
+}
+
+export function mapGroupEditInfo(
+    result: ResultOf<typeof GetGroupInfoForEdition>['group']
+): GroupEditInfo {
+    const avatar = readFragment(GroupAvatarFragment, result);
+    return {
+        avatar: avatar,
+        shortDescription: result.shortDescription,
+        longDescription: result.longDescription,
+        email: result.email,
+        color: result.color,
+        address: result.address,
+        relatedGroups: result.related?.map(mapGroupAvatar) ?? [],
+
+        studentAssociation: result.studentAssociation
+            ? mapStudentAssociationAvatar(result.studentAssociation)
+            : undefined,
+
+        parent: result.parent ? mapGroupAvatar(result.parent) : undefined,
+
+        selfJoinable: result.selfJoinable,
+        type: result.type,
+        unlisted: result.unlisted,
+        accounts:
+            result.lydiaAccounts?.map((account) => ({
+                id: account.id,
+                name: account.name,
+                eventsCount: account.eventsCount
+            })) ?? []
+    };
+}
+
+/**
+ * This function asserts the success of a mutation, it's used to handle multiple mutation responses
+ * @param result The result of the mutation to assert
+ */
+export function assertMutationSuccess(
+    result: FragmentOf<typeof MutationErrorsFragment> | { __typename?: string }
+) {
+    const data = readFragment(
+        MutationErrorsFragment,
+        result as FragmentOf<typeof MutationErrorsFragment>
+    );
+    switch (data.__typename) {
+        case 'Error':
+            throw new Error(data.message);
+
+        case 'ZodError':
+            throw new ApiValidationError(data.fieldErrors);
+        default: // Success do nothing
+            return;
     }
 }
