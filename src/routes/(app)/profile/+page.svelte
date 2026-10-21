@@ -1,46 +1,39 @@
 <script lang="ts">
-    import { Avatar, Flex, Stack, Tabs } from 'azucar-ui';
+    import { userRepository } from '#lib/api/index.ts';
+    import { createQuery } from '@tanstack/svelte-query';
+    import type { User, UserInfos, ProfileData } from '#lib/api/index.ts';
+    import Profile from '#lib/components/Profile.svelte';
 
-    const { data } = $props();
+    interface PageData {
+        user?: User;
+    }
+
+    const { data }: { data: PageData } = $props();
+
+    const userInfosQuery = createQuery<UserInfos>(() => ({
+        queryKey: ['userInfos'],
+        queryFn: () => userRepository.getUserInfos(data.user!.uid)
+    }));
+
+    const profileData = $derived<ProfileData | null>(
+        data.user && userInfosQuery.data
+            ? {
+                  firstName: data.user.firstName,
+                  lastName: data.user.lastName,
+                  pictureURL: data.user.pictureURL,
+                  email: userInfosQuery.data.email,
+                  phone: userInfosQuery.data.phone,
+                  birthday: userInfosQuery.data.birthday,
+                  address: userInfosQuery.data.address
+              }
+            : null
+    );
 </script>
 
-{#if data.user}
-    <Stack align="stretch">
-        <Flex wrap={false}>
-            <Avatar
-                src={data.user.pictureURL}
-                alt={[data.user.firstName, data.user.lastName].join(' ')}
-                size="xxl"
-                class="profile-avatar"
-            />
-            <Stack gap="xs">
-                <h3 class="profile-name">
-                    {[data.user.firstName, data.user.lastName].join(' ')}aaaaaaaa
-                </h3>
-                <Flex align="center">
-                    <p>67A SN</p>
-                    <Flex gap="xs" align="center">
-                        <Avatar alt="ENSEEIHT" size="lg" />
-                        <p>ENSEEIHT</p>
-                    </Flex>
-                </Flex>
-            </Stack>
-        </Flex>
-        <p class="profile-description">bla bla bla</p>
-        <Tabs tabs={['Info', 'Groups', 'Family']} />
-    </Stack>
+{#if profileData}
+    <Profile profile={profileData} />
+{:else if userInfosQuery.isLoading}
+    <p>Loading profile...</p>
+{:else if userInfosQuery.isError}
+    <p>Error loading user information.</p>
 {/if}
-
-<style>
-    :global(.profile-avatar) {
-        flex-shrink: 0;
-    }
-
-    .profile-name {
-        line-break: auto;
-    }
-
-    .profile-description {
-        color: var(--color-fg-low);
-    }
-</style>

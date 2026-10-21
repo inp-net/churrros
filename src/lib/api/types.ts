@@ -89,6 +89,16 @@ export type UserInfos = {
     contributesTo: Avatar[] | null;
 };
 
+export type ProfileData = {
+    firstName: string;
+    lastName: string;
+    pictureURL?: string;
+    email?: string | null;
+    phone?: string | null;
+    birthday?: string | null;
+    address?: string | null;
+};
+
 export type UserGroups = {
     groups: GroupMember[];
 };
