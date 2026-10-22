@@ -132,7 +132,7 @@ export type GroupMemberByDate = GroupMember & {
     createdAt: string;
 };
 
-// We user arktype here so it can be reused in forms
+// We use arktype here so it can be reused in forms
 export const GROUP_TYPES = [
     'Association',
     'Club',
