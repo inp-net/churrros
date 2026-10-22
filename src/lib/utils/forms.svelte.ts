@@ -30,7 +30,6 @@ export function createForm<S extends Type<any>>(schema: S, initial: S['inferIn']
     }
 
     async function submit(handler: (data: S['infer']) => Promise<void>) {
-        console.log('Submitting form with values:', values);
         const result = schema(values);
 
         if (result instanceof type.errors) {
