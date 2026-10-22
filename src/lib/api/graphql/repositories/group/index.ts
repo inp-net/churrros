@@ -16,7 +16,6 @@ import {
     GetGroupSeeAlso
 } from '#lib/api/graphql/queries/group/index.ts';
 import {
-    assertMutationSuccess,
     mapCreateGroup,
     mapGroupBoardMembers,
     mapGroupEditInfo,
@@ -25,6 +24,7 @@ import {
     mapGroupProfile,
     mapGroupSeeAlso
 } from '#lib/api/graphql/mappers/group/index.ts';
+import { assertMutationSuccess } from '../../utils';
 
 export const groupRepository: GroupRepository = {
     async getGroupProfile(uid) {
