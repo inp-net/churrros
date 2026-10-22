@@ -43,7 +43,15 @@
     "payment.waiting": "En attente de ",
     "open": "Ouvrir",
     "birthdays": "Anniversaires",
+    "no_birthdays_today": "Aucun anniversaire aujourd'hui",
     "today": "Aujourd'hui",
+    "navigation": {
+        "home": "Accueil",
+        "search": "Rechercher",
+        "events": "Événements",
+        "services": "Services",
+        "profile": "Profil"
+    },
     "search_placeholder": "Rechercher...",
     "info": "Infos",
     "groups": "Groupes",
