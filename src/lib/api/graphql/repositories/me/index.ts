@@ -3,11 +3,13 @@ import { request, requestServer } from '#lib/api/graphql/client.ts';
 import type { Cookies } from '@sveltejs/kit';
 import {
     GetCanCreateEventsOn,
+    GetCanCreateGroupsOn,
     GetMe,
     RememberPaymentPhone
 } from '#lib/api/graphql/queries/me/index.ts';
 import { mapMe, mapRememberPaymentPhone } from '#lib/api/graphql/mappers/me/index.ts';
 import { mapGroupAvatar } from '../../mappers/group';
+import { mapStudentAssociationAvatar } from '../../mappers/studentassociation';
 
 export const meRepository: MeRepository = {
     async getMe(event?: { fetch: typeof fetch; cookies: Cookies }) {
@@ -27,6 +29,21 @@ export const meRepository: MeRepository = {
                 return [];
             }
             return response.me?.canCreateEventsOn.map((groupAvatar) => mapGroupAvatar(groupAvatar));
+        } catch (error) {
+            //TODO : Vrai gestion d'erreur
+            console.error('Error fetching current user:', error);
+            throw error;
+        }
+    },
+    async getCanCreateGroupsOn() {
+        try {
+            const response = await request(GetCanCreateGroupsOn);
+            if (!response.me) {
+                return [];
+            }
+            return response.me.canCreateGroupsOn.map((studentAssociationAvatar) =>
+                mapStudentAssociationAvatar(studentAssociationAvatar)
+            );
         } catch (error) {
             //TODO : Vrai gestion d'erreur
             console.error('Error fetching current user:', error);

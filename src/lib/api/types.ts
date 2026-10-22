@@ -1,3 +1,5 @@
+import { type } from 'arktype';
+
 //#region Auth
 export type SessionToken = {
     token: string;
@@ -118,7 +120,7 @@ export type UserProfile = {
 
 //#region Groups
 export type GroupMember = {
-    avatar: Avatar; //Either the avatar of the user or the avatar of the group
+    avatar: Avatar; // Either the avatar of the user or the avatar of the group
     title: string;
     treasurer: boolean;
     secretary: boolean;
@@ -130,8 +132,18 @@ export type GroupMemberByDate = GroupMember & {
     createdAt: string;
 };
 
-export type GroupType =
-    'Association' | 'Club' | 'Group' | 'Integration' | 'List' | 'StudentAssociationSection';
+// We use arktype here so it can be reused in forms
+export const GROUP_TYPES = [
+    'Association',
+    'Club',
+    'Group',
+    'Integration',
+    'List',
+    'StudentAssociationSection'
+] as const;
+
+export const GroupType = type.enumerated(...GROUP_TYPES);
+export type GroupType = typeof GroupType.infer;
 
 export type GroupProfile = {
     group: Avatar;
@@ -165,6 +177,41 @@ export type GroupSeeAlso = {
     familyChildren: GroupAvatar[];
     related: GroupAvatar[];
 };
+
+export type GroupPermissions = {
+    canEditDetails: boolean;
+    canEditJoinPolicy: boolean;
+    canEditParent: boolean;
+    canEditStudentAssociation: boolean;
+    canEditType: boolean;
+    canEditUnlisted: boolean;
+    canEditLydiaAccounts: boolean;
+};
+
+// We use partial here because you only get the parts you are allowed to see
+export type GroupEditInfo = Partial<{
+    avatar: Avatar;
+    shortDescription: string;
+    longDescription: string;
+    color: string | null;
+    email: string | null;
+    address: string;
+    relatedGroups: Avatar[];
+
+    studentAssociation: Avatar;
+
+    parent: Avatar;
+
+    selfJoinable: boolean;
+    type: GroupType;
+    unlisted: boolean;
+    accounts: {
+        id: string;
+        name: string;
+        eventsCount: number;
+    }[];
+}>;
+
 //#endregion
 
 //#region Pagination

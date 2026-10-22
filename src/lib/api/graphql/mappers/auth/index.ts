@@ -1,8 +1,9 @@
 import type { SessionToken } from '#lib/api/index.ts';
 import { readFragment, type ResultOf } from '#lib/api/graphql/graphql.ts';
 import type { LoginMutation } from '#lib/api/graphql/queries/auth/index.ts';
-import { MutationErrorsFragment } from '#lib/api/graphql/queries/fragments/mutation.ts';
+import { MutationErrorsFragment } from '#lib/api/graphql/queries/fragments/mutationErrors.ts';
 import { SessionTokenFragment } from '#lib/api/graphql/queries/fragments/session.ts';
+import { ApiValidationError } from '#lib/api/errors.ts';
 
 export const mapSessionToken = (data: ResultOf<typeof LoginMutation>['login']): SessionToken => {
     if (!data) {
@@ -16,11 +17,7 @@ export const mapSessionToken = (data: ResultOf<typeof LoginMutation>['login']): 
         }
         case 'ZodError': {
             const errorsFragment = readFragment(MutationErrorsFragment, data);
-            throw new Error(
-                `Validation error: ${errorsFragment.fieldErrors
-                    .map((e) => `${e.path.join('.')}: ${e.message}`)
-                    .join(', ')}`
-            );
+            throw new ApiValidationError(errorsFragment.fieldErrors);
         }
         case 'AwaitingValidationError':
             throw new Error(data.message);

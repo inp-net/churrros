@@ -1,4 +1,4 @@
-import type { Link } from '#lib/api/types.ts';
+import type { Link } from '#lib/api/index.ts';
 import { readFragment, type $tada } from 'gql.tada';
 import { LinkFragment } from '../../queries/fragments/link';
 

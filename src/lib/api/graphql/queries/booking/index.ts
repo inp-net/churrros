@@ -1,6 +1,7 @@
 import { graphql } from '#lib/api/graphql/graphql.ts';
 import { CardBookingFragment } from '../fragments/cardBooking';
 import { LightEventFragment } from '../fragments/lightEvent';
+import { MutationErrorsFragment } from '../fragments/mutationErrors';
 import { PageInfoFragment } from '../fragments/pagination';
 import { UserAvatarFragment } from '../fragments/userAvatar';
 
@@ -65,73 +66,78 @@ export const GetBookingByCode = graphql(
     [LightEventFragment, UserAvatarFragment]
 );
 
-export const CancelBooking = graphql(`
-    mutation CancelBooking($code: String!) {
-        cancelBooking(code: $code) {
-            ... on MutationCancelBookingSuccess {
-                data {
-                    cancelledAt
+export const CancelBooking = graphql(
+    `
+        mutation CancelBooking($code: String!) {
+            cancelBooking(code: $code) {
+                ...MutationErrors
+                ... on MutationCancelBookingSuccess {
+                    __typename
+                    data {
+                        cancelledAt
+                    }
                 }
             }
-            ... on Error {
-                message
+        }
+    `,
+    [MutationErrorsFragment]
+);
+
+export const GetGoogleWalletPass = graphql(
+    `
+        mutation GetGoogleWalletPass($code: String!) {
+            createGoogleWalletPass(code: $code) {
+                ...MutationErrors
+                ... on MutationCreateGoogleWalletPassSuccess {
+                    __typename
+                    data
+                }
             }
         }
-    }
-`);
+    `,
+    [MutationErrorsFragment]
+);
 
-export const GetGoogleWalletPass = graphql(`
-    mutation GetGoogleWalletPass($code: String!) {
-        createGoogleWalletPass(code: $code) {
-            __typename
-            ... on MutationCreateGoogleWalletPassSuccess {
-                data
-            }
-            ... on Error {
-                message
+export const GetAppleWalletPass = graphql(
+    `
+        mutation GetAppleWalletPass($code: String!) {
+            createAppleWalletPass(code: $code) {
+                ...MutationErrors
+                ... on MutationCreateAppleWalletPassSuccess {
+                    __typename
+                    data
+                }
             }
         }
-    }
-`);
+    `,
+    [MutationErrorsFragment]
+);
 
-export const GetAppleWalletPass = graphql(`
-    mutation GetAppleWalletPass($code: String!) {
-        createAppleWalletPass(code: $code) {
-            __typename
-            ... on MutationCreateAppleWalletPassSuccess {
-                data
-            }
-            ... on Error {
-                message
-            }
-        }
-    }
-`);
-
-export const PayBooking = graphql(`
-    mutation PayBooking(
-        $code: String!
-        $paymentMethod: PaymentMethod!
-        $phone: String
-        $callbackUrl: String!
-        $amount: Float!
-    ) {
-        payBooking(
-            code: $code
-            paymentMethod: $paymentMethod
-            phone: $phone
-            paidCallback: $callbackUrl
-            amount: $amount
+export const PayBooking = graphql(
+    `
+        mutation PayBooking(
+            $code: String!
+            $paymentMethod: PaymentMethod!
+            $phone: String
+            $callbackUrl: String!
+            $amount: Float!
         ) {
-            __typename
-            ... on MutationPayBookingSuccess {
-                data {
-                    pendingPayment
+            payBooking(
+                code: $code
+                paymentMethod: $paymentMethod
+                phone: $phone
+                paidCallback: $callbackUrl
+                amount: $amount
+            ) {
+                ...MutationErrors
+                ... on MutationPayBookingSuccess {
+                    __typename
+                    data {
+                        pendingPayment
+                    }
                 }
             }
-            ... on Error {
-                message
-            }
         }
-    }
-`);
+    `,
+    [MutationErrorsFragment]
+);

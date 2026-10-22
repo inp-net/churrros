@@ -6,7 +6,7 @@ import type {
     SchoolInfos,
     SchoolProfile,
     CardService
-} from '#lib/api/types.ts';
+} from '#lib/api/index.ts';
 import type {
     GetSchoolInfos,
     GetSchoolMajors,

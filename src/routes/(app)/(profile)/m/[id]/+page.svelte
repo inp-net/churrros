@@ -12,7 +12,7 @@
 </script>
 
 <div>
-    {#if queryProfile.isLoading}
+    {#if queryProfile.isPending}
         <p>{m['loading']()}</p>
     {:else if queryProfile.isError}
         <p>ERROR</p>

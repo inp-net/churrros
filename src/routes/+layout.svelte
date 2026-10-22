@@ -9,8 +9,12 @@
     import 'azucar-ui/tokens.css';
     import 'azucar-ui/base.css';
     import { Toaster } from 'svelte-sonner';
+    import Header from '#lib/components/Header.svelte';
+    import NavBar from '#lib/components/NavBar.svelte';
+    import { Stack } from 'azucar-ui';
+    import type { LayoutProps } from './$types';
 
-    let { data, children } = $props();
+    let { data, children }: LayoutProps = $props();
 
     const queryClient = new QueryClient({
         defaultOptions: {
@@ -21,19 +25,30 @@
             }
         }
     });
+
+    // Because resolve function has issues when the path as more than 25 options
+    // I don't know the proper way to fix it
+    const resolvePath = resolve as (pathname: string) => string;
 </script>
 
-<svelte:head><link rel="icon" href={favicon} /></svelte:head>
+<svelte:head>
+    <link rel="icon" href={favicon} />
+</svelte:head>
+
 <QueryClientProvider client={queryClient}>
     <div class="container">
-        {@render children()}
+        <Stack gap="lg">
+            <Header />
+            {@render children()}
+            <NavBar user={data.user} />
+        </Stack>
     </div>
     <Toaster />
 </QueryClientProvider>
 
 <div style="display:none">
     {#each locales as locale (locale)}
-        <a href={resolve(localizeHref(page.url.pathname, { locale }) as Path)}>{locale}</a>
+        <a href={resolvePath(localizeHref(page.url.pathname, { locale }) as Path)}>{locale}</a>
     {/each}
 </div>
 
@@ -41,12 +56,14 @@
     /* set azucar-ui theme */
     :root {
         --base-color: oklch(80.45% 0.1666 72.92);
-        color-scheme: dark;
+        color-scheme: light dark;
     }
 
     /* limit page width */
     .container {
-        max-width: min(900px, 100%);
-        margin: 0 auto;
+        width: calc(100% - var(--size-md) * 2);
+        max-width: 550px;
+        margin: var(--size-md) auto;
+        overflow-x: hidden;
     }
 </style>

@@ -7,6 +7,7 @@ import { CardEventFragment } from '../../queries/fragments/cardEvent';
 import { mapGroupAvatar } from '../group';
 import { mapTicket, mapTicketDetail } from '../ticket';
 import { LightEventFragment } from '#lib/api/graphql/queries/fragments/lightEvent.ts';
+import { MutationErrorsFragment } from '../../queries/fragments/mutationErrors';
 
 type EventGraphQLNode = ResultOf<typeof GetEvents>['eventsByDay'];
 
@@ -94,12 +95,13 @@ export function mapBookingEventResult(result: ResultOf<typeof BookEvent>['bookEv
 
     switch (result.__typename) {
         case 'Error': {
-            throw new Error(result.message);
+            const errorsFragment = readFragment(MutationErrorsFragment, result);
+            throw new Error(errorsFragment.message);
         }
         case 'MutationBookEventSuccess': {
             return result.data.localID;
         }
-        default:
+        default: // TODO : Handle ZodErrors I forgor
             throw new Error('No booking result data found');
     }
 }

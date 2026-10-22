@@ -1,5 +1,5 @@
 import { graphql } from '#lib/api/graphql/graphql.ts';
-import { MutationErrorsFragment } from '../fragments/mutation';
+import { MutationErrorsFragment } from '../fragments/mutationErrors';
 import { SessionTokenFragment } from '../fragments/session';
 
 export const LoginMutation = graphql(

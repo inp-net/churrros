@@ -56,7 +56,7 @@
 
 <Stack>
     <div>
-        {#if queryProfile.isLoading}
+        {#if queryProfile.isPending}
             <p>{m['loading']()}</p>
         {:else if queryProfile.isError}
             <p>ERROR</p>
@@ -71,7 +71,7 @@
     </div>
 
     {#if tab === 'boards'}
-        {#if queryBoards.isLoading}
+        {#if queryBoards.isPending}
             <p>{m['loading']()}</p>
         {:else if queryBoards.isError}
             <p>ERROR</p>
@@ -82,7 +82,7 @@
             />
         {/if}
     {:else if tab === 'clubs'}
-        {#if queryClubs.isLoading}
+        {#if queryClubs.isPending}
             <p>{m['loading']()}</p>
         {:else if queryClubs.isError}
             <p>ERROR</p>
@@ -93,7 +93,7 @@
             />
         {/if}
     {:else if tab === 'services'}
-        {#if queryServices.isLoading}
+        {#if queryServices.isPending}
             <p>{m['loading']()}</p>
         {:else if queryServices.isError}
             <p>ERROR</p>
