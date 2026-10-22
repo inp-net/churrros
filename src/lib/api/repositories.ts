@@ -26,10 +26,13 @@ import type {
     GroupMemberByDate,
     GroupAvatar,
     CardService,
+    GroupPermissions,
     Booking,
     BookingDetail,
-    PaymentMethod
+    PaymentMethod,
+    GroupEditInfo
 } from '#lib/api/index.ts';
+import type { UpdateGroupPatch } from '#lib/forms/group/group.schema.ts';
 import type { Cookies } from '@sveltejs/kit';
 
 export interface EventRepository {
@@ -173,6 +176,12 @@ export interface MeRepository {
     getCanCreateEventsOn(): Promise<Avatar[]>;
 
     /**
+     * Fetches the list of student associations on which the currently authenticated user can create groups
+     * @returns an array of avatars of the student associations on which the user can create groups
+     */
+    getCanCreateGroupsOn(): Promise<Avatar[]>;
+
+    /**
      * Saves the payment phone number of the currently authenticated user.
      * @param phone the phone number to save
      * @returns the saved phone number, or null if the user is not authenticated
@@ -305,6 +314,48 @@ export interface GroupRepository {
      * @throws an error if the group does not exist
      */
     getGroupMembers(args: PageRequest, uid?: string): Promise<Page<GroupMemberByDate>>;
+
+    /**
+     * Creates a new group with the specified parameters.
+     * @param studentAssociationId the student association associated with the group
+     * @param uid the unique identifier for the group
+     * @param name the name of the group
+     * @param type the type of the group
+     * @returns the uid of the newly created group
+     * @throws an error if the group could not be created
+     */
+    createGroup(
+        studentAssociationId: string,
+        uid: string,
+        name: string,
+        type: GroupType
+    ): Promise<string>;
+
+    /**
+     * Returns the permissions of the connected user for a group by its uid.
+     * @param uid the uid of the group to retrieve
+     * @returns the list of permissions of the connected user for the group
+     * @throws an error if the group does not exist
+     */
+    getGroupPermissions(uid?: string): Promise<GroupPermissions>;
+
+    /**
+     * Returns the information needed to edit a group.
+     * @param permissions the permissions of the connected user for the group
+     * @param uid the uid of the group to retrieve
+     * @returns the information needed to edit the group
+     * @throws an error if the group does not exist
+     */
+    getGroupEditInfo(permissions: GroupPermissions, uid?: string): Promise<GroupEditInfo>;
+
+    /**
+     * Updates a group with the specified parameters.
+     * @param data the data to update the group with
+     * @param uid the uid of the group to update
+     * @throws an error if the group does not exist
+     * @throws an error if the group could not be updated
+     */
+    updateGroup(data: UpdateGroupPatch, uid?: string): Promise<void>;
 }
 
 export interface StudentAssociationRepository {

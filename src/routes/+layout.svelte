@@ -24,6 +24,10 @@
             }
         }
     });
+
+    // Because resolve function has issues when the path as more than 25 options
+    // I don't know the proper way to fix it
+    const resolvePath = resolve as (pathname: string) => string;
 </script>
 
 <svelte:head>
@@ -42,7 +46,7 @@
 
 <div style="display:none">
     {#each locales as locale (locale)}
-        <a href={resolve(localizeHref(page.url.pathname, { locale }) as Path)}>{locale}</a>
+        <a href={resolvePath(localizeHref(page.url.pathname, { locale }) as Path)}>{locale}</a>
     {/each}
 </div>
 

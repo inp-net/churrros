@@ -7,5 +7,9 @@
     },
     // Custom settings for gql.tada : https://gql-tada.0no.co/get-started/installation#vscode-setup (Version non deprecated)
     "js/ts.tsdk.path": "node_modules/typescript/lib",
-    "js/ts.tsdk.promptToUseWorkspaceVersion": true
+    "js/ts.tsdk.promptToUseWorkspaceVersion": true,
+    "editor.quickSuggestions": {
+        //For arktype
+        "strings": "on"
+    }
 }

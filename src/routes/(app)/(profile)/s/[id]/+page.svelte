@@ -39,7 +39,7 @@
 
 <Stack>
     <div>
-        {#if queryProfile.isLoading}
+        {#if queryProfile.isPending}
             <p>{m['loading']()}</p>
         {:else if queryProfile.isError}
             <p>ERROR</p>
@@ -54,7 +54,7 @@
     </div>
 
     {#if tab === 'info'}
-        {#if queryInfo.isLoading}
+        {#if queryInfo.isPending}
             <p>{m['loading']()}</p>
         {:else if queryInfo.isError}
             <p>ERROR</p>
@@ -62,7 +62,7 @@
             <SchoolInfo schoolInfo={queryInfo.data} />
         {/if}
     {:else if tab === 'majors'}
-        {#if queryMajors.isLoading}
+        {#if queryMajors.isPending}
             <p>{m['loading']()}</p>
         {:else if queryMajors.isError}
             <p>ERROR</p>
@@ -70,7 +70,7 @@
             <SchoolMajors schoolMajors={queryMajors.data} />
         {/if}
     {:else if tab === 'services'}
-        {#if queryServices.isLoading}
+        {#if queryServices.isPending}
             <p>{m['loading']()}</p>
         {:else if queryServices.isError}
             <p>ERROR</p>

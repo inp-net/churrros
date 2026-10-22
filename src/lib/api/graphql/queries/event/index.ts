@@ -3,6 +3,7 @@ import { PageInfoFragment } from '#lib/api/graphql/queries/fragments/pagination.
 import { GroupAvatarFragment } from '../fragments/groupAvatar';
 import { CardEventFragment } from '../fragments/cardEvent';
 import { TicketDetailFragment } from '../fragments/ticketDetail';
+import { MutationErrorsFragment } from '../fragments/mutationErrors';
 
 export const GetEvents = graphql(
     `
@@ -56,29 +57,29 @@ export const GetEventById = graphql(
     [GroupAvatarFragment, TicketDetailFragment]
 );
 
-export const BookEvent = graphql(`
-    mutation BookEvent(
-        $bookingUrl: String!
-        $ticketId: LocalID!
-        $beneficiary: String
-        $churrosBeneficiary: UID
-    ) {
-        bookEvent(
-            bookingUrl: $bookingUrl
-            ticket: $ticketId
-            beneficiary: $beneficiary
-            churrosBeneficiary: $churrosBeneficiary
+export const BookEvent = graphql(
+    `
+        mutation BookEvent(
+            $bookingUrl: String!
+            $ticketId: LocalID!
+            $beneficiary: String
+            $churrosBeneficiary: UID
         ) {
-            ... on MutationBookEventSuccess {
-                __typename
-                data {
-                    localID
+            bookEvent(
+                bookingUrl: $bookingUrl
+                ticket: $ticketId
+                beneficiary: $beneficiary
+                churrosBeneficiary: $churrosBeneficiary
+            ) {
+                ...MutationErrors
+                ... on MutationBookEventSuccess {
+                    __typename
+                    data {
+                        localID
+                    }
                 }
             }
-            ... on Error {
-                __typename
-                message
-            }
         }
-    }
-`);
+    `,
+    [MutationErrorsFragment]
+);

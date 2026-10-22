@@ -1,4 +1,4 @@
-import type { BookingStatus, WalletTarget } from '#lib/api/index.ts';
+import type { BookingStatus, GroupType, WalletTarget } from '#lib/api/index.ts';
 import { m } from '#lib/paraglide/messages.js';
 import { getLocale } from '#lib/paraglide/runtime.js';
 
@@ -35,6 +35,28 @@ export function walletTargetToLocalizedString(walletTarget: WalletTarget): strin
             return m['apple.wallet']();
         case 'Google':
             return m['google.wallet']();
+    }
+}
+
+/**
+ * Returns the localized string representation of a group type.
+ * @param groupType the group type to translate
+ * @returns the localized string representation of the group type
+ */
+export function groupTypeToLocalizedString(groupType: GroupType): string {
+    switch (groupType) {
+        case 'Association':
+            return m['group.type.association']();
+        case 'Club':
+            return m['group.type.club']();
+        case 'Group':
+            return m['group.type.group']();
+        case 'Integration':
+            return m['group.type.integration']();
+        case 'List':
+            return m['group.type.list']();
+        case 'StudentAssociationSection':
+            return m['group.type.studentAssociationSection']();
     }
 }
 

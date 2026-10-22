@@ -12,6 +12,8 @@ import type { $tada } from 'gql.tada';
 import { CardBookingFragment } from '#lib/api/graphql/queries/fragments/cardBooking.ts';
 import { mapUserAvatar } from '../user';
 import { mapLightEvent } from '../event';
+import { MutationErrorsFragment } from '../../queries/fragments/mutationErrors';
+import { ApiValidationError } from '#lib/api/errors.ts';
 
 export function mapBookings(
     bookings: NonNullable<ResultOf<typeof GetMyBookings>['me']>['bookings']
@@ -102,12 +104,13 @@ export function mapGoogleWalletPass(
     }
     switch (result.__typename) {
         case 'Error': {
-            throw new Error(result.message);
+            const errorsFragment = readFragment(MutationErrorsFragment, result);
+            throw new Error(errorsFragment.message);
         }
         case 'MutationCreateGoogleWalletPassSuccess': {
             return result.data;
         }
-        default:
+        default: // ZodErrors are ignored as the user doesn't interact with the parameters
             throw new Error('Unhandled google wallet pass data found');
     }
 }
@@ -121,12 +124,13 @@ export function mapAppleWalletPass(
 
     switch (result.__typename) {
         case 'Error': {
-            throw new Error(result.message);
+            const errorsFragment = readFragment(MutationErrorsFragment, result);
+            throw new Error(errorsFragment.message);
         }
         case 'MutationCreateAppleWalletPassSuccess': {
             return result.data;
         }
-        default:
+        default: // ZodErrors are ignored as the user doesn't interact with the parameters
             throw new Error('Unhandled apple wallet pass data found');
     }
 }
@@ -136,7 +140,11 @@ export function mapPayBooking(result: ResultOf<typeof PayBooking>['payBooking'])
         case 'MutationPayBookingSuccess':
             return;
         case 'Error':
-            throw new Error(result.message);
+            const errorsFragment = readFragment(MutationErrorsFragment, result);
+            throw new Error(errorsFragment.message);
+        case 'ZodError':
+            const zodErrorsFragment = readFragment(MutationErrorsFragment, result);
+            throw new ApiValidationError(zodErrorsFragment.fieldErrors);
         default:
             throw new Error('Unhandled pay booking result');
     }

@@ -1,5 +1,6 @@
 import { graphql } from '#lib/api/graphql/graphql.ts';
 import { GroupAvatarFragment } from '../fragments/groupAvatar';
+import { StudentAssociationAvatar } from '../fragments/studentAssociationAvatar';
 import { UserFragment } from '../fragments/user';
 
 export const GetMe = graphql(
@@ -24,6 +25,19 @@ export const GetCanCreateEventsOn = graphql(
         }
     `,
     [GroupAvatarFragment]
+);
+
+export const GetCanCreateGroupsOn = graphql(
+    `
+        query GetCanCreateGroupsOn {
+            me {
+                canCreateGroupsOn {
+                    ...StudentAssociationAvatar
+                }
+            }
+        }
+    `,
+    [StudentAssociationAvatar]
 );
 
 export const RememberPaymentPhone = graphql(`

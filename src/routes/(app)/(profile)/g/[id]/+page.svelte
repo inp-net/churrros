@@ -39,7 +39,7 @@
 
 <Stack>
     <div>
-        {#if queryProfile.isLoading}
+        {#if queryProfile.isPending}
             <p>{m['loading']()}</p>
         {:else if queryProfile.isError}
             <p>ERROR</p>
@@ -54,7 +54,7 @@
     </div>
 
     {#if tab === 'info'}
-        {#if queryInfo.isLoading}
+        {#if queryInfo.isPending}
             <p>{m['loading']()}</p>
         {:else if queryInfo.isError}
             <p>ERROR</p>
@@ -62,7 +62,7 @@
             <GroupInfo groupInfo={queryInfo.data} />
         {/if}
     {:else if tab === 'members'}
-        {#if queryBoardMembers.isLoading}
+        {#if queryBoardMembers.isPending}
             <p>{m['loading']()}</p>
         {:else if queryBoardMembers.isError}
             <p>ERROR</p>
@@ -73,7 +73,7 @@
             </a>
         {/if}
     {:else if tab === 'see-also'}
-        {#if querySeeAlso.isLoading}
+        {#if querySeeAlso.isPending}
             <p>{m['loading']()}</p>
         {:else if querySeeAlso.isError}
             <p>ERROR</p>
