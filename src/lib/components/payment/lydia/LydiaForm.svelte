@@ -5,15 +5,15 @@
     import { m } from '#lib/paraglide/messages.js';
     import { formatMoney } from '#lib/utils/i18n.ts';
     import { page } from '$app/state';
+    import { showToast } from '#lib/utils/toast.ts';
 
     const rememberPaymentPhoneMutation = createMutation(() => ({
         mutationFn: ({ phone }: { phone: string }) => meRepository.rememberPaymentPhone(phone),
         onSuccess: (data) => {
-            console.log('Payment phone remembered:', data);
+            showToast(m['payment.toast.phone.success'](), 'success', true);
         },
         onError: (error) => {
-            console.error('Remember payment phone failed:', error);
-            // TODO Display an error to the user
+            showToast(m['payment.toast.phone.failed'](), 'danger', true);
         }
     }));
 
@@ -32,12 +32,11 @@
             amount: number;
         }) => bookingRepository.payBooking(code, paymentMethod, callbackUrl, amount, phone),
         onSuccess: (data) => {
-            console.log('Booking paid:', data);
             onPaid();
+            showToast(m['payment.toast.payment.success'](), 'success', true);
         },
         onError: (error) => {
-            console.error('Pay booking failed:', error);
-            // TODO Display an error to the user
+            showToast(m['payment.toast.payment.failed'](), 'danger', true);
         }
     }));
 

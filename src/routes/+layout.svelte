@@ -8,6 +8,7 @@
     import favicon from '#lib/assets/favicon.svg';
     import 'azucar-ui/tokens.css';
     import 'azucar-ui/base.css';
+    import { Toaster } from 'svelte-sonner';
     import Header from '#lib/components/Header.svelte';
     import NavBar from '#lib/components/NavBar.svelte';
     import { Stack } from 'azucar-ui';
@@ -42,6 +43,7 @@
             <NavBar user={data.user} />
         </Stack>
     </div>
+    <Toaster />
 </QueryClientProvider>
 
 <div style="display:none">

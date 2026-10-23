@@ -10,6 +10,7 @@
     import CardLightEvent from '#lib/components/card/CardLightEvent.svelte';
     import ConfirmationModal from '#lib/components/modal/ConfirmationModal.svelte';
     import PaymentModal from '#lib/components/modal/PaymentModal.svelte';
+    import { showToast } from '#lib/utils/toast.ts';
 
     const queryClient = useQueryClient();
 
@@ -24,38 +25,34 @@
     const cancelMutation = createMutation(() => ({
         mutationFn: ({ code }: { code?: string }) => bookingRepository.cancelBooking(code),
         onSuccess: (data) => {
-            console.log('Cancel successful:', data);
+            showToast(m['booking.toast.cancel.success'](), 'success', true);
             confirmationModalIsOpen = false;
             // The state of the booking has changed, so we need to invalidate the query to fetch the updated data.
             queryClient.invalidateQueries({ queryKey: ['booking', page.params.code] });
         },
         onError: (error) => {
-            console.error('Cancel failed:', error);
-            //TODO afficher une erreur à l'utilisateur
+            console.error('Booking cancellation failed:', error);
+            showToast(m['booking.toast.cancel.failed'](), 'danger', true);
         }
     }));
 
     const googleWalletMutation = createMutation(() => ({
         mutationFn: ({ code }: { code?: string }) => bookingRepository.getGoogleWalletPass(code),
         onSuccess: (data) => {
-            console.log('Google Wallet pass generated:', data);
             globalThis.location.href = data;
         },
         onError: (error) => {
-            console.error('Google Wallet pass generation failed:', error);
-            //TODO afficher une erreur à l'utilisateur
+            showToast(m['booking.toast.wallet.google.failed'](), 'danger', true);
         }
     }));
 
     const appleWalletMutation = createMutation(() => ({
         mutationFn: ({ code }: { code?: string }) => bookingRepository.getAppleWalletPass(code),
         onSuccess: (data) => {
-            console.log('Apple Wallet pass generated:', data);
             globalThis.location.href = data;
         },
         onError: (error) => {
-            console.error('Apple Wallet pass generation failed:', error);
-            //TODO afficher une erreur à l'utilisateur
+            showToast(m['booking.toast.wallet.apple.failed'](), 'danger', true);
         }
     }));
 
