@@ -5,6 +5,8 @@
     import InfiniteScroll from '#lib/components/InfiniteScroll.svelte';
     import CardEventsByDay from '#lib/components/card/CardEventsByDay.svelte';
     import { toISODate } from '#lib/utils/dates.ts';
+    import { Flex, Scroll, Skeleton } from 'azucar-ui';
+    import CardEventDay from '#lib/components/card/CardEventDay.svelte';
 
     const today = toISODate(new Date());
 
@@ -19,28 +21,38 @@
 
     // We derive the events from the query data, to have them in an iterable format.
     const events: EventsByDay[] = $derived(query.data?.pages.flatMap((page) => page.items) ?? []);
+
+    // Get date of monday on current week
+    const monday = new Date();
+    monday.setDate(monday.getDate() - monday.getDay() + 1);
 </script>
 
 <h3>{m.events()}</h3>
 
-<InfiniteScroll
-    hasNextPage={query.hasNextPage}
-    isFetching={query.isFetchingNextPage}
-    loadMore={query.fetchNextPage}
-    rootMargin="0px 0px 400px 0px"
->
-    {#if query.isPending}
-        <p>{m['loading']()}</p>
-    {:else if query.isError}
-        <p>Error: {query.error.message}</p>
-    {:else if query.isSuccess}
+<Flex gap="xs" style="position: sticky !important; width: 100%; top: 0;">
+    {#each Array(7) as _, index}
+        <CardEventDay
+            date={new Date(monday.getFullYear(), monday.getMonth(), monday.getDate() + index)}
+            numberOfEvents={Math.floor(Math.random() * 5)}
+            selected={index === 0}
+        />
+    {/each}
+</Flex>
+
+{#if query.isPending}
+    {#each Array(4) as _}
+        <Skeleton height={`calc(var(--size-xxl) * ${Math.random() * 3 + 1})`} />
+    {/each}
+{:else if query.isSuccess}
+    <InfiniteScroll
+        hasNextPage={query.hasNextPage}
+        isFetching={query.isFetchingNextPage}
+        loadMore={query.fetchNextPage}
+        rootMargin="0px 0px 400px 0px"
+    >
         {#each events as event (event.date)}
             <CardEventsByDay {event} />
             <br />
         {/each}
-    {/if}
-    {#snippet loading()}
-        <!--Si on veut override le chargement-->
-        <p>{m['loading']()}</p>
-    {/snippet}
-</InfiniteScroll>
+    </InfiniteScroll>
+{/if}

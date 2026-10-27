@@ -15,8 +15,8 @@ export function formatISODateToLocale(
         minute: 'numeric'
     }
 ): string {
-    const locale = getLocale();
     if (!date) return 'N/A';
+    const locale = getLocale();
     return Intl.DateTimeFormat(locale, options).format(new Date(date));
 }
 
@@ -26,9 +26,5 @@ export function formatISODateToLocale(
  * @returns the date as an ISO string (YYYY-MM-DD)
  */
 export function toISODate(date: Date): string {
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-
-    return `${year}-${month}-${day}`;
+    return date.toISOString().split('T')[0];
 }

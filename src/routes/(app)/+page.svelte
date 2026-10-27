@@ -5,6 +5,7 @@
     import CardArticle from '#lib/components/card/CardArticle.svelte';
     import CardBirthday from '#lib/components/card/CardBirthday.svelte';
     import { Skeleton, Stack } from 'azucar-ui';
+    import { m } from '#lib/paraglide/messages.js';
 
     const query = createInfiniteQuery(() => ({
         queryKey: ['articles'],
@@ -30,7 +31,7 @@
     <CardBirthday avatars={birthdayQuery.data} />
 {/if}
 
-<h3>Annonces</h3>
+<h3>{m.announcements()}</h3>
 
 {#if query.isPending}
     {#each Array(4) as _}
