@@ -53,7 +53,7 @@
     });
 </script>
 
-<h3>{m.events()}</h3>
+<h3>{m['next_events']()}</h3>
 
 <Stack gap="zero">
     <Flex gap="xs" class="event-day-selection">

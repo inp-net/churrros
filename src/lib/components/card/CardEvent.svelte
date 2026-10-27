@@ -27,12 +27,13 @@
     role="button"
 >
     <Stack>
+        <!-- TODO: support event.pictureURL -->
         <Flex justify="space-between">
             <Flex gap="xs">
                 <Avatar src={event.organizer.pictureURL} alt={event.organizer.name} size="lg" />
                 <Stack gap="zero">
                     <small>{event.organizer.name}</small>
-                    <h4>{event.title}</h4>
+                    <h4 class="event-title">{event.title}</h4>
                 </Stack>
             </Flex>
 
@@ -65,6 +66,10 @@
 </Frame>
 
 <style>
+    .event-title {
+        text-overflow: ellipsis;
+    }
+
     .event-description {
         color: var(--color-fg-low);
     }
