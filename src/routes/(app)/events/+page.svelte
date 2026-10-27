@@ -1,12 +1,13 @@
 <script lang="ts">
     import { createInfiniteQuery } from '@tanstack/svelte-query';
     import { eventRepository, type EventsByDay } from '#lib/api/index.ts';
-    import { m, today } from '#lib/paraglide/messages.js';
+    import { m } from '#lib/paraglide/messages.js';
     import InfiniteScroll from '#lib/components/InfiniteScroll.svelte';
     import CardEventsByDay from '#lib/components/card/CardEventsByDay.svelte';
     import { formatISODateToLocale } from '#lib/utils/dates.ts';
     import { Flex, Skeleton, Stack } from 'azucar-ui';
     import CardEventDay from '#lib/components/card/CardEventDay.svelte';
+    import { scrollspy } from '#lib/actions/scrollspy.ts';
 
     // Today date at midnight
     const todayDate = new Date();
@@ -36,8 +37,6 @@
     }
 
     function scrollToDay(date: Date) {
-        selectedDate = date;
-
         const element = document.getElementById(`events-${date.toISOString()}`);
         if (element) {
             element.scrollIntoView();
@@ -84,7 +83,11 @@
         {/snippet}
 
         {#each events as event (event.date)}
-            <section id={`events-${event.date}`} class="events-day">
+            <section
+                id={`events-${event.date}`}
+                class="events-day"
+                use:scrollspy={() => (selectedDate = new Date(event.date))}
+            >
                 <h3>
                     {formatISODateToLocale(event.date, {
                         weekday: 'long',
