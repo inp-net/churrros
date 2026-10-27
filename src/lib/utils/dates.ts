@@ -19,12 +19,3 @@ export function formatISODateToLocale(
     const locale = getLocale();
     return Intl.DateTimeFormat(locale, options).format(new Date(date));
 }
-
-/**
- * Convert a Date object to an ISO date string (YYYY-MM-DD).
- * @param date the date to convert
- * @returns the date as an ISO string (YYYY-MM-DD)
- */
-export function toISODate(date: Date): string {
-    return date.toISOString().split('T')[0];
-}

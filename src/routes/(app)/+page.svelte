@@ -33,21 +33,22 @@
 
 <h3>{m.announcements()}</h3>
 
-{#if query.isPending}
-    {#each Array(4) as _}
-        <Skeleton height={`calc(var(--size-xxl) * ${Math.random() * 3 + 1})`} />
-    {/each}
-{:else if query.isSuccess}
-    <InfiniteScroll
-        hasNextPage={query.hasNextPage}
-        isFetching={query.isFetchingNextPage}
-        loadMore={query.fetchNextPage}
-        rootMargin="0px 0px 400px 0px"
-    >
+<InfiniteScroll
+    hasNextPage={query.hasNextPage}
+    isFetching={query.isFetchingNextPage || query.isPending}
+    loadMore={query.fetchNextPage}
+    rootMargin="0px 0px 400px 0px"
+>
+    {#snippet loading()}
         <Stack>
-            {#each articles as article (article.id)}
-                <CardArticle {article} />
+            {#each Array(4) as _}
+                <Skeleton height={`calc(var(--size-xxl) * ${Math.random() * 3 + 1})`} />
             {/each}
         </Stack>
-    </InfiniteScroll>
-{/if}
+    {/snippet}
+    <Stack>
+        {#each articles as article (article.id)}
+            <CardArticle {article} />
+        {/each}
+    </Stack>
+</InfiniteScroll>

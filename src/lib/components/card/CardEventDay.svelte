@@ -4,11 +4,21 @@
 
     interface Props {
         selected: boolean;
+        today: boolean;
+        disabled?: boolean;
         date: Date;
-        numberOfEvents: number;
+        eventCount: number;
+        onclick?: () => void;
     }
 
-    const { selected, date, numberOfEvents }: Props = $props();
+    const {
+        selected,
+        today,
+        disabled,
+        date,
+        eventCount: numberOfEvents,
+        onclick
+    }: Props = $props();
 
     const maxNumberOfDots = 3;
     const dayOfWeekPrefix = $derived(
@@ -17,12 +27,14 @@
 </script>
 
 <Frame
-    interactive
+    interactive={!disabled}
     class={[
         'card-event-day-container',
         selected ? 'selected' : '',
-        date.toDateString() === new Date().toDateString() ? 'today' : ''
+        today ? 'today' : '',
+        disabled ? 'neutral' : ''
     ]}
+    {onclick}
 >
     <Flex align="center" justify="center" direction="column" gap="zero">
         <small>{dayOfWeekPrefix.toUpperCase()}</small>
@@ -49,7 +61,7 @@
 
     :global(.card-event-day-container.today) {
         color: var(--color-fg) !important;
-        background-color: var(--color-bg);
+        background-color: var(--color-bg) !important;
     }
 
     :global(.card-event-day-container.selected) {
