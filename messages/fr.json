@@ -5,6 +5,8 @@
     "login": "Se connecter",
     "logout": "Se déconnecter",
     "events": "Événements",
+    "next_events": "Prochains événements",
+    "announcements": "Annonces",
     "bookings": "Mes places",
     "booking": "Place",
     "booking.status.opposed": "En opposition",

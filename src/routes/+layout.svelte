@@ -53,17 +53,21 @@
 </div>
 
 <style>
-    /* set azucar-ui theme */
     :root {
+        /* Set azucar-ui theme */
         --base-color: oklch(80.45% 0.1666 72.92);
         color-scheme: light dark;
+
+        /* Set the scroll behavior for the entire page */
+        scroll-behavior: smooth;
     }
 
-    /* limit page width */
     .container {
+        /* Limit page width */
         width: calc(100% - var(--size-md) * 2);
         max-width: 550px;
         margin: var(--size-md) auto;
-        overflow-x: hidden;
+
+        overflow-x: clip;
     }
 </style>

@@ -2,7 +2,7 @@
     import { userRepository } from '#lib/api/index.ts';
     import Avatar from '#lib/components/avatar/Avatar.svelte';
     import { m } from '#lib/paraglide/messages.js';
-    import { formatISODateToLocale, toISODate } from '#lib/utils/dates.ts';
+    import { formatISODateToLocale } from '#lib/utils/dates.ts';
     import { createQuery } from '@tanstack/svelte-query';
 
     const now = new Date();
