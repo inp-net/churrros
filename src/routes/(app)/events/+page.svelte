@@ -57,6 +57,7 @@
 
 <Stack gap="zero">
     <Flex gap="xs" class="event-day-selection">
+        <!-- TODO: might want to make this scrollable to see next weeks -->
         {#each daysOfWeek as date (date.toISOString())}
             <CardEventDay
                 {date}
