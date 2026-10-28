@@ -1,20 +1,22 @@
+import type { ArkError, ArkErrors } from 'arktype';
+import { type Type, type } from 'arktype';
+
 import { ApiValidationError } from '#lib/api/errors.ts';
 import { m } from '#lib/paraglide/messages.js';
-import { ArkError, ArkErrors, type, type Type } from 'arktype';
 
 type FormErrors<T> = Partial<Record<keyof T & string, string>>;
 
 export function createForm<S extends Type<any>>(schema: S, initial: S['inferIn']) {
     type In = S['inferIn'];
 
-    let values = $state<In>(initial);
-    let errors = $state<FormErrors<In>>({});
-    let formError = $state(''); // Error that is not related to a specific field
-    let submitting = $state(false);
+    const values = $state<In>(initial);
+    let errors = $state<FormErrors<In>>({}),
+        formError = $state(''), // Error that is not related to a specific field
+        submitting = $state(false);
 
     function applyApiErrors(err: ApiValidationError) {
-        const next: Record<string, string> = {};
-        const unmatched: string[] = [];
+        const next: Record<string, string> = {},
+            unmatched: string[] = [];
 
         for (const { path, message } of err.fieldErrors) {
             const key = path.join('.');
@@ -43,29 +45,31 @@ export function createForm<S extends Type<any>>(schema: S, initial: S['inferIn']
         submitting = true;
         try {
             await handler(result);
-        } catch (err) {
-            if (err instanceof ApiValidationError) {
-                applyApiErrors(err);
-            } else throw err;
+        } catch (error) {
+            if (error instanceof ApiValidationError) {
+                applyApiErrors(error);
+            } else {
+                throw error;
+            }
         } finally {
             submitting = false;
         }
     }
 
     return {
-        get values() {
-            return values;
-        },
         get errors() {
             return errors;
         },
         get formError() {
             return formError;
         },
+        submit,
         get submitting() {
             return submitting;
         },
-        submit
+        get values() {
+            return values;
+        },
     };
 }
 
@@ -79,7 +83,7 @@ function translateErrors<T>(errors: ArkErrors): FormErrors<T> {
     return result as FormErrors<T>;
 }
 
-function getErrorMessage(error: ArkError): string {
+function getErrorMessage(error: Readonly<ArkError>): string {
     if (error.hasCode('union')) {
         return getErrorMessage(error.errors[0]); // We only take the first error because all errors would be unreadable
     }

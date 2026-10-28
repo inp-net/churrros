@@ -1,31 +1,49 @@
-import type { EventRepository } from '#lib/api/repositories.ts';
+import { page } from '$app/state';
+
 import { request } from '#lib/api/graphql/client.ts';
 import {
     mapBookingEventResult,
     mapEventDetail,
-    mapEvents
+    mapEvents,
 } from '#lib/api/graphql/mappers/event/index.ts';
 import { BookEvent, GetEventById, GetEvents } from '#lib/api/graphql/queries/event/index.ts';
 import type { PageRequest } from '#lib/api/index.ts';
-import { page } from '$app/state';
+import type { EventRepository } from '#lib/api/repositories.ts';
 
 export const eventRepository: EventRepository = {
-    async getEvents(args: PageRequest) {
+    async bookEvent(ticketId: string, beneficiary?: string, churrosBeneficiary?: string) {
         try {
-            const response = await request(GetEvents, args);
-            return mapEvents(response);
+            const response = await request(BookEvent, {
+                beneficiary,
+                bookingUrl: `${page.url.origin}/bookings/[code]`,
+                churrosBeneficiary,
+                ticketId,
+            });
+            return mapBookingEventResult(response.bookEvent);
         } catch (error) {
             //TODO : Vrai gestion d'erreur
-            console.error('Error fetching events:', error);
+            console.error('Error booking event:', error);
             throw error;
         }
+    },
+    async createEvent(_groupId: string, _title: string, _createManagerInvite: boolean) {
+        //TODO : Implement createEvent
+        throw new Error('Not implemented');
+    },
+    async deleteEvent() {
+        //TODO : Implement event deletion
+        throw new Error('Not implemented');
+    },
+    async editEvent() {
+        //TODO : Implement event editing
+        throw new Error('Not implemented');
     },
     async getEventById(id: string | undefined) {
         if (!id) {
             throw new Error('Not found');
         }
         try {
-            const response = await request(GetEventById, { id: id });
+            const response = await request(GetEventById, { id });
             if (!response.event) {
                 throw new Error('Not found');
             }
@@ -36,31 +54,14 @@ export const eventRepository: EventRepository = {
             throw error;
         }
     },
-    async createEvent(groupId: string, title: string, createManagerInvite: boolean) {
-        //TODO : Implement createEvent
-        throw new Error('Not implemented');
-    },
-    async editEvent() {
-        //TODO : Implement event editing
-        throw new Error('Not implemented');
-    },
-    async deleteEvent() {
-        //TODO : Implement event deletion
-        throw new Error('Not implemented');
-    },
-    async bookEvent(ticketId: string, beneficiary?: string, churrosBeneficiary?: string) {
+    async getEvents(args: PageRequest) {
         try {
-            const response = await request(BookEvent, {
-                bookingUrl: `${page.url.origin}/bookings/[code]`,
-                ticketId,
-                beneficiary,
-                churrosBeneficiary
-            });
-            return mapBookingEventResult(response.bookEvent);
+            const response = await request(GetEvents, args);
+            return mapEvents(response);
         } catch (error) {
             //TODO : Vrai gestion d'erreur
-            console.error('Error booking event:', error);
+            console.error('Error fetching events:', error);
             throw error;
         }
-    }
+    },
 };

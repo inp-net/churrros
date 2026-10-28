@@ -1,4 +1,5 @@
 import { graphql } from '#lib/api/graphql/graphql.ts';
+
 import { GroupAvatarFragment } from '../fragments/groupAvatar';
 import { GroupMemberWithUserFragment } from '../fragments/groupMemberWithUser';
 import { LinkFragment } from '../fragments/link';
@@ -26,7 +27,7 @@ export const GetGroupProfile = graphql(
             }
         }
     `,
-    [GroupAvatarFragment, StudentAssociationAvatar, LinkFragment]
+    [GroupAvatarFragment, StudentAssociationAvatar, LinkFragment],
 );
 
 export const GetBoardGroupMembers = graphql(
@@ -40,7 +41,7 @@ export const GetBoardGroupMembers = graphql(
             }
         }
     `,
-    [GroupMemberWithUserFragment]
+    [GroupMemberWithUserFragment],
 );
 
 export const GetGroupMembers = graphql(
@@ -61,7 +62,7 @@ export const GetGroupMembers = graphql(
             }
         }
     `,
-    [GroupMemberWithUserFragment, PageInfoFragment]
+    [GroupMemberWithUserFragment, PageInfoFragment],
 );
 
 export const GetGroupInfos = graphql(`
@@ -90,7 +91,7 @@ export const GetGroupSeeAlso = graphql(
             }
         }
     `,
-    [GroupAvatarFragment]
+    [GroupAvatarFragment],
 );
 
 export const CreateGroup = graphql(
@@ -117,7 +118,7 @@ export const CreateGroup = graphql(
             }
         }
     `,
-    [MutationErrorsFragment]
+    [MutationErrorsFragment],
 );
 
 export const EditGroupProfile = graphql(
@@ -143,7 +144,7 @@ export const EditGroupProfile = graphql(
             }
         }
     `,
-    [MutationErrorsFragment, GroupAvatarFragment]
+    [MutationErrorsFragment, GroupAvatarFragment],
 );
 
 export const EditGroupJoinPolicy = graphql(
@@ -160,7 +161,7 @@ export const EditGroupJoinPolicy = graphql(
             }
         }
     `,
-    [MutationErrorsFragment]
+    [MutationErrorsFragment],
 );
 
 export const EditGroupParent = graphql(
@@ -182,7 +183,7 @@ export const EditGroupParent = graphql(
             }
         }
     `,
-    [MutationErrorsFragment, GroupAvatarFragment]
+    [MutationErrorsFragment, GroupAvatarFragment],
 );
 
 export const EditGroupStudentAssociation = graphql(
@@ -201,7 +202,7 @@ export const EditGroupStudentAssociation = graphql(
             }
         }
     `,
-    [MutationErrorsFragment, StudentAssociationAvatar]
+    [MutationErrorsFragment, StudentAssociationAvatar],
 );
 
 export const EditGroupType = graphql(
@@ -219,7 +220,7 @@ export const EditGroupType = graphql(
             }
         }
     `,
-    [MutationErrorsFragment]
+    [MutationErrorsFragment],
 );
 
 export const GetGroupPermissions = graphql(`
@@ -295,5 +296,5 @@ export const GetGroupInfoForEdition = graphql(
             }
         }
     `,
-    [GroupAvatarFragment, StudentAssociationAvatar]
+    [GroupAvatarFragment, StudentAssociationAvatar],
 );

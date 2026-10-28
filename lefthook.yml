@@ -1,8 +1,11 @@
 pre-commit:
     parallel: true
     jobs:
-        - name: prettier
-          run: pnpm exec prettier --write --ignore-unknown {staged_files}
+        - name: format
+          run: pnpx oxfmt --write {staged_files}
+          stage_fixed: true
+        - name: lint
+          run: pnpx oxlint --fix {staged_files}
           stage_fixed: true
 
 pre-push:

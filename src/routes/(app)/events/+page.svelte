@@ -1,13 +1,14 @@
 <script lang="ts">
     import { createInfiniteQuery } from '@tanstack/svelte-query';
-    import { eventRepository, type EventsByDay } from '#lib/api/index.ts';
-    import { m } from '#lib/paraglide/messages.js';
-    import InfiniteScroll from '#lib/components/InfiniteScroll.svelte';
-    import CardEventsByDay from '#lib/components/card/CardEventsByDay.svelte';
-    import { formatISODateToLocale } from '#lib/utils/dates.ts';
     import { Flex, Skeleton, Stack } from 'azucar-ui';
-    import CardEventDay from '#lib/components/card/CardEventDay.svelte';
+
     import { scrollspy } from '#lib/actions/scrollspy.ts';
+    import { type EventsByDay, eventRepository } from '#lib/api/index.ts';
+    import CardEventDay from '#lib/components/card/CardEventDay.svelte';
+    import CardEventsByDay from '#lib/components/card/CardEventsByDay.svelte';
+    import InfiniteScroll from '#lib/components/InfiniteScroll.svelte';
+    import { m } from '#lib/paraglide/messages.js';
+    import { formatISODateToLocale } from '#lib/utils/dates.ts';
 
     // Today date at midnight
     const todayDate = new Date();
@@ -15,20 +16,19 @@
 
     // Create an infinite query to fetch events, starting from today
     const query = createInfiniteQuery(() => ({
-        queryKey: ['events'],
-        queryFn: ({ pageParam }) => eventRepository.getEvents({ first: 10, after: pageParam }),
-        initialPageParam: todayDate.toISOString(),
         getNextPageParam: (lastPage) =>
-            lastPage.pageInfo.hasNextPage ? lastPage.pageInfo.endCursor : undefined
+            lastPage.pageInfo.hasNextPage ? lastPage.pageInfo.endCursor : undefined,
+        initialPageParam: todayDate.toISOString(),
+        queryFn: ({ pageParam }) => eventRepository.getEvents({ after: pageParam, first: 10 }),
+        queryKey: ['events'],
     }));
 
     let selectedDate = $state(todayDate);
 
     // We derive the events from the query data, to have them in an iterable format.
-    const events: EventsByDay[] = $derived(query.data?.pages.flatMap((page) => page.items) ?? []);
-
-    // Get date of monday on current week
-    const monday = new Date(todayDate);
+    const events: EventsByDay[] = $derived(query.data?.pages.flatMap((page) => page.items) ?? []),
+        // Get date of monday on current week
+        monday = new Date(todayDate);
     monday.setDate(monday.getDate() - ((monday.getDay() + 6) % 7));
 
     function eventCountForDate(date: Date): number {
@@ -93,7 +93,7 @@
                     {formatISODateToLocale(event.date, {
                         weekday: 'long',
                         month: 'long',
-                        day: 'numeric'
+                        day: 'numeric',
                     })}
                 </h3>
                 <CardEventsByDay {event} />

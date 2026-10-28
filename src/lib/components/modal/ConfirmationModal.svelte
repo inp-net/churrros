@@ -12,7 +12,9 @@
     $effect(() => {
         if (isOpen) {
             dialog?.showModal();
-        } else dialog?.close();
+        } else {
+            dialog?.close();
+        }
     });
     let { description, isOpen = $bindable(false), onCancel, onConfirm }: Props = $props();
 </script>

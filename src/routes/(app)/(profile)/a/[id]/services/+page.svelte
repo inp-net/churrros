@@ -1,30 +1,30 @@
 <script lang="ts">
     import { page } from '$app/state';
+    import { createInfiniteQuery } from '@tanstack/svelte-query';
+
     import {
+        type CardService as CardServiceType,
         studentAssociationRepository,
-        type CardService as CardServiceType
     } from '#lib/api/index.ts';
     import CardService from '#lib/components/card/CardService.svelte';
     import InfiniteScroll from '#lib/components/InfiniteScroll.svelte';
     import { m } from '#lib/paraglide/messages.js';
-    import { createInfiniteQuery } from '@tanstack/svelte-query';
 
     const query = createInfiniteQuery(() => ({
-        queryKey: ['studentAssociation', page.params.id, 'services', 'all'],
-        queryFn: ({ pageParam }) =>
-            studentAssociationRepository.getStudentAssociationServices(page.params.id, {
-                first: 10,
-                after: pageParam
-            }),
-        initialPageParam: null as string | null,
-        getNextPageParam: (lastPage) =>
-            lastPage.pageInfo.hasNextPage ? lastPage.pageInfo.endCursor : null,
-        notifyOnChangeProps: 'all'
-    }));
-
-    const services: CardServiceType[] = $derived(
-        query.data?.pages.flatMap((page) => page.items) ?? []
-    );
+            getNextPageParam: (lastPage) =>
+                lastPage.pageInfo.hasNextPage ? lastPage.pageInfo.endCursor : null,
+            initialPageParam: null as string | null,
+            notifyOnChangeProps: 'all',
+            queryFn: ({ pageParam }) =>
+                studentAssociationRepository.getStudentAssociationServices(page.params.id, {
+                    after: pageParam,
+                    first: 10,
+                }),
+            queryKey: ['studentAssociation', page.params.id, 'services', 'all'],
+        })),
+        services: CardServiceType[] = $derived(
+            query.data?.pages.flatMap((page) => page.items) ?? [],
+        );
 </script>
 
 <InfiniteScroll

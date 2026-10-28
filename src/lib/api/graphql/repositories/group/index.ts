@@ -1,5 +1,13 @@
-import type { GroupRepository } from '#lib/api/repositories.ts';
 import { request } from '#lib/api/graphql/client.ts';
+import {
+    mapCreateGroup,
+    mapGroupBoardMembers,
+    mapGroupEditInfo,
+    mapGroupInfos,
+    mapGroupMembers,
+    mapGroupProfile,
+    mapGroupSeeAlso,
+} from '#lib/api/graphql/mappers/group/index.ts';
 import {
     CreateGroup,
     EditGroupJoinPolicy,
@@ -13,43 +21,25 @@ import {
     GetGroupMembers,
     GetGroupPermissions,
     GetGroupProfile,
-    GetGroupSeeAlso
+    GetGroupSeeAlso,
 } from '#lib/api/graphql/queries/group/index.ts';
-import {
-    mapCreateGroup,
-    mapGroupBoardMembers,
-    mapGroupEditInfo,
-    mapGroupInfos,
-    mapGroupMembers,
-    mapGroupProfile,
-    mapGroupSeeAlso
-} from '#lib/api/graphql/mappers/group/index.ts';
+import type { GroupRepository } from '#lib/api/repositories.ts';
+
 import { assertMutationSuccess } from '../../utils';
 
 export const groupRepository: GroupRepository = {
-    async getGroupProfile(uid) {
+    async createGroup(studentAssociationId, uid, name, type) {
         try {
-            if (!uid) {
-                throw new Error('UID is required to fetch group profile');
-            }
-            const response = await request(GetGroupProfile, { uid });
-            return mapGroupProfile(response.group);
+            const response = await request(CreateGroup, {
+                name,
+                studentAssociation: studentAssociationId,
+                type,
+                uid,
+            });
+            return mapCreateGroup(response.createGroup);
         } catch (error) {
             //TODO : Vrai gestion d'erreur
-            console.error('Error fetching group profile:', error);
-            throw error;
-        }
-    },
-    async getGroupInfos(uid) {
-        try {
-            if (!uid) {
-                throw new Error('UID is required to fetch group infos');
-            }
-            const response = await request(GetGroupInfos, { uid });
-            return mapGroupInfos(response.group);
-        } catch (error) {
-            //TODO : Vrai gestion d'erreur
-            console.error('Error fetching group infos:', error);
+            console.error('Error creating group:', error);
             throw error;
         }
     },
@@ -66,16 +56,38 @@ export const groupRepository: GroupRepository = {
             throw error;
         }
     },
-    async getGroupSeeAlso(uid) {
+    async getGroupEditInfo(permissions, uid) {
         try {
             if (!uid) {
-                throw new Error('UID is required to fetch group see also');
+                throw new Error('UID is required to fetch group edit info');
             }
-            const response = await request(GetGroupSeeAlso, { uid });
-            return mapGroupSeeAlso(response.group);
+            const response = await request(GetGroupInfoForEdition, {
+                uid,
+                withDetails: permissions.canEditDetails,
+                withJoinPolicy: permissions.canEditJoinPolicy,
+                withLydiaAccounts: permissions.canEditLydiaAccounts,
+                withParent: permissions.canEditParent,
+                withStudentAssociation: permissions.canEditStudentAssociation,
+                withType: permissions.canEditType,
+                withUnlisted: permissions.canEditUnlisted,
+            });
+            return mapGroupEditInfo(response.group);
         } catch (error) {
             //TODO : Vrai gestion d'erreur
-            console.error('Error fetching group see also:', error);
+            console.error('Error fetching group edit info:', error);
+            throw error;
+        }
+    },
+    async getGroupInfos(uid) {
+        try {
+            if (!uid) {
+                throw new Error('UID is required to fetch group infos');
+            }
+            const response = await request(GetGroupInfos, { uid });
+            return mapGroupInfos(response.group);
+        } catch (error) {
+            //TODO : Vrai gestion d'erreur
+            console.error('Error fetching group infos:', error);
             throw error;
         }
     },
@@ -85,29 +97,14 @@ export const groupRepository: GroupRepository = {
                 throw new Error('UID is required to fetch group members');
             }
             const response = await request(GetGroupMembers, {
-                uid,
+                after: args.after,
                 first: args.first,
-                after: args.after
+                uid,
             });
             return mapGroupMembers(response.group.members);
         } catch (error) {
             //TODO : Vrai gestion d'erreur
             console.error('Error fetching group members:', error);
-            throw error;
-        }
-    },
-    async createGroup(studentAssociationId, uid, name, type) {
-        try {
-            const response = await request(CreateGroup, {
-                studentAssociation: studentAssociationId,
-                uid,
-                name,
-                type
-            });
-            return mapCreateGroup(response.createGroup);
-        } catch (error) {
-            //TODO : Vrai gestion d'erreur
-            console.error('Error creating group:', error);
             throw error;
         }
     },
@@ -124,25 +121,29 @@ export const groupRepository: GroupRepository = {
             throw error;
         }
     },
-    async getGroupEditInfo(permissions, uid) {
+    async getGroupProfile(uid) {
         try {
             if (!uid) {
-                throw new Error('UID is required to fetch group edit info');
+                throw new Error('UID is required to fetch group profile');
             }
-            const response = await request(GetGroupInfoForEdition, {
-                uid,
-                withDetails: permissions.canEditDetails,
-                withJoinPolicy: permissions.canEditJoinPolicy,
-                withParent: permissions.canEditParent,
-                withStudentAssociation: permissions.canEditStudentAssociation,
-                withType: permissions.canEditType,
-                withUnlisted: permissions.canEditUnlisted,
-                withLydiaAccounts: permissions.canEditLydiaAccounts
-            });
-            return mapGroupEditInfo(response.group);
+            const response = await request(GetGroupProfile, { uid });
+            return mapGroupProfile(response.group);
         } catch (error) {
             //TODO : Vrai gestion d'erreur
-            console.error('Error fetching group edit info:', error);
+            console.error('Error fetching group profile:', error);
+            throw error;
+        }
+    },
+    async getGroupSeeAlso(uid) {
+        try {
+            if (!uid) {
+                throw new Error('UID is required to fetch group see also');
+            }
+            const response = await request(GetGroupSeeAlso, { uid });
+            return mapGroupSeeAlso(response.group);
+        } catch (error) {
+            //TODO : Vrai gestion d'erreur
+            console.error('Error fetching group see also:', error);
             throw error;
         }
     },
@@ -152,61 +153,59 @@ export const groupRepository: GroupRepository = {
                 throw new Error('UID is required to update a group');
             }
             const {
-                joinPolicy,
-                parentUid,
-                studentAssociationId,
-                groupType,
-                unlisted,
-                ...profileFields
-            } = data;
-
-            // Allows us to only send the fields that are defined (null is a valid value)
-            const profile = Object.fromEntries(
-                Object.entries(profileFields).filter(([, value]) => value !== undefined)
-            ) as typeof profileFields;
-
-            const tasks: Promise<void>[] = [];
+                    joinPolicy,
+                    parentUid,
+                    studentAssociationId,
+                    groupType,
+                    unlisted,
+                    ...profileFields
+                } = data,
+                // Allows us to only send the fields that are defined (null is a valid value)
+                profile = Object.fromEntries(
+                    Object.entries(profileFields).filter(([, value]) => value !== undefined),
+                ) as typeof profileFields,
+                tasks: Promise<void>[] = [];
 
             if (Object.keys(profile).length > 0) {
                 tasks.push(
-                    request(EditGroupProfile, { uid, profile }).then((res) => {
+                    request(EditGroupProfile, { profile, uid }).then((res) => {
                         assertMutationSuccess(res.updateGroupProfile);
-                    })
+                    }),
                 );
             }
 
             if (joinPolicy !== undefined) {
                 tasks.push(
-                    request(EditGroupJoinPolicy, { uid, joinPolicy }).then((res) => {
+                    request(EditGroupJoinPolicy, { joinPolicy, uid }).then((res) => {
                         assertMutationSuccess(res.setGroupJoinPolicy);
-                    })
+                    }),
                 );
             }
 
             if (parentUid !== undefined) {
                 tasks.push(
-                    request(EditGroupParent, { uid, parentUid }).then((res) => {
+                    request(EditGroupParent, { parentUid, uid }).then((res) => {
                         assertMutationSuccess(res.setParentGroup);
-                    })
+                    }),
                 );
             }
 
             if (studentAssociationId !== undefined) {
                 tasks.push(
                     request(EditGroupStudentAssociation, {
+                        studentAssociation: studentAssociationId,
                         uid,
-                        studentAssociation: studentAssociationId
                     }).then((res) => {
                         assertMutationSuccess(res.setGroupStudentAssociation);
-                    })
+                    }),
                 );
             }
 
             if (groupType !== undefined || unlisted !== undefined) {
                 tasks.push(
-                    request(EditGroupType, { uid, type: groupType, unlisted }).then((res) => {
+                    request(EditGroupType, { type: groupType, uid, unlisted }).then((res) => {
                         assertMutationSuccess(res.setGroupType);
-                    })
+                    }),
                 );
             }
 
@@ -216,5 +215,5 @@ export const groupRepository: GroupRepository = {
             console.error('Error updating group:', error);
             throw error;
         }
-    }
+    },
 };

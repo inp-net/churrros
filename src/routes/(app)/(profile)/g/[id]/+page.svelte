@@ -1,40 +1,37 @@
 <script lang="ts">
     import { page } from '$app/state';
+    import { createQuery } from '@tanstack/svelte-query';
+    import { Stack } from 'azucar-ui';
+
     import { groupRepository } from '#lib/api/index.ts';
     import GroupBoardMembers from '#lib/components/tabs/GroupBoardMembers.svelte';
     import GroupInfo from '#lib/components/tabs/GroupInfo.svelte';
     import GroupProfile from '#lib/components/tabs/GroupProfile.svelte';
     import GroupSeeAlso from '#lib/components/tabs/GroupSeeAlso.svelte';
     import { m } from '#lib/paraglide/messages.js';
-    import { createQuery } from '@tanstack/svelte-query';
-    import { Stack } from 'azucar-ui';
 
     type Tab = 'info' | 'members' | 'see-also';
 
-    const tab = $derived<Tab>((page.url.searchParams.get('tab') as Tab) || 'info');
-
-    const queryProfile = createQuery(() => ({
-        queryKey: ['group', page.params.id],
-        queryFn: () => groupRepository.getGroupProfile(page.params.id)
-    }));
-
-    const queryInfo = createQuery(() => ({
-        queryKey: ['group', page.params.id, 'info'],
-        queryFn: () => groupRepository.getGroupInfos(page.params.id),
-        enabled: tab === 'info'
-    }));
-
-    const queryBoardMembers = createQuery(() => ({
-        queryKey: ['group', page.params.id, 'members'],
-        queryFn: () => groupRepository.getGroupBoardMembers(page.params.id),
-        enabled: tab === 'members'
-    }));
-
-    const querySeeAlso = createQuery(() => ({
-        queryKey: ['group', page.params.id, 'see-also'],
-        queryFn: () => groupRepository.getGroupSeeAlso(page.params.id),
-        enabled: tab === 'see-also'
-    }));
+    const tab = $derived<Tab>((page.url.searchParams.get('tab') as Tab) || 'info'),
+        queryProfile = createQuery(() => ({
+            queryFn: () => groupRepository.getGroupProfile(page.params.id),
+            queryKey: ['group', page.params.id],
+        })),
+        queryInfo = createQuery(() => ({
+            enabled: tab === 'info',
+            queryFn: () => groupRepository.getGroupInfos(page.params.id),
+            queryKey: ['group', page.params.id, 'info'],
+        })),
+        queryBoardMembers = createQuery(() => ({
+            enabled: tab === 'members',
+            queryFn: () => groupRepository.getGroupBoardMembers(page.params.id),
+            queryKey: ['group', page.params.id, 'members'],
+        })),
+        querySeeAlso = createQuery(() => ({
+            enabled: tab === 'see-also',
+            queryFn: () => groupRepository.getGroupSeeAlso(page.params.id),
+            queryKey: ['group', page.params.id, 'see-also'],
+        }));
 </script>
 
 <Stack>

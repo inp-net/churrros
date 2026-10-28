@@ -1,11 +1,12 @@
 import { browser } from '$app/env';
 import { get, writable } from 'svelte/store';
+
 import type { SessionToken } from '#lib/api/index.ts';
 
 export const SESSION_TOKEN_COOKIE_NAME = 'session_token';
 
-const initialSessionToken = loadToken();
-const sessionTokenStore = writable<SessionToken | null>(initialSessionToken);
+const initialSessionToken = loadToken(),
+    sessionTokenStore = writable<SessionToken | null>(initialSessionToken);
 
 function isTokenExpired(sessionToken: SessionToken) {
     return (
@@ -32,8 +33,12 @@ function readCookie(name: string): string | null {
  */
 export function writeCookie(name: string, value: string, expiresAt?: Date) {
     const parts = [`${name}=${encodeURIComponent(value)}`, 'path=/', 'SameSite=Lax'];
-    if (expiresAt) parts.push(`expires=${expiresAt.toUTCString()}`);
-    if (location.protocol === 'https:') parts.push('Secure');
+    if (expiresAt) {
+        parts.push(`expires=${expiresAt.toUTCString()}`);
+    }
+    if (location.protocol === 'https:') {
+        parts.push('Secure');
+    }
     document.cookie = parts.join('; ');
 }
 
@@ -52,11 +57,13 @@ export function deleteCookie(name: string) {
  * @returns the deserialized session token or null if the string is invalid
  */
 export function deserializeToken(raw: string | null | undefined): SessionToken | null {
-    if (!raw) return null;
+    if (!raw) {
+        return null;
+    }
 
     try {
         const parsed = JSON.parse(raw) as { token: string; expiresAt: string };
-        return { token: parsed.token, expiresAt: new Date(parsed.expiresAt) };
+        return { expiresAt: new Date(parsed.expiresAt), token: parsed.token };
     } catch {
         return null;
     }
@@ -102,10 +109,10 @@ export function setToken(newSessionToken: SessionToken | null) {
     writeCookie(
         SESSION_TOKEN_COOKIE_NAME,
         JSON.stringify({
+            expiresAt: newSessionToken.expiresAt.toISOString(),
             token: newSessionToken.token,
-            expiresAt: newSessionToken.expiresAt.toISOString()
         }),
-        newSessionToken.expiresAt
+        newSessionToken.expiresAt,
     );
 }
 

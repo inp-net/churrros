@@ -1,27 +1,19 @@
-import type { MeRepository } from '#lib/api/repositories.ts';
-import { request, requestServer } from '#lib/api/graphql/client.ts';
 import type { Cookies } from '@sveltejs/kit';
+
+import { request, requestServer } from '#lib/api/graphql/client.ts';
+import { mapMe, mapRememberPaymentPhone } from '#lib/api/graphql/mappers/me/index.ts';
 import {
     GetCanCreateEventsOn,
     GetCanCreateGroupsOn,
     GetMe,
-    RememberPaymentPhone
+    RememberPaymentPhone,
 } from '#lib/api/graphql/queries/me/index.ts';
-import { mapMe, mapRememberPaymentPhone } from '#lib/api/graphql/mappers/me/index.ts';
+import type { MeRepository } from '#lib/api/repositories.ts';
+
 import { mapGroupAvatar } from '../../mappers/group';
 import { mapStudentAssociationAvatar } from '../../mappers/studentassociation';
 
 export const meRepository: MeRepository = {
-    async getMe(event?: { fetch: typeof fetch; cookies: Cookies }) {
-        try {
-            const response = await requestServer(GetMe, undefined, event);
-            return mapMe(response.me);
-        } catch (error) {
-            //TODO : Vrai gestion d'erreur
-            console.error('Error fetching current user:', error);
-            throw error;
-        }
-    },
     async getCanCreateEventsOn() {
         try {
             const response = await request(GetCanCreateEventsOn);
@@ -42,8 +34,18 @@ export const meRepository: MeRepository = {
                 return [];
             }
             return response.me.canCreateGroupsOn.map((studentAssociationAvatar) =>
-                mapStudentAssociationAvatar(studentAssociationAvatar)
+                mapStudentAssociationAvatar(studentAssociationAvatar),
             );
+        } catch (error) {
+            //TODO : Vrai gestion d'erreur
+            console.error('Error fetching current user:', error);
+            throw error;
+        }
+    },
+    async getMe(event?: { fetch: typeof fetch; cookies: Cookies }) {
+        try {
+            const response = await requestServer(GetMe, undefined, event);
+            return mapMe(response.me);
         } catch (error) {
             //TODO : Vrai gestion d'erreur
             console.error('Error fetching current user:', error);
@@ -59,5 +61,5 @@ export const meRepository: MeRepository = {
             console.error('Error remembering payment phone:', error);
             throw error;
         }
-    }
+    },
 };

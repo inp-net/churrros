@@ -1,32 +1,20 @@
-import type { SchoolRepository } from '#lib/api/repositories.ts';
 import { request } from '#lib/api/graphql/client.ts';
-import {
-    GetSchoolInfos,
-    GetSchoolMajors,
-    GetSchoolProfile,
-    GetSchoolServices
-} from '../../queries/school';
+import type { SchoolRepository } from '#lib/api/repositories.ts';
+
 import {
     mapSchoolInfos,
     mapSchoolMajors,
     mapSchoolProfile,
-    mapSchoolServices
+    mapSchoolServices,
 } from '../../mappers/school';
+import {
+    GetSchoolInfos,
+    GetSchoolMajors,
+    GetSchoolProfile,
+    GetSchoolServices,
+} from '../../queries/school';
 
 export const schoolRepository: SchoolRepository = {
-    async getSchoolProfile(uid) {
-        try {
-            if (!uid) {
-                throw new Error('UID is required to fetch school profile');
-            }
-            const response = await request(GetSchoolProfile, { uid });
-            return mapSchoolProfile(response.school);
-        } catch (error) {
-            //TODO : Vrai gestion d'erreur
-            console.error('Error fetching school profile:', error);
-            throw error;
-        }
-    },
     async getSchoolInfos(uid) {
         try {
             if (!uid) {
@@ -53,6 +41,19 @@ export const schoolRepository: SchoolRepository = {
             throw error;
         }
     },
+    async getSchoolProfile(uid) {
+        try {
+            if (!uid) {
+                throw new Error('UID is required to fetch school profile');
+            }
+            const response = await request(GetSchoolProfile, { uid });
+            return mapSchoolProfile(response.school);
+        } catch (error) {
+            //TODO : Vrai gestion d'erreur
+            console.error('Error fetching school profile:', error);
+            throw error;
+        }
+    },
     async getSchoolServices(uid) {
         try {
             if (!uid) {
@@ -65,5 +66,5 @@ export const schoolRepository: SchoolRepository = {
             console.error('Error fetching school services:', error);
             throw error;
         }
-    }
+    },
 };

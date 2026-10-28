@@ -1,16 +1,17 @@
 <script lang="ts">
     import { page } from '$app/state';
+    import { createQuery } from '@tanstack/svelte-query';
+
     import { articleRepository } from '#lib/api/index.ts';
     import Avatar from '#lib/components/avatar/Avatar.svelte';
     import CardEvent from '#lib/components/card/CardEvent.svelte';
     import LinkPill from '#lib/components/LinkPill.svelte';
     import { m } from '#lib/paraglide/messages.js';
     import { formatISODateToLocale } from '#lib/utils/dates.ts';
-    import { createQuery } from '@tanstack/svelte-query';
 
     const query = createQuery(() => ({
+        queryFn: () => articleRepository.getArticleById(page.params.id),
         queryKey: ['article', page.params.id],
-        queryFn: () => articleRepository.getArticleById(page.params.id)
     }));
 </script>
 

@@ -1,20 +1,21 @@
 <script lang="ts">
     import QRCode from 'qrcode';
 
-    let { text, size = 200 }: { text: string; size?: number } = $props();
-
-    let svg = $state('');
+    let { text, size = 200 }: { text: string; size?: number } = $props(),
+        svg = $state('');
 
     $effect(() => {
         const current = text;
         QRCode.toString(current, {
-            type: 'svg',
+            color: { dark: '#000000', light: '#ffffff' },
             errorCorrectionLevel: 'M',
             margin: 2,
-            color: { dark: '#000000', light: '#ffffff' }
+            type: 'svg',
         })
             .then((result) => {
-                if (current === text) svg = result;
+                if (current === text) {
+                    svg = result;
+                }
             })
             .catch(console.error);
     });

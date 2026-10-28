@@ -1,16 +1,17 @@
-import SimpleToast from '#lib/components/SimpleToast.svelte';
 import { toast } from 'svelte-sonner';
+
+import SimpleToast from '#lib/components/SimpleToast.svelte';
 
 export function showToast(
     message: string,
     variant: 'success' | 'default' | 'danger' | 'warning',
-    closeable: boolean
+    closeable: boolean,
 ) {
     toast.custom(SimpleToast, {
         componentProps: {
-            message: message,
-            variant: variant,
-            closeable: closeable
-        }
+            closeable,
+            message,
+            variant,
+        },
     });
 }

@@ -2,19 +2,17 @@
 
 import type { User } from '#lib/api/index.ts';
 
-// for information about these interfaces
+// For information about these interfaces
 declare global {
     namespace App {
-        // interface Error {}
+        // Interface Error {}
         interface Locals {
             user: User | null;
         }
         interface PageData {
             user: User | null;
         }
-        // interface PageState {}
-        // interface Platform {}
+        // Interface PageState {}
+        // Interface Platform {}
     }
 }
-
-export {};

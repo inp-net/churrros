@@ -1,21 +1,21 @@
 <script lang="ts">
     import { createInfiniteQuery } from '@tanstack/svelte-query';
-    import { bookingRepository, type Booking } from '#lib/api/index.ts';
-    import { m } from '#lib/paraglide/messages.js';
-    import InfiniteScroll from '#lib/components/InfiniteScroll.svelte';
+
+    import { type Booking, bookingRepository } from '#lib/api/index.ts';
     import CardBooking from '#lib/components/card/CardBooking.svelte';
+    import InfiniteScroll from '#lib/components/InfiniteScroll.svelte';
+    import { m } from '#lib/paraglide/messages.js';
 
     const query = createInfiniteQuery(() => ({
-        queryKey: ['bookings'],
-        queryFn: ({ pageParam }) =>
-            bookingRepository.getMyBookings({ first: 10, after: pageParam }),
-        initialPageParam: null as string | null,
-        getNextPageParam: (lastPage) =>
-            lastPage.pageInfo.hasNextPage ? lastPage.pageInfo.endCursor : null,
-        notifyOnChangeProps: 'all'
-    }));
-
-    const bookings: Booking[] = $derived(query.data?.pages.flatMap((page) => page.items) ?? []);
+            getNextPageParam: (lastPage) =>
+                lastPage.pageInfo.hasNextPage ? lastPage.pageInfo.endCursor : null,
+            initialPageParam: null as string | null,
+            notifyOnChangeProps: 'all',
+            queryFn: ({ pageParam }) =>
+                bookingRepository.getMyBookings({ after: pageParam, first: 10 }),
+            queryKey: ['bookings'],
+        })),
+        bookings: Booking[] = $derived(query.data?.pages.flatMap((page) => page.items) ?? []);
 </script>
 
 <h1>{m.bookings()}</h1>

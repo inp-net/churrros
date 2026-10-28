@@ -1,6 +1,7 @@
 <script lang="ts">
     import type { UserInfos } from '#lib/api/index.ts';
     import { formatISODateToLocale } from '#lib/utils/dates.ts';
+
     import Avatar from '../avatar/Avatar.svelte';
 
     interface Props {

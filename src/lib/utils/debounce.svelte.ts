@@ -9,14 +9,16 @@ export function debounced<T>(getValue: () => T, delay = 300) {
     let current = $state(getValue());
 
     $effect(() => {
-        const value = getValue();
-        const timeout = setTimeout(() => (current = value), delay);
-        return () => clearTimeout(timeout);
+        const value = getValue(),
+            timeout = setTimeout(() => (current = value), delay);
+        return () => {
+            clearTimeout(timeout);
+        };
     });
 
     return {
         get current() {
             return current;
-        }
+        },
     };
 }

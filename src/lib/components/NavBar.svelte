@@ -1,41 +1,42 @@
 <script lang="ts">
-    import type { User } from '#lib/api/index.ts';
-    import { Flex, Tooltip } from 'azucar-ui';
-    import { BlocksIcon, HouseIcon, SearchIcon, TicketIcon } from '@lucide/svelte';
     import { page } from '$app/state';
-    import NavBarUser from './NavBarUser.svelte';
-    import { MediaQuery } from 'svelte/reactivity';
+    import { BlocksIcon, HouseIcon, SearchIcon, TicketIcon } from '@lucide/svelte';
+    import { Flex, Tooltip } from 'azucar-ui';
     import type { Component } from 'svelte';
+    import { MediaQuery } from 'svelte/reactivity';
+
+    import type { User } from '#lib/api/index.ts';
     import { m } from '#lib/paraglide/messages.js';
+
+    import NavBarUser from './NavBarUser.svelte';
 
     const { user }: { user: User | null } = $props();
 
-    type Link = {
+    interface Link {
         href: string;
         label: string;
         component: Component<any>;
         props?: Record<string, any>;
-    };
+    }
 
     const links: Link[] = $derived([
-        { href: '/', label: m['navigation.home'](), component: HouseIcon },
-        { href: '/search', label: m['navigation.search'](), component: SearchIcon },
-        { href: '/events', label: m['navigation.events'](), component: TicketIcon },
-        { href: '/services', label: m['navigation.services'](), component: BlocksIcon },
+        { component: HouseIcon, href: '/', label: m['navigation.home']() },
+        { component: SearchIcon, href: '/search', label: m['navigation.search']() },
+        { component: TicketIcon, href: '/events', label: m['navigation.events']() },
+        { component: BlocksIcon, href: '/services', label: m['navigation.services']() },
         {
+            component: NavBarUser,
             href: '/profile',
             label: m['navigation.profile'](),
-            component: NavBarUser,
-            props: { user }
-        }
+            props: { user },
+        },
     ]);
 
     function isLinkSelected(linkHref: string, currentPath: string): boolean {
         if (linkHref === '/') {
             return currentPath === '/';
-        } else {
-            return currentPath.startsWith(linkHref);
         }
+        return currentPath.startsWith(linkHref);
     }
 
     const isBigScreen = new MediaQuery('(min-width: 768px)');

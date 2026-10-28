@@ -1,11 +1,12 @@
 <script lang="ts">
-    import { meRepository, groupRepository } from '#lib/api/index.ts';
-    import { m } from '#lib/paraglide/messages.js';
-    import { createQuery } from '@tanstack/svelte-query';
-    import EditGroupForm from '#lib/forms/group/EditGroupForm.svelte';
-    import { page } from '$app/state';
-    import type { UpdateGroupPatch } from '#lib/forms/group/group.schema.ts';
     import { goto } from '$app/navigation';
+    import { page } from '$app/state';
+    import { createQuery } from '@tanstack/svelte-query';
+
+    import { groupRepository, meRepository } from '#lib/api/index.ts';
+    import EditGroupForm from '#lib/forms/group/EditGroupForm.svelte';
+    import type { UpdateGroupPatch } from '#lib/forms/group/group.schema.ts';
+    import { m } from '#lib/paraglide/messages.js';
 
     async function updateGroup(data: UpdateGroupPatch) {
         console.log('Updating group with data:', data);
@@ -15,20 +16,18 @@
     }
 
     const query = createQuery(() => ({
-        queryKey: ['me', 'canCreateGroupsOn'],
-        queryFn: () => meRepository.getCanCreateGroupsOn()
-    }));
-
-    const queryPermissions = createQuery(() => ({
-        queryKey: ['group', page.params.id, 'permissions'],
-        queryFn: () => groupRepository.getGroupPermissions(page.params.id)
-    }));
-
-    const queryGroup = createQuery(() => ({
-        queryKey: ['group', page.params.id, 'edit-info'],
-        queryFn: () => groupRepository.getGroupEditInfo(queryPermissions.data!, page.params.id),
-        enabled: queryPermissions.isSuccess
-    }));
+            queryFn: () => meRepository.getCanCreateGroupsOn(),
+            queryKey: ['me', 'canCreateGroupsOn'],
+        })),
+        queryPermissions = createQuery(() => ({
+            queryFn: () => groupRepository.getGroupPermissions(page.params.id),
+            queryKey: ['group', page.params.id, 'permissions'],
+        })),
+        queryGroup = createQuery(() => ({
+            enabled: queryPermissions.isSuccess,
+            queryFn: () => groupRepository.getGroupEditInfo(queryPermissions.data!, page.params.id),
+            queryKey: ['group', page.params.id, 'edit-info'],
+        }));
 
     // TODO: Handle permissions (right now everybody can be here despite not having the right to create/modify any groups)
 </script>

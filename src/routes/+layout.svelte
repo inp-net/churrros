@@ -1,34 +1,35 @@
 <script lang="ts">
-    import type { Path } from '$app/types';
+    import { browser } from '$app/env';
     import { resolve } from '$app/paths';
     import { page } from '$app/state';
-    import { locales, localizeHref } from '#lib/paraglide/runtime.js';
-    import { browser } from '$app/env';
+    import type { Path } from '$app/types';
     import { QueryClient, QueryClientProvider } from '@tanstack/svelte-query';
-    import favicon from '#lib/assets/favicon.svg';
+    import { Stack } from 'azucar-ui';
+    import { Toaster } from 'svelte-sonner';
+
     import 'azucar-ui/tokens.css';
     import 'azucar-ui/base.css';
-    import { Toaster } from 'svelte-sonner';
+    import favicon from '#lib/assets/favicon.svg';
     import Header from '#lib/components/Header.svelte';
     import NavBar from '#lib/components/NavBar.svelte';
-    import { Stack } from 'azucar-ui';
+    import { locales, localizeHref } from '#lib/paraglide/runtime.js';
+
     import type { LayoutProps } from './$types';
 
     let { data, children }: LayoutProps = $props();
 
     const queryClient = new QueryClient({
-        defaultOptions: {
-            queries: {
-                // To disabled server side queries : https://tanstack.com/query/latest/docs/framework/svelte/ssr
-                enabled: browser,
-                staleTime: 15 * 60 * 1000 // 15 minutes of cache
-            }
-        }
-    });
-
-    // Because resolve function has issues when the path as more than 25 options
-    // I don't know the proper way to fix it
-    const resolvePath = resolve as (pathname: string) => string;
+            defaultOptions: {
+                queries: {
+                    // To disabled server side queries : https://tanstack.com/query/latest/docs/framework/svelte/ssr
+                    enabled: browser,
+                    staleTime: 15 * 60 * 1000, // 15 minutes of cache
+                },
+            },
+        }),
+        // Because resolve function has issues when the path as more than 25 options
+        // I don't know the proper way to fix it
+        resolvePath = resolve as (pathname: string) => string;
 </script>
 
 <svelte:head>

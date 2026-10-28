@@ -1,6 +1,7 @@
-import { readFragment, type FragmentOf } from 'gql.tada';
-import { MutationErrorsFragment } from './queries/fragments/mutationErrors';
+import { type FragmentOf, readFragment } from 'gql.tada';
+
 import { ApiValidationError } from '../errors';
+import { MutationErrorsFragment } from './queries/fragments/mutationErrors';
 
 /**
  * This function asserts the success of a mutation, it's used to handle multiple mutation responses
@@ -9,19 +10,23 @@ import { ApiValidationError } from '../errors';
  * @throws {ApiValidationError} If the mutation failed with a validation error
  */
 export function assertMutationSuccess(
-    result: FragmentOf<typeof MutationErrorsFragment> | { __typename?: string }
+    result: FragmentOf<typeof MutationErrorsFragment> | { __typename?: string },
 ) {
     const data = readFragment(
         MutationErrorsFragment,
-        result as FragmentOf<typeof MutationErrorsFragment>
+        result as FragmentOf<typeof MutationErrorsFragment>,
     );
     switch (data.__typename) {
-        case 'Error':
+        case 'Error': {
             throw new Error(data.message);
+        }
 
-        case 'ZodError':
+        case 'ZodError': {
             throw new ApiValidationError(data.fieldErrors);
-        default: // Success do nothing
+        }
+        default: {
+            // Success do nothing
             return;
+        }
     }
 }

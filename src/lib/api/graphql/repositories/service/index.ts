@@ -1,4 +1,5 @@
 import type { ServiceRepository } from '#lib/api/repositories.ts';
+
 import { request } from '../../client';
 import { mapServices } from '../../mappers/service';
 import { GetServices } from '../../queries/service';
@@ -13,5 +14,5 @@ export const serviceRepository: ServiceRepository = {
             console.error('Error fetching services:', error);
             throw error;
         }
-    }
+    },
 };

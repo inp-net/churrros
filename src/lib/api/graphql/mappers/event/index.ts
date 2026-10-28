@@ -1,13 +1,15 @@
-import type { Event, EventDetail, EventsByDay, Page, LightEvent } from '#lib/api/index.ts';
-import { readFragment, type ResultOf } from '#lib/api/graphql/graphql.ts';
-import type { BookEvent, GetEventById, GetEvents } from '#lib/api/graphql/queries/event/index.ts';
-import { PageInfoFragment } from '#lib/api/graphql/queries/fragments/pagination.ts';
 import type { $tada } from 'gql.tada';
+
+import { type ResultOf, readFragment } from '#lib/api/graphql/graphql.ts';
+import type { BookEvent, GetEventById, GetEvents } from '#lib/api/graphql/queries/event/index.ts';
+import { LightEventFragment } from '#lib/api/graphql/queries/fragments/lightEvent.ts';
+import { PageInfoFragment } from '#lib/api/graphql/queries/fragments/pagination.ts';
+import type { Event, EventDetail, EventsByDay, LightEvent, Page } from '#lib/api/index.ts';
+
 import { CardEventFragment } from '../../queries/fragments/cardEvent';
+import { MutationErrorsFragment } from '../../queries/fragments/mutationErrors';
 import { mapGroupAvatar } from '../group';
 import { mapTicket, mapTicketDetail } from '../ticket';
-import { LightEventFragment } from '#lib/api/graphql/queries/fragments/lightEvent.ts';
-import { MutationErrorsFragment } from '../../queries/fragments/mutationErrors';
 
 type EventGraphQLNode = ResultOf<typeof GetEvents>['eventsByDay'];
 
@@ -15,81 +17,81 @@ export function mapEvents(events: ResultOf<typeof GetEvents>): Page<EventsByDay>
     const pageInfo = readFragment(PageInfoFragment, events.eventsByDay.pageInfo);
     return {
         items: events.eventsByDay.edges.map((edge) => mapEventByDay(edge.node)),
-        pageInfo
+        pageInfo,
     };
 }
 
 function mapEventByDay(eventByDay: EventGraphQLNode['edges'][number]['node']): EventsByDay {
     return {
         date: eventByDay.date,
+        happening: eventByDay.happening.map((event) => mapEvent(event)),
         shotgunning: eventByDay.shotgunning.map((event) => mapEvent(event)),
-        happening: eventByDay.happening.map((event) => mapEvent(event))
     };
 }
 
-type CardEventFragmentType = {
+interface CardEventFragmentType {
     [$tada.fragmentRefs]: {
         CardEvent: 'Event';
     };
-};
+}
 
 export function mapEvent(event: CardEventFragmentType): Event {
     const data = readFragment(CardEventFragment, event);
     return {
-        id: data.localID,
-        pictureURL: data.pictureURL,
-        title: data.title,
-        descriptionPreview: data.descriptionPreview,
-        organizer: mapGroupAvatar(data.organizer),
         coOrganizers: data.coOrganizers.map((coOrganizerAvatar) =>
-            mapGroupAvatar(coOrganizerAvatar)
+            mapGroupAvatar(coOrganizerAvatar),
         ),
-        startsAt: data.startsAt,
+        descriptionPreview: data.descriptionPreview,
         endsAt: data.endsAt,
+        id: data.localID,
         location: data.location,
-        tickets: data.tickets.map((ticket) => mapTicket(ticket))
+        organizer: mapGroupAvatar(data.organizer),
+        pictureURL: data.pictureURL,
+        startsAt: data.startsAt,
+        tickets: data.tickets.map((ticket) => mapTicket(ticket)),
+        title: data.title,
     };
 }
 
 export function mapEventDetail(event: ResultOf<typeof GetEventById>['event']): EventDetail {
     return {
-        title: event.title,
-        location: event.location,
+        coOrganizers: event.coOrganizers.map((coOrganizerAvatar) =>
+            mapGroupAvatar(coOrganizerAvatar),
+        ),
         description: event.description,
         descriptionHtml: event.descriptionHtml,
-        startsAt: event.startsAt,
         endsAt: event.endsAt,
-        frequency: event.frequency,
-        recurringUntil: event.recurringUntil,
         externalTicketing: event.externalTicketing,
+        frequency: event.frequency,
+        location: event.location,
         organizer: mapGroupAvatar(event.organizer),
-        coOrganizers: event.coOrganizers.map((coOrganizerAvatar) =>
-            mapGroupAvatar(coOrganizerAvatar)
-        ),
-        tickets: event.tickets.map((ticket) => mapTicketDetail(ticket))
+        recurringUntil: event.recurringUntil,
+        startsAt: event.startsAt,
+        tickets: event.tickets.map((ticket) => mapTicketDetail(ticket)),
+        title: event.title,
     };
 }
 
-type LightEventFragmentType = {
+interface LightEventFragmentType {
     [$tada.fragmentRefs]: {
         LightEvent: 'Event';
     };
-};
+}
 
 export function mapLightEvent(event: LightEventFragmentType): LightEvent {
     const data = readFragment(LightEventFragment, event);
     return {
+        endsAt: data.endsAt,
         id: data.localID,
-        title: data.title,
+        location: data.location,
         organizer: mapGroupAvatar(data.organizer),
         startsAt: data.startsAt,
-        endsAt: data.endsAt,
-        location: data.location
+        title: data.title,
     };
 }
 
 export function mapBookingEventResult(result: ResultOf<typeof BookEvent>['bookEvent']): string {
-    if (!result) {
+    if (!result.__typename) {
         throw new Error('No booking result data found');
     }
 
@@ -101,7 +103,10 @@ export function mapBookingEventResult(result: ResultOf<typeof BookEvent>['bookEv
         case 'MutationBookEventSuccess': {
             return result.data.localID;
         }
-        default: // TODO : Handle ZodErrors I forgor
+        // TODO : Handle ZodErrors I forgor
+        case 'ZodError':
+        default: {
             throw new Error('No booking result data found');
+        }
     }
 }

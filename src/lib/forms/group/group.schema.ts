@@ -1,28 +1,29 @@
 import { type } from 'arktype';
+
 import { GroupType } from '#lib/api/types.ts';
 
 export const createGroupSchema = type({
-    studentAssociationId: type('string > 0'),
+    groupType: GroupType,
     name: type('string >= 2'),
+    studentAssociationId: type('string > 0'),
     uid: type(/^[a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*$/),
-    groupType: GroupType
 });
 
 export type CreateGroupInput = typeof createGroupSchema.infer;
 
 const updateGroupBaseSchema = type({
-    name: type('string >= 2'),
-    shortDescription: type('string'),
-    longDescription: type('string'),
-    email: type('string.email | null'),
-    room: type('string'),
     color: type('string | null'),
-    relatedGroups: type('string[]'),
-    joinPolicy: "'Open' | 'Closed'",
-    parentUid: 'string | null',
-    studentAssociationId: type('string > 0'),
+    email: type('string.email | null'),
     groupType: GroupType,
-    unlisted: 'boolean'
+    joinPolicy: "'Open' | 'Closed'",
+    longDescription: type('string'),
+    name: type('string >= 2'),
+    parentUid: 'string | null',
+    relatedGroups: type('string[]'),
+    room: type('string'),
+    shortDescription: type('string'),
+    studentAssociationId: type('string > 0'),
+    unlisted: 'boolean',
 });
 
 export const updateGroupSchema = updateGroupBaseSchema.partial();

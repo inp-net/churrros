@@ -1,20 +1,22 @@
 <script lang="ts">
+    import { untrack } from 'svelte';
+
+    import { ApiValidationError } from '#lib/api/errors.ts';
+    import {
+        type Avatar,
+        GROUP_TYPES,
+        type GroupEditInfo,
+        type GroupPermissions,
+    } from '#lib/api/types.ts';
+    import FormField from '#lib/components/forms/FormField.svelte';
+    import SelectAvatar from '#lib/components/forms/SelectAvatar.svelte';
+    import { m } from '#lib/paraglide/messages.js';
+    import { diffPatch } from '#lib/utils/diff.ts';
     // For now, we need to separate creation and edition of groups, but with the future api we will be able to merge them into a single form.
     import { createForm } from '#lib/utils/forms.svelte.ts';
-    import FormField from '#lib/components/forms/FormField.svelte';
-    import { updateGroupSchema, type UpdateGroupPatch } from './group.schema';
-    import { m } from '#lib/paraglide/messages.js';
-    import {
-        GROUP_TYPES,
-        type Avatar,
-        type GroupEditInfo,
-        type GroupPermissions
-    } from '#lib/api/types.ts';
     import { groupTypeToLocalizedString } from '#lib/utils/i18n.ts';
-    import { ApiValidationError } from '#lib/api/errors.ts';
-    import SelectAvatar from '#lib/components/forms/SelectAvatar.svelte';
-    import { untrack } from 'svelte';
-    import { diffPatch } from '#lib/utils/diff.ts';
+
+    import { type UpdateGroupPatch, updateGroupSchema } from './group.schema';
 
     interface Props {
         /**
@@ -53,14 +55,13 @@
             parentUid: group.parent?.uid ?? null,
             joinPolicy: group.selfJoinable ? 'Open' : 'Closed',
             groupType: group.type,
-            unlisted: group.unlisted
+            unlisted: group.unlisted,
             // TODO : Handle accounts because i didn't want to do it
         };
     }
 
-    const initialValues = groupEditInfoToDefaultValues(untrack(() => group)); // No need for reactivity here, we just want to pre-fill the form with the initial group data
-
-    const form = createForm(updateGroupSchema, initialValues);
+    const initialValues = groupEditInfoToDefaultValues(untrack(() => group)), // No need for reactivity here, we just want to pre-fill the form with the initial group data
+        form = createForm(updateGroupSchema, initialValues);
     let submitError = $state('');
 
     function handleSubmit(e: SubmitEvent) {
@@ -68,12 +69,14 @@
         submitError = '';
         form.submit(async (data) => {
             const patch = diffPatch(initialValues, data); // We only want to send the fields that have been changed
-            if (Object.keys(patch).length === 0) return;
+            if (Object.keys(patch).length === 0) {
+                return;
+            }
             try {
                 await onsubmit(patch);
-            } catch (err) {
-                if (err instanceof ApiValidationError) {
-                    throw err; // We need to throw those error so createForm catches them
+            } catch (error) {
+                if (error instanceof ApiValidationError) {
+                    throw error; // We need to throw those error so createForm catches them
                 }
                 submitError = m['form.group.edit.error']();
             }

@@ -1,19 +1,10 @@
-import type { ArticleRepository } from '#lib/api/repositories.ts';
-import { GetArticleById, GetArticles } from '#lib/api/graphql/queries/article/index.ts';
 import { request } from '#lib/api/graphql/client.ts';
+import { GetArticleById, GetArticles } from '#lib/api/graphql/queries/article/index.ts';
+import type { ArticleRepository } from '#lib/api/repositories.ts';
+
 import { mapArticleDetail, mapArticles } from '../../mappers/article';
 
 export const articleRepository: ArticleRepository = {
-    async getArticles(args) {
-        try {
-            const response = await request(GetArticles, args);
-            return mapArticles(response.homepage);
-        } catch (error) {
-            //TODO : Vrai gestion d'erreur
-            console.error('Error fetching articles:', error);
-            throw error;
-        }
-    },
     async getArticleById(id) {
         try {
             if (!id) {
@@ -26,5 +17,15 @@ export const articleRepository: ArticleRepository = {
             console.error('Error fetching article by id:', error);
             throw error;
         }
-    }
+    },
+    async getArticles(args) {
+        try {
+            const response = await request(GetArticles, args);
+            return mapArticles(response.homepage);
+        } catch (error) {
+            //TODO : Vrai gestion d'erreur
+            console.error('Error fetching articles:', error);
+            throw error;
+        }
+    },
 };

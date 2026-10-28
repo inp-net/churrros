@@ -1,43 +1,45 @@
-import type { BookingStatus, PaymentMethod, Booking, BookingDetail, Page } from '#lib/api/index.ts';
-import { readFragment, type ResultOf } from '#lib/api/graphql/graphql.ts';
-import {
+import type { $tada } from 'gql.tada';
+
+import { ApiValidationError } from '#lib/api/errors.ts';
+import { type ResultOf, readFragment } from '#lib/api/graphql/graphql.ts';
+import type {
     GetAppleWalletPass,
     GetBookingByCode,
     GetGoogleWalletPass,
     GetMyBookings,
-    PayBooking
+    PayBooking,
 } from '#lib/api/graphql/queries/booking/index.ts';
-import { PageInfoFragment } from '#lib/api/graphql/queries/fragments/pagination.ts';
-import type { $tada } from 'gql.tada';
 import { CardBookingFragment } from '#lib/api/graphql/queries/fragments/cardBooking.ts';
-import { mapUserAvatar } from '../user';
-import { mapLightEvent } from '../event';
+import { PageInfoFragment } from '#lib/api/graphql/queries/fragments/pagination.ts';
+import type { Booking, BookingDetail, BookingStatus, Page, PaymentMethod } from '#lib/api/index.ts';
+
 import { MutationErrorsFragment } from '../../queries/fragments/mutationErrors';
-import { ApiValidationError } from '#lib/api/errors.ts';
+import { mapLightEvent } from '../event';
+import { mapUserAvatar } from '../user';
 
 export function mapBookings(
-    bookings: NonNullable<ResultOf<typeof GetMyBookings>['me']>['bookings']
+    bookings: NonNullable<ResultOf<typeof GetMyBookings>['me']>['bookings'],
 ): Page<Booking> {
     const pageInfo = readFragment(PageInfoFragment, bookings.pageInfo);
     return {
         items: bookings.edges.map((edge) => mapBooking(edge.node)),
-        pageInfo
+        pageInfo,
     };
 }
 
-type CardBookingFragmentType = {
+interface CardBookingFragmentType {
     [$tada.fragmentRefs]: {
         CardBooking: 'Registration';
     };
-};
+}
 
 function mapBooking(booking: CardBookingFragmentType): Booking {
     const data = readFragment(CardBookingFragment, booking);
     return {
-        id: data.localID,
         code: data.code,
+        id: data.localID,
         status: mapBookingStatus(data.opposed, data.verified, data.cancelled, data.paid),
-        ticket: data.ticket
+        ticket: data.ticket,
     };
 }
 
@@ -45,7 +47,7 @@ function mapBookingStatus(
     opposed: boolean,
     verified: boolean,
     cancelled: boolean,
-    paid: boolean
+    paid: boolean,
 ): BookingStatus {
     // In the API we have multiple booleans for the status, but in the front we only display the last state
     if (opposed) {
@@ -65,39 +67,39 @@ function mapBookingStatus(
 }
 
 export function mapBookingDetail(
-    booking: ResultOf<typeof GetBookingByCode>['booking']
+    booking: ResultOf<typeof GetBookingByCode>['booking'],
 ): BookingDetail {
     return {
-        code: booking.code,
         author: booking.author ? mapUserAvatar(booking.author) : null,
-        beneficiaryUser: booking.beneficiaryUser ? mapUserAvatar(booking.beneficiaryUser) : null,
-        externalBeneficiary: booking.externalBeneficiary,
-        paymentMethod: booking.paymentMethod as PaymentMethod | null,
-        canManage: booking.canManage,
-        paid: booking.paid,
-        cancelled: booking.cancelled,
-        opposed: booking.opposed,
-        verified: booking.verified,
         awaitingPayment: booking.awaitingPayment,
-        pendingPayment: booking.pendingPayment,
+        beneficiaryUser: booking.beneficiaryUser ? mapUserAvatar(booking.beneficiaryUser) : null,
+        canManage: booking.canManage,
+        cancelled: booking.cancelled,
+        code: booking.code,
         createdAt: booking.createdAt,
-        wantsToPay: booking.wantsToPay,
-        linkURLs: booking.linkURLs,
+        externalBeneficiary: booking.externalBeneficiary,
         linkNames: booking.linkNames,
+        linkURLs: booking.linkURLs,
+        opposed: booking.opposed,
+        paid: booking.paid,
+        paymentMethod: booking.paymentMethod,
+        pendingPayment: booking.pendingPayment,
         ticket: {
-            name: booking.ticket.name,
             actualMinimumPrice: booking.ticket.actualMinimumPrice,
-            minimumPrice: booking.ticket.minimumPrice,
-            maximumPrice: booking.ticket.maximumPrice,
-            priceIsVariable: booking.ticket.priceIsVariable,
             allowedPaymentMethods: booking.ticket.allowedPaymentMethods,
-            event: mapLightEvent(booking.ticket.event)
-        }
+            event: mapLightEvent(booking.ticket.event),
+            maximumPrice: booking.ticket.maximumPrice,
+            minimumPrice: booking.ticket.minimumPrice,
+            name: booking.ticket.name,
+            priceIsVariable: booking.ticket.priceIsVariable,
+        },
+        verified: booking.verified,
+        wantsToPay: booking.wantsToPay,
     };
 }
 
 export function mapGoogleWalletPass(
-    result: ResultOf<typeof GetGoogleWalletPass>['createGoogleWalletPass']
+    result: ResultOf<typeof GetGoogleWalletPass>['createGoogleWalletPass'],
 ): string {
     if (!result) {
         throw new Error('No google wallet pass data found');
@@ -110,15 +112,17 @@ export function mapGoogleWalletPass(
         case 'MutationCreateGoogleWalletPassSuccess': {
             return result.data;
         }
-        default: // ZodErrors are ignored as the user doesn't interact with the parameters
+        default: {
+            // ZodErrors are ignored as the user doesn't interact with the parameters
             throw new Error('Unhandled google wallet pass data found');
+        }
     }
 }
 
-export function mapAppleWalletPass(
-    result: ResultOf<typeof GetAppleWalletPass>['createAppleWalletPass']
-): string {
-    if (!result) {
+export const mapAppleWalletPass = (
+    result: ResultOf<typeof GetAppleWalletPass>['createAppleWalletPass'],
+): string => {
+    if (!result.__typename) {
         throw new Error('No apple wallet pass data found');
     }
 
@@ -130,22 +134,29 @@ export function mapAppleWalletPass(
         case 'MutationCreateAppleWalletPassSuccess': {
             return result.data;
         }
-        default: // ZodErrors are ignored as the user doesn't interact with the parameters
+        default: {
+            // ZodErrors are ignored as the user doesn't interact with the parameters
             throw new Error('Unhandled apple wallet pass data found');
+        }
     }
-}
+};
 
 export function mapPayBooking(result: ResultOf<typeof PayBooking>['payBooking']): void {
     switch (result.__typename) {
-        case 'MutationPayBookingSuccess':
+        case 'MutationPayBookingSuccess': {
             return;
-        case 'Error':
+        }
+        case 'Error': {
             const errorsFragment = readFragment(MutationErrorsFragment, result);
             throw new Error(errorsFragment.message);
-        case 'ZodError':
+        }
+        case 'ZodError': {
             const zodErrorsFragment = readFragment(MutationErrorsFragment, result);
             throw new ApiValidationError(zodErrorsFragment.fieldErrors);
-        default:
+        }
+        case undefined:
+        default: {
             throw new Error('Unhandled pay booking result');
+        }
     }
 }

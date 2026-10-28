@@ -1,6 +1,7 @@
 <script lang="ts">
-    import { getLocale } from '#lib/paraglide/runtime.js';
     import { Flex, Frame } from 'azucar-ui';
+
+    import { getLocale } from '#lib/paraglide/runtime.js';
 
     interface Props {
         selected: boolean;
@@ -12,18 +13,17 @@
     }
 
     const {
-        selected,
-        today,
-        disabled,
-        date,
-        eventCount: numberOfEvents,
-        onclick
-    }: Props = $props();
-
-    const maxNumberOfDots = 3;
-    const dayOfWeekPrefix = $derived(
-        new Intl.DateTimeFormat(getLocale(), { weekday: 'short' }).format(date)
-    );
+            selected,
+            today,
+            disabled,
+            date,
+            eventCount: numberOfEvents,
+            onclick,
+        }: Props = $props(),
+        maxNumberOfDots = 3,
+        dayOfWeekPrefix = $derived(
+            new Intl.DateTimeFormat(getLocale(), { weekday: 'short' }).format(date),
+        );
 </script>
 
 <Frame
@@ -32,7 +32,7 @@
         'card-event-day-container',
         selected ? 'selected' : '',
         today ? 'today' : '',
-        disabled ? 'neutral' : ''
+        disabled ? 'neutral' : '',
     ]}
     {onclick}
 >

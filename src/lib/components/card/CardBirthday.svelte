@@ -1,16 +1,16 @@
 <script lang="ts">
-    import { Details, Flex, AvatarGroup, Avatar as AvatarUI } from 'azucar-ui';
     import { CakeIcon } from '@lucide/svelte';
-    import { m } from '#lib/paraglide/messages.js';
+    import { AvatarGroup, Avatar as AvatarUI, Details, Flex } from 'azucar-ui';
+
     import type { Avatar } from '#lib/api/index.ts';
+    import { m } from '#lib/paraglide/messages.js';
 
-    type Props = {
+    interface Props {
         avatars: Avatar[] | undefined;
-    };
+    }
 
-    let { avatars }: Props = $props();
-
-    let open = $state(false);
+    let { avatars }: Props = $props(),
+        open = $state(false);
 </script>
 
 <Details shadow border bind:open>

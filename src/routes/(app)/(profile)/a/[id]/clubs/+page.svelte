@@ -1,26 +1,26 @@
 <script lang="ts">
     import { page } from '$app/state';
-    import { studentAssociationRepository, type GroupAvatar } from '#lib/api/index.ts';
+    import { createInfiniteQuery } from '@tanstack/svelte-query';
+
+    import { type GroupAvatar, studentAssociationRepository } from '#lib/api/index.ts';
     import Avatar from '#lib/components/avatar/Avatar.svelte';
     import InfiniteScroll from '#lib/components/InfiniteScroll.svelte';
     import { m } from '#lib/paraglide/messages.js';
-    import { createInfiniteQuery } from '@tanstack/svelte-query';
 
     const query = createInfiniteQuery(() => ({
-        queryKey: ['studentAssociation', page.params.id, 'clubs', 'all'],
-        queryFn: ({ pageParam }) =>
-            studentAssociationRepository.getStudentAssociationGroups(
-                ['Club', 'Association'],
-                { first: 10, after: pageParam },
-                page.params.id
-            ),
-        initialPageParam: null as string | null,
-        getNextPageParam: (lastPage) =>
-            lastPage.pageInfo.hasNextPage ? lastPage.pageInfo.endCursor : null,
-        notifyOnChangeProps: 'all'
-    }));
-
-    const clubs: GroupAvatar[] = $derived(query.data?.pages.flatMap((page) => page.items) ?? []);
+            getNextPageParam: (lastPage) =>
+                lastPage.pageInfo.hasNextPage ? lastPage.pageInfo.endCursor : null,
+            initialPageParam: null as string | null,
+            notifyOnChangeProps: 'all',
+            queryFn: ({ pageParam }) =>
+                studentAssociationRepository.getStudentAssociationGroups(
+                    ['Club', 'Association'],
+                    { after: pageParam, first: 10 },
+                    page.params.id,
+                ),
+            queryKey: ['studentAssociation', page.params.id, 'clubs', 'all'],
+        })),
+        clubs: GroupAvatar[] = $derived(query.data?.pages.flatMap((page) => page.items) ?? []);
 </script>
 
 <InfiniteScroll

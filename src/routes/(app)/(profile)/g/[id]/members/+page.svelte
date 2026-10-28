@@ -1,24 +1,24 @@
 <script lang="ts">
     import { page } from '$app/state';
-    import { groupRepository, type GroupMemberByDate } from '#lib/api/index.ts';
+    import { createInfiniteQuery } from '@tanstack/svelte-query';
+
+    import { type GroupMemberByDate, groupRepository } from '#lib/api/index.ts';
     import GroupMemberAvatar from '#lib/components/avatar/GroupMemberAvatar.svelte';
     import InfiniteScroll from '#lib/components/InfiniteScroll.svelte';
     import { m } from '#lib/paraglide/messages.js';
-    import { createInfiniteQuery } from '@tanstack/svelte-query';
 
     const query = createInfiniteQuery(() => ({
-        queryKey: ['group', page.params.id, 'members'],
-        queryFn: ({ pageParam }) =>
-            groupRepository.getGroupMembers({ first: 20, after: pageParam }, page.params.id),
-        initialPageParam: null as string | null,
-        getNextPageParam: (lastPage) =>
-            lastPage?.pageInfo.hasNextPage ? lastPage.pageInfo.endCursor : null,
-        notifyOnChangeProps: 'all'
-    }));
-
-    const groupMembers: GroupMemberByDate[] = $derived(
-        query.data?.pages.flatMap((page) => page!.items) ?? []
-    );
+            getNextPageParam: (lastPage) =>
+                lastPage?.pageInfo.hasNextPage ? lastPage.pageInfo.endCursor : null,
+            initialPageParam: null as string | null,
+            notifyOnChangeProps: 'all',
+            queryFn: ({ pageParam }) =>
+                groupRepository.getGroupMembers({ after: pageParam, first: 20 }, page.params.id),
+            queryKey: ['group', page.params.id, 'members'],
+        })),
+        groupMembers: GroupMemberByDate[] = $derived(
+            query.data?.pages.flatMap((page) => page!.items) ?? [],
+        );
 </script>
 
 <InfiniteScroll

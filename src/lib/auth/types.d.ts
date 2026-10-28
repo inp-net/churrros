@@ -2,13 +2,13 @@ import type { SessionToken } from '#lib/api/index.ts';
 
 export type AuthProvider = CredentialsProvider | OAuthProvider;
 
-export type CredentialsProvider = {
+export interface CredentialsProvider {
     login: (emailOrUid: string, password: string) => Promise<SessionToken>;
-};
+}
 
-export type OAuthProvider = {
+export interface OAuthProvider {
     name: string;
     iconUrl: string;
     loginUrl: (url: URL) => URL;
     logoutUrl: () => URL;
-};
+}

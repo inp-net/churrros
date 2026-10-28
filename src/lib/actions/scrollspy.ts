@@ -2,7 +2,7 @@ import type { Action } from 'svelte/action';
 
 export const scrollspy: Action<HTMLElement, () => void> = (
     node: HTMLElement,
-    onActive: () => void
+    onActive: () => void,
 ) => {
     const observer = new IntersectionObserver(
         (entries) => {
@@ -16,8 +16,8 @@ export const scrollspy: Action<HTMLElement, () => void> = (
         },
         {
             rootMargin: '-100px 0px -70% 0px',
-            threshold: 0
-        }
+            threshold: 0,
+        },
     );
 
     observer.observe(node);
@@ -25,6 +25,6 @@ export const scrollspy: Action<HTMLElement, () => void> = (
     return {
         destroy() {
             observer.disconnect();
-        }
+        },
     };
 };

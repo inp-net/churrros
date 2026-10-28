@@ -1,4 +1,5 @@
 import { graphql } from '#lib/api/graphql/graphql.ts';
+
 import { CardServiceFragment } from '../fragments/cardService';
 import { GroupAvatarFragment } from '../fragments/groupAvatar';
 import { LinkFragment } from '../fragments/link';
@@ -24,7 +25,7 @@ export const GetStudentAssociationProfile = graphql(
             }
         }
     `,
-    [StudentAssociationAvatar, LinkFragment, SchoolAvatarFragment]
+    [StudentAssociationAvatar, LinkFragment, SchoolAvatarFragment],
 );
 
 export const GetStudentAssociationGroups = graphql(
@@ -50,7 +51,7 @@ export const GetStudentAssociationGroups = graphql(
             }
         }
     `,
-    [GroupAvatarFragment, PageInfoFragment]
+    [GroupAvatarFragment, PageInfoFragment],
 );
 
 export const GetStudentAssociationServices = graphql(
@@ -70,5 +71,5 @@ export const GetStudentAssociationServices = graphql(
             }
         }
     `,
-    [CardServiceFragment, PageInfoFragment]
+    [CardServiceFragment, PageInfoFragment],
 );

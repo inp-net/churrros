@@ -1,4 +1,5 @@
 import { graphql } from '#lib/api/graphql/graphql.ts';
+
 import { GroupAvatarFragment } from './groupAvatar';
 
 export const GroupMemberWithGroupFragment = graphql(
@@ -14,5 +15,5 @@ export const GroupMemberWithGroupFragment = graphql(
             }
         }
     `,
-    [GroupAvatarFragment]
+    [GroupAvatarFragment],
 );

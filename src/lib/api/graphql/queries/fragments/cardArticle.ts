@@ -1,4 +1,5 @@
 import { graphql } from '#lib/api/graphql/graphql.ts';
+
 import { GroupAvatarFragment } from './groupAvatar';
 import { LinkFragment } from './link';
 
@@ -18,5 +19,5 @@ export const CardArticleFragment = graphql(
             }
         }
     `,
-    [LinkFragment, GroupAvatarFragment]
+    [LinkFragment, GroupAvatarFragment],
 );

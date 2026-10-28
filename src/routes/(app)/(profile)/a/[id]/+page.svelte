@@ -1,57 +1,54 @@
 <script lang="ts">
     import { page } from '$app/state';
+    import { createQuery } from '@tanstack/svelte-query';
+    import { Stack } from 'azucar-ui';
+
     import { studentAssociationRepository } from '#lib/api/index.ts';
     import StudentAssociationGroups from '#lib/components/tabs/StudentAssociationGroups.svelte';
     import StudentAssociationProfile from '#lib/components/tabs/StudentAssociationProfile.svelte';
     import StudentAssociationServices from '#lib/components/tabs/StudentAssociationServices.svelte';
-
     import { m } from '#lib/paraglide/messages.js';
-    import { createQuery } from '@tanstack/svelte-query';
-    import { Stack } from 'azucar-ui';
 
     type Tab = 'boards' | 'clubs' | 'services';
 
-    const tab = $derived<Tab>((page.url.searchParams.get('tab') as Tab) || 'boards');
-
-    const queryProfile = createQuery(() => ({
-        queryKey: ['studentAssociation', page.params.id],
-        queryFn: () => studentAssociationRepository.getStudentAssociationProfile(page.params.id)
-    }));
-
-    const queryBoards = createQuery(() => ({
-        queryKey: ['studentAssociation', page.params.id, 'boards'],
-        queryFn: () =>
-            studentAssociationRepository.getStudentAssociationGroups(
-                ['StudentAssociationSection'],
-                { first: 10, after: null },
-                page.params.id
-            ),
-        enabled: tab === 'boards'
-    }));
-
-    const queryClubs = createQuery(() => ({
-        queryKey: ['studentAssociation', page.params.id, 'clubs'],
-        queryFn: () =>
-            studentAssociationRepository.getStudentAssociationGroups(
-                ['Association', 'Club'],
-                {
+    const tab = $derived<Tab>((page.url.searchParams.get('tab') as Tab) || 'boards'),
+        queryProfile = createQuery(() => ({
+            queryFn: () =>
+                studentAssociationRepository.getStudentAssociationProfile(page.params.id),
+            queryKey: ['studentAssociation', page.params.id],
+        })),
+        queryBoards = createQuery(() => ({
+            enabled: tab === 'boards',
+            queryFn: () =>
+                studentAssociationRepository.getStudentAssociationGroups(
+                    ['StudentAssociationSection'],
+                    { after: null, first: 10 },
+                    page.params.id,
+                ),
+            queryKey: ['studentAssociation', page.params.id, 'boards'],
+        })),
+        queryClubs = createQuery(() => ({
+            enabled: tab === 'clubs',
+            queryFn: () =>
+                studentAssociationRepository.getStudentAssociationGroups(
+                    ['Association', 'Club'],
+                    {
+                        after: null,
+                        first: 10,
+                    },
+                    page.params.id,
+                ),
+            queryKey: ['studentAssociation', page.params.id, 'clubs'],
+        })),
+        queryServices = createQuery(() => ({
+            enabled: tab === 'services',
+            queryFn: () =>
+                studentAssociationRepository.getStudentAssociationServices(page.params.id, {
+                    after: null,
                     first: 10,
-                    after: null
-                },
-                page.params.id
-            ),
-        enabled: tab === 'clubs'
-    }));
-
-    const queryServices = createQuery(() => ({
-        queryKey: ['studentAssociation', page.params.id, 'services'],
-        queryFn: () =>
-            studentAssociationRepository.getStudentAssociationServices(page.params.id, {
-                first: 10,
-                after: null
-            }),
-        enabled: tab === 'services'
-    }));
+                }),
+            queryKey: ['studentAssociation', page.params.id, 'services'],
+        }));
 </script>
 
 <Stack>

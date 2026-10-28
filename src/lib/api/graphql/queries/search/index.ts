@@ -1,4 +1,5 @@
 import { graphql } from '#lib/api/graphql/graphql.ts';
+
 import { CardEventFragment } from '../fragments/cardEvent';
 import { GroupAvatarFragment } from '../fragments/groupAvatar';
 import { UserAvatarFragment } from '../fragments/userAvatar';
@@ -35,5 +36,5 @@ export const SearchQuery = graphql(
             }
         }
     `,
-    [UserAvatarFragment, GroupAvatarFragment, CardEventFragment]
+    [UserAvatarFragment, GroupAvatarFragment, CardEventFragment],
 );

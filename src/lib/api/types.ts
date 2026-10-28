@@ -1,14 +1,14 @@
 import { type } from 'arktype';
 
 //#region Auth
-export type SessionToken = {
+export interface SessionToken {
     token: string;
     expiresAt: Date;
-};
+}
 //#endregion
 
 //#region Events
-export type Event = {
+export interface Event {
     id: string;
     pictureURL: string;
     title: string;
@@ -19,20 +19,20 @@ export type Event = {
     endsAt: string | null;
     location: string;
     tickets: Ticket[];
-};
+}
 
 export type LightEvent = Pick<
     Event,
     'id' | 'organizer' | 'title' | 'startsAt' | 'endsAt' | 'location'
 >;
 
-export type EventsByDay = {
+export interface EventsByDay {
     date: string;
     shotgunning: Event[];
     happening: Event[];
-};
+}
 
-export type EventDetail = {
+export interface EventDetail {
     title: string;
     location: string;
     description: string;
@@ -45,16 +45,16 @@ export type EventDetail = {
     tickets: TicketDetail[];
     organizer: Avatar;
     coOrganizers: Avatar[];
-};
+}
 
-export type Ticket = {
+export interface Ticket {
     id: string;
     opensAt: string | null;
     closesAt: string | null;
     name: string;
     price: number;
     priceIsVariable: boolean;
-};
+}
 
 export type TicketDetail = Ticket & {
     placesLeft: number | 'Unlimited' | null;
@@ -69,7 +69,7 @@ export type TicketDetail = Ticket & {
 //#endregion
 
 //#region Users
-export type User = {
+export interface User {
     uid: string;
     email: string;
     firstName: string;
@@ -79,9 +79,9 @@ export type User = {
     paymentPhone: string | null;
     pictureURL: string;
     admin: boolean;
-};
+}
 
-export type UserInfos = {
+export interface UserInfos {
     address: string | null;
     nickname: string;
     birthday: string | null;
@@ -89,19 +89,19 @@ export type UserInfos = {
     email: string;
     otherEmails: string[];
     contributesTo: Avatar[] | null;
-};
+}
 
-export type UserGroups = {
+export interface UserGroups {
     groups: GroupMember[];
-};
+}
 
-export type UserFamily = {
+export interface UserFamily {
     uid: string;
     nesting: string;
     users: Avatar[];
-};
+}
 
-export type UserProfile = {
+export interface UserProfile {
     uid: string;
     fullName: string;
     name: string;
@@ -115,18 +115,18 @@ export type UserProfile = {
     links: Link[];
     bot: boolean;
     admin: boolean;
-};
+}
 //#endregion
 
 //#region Groups
-export type GroupMember = {
+export interface GroupMember {
     avatar: Avatar; // Either the avatar of the user or the avatar of the group
     title: string;
     treasurer: boolean;
     secretary: boolean;
     vicePresident: boolean;
     president: boolean;
-};
+}
 
 export type GroupMemberByDate = GroupMember & {
     createdAt: string;
@@ -139,13 +139,13 @@ export const GROUP_TYPES = [
     'Group',
     'Integration',
     'List',
-    'StudentAssociationSection'
+    'StudentAssociationSection',
 ] as const;
 
 export const GroupType = type.enumerated(...GROUP_TYPES);
 export type GroupType = typeof GroupType.infer;
 
-export type GroupProfile = {
+export interface GroupProfile {
     group: Avatar;
     email: string | null;
     type: GroupType;
@@ -155,30 +155,30 @@ export type GroupProfile = {
     activeMembersCount: number;
     studentAssociation: Avatar;
     selfJoinable: boolean;
-};
+}
 
-export type GroupInfos = {
+export interface GroupInfos {
     roomIsOpen: boolean;
     address: string;
     color: string | null;
     email: string | null;
-};
+}
 
-export type GroupBoardMembers = {
+export interface GroupBoardMembers {
     membersCount: number;
     boardMembers: GroupMember[];
-};
+}
 
 export type GroupAvatar = Avatar & {
     description: string;
 };
 
-export type GroupSeeAlso = {
+export interface GroupSeeAlso {
     familyChildren: GroupAvatar[];
     related: GroupAvatar[];
-};
+}
 
-export type GroupPermissions = {
+export interface GroupPermissions {
     canEditDetails: boolean;
     canEditJoinPolicy: boolean;
     canEditParent: boolean;
@@ -186,7 +186,7 @@ export type GroupPermissions = {
     canEditType: boolean;
     canEditUnlisted: boolean;
     canEditLydiaAccounts: boolean;
-};
+}
 
 // We use partial here because you only get the parts you are allowed to see
 export type GroupEditInfo = Partial<{
@@ -220,56 +220,63 @@ export type GroupEditInfo = Partial<{
  * First is the number of items to retrieve.
  * After is the cursor from which to retrieve the items. (If null, we retrieve the items from the beginning)
  */
-export type PageRequest = {
+export interface PageRequest {
     first: number;
     after: string | null;
-};
+}
 
 /**
  * Result of a paginated request.
  * Items are the requested items.
  * pageInfo contains the pagination information.
  */
-export type Page<T> = {
+export interface Page<T> {
     items: T[];
     pageInfo: PageInfo;
-};
+}
 
 /**
  * Pagination information for a paginated request.
  * hasNextPage is a boolean indicating whether there are more items to retrieve.
  * endCursor is the cursor of the last item retrieved, or null if there are no more items to retrieve.
  */
-export type PageInfo = {
+export interface PageInfo {
     hasNextPage: boolean;
     endCursor: string | null;
-};
+}
 //#endregion
 
 //#region Utils
-export type Avatar = {
+export interface Avatar {
     name: string;
     uid: string;
     pictureURL: string;
-};
+}
 
-export type Link = {
+export interface Link {
     url: string | null;
     text: string;
-};
+}
 
 export type Searchable = 'Events' | 'Groups' | 'Users';
 
-export type SearchResult = {
+export interface SearchResult {
     id: string;
     type: Searchable;
     rank: number | null;
     similarity: number;
     content: Event | Avatar;
-};
+}
 
 export type PaymentMethod =
-    'Card' | 'Cash' | 'Check' | 'External' | 'Lydia' | 'Other' | 'PayPal' | 'Transfer';
+    | 'Card'
+    | 'Cash'
+    | 'Check'
+    | 'External'
+    | 'Lydia'
+    | 'Other'
+    | 'PayPal'
+    | 'Transfer';
 
 export type WalletTarget = 'Apple' | 'Google';
 
@@ -278,16 +285,16 @@ export type WalletTarget = 'Apple' | 'Google';
 //#region Bookings
 export type BookingStatus = 'Opposed' | 'Verified' | 'Cancelled' | 'Paid' | 'Waiting';
 
-export type Booking = {
+export interface Booking {
     id: string;
     code: string;
     status: BookingStatus;
     ticket: Pick<Ticket, 'name'> & {
         event: Pick<Event, 'pictureURL' | 'title'>;
     };
-};
+}
 
-export type BookingDetail = {
+export interface BookingDetail {
     code: string;
     beneficiaryUser: Avatar | null;
     author: Avatar | null;
@@ -313,12 +320,12 @@ export type BookingDetail = {
         allowedPaymentMethods: PaymentMethod[];
         event: LightEvent;
     };
-};
+}
 //#endregion
 
 //#region Articles
 
-export type Article = {
+export interface Article {
     id: string;
     title: string;
     content: string;
@@ -326,7 +333,7 @@ export type Article = {
     pictureURL: string;
     links: Link[];
     group: Avatar;
-};
+}
 
 export type ArticleDetail = Article & {
     event: Event | null;
@@ -335,19 +342,19 @@ export type ArticleDetail = Article & {
 //#endregion
 
 //#region Services
-export type CardService = {
+export interface CardService {
     id: string;
     name: string;
     url: string;
     description: string;
     logo: string;
     pinned: boolean;
-};
+}
 
 //#endregion
 
 //#region Student Association
-export type StudentAssociationProfile = {
+export interface StudentAssociationProfile {
     studentAssociation: Avatar;
     email: string | null;
     description: string;
@@ -355,28 +362,28 @@ export type StudentAssociationProfile = {
     membersCount: number;
     links: Link[];
     school: Avatar;
-};
+}
 
 //#endregion
 
 //#region School
 
-export type SchoolProfile = {
+export interface SchoolProfile {
     school: Avatar;
     activeStudentsCount: number;
     studentsCount: number;
     description: string;
-};
+}
 
-export type SchoolInfos = {
+export interface SchoolInfos {
     address: string;
     studentAssociations: Avatar[];
-};
+}
 
-export type MajorInfos = {
+export interface MajorInfos {
     avatar: Avatar;
     discontinued: boolean;
     fullName: string;
-};
+}
 
 //#endregion

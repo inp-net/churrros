@@ -1,7 +1,8 @@
 <script lang="ts">
     import { goto } from '$app/navigation';
-    import { clearToken } from '#lib/auth/session.ts';
     import { onMount } from 'svelte';
+
+    import { clearToken } from '#lib/auth/session.ts';
     import { m } from '#lib/paraglide/messages.js';
     // TODO : Delete the authed via token
     onMount(async () => {

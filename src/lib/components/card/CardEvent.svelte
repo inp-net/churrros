@@ -1,8 +1,9 @@
 <script lang="ts">
+    import { ArrowRightIcon, CalendarIcon, MapPinIcon } from '@lucide/svelte';
+    import { Avatar, Button, Flex, Frame, Stack } from 'azucar-ui';
+
     import type { Event } from '#lib/api/index.ts';
     import { formatISODateToLocale } from '#lib/utils/dates.ts';
-    import { Avatar, Button, Flex, Frame, Stack } from 'azucar-ui';
-    import { ArrowRightIcon, CalendarIcon, MapPinIcon } from '@lucide/svelte';
 
     interface Props {
         /**
