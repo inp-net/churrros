@@ -9,13 +9,14 @@
     import { m } from '#lib/paraglide/messages.js';
 
     const query = createInfiniteQuery(() => ({
+            queryKey: ['articles'],
+
+            queryFn: ({ pageParam }) =>
+                articleRepository.getArticles({ after: pageParam, first: 10 }),
             getNextPageParam: (lastPage) =>
                 lastPage.pageInfo.hasNextPage ? lastPage.pageInfo.endCursor : null,
             initialPageParam: null as string | null,
             notifyOnChangeProps: 'all',
-            queryFn: ({ pageParam }) =>
-                articleRepository.getArticles({ after: pageParam, first: 10 }),
-            queryKey: ['articles'],
         })),
         birthdayQuery = createQuery(() => ({
             notifyOnChangeProps: 'all',

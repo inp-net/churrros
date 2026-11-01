@@ -7,13 +7,16 @@
     import { m } from '#lib/paraglide/messages.js';
 
     const query = createInfiniteQuery(() => ({
+            queryFn: ({ pageParam }) =>
+                bookingRepository.getMyBookings({
+                    after: pageParam,
+                    first: 10,
+                }),
+            queryKey: ['bookings'],
             getNextPageParam: (lastPage) =>
                 lastPage.pageInfo.hasNextPage ? lastPage.pageInfo.endCursor : null,
             initialPageParam: null as string | null,
             notifyOnChangeProps: 'all',
-            queryFn: ({ pageParam }) =>
-                bookingRepository.getMyBookings({ after: pageParam, first: 10 }),
-            queryKey: ['bookings'],
         })),
         bookings: Booking[] = $derived(query.data?.pages.flatMap((page) => page.items) ?? []);
 </script>

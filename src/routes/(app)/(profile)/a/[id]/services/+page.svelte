@@ -11,16 +11,16 @@
     import { m } from '#lib/paraglide/messages.js';
 
     const query = createInfiniteQuery(() => ({
-            getNextPageParam: (lastPage) =>
-                lastPage.pageInfo.hasNextPage ? lastPage.pageInfo.endCursor : null,
-            initialPageParam: null as string | null,
-            notifyOnChangeProps: 'all',
+            queryKey: ['studentAssociation', page.params.id, 'services', 'all'],
             queryFn: ({ pageParam }) =>
                 studentAssociationRepository.getStudentAssociationServices(page.params.id, {
                     after: pageParam,
                     first: 10,
                 }),
-            queryKey: ['studentAssociation', page.params.id, 'services', 'all'],
+            getNextPageParam: (lastPage) =>
+                lastPage.pageInfo.hasNextPage ? lastPage.pageInfo.endCursor : null,
+            initialPageParam: null as string | null,
+            notifyOnChangeProps: 'all',
         })),
         services: CardServiceType[] = $derived(
             query.data?.pages.flatMap((page) => page.items) ?? [],

@@ -54,16 +54,17 @@
     }
 
     let {
-            code,
-            isOpen = $bindable(false),
-            minimumPrice,
-            maximumPrice,
-            wantsToPay,
-            allowedPaymentMethods,
-            selectedPaymentMethod,
-            links,
-        }: Props = $props(),
-        dialog: HTMLDialogElement | undefined,
+        code,
+        isOpen = $bindable(false),
+        minimumPrice,
+        maximumPrice,
+        wantsToPay,
+        allowedPaymentMethods,
+        selectedPaymentMethod,
+        links,
+    }: Props = $props();
+
+    let dialog: HTMLDialogElement | undefined,
         historyStack = $state<Step[]>(loadStoredSteps()),
         step = $derived(historyStack.at(-1)!);
 

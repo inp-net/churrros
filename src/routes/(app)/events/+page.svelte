@@ -16,11 +16,11 @@
 
     // Create an infinite query to fetch events, starting from today
     const query = createInfiniteQuery(() => ({
+        queryKey: ['events'],
+        queryFn: ({ pageParam }) => eventRepository.getEvents({ after: pageParam, first: 10 }),
         getNextPageParam: (lastPage) =>
             lastPage.pageInfo.hasNextPage ? lastPage.pageInfo.endCursor : undefined,
         initialPageParam: todayDate.toISOString(),
-        queryFn: ({ pageParam }) => eventRepository.getEvents({ after: pageParam, first: 10 }),
-        queryKey: ['events'],
     }));
 
     let selectedDate = $state(todayDate);

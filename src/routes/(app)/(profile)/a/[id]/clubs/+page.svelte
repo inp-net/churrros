@@ -8,17 +8,17 @@
     import { m } from '#lib/paraglide/messages.js';
 
     const query = createInfiniteQuery(() => ({
-            getNextPageParam: (lastPage) =>
-                lastPage.pageInfo.hasNextPage ? lastPage.pageInfo.endCursor : null,
-            initialPageParam: null as string | null,
-            notifyOnChangeProps: 'all',
+            queryKey: ['studentAssociation', page.params.id, 'clubs', 'all'],
             queryFn: ({ pageParam }) =>
                 studentAssociationRepository.getStudentAssociationGroups(
                     ['Club', 'Association'],
                     { after: pageParam, first: 10 },
                     page.params.id,
                 ),
-            queryKey: ['studentAssociation', page.params.id, 'clubs', 'all'],
+            getNextPageParam: (lastPage) =>
+                lastPage.pageInfo.hasNextPage ? lastPage.pageInfo.endCursor : null,
+            initialPageParam: null as string | null,
+            notifyOnChangeProps: 'all',
         })),
         clubs: GroupAvatar[] = $derived(query.data?.pages.flatMap((page) => page.items) ?? []);
 </script>

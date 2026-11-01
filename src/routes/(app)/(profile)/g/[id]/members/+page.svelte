@@ -8,13 +8,13 @@
     import { m } from '#lib/paraglide/messages.js';
 
     const query = createInfiniteQuery(() => ({
+            queryKey: ['group', page.params.id, 'members'],
+            queryFn: ({ pageParam }) =>
+                groupRepository.getGroupMembers({ after: pageParam, first: 20 }, page.params.id),
             getNextPageParam: (lastPage) =>
                 lastPage?.pageInfo.hasNextPage ? lastPage.pageInfo.endCursor : null,
             initialPageParam: null as string | null,
             notifyOnChangeProps: 'all',
-            queryFn: ({ pageParam }) =>
-                groupRepository.getGroupMembers({ after: pageParam, first: 20 }, page.params.id),
-            queryKey: ['group', page.params.id, 'members'],
         })),
         groupMembers: GroupMemberByDate[] = $derived(
             query.data?.pages.flatMap((page) => page!.items) ?? [],
