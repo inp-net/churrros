@@ -1,41 +1,38 @@
 <script lang="ts">
-    import { createInfiniteQuery, createQuery } from "@tanstack/svelte-query";
+    import { createInfiniteQuery, createQuery } from '@tanstack/svelte-query';
+    import { Button, Skeleton, Stack } from 'azucar-ui';
 
-    import { articleRepository, userRepository } from "#lib/api/index.ts";
-    import CardArticle from "#lib/components/card/CardArticle.svelte";
-    import CardBirthday from "#lib/components/card/CardBirthday.svelte";
-    import InfiniteScroll from "#lib/components/InfiniteScroll.svelte";
-    import { Button, Skeleton, Stack } from "azucar-ui";
-    import { m } from "#lib/paraglide/messages.js";
-    import type { PageProps } from "./$types";
+    import { articleRepository, userRepository } from '#lib/api/index.ts';
+    import CardArticle from '#lib/components/card/CardArticle.svelte';
+    import CardBirthday from '#lib/components/card/CardBirthday.svelte';
+    import InfiniteScroll from '#lib/components/InfiniteScroll.svelte';
+    import { m } from '#lib/paraglide/messages.js';
+
+    import type { PageProps } from './$types';
 
     let { data }: PageProps = $props();
 
     const query = createInfiniteQuery(() => ({
-            queryKey: ["articles"],
+            queryKey: ['articles'],
 
             queryFn: ({ pageParam }) =>
                 articleRepository.getArticles({ after: pageParam, first: 10 }),
             getNextPageParam: (lastPage) =>
-                lastPage.pageInfo.hasNextPage
-                    ? lastPage.pageInfo.endCursor
-                    : null,
+                lastPage.pageInfo.hasNextPage ? lastPage.pageInfo.endCursor : null,
             initialPageParam: null as string | null,
-            notifyOnChangeProps: "all",
+            notifyOnChangeProps: 'all',
         })),
-        articles = $derived(
-            query.data?.pages.flatMap((page) => page.items) ?? [],
-        );
+        articles = $derived(query.data?.pages.flatMap((page) => page.items) ?? []);
     const birthdayQuery = createQuery(() => ({
-        queryKey: ["todayBirthdays"],
+        queryKey: ['todayBirthdays'],
         queryFn: () => userRepository.getBirthdays(true),
-        notifyOnChangeProps: "all",
+        notifyOnChangeProps: 'all',
         enabled: data.user !== null,
     }));
 </script>
 
 {#if data.user === null}
-    <p>{m["login.birthdays"]()}</p>
+    <p>{m['login.birthdays']()}</p>
     <Button href="/login">{m.login()}</Button>
     <!-- TODO : ONCE SIGNUP EXISTS ADD IT HERE-->
 {:else}
@@ -57,9 +54,7 @@
     {#snippet loading()}
         <Stack>
             {#each Array(4) as _}
-                <Skeleton
-                    height={`calc(var(--size-xxl) * ${Math.random() * 3 + 1})`}
-                />
+                <Skeleton height={`calc(var(--size-xxl) * ${Math.random() * 3 + 1})`} />
             {/each}
         </Stack>
     {/snippet}

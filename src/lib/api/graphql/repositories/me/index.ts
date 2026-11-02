@@ -1,4 +1,3 @@
-import type { MeRepository } from '#lib/api/repositories.ts';
 import { request } from '#lib/api/graphql/client.ts';
 import {
     GetCanCreateEventsOn,
@@ -6,10 +5,11 @@ import {
     GetMe,
     RememberPaymentPhone,
 } from '#lib/api/graphql/queries/me/index.ts';
+import type { MeRepository } from '#lib/api/repositories.ts';
 
 import { mapGroupAvatar } from '../../mappers/group';
-import { mapStudentAssociationAvatar } from '../../mappers/studentassociation';
 import { mapMe, mapRememberPaymentPhone } from '../../mappers/me';
+import { mapStudentAssociationAvatar } from '../../mappers/studentassociation';
 
 export const meRepository: MeRepository = {
     async getMe() {

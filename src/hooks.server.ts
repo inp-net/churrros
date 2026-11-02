@@ -1,4 +1,5 @@
 import { type Handle, sequence } from '@sveltejs/kit/hooks';
+
 import { getTextDirection } from '#lib/paraglide/runtime.js';
 import { paraglideMiddleware } from '#lib/paraglide/server.js';
 
@@ -14,6 +15,6 @@ const handleParaglide: Handle = async ({ event, resolve }) =>
                         .replace('%paraglide.dir%', getTextDirection(locale)),
             },
         ),
-    )
+    );
 
 export const handle: Handle = sequence(handleParaglide);

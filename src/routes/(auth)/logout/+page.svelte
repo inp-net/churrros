@@ -1,14 +1,15 @@
 <script lang="ts">
-    import { goto, refreshAll } from "$app/navigation";
-    import { clearToken } from "#lib/auth/session.ts";
-    import { onMount } from "svelte";
-    import { m } from "#lib/paraglide/messages.js";
+    import { goto, refreshAll } from '$app/navigation';
+    import { onMount } from 'svelte';
+
+    import { clearToken } from '#lib/auth/session.ts';
+    import { m } from '#lib/paraglide/messages.js';
 
     onMount(async () => {
         clearToken();
         await refreshAll();
-        await goto("/");
+        await goto('/');
     });
 </script>
 
-<p>{m["loading"]()}</p>
+<p>{m['loading']()}</p>

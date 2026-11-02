@@ -1,30 +1,23 @@
 <script lang="ts">
-    import { page } from "$app/state";
-    import { createInfiniteQuery } from "@tanstack/svelte-query";
+    import { page } from '$app/state';
+    import { createInfiniteQuery } from '@tanstack/svelte-query';
 
-    import { type GroupMemberByDate, groupRepository } from "#lib/api/index.ts";
-    import GroupMemberAvatar from "#lib/components/avatar/GroupMemberAvatar.svelte";
-    import InfiniteScroll from "#lib/components/InfiniteScroll.svelte";
-    import { m } from "#lib/paraglide/messages.js";
+    import { type GroupMemberByDate, groupRepository } from '#lib/api/index.ts';
+    import GroupMemberAvatar from '#lib/components/avatar/GroupMemberAvatar.svelte';
+    import InfiniteScroll from '#lib/components/InfiniteScroll.svelte';
+    import { m } from '#lib/paraglide/messages.js';
 
     const query = createInfiniteQuery(() => ({
-            queryKey: ["group", page.params.id, "members"],
+            queryKey: ['group', page.params.id, 'members'],
             queryFn: ({ pageParam }) =>
-                groupRepository.getGroupMembers(
-                    { after: pageParam, first: 20 },
-                    page.params.id,
-                ),
+                groupRepository.getGroupMembers({ after: pageParam, first: 20 }, page.params.id),
             getNextPageParam: (lastPage) =>
-                lastPage?.pageInfo.hasNextPage
-                    ? lastPage.pageInfo.endCursor
-                    : null,
+                lastPage?.pageInfo.hasNextPage ? lastPage.pageInfo.endCursor : null,
             initialPageParam: null as string | null,
-            notifyOnChangeProps: "all",
+            notifyOnChangeProps: 'all',
         })),
         groupMembers: GroupMemberByDate[] = $derived(
-            query.data?.pages.flatMap(
-                (pagesGroupMembers) => pagesGroupMembers.items,
-            ) ?? [],
+            query.data?.pages.flatMap((pagesGroupMembers) => pagesGroupMembers.items) ?? [],
         );
 </script>
 
@@ -35,7 +28,7 @@
     rootMargin="0px 0px 400px 0px"
 >
     {#if query.isPending}
-        <p>{m["loading"]()}</p>
+        <p>{m['loading']()}</p>
     {:else if query.isError}
         <p>Error: {query.error.message}</p>
     {:else if query.isSuccess}

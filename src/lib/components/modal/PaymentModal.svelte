@@ -1,20 +1,20 @@
 <script lang="ts">
-    import { browser } from "$app/env";
+    import { browser } from '$app/env';
 
-    import type { PaymentMethod } from "#lib/api/index.ts";
-    import { m } from "#lib/paraglide/messages.js";
-    import { formatMoney } from "#lib/utils/i18n.ts";
-    import { PAYMENT_PROVIDERS } from "#lib/utils/payment.ts";
+    import type { PaymentMethod } from '#lib/api/index.ts';
+    import { m } from '#lib/paraglide/messages.js';
+    import { formatMoney } from '#lib/utils/i18n.ts';
+    import { PAYMENT_PROVIDERS } from '#lib/utils/payment.ts';
 
-    import PaymentMethodDisplay from "../PaymentMethodDisplay.svelte";
+    import PaymentMethodDisplay from '../PaymentMethodDisplay.svelte';
 
     type Step =
-        | "payment-options"
-        | "provider-form"
-        | "provider-waiting"
-        | "follow-up"
-        | "links"
-        | "end";
+        | 'payment-options'
+        | 'provider-form'
+        | 'provider-waiting'
+        | 'follow-up'
+        | 'links'
+        | 'end';
 
     interface Props {
         /**
@@ -85,10 +85,7 @@
         }
         try {
             if (stack.length > 1) {
-                sessionStorage.setItem(
-                    `PaymentModal${code}`,
-                    JSON.stringify(stack),
-                );
+                sessionStorage.setItem(`PaymentModal${code}`, JSON.stringify(stack));
             } else {
                 sessionStorage.removeItem(`PaymentModal${code}`);
             }
@@ -99,21 +96,21 @@
 
     function loadStoredSteps(): Step[] {
         if (!browser) {
-            return ["payment-options"];
+            return ['payment-options'];
         }
         try {
             const raw = sessionStorage.getItem(`PaymentModal${code}`);
             if (!raw) {
-                return ["payment-options"];
+                return ['payment-options'];
             }
             const parsed = JSON.parse(raw);
             if (Array.isArray(parsed) && parsed.length > 0) {
                 return parsed as Step[];
             }
         } catch {
-            return ["payment-options"];
+            return ['payment-options'];
         }
-        return ["payment-options"];
+        return ['payment-options'];
     }
 
     function clearStoredSteps(): void {
@@ -131,56 +128,56 @@
         const provider = PAYMENT_PROVIDERS[paymentMethod];
 
         switch (current) {
-            case "payment-options": {
+            case 'payment-options': {
                 if (provider.automated) {
                     if (!provider.FormComponent) {
                         throw new Error(
-                            "Provider incorrectly configured: automated provider has no FormComponent",
+                            'Provider incorrectly configured: automated provider has no FormComponent',
                         );
                     }
-                    return "provider-form";
+                    return 'provider-form';
                 }
                 if (provider.FollowUpComponent) {
-                    return "follow-up";
+                    return 'follow-up';
                 }
                 if (links.length > 0) {
-                    return "links";
+                    return 'links';
                 }
-                return "end";
+                return 'end';
             }
 
-            case "provider-form": {
+            case 'provider-form': {
                 if (provider.WaitingComponent) {
-                    return "provider-waiting";
+                    return 'provider-waiting';
                 }
                 if (provider.FollowUpComponent) {
-                    return "follow-up";
+                    return 'follow-up';
                 }
                 if (links.length > 0) {
-                    return "links";
+                    return 'links';
                 }
-                return "end";
+                return 'end';
             }
 
-            case "provider-waiting": {
+            case 'provider-waiting': {
                 if (provider.FollowUpComponent) {
-                    return "follow-up";
+                    return 'follow-up';
                 }
                 if (links.length > 0) {
-                    return "links";
+                    return 'links';
                 }
-                return "end";
+                return 'end';
             }
 
-            case "follow-up": {
+            case 'follow-up': {
                 if (links.length > 0) {
-                    return "links";
+                    return 'links';
                 }
-                return "end";
+                return 'end';
             }
 
-            case "links": {
-                return "end";
+            case 'links': {
+                return 'end';
             }
             default: {
                 throw new Error(`Unknown step: ${current}`);
@@ -196,7 +193,7 @@
 
     function advance(current: Step, paymentMethod: PaymentMethod) {
         const next = getNextStep(current, paymentMethod);
-        if (next === "end") {
+        if (next === 'end') {
             finish();
         } else {
             historyStack = [...historyStack, next];
@@ -206,13 +203,13 @@
 
     function finish() {
         isOpen = false;
-        historyStack = ["payment-options"];
+        historyStack = ['payment-options'];
         clearStoredSteps();
     }
 </script>
 
 <dialog bind:this={dialog} onclose={() => (isOpen = false)}>
-    {#if step == "payment-options"}
+    {#if step == 'payment-options'}
         <p>{formatMoney(wantsToPay)}</p>
         {#if maximumPrice}
             <input
@@ -235,36 +232,32 @@
                 </li>
             {/each}
         </ul>
-        <button onclick={() => (isOpen = false)}>{m["cancel"]()}</button>
-        <button
-            onclick={() => advance("payment-options", selectedPaymentMethod!)}
-            >{m["next"]()}</button
+        <button onclick={() => (isOpen = false)}>{m['cancel']()}</button>
+        <button onclick={() => advance('payment-options', selectedPaymentMethod!)}
+            >{m['next']()}</button
         >
-    {:else if step == "provider-form"}
+    {:else if step == 'provider-form'}
         {@const provider = PAYMENT_PROVIDERS[selectedPaymentMethod!]}
         {@const FormComponent = provider.FormComponent!}
         <FormComponent
             {code}
             amount={wantsToPay}
             onBack={back}
-            onPaid={() => advance("provider-form", selectedPaymentMethod!)}
+            onPaid={() => advance('provider-form', selectedPaymentMethod!)}
         />
-    {:else if step == "provider-waiting"}
+    {:else if step == 'provider-waiting'}
         {@const provider = PAYMENT_PROVIDERS[selectedPaymentMethod!]}
         {@const WaitingComponent = provider.WaitingComponent!}
         <!--TODO : Meilleur reload si possible ? -->
-        <WaitingComponent
-            onBack={back}
-            onRecheck={() => globalThis.location.reload()}
-        />
-    {:else if step == "follow-up"}
+        <WaitingComponent onBack={back} onRecheck={() => globalThis.location.reload()} />
+    {:else if step == 'follow-up'}
         {@const provider = PAYMENT_PROVIDERS[selectedPaymentMethod!]}
         {@const FollowUpComponent = provider.FollowUpComponent!}
         <FollowUpComponent
             onBack={back}
-            onDone={() => advance("follow-up", selectedPaymentMethod!)}
+            onDone={() => advance('follow-up', selectedPaymentMethod!)}
         />
-    {:else if step == "links"}
+    {:else if step == 'links'}
         {#each links as link}
             <a href={link.url}>{link.name}</a>
         {/each}

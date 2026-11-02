@@ -153,13 +153,13 @@ export const groupRepository: GroupRepository = {
                 throw new Error('UID is required to update a group');
             }
             const {
-                joinPolicy,
-                parentUid,
-                studentAssociationId,
-                groupType,
-                unlisted,
-                ...profileFields
-            } = data,
+                    joinPolicy,
+                    parentUid,
+                    studentAssociationId,
+                    groupType,
+                    unlisted,
+                    ...profileFields
+                } = data,
                 // Allows us to only send the fields that are defined (null is a valid value)
                 profile = Object.fromEntries(
                     Object.entries(profileFields).filter(([, value]) => value !== null),

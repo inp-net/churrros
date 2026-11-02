@@ -1,4 +1,5 @@
 import { browser } from '$app/env';
+
 import { meRepository } from '#lib/api/index.ts';
 
 export const ssr = false;
