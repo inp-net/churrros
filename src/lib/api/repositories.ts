@@ -1,5 +1,3 @@
-import type { Cookies } from '@sveltejs/kit';
-
 import type {
     Article,
     ArticleDetail,

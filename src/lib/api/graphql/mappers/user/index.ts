@@ -98,7 +98,7 @@ export function mapUserFamily(user: ResultOf<typeof GetUserFamily>['user']): Use
     return {
         nesting: user.familyTree.nesting,
         uid: user.uid,
-        users: user.familyTree.users.map((user) => mapUserAvatar(user)),
+        users: user.familyTree.users.map((u) => mapUserAvatar(u)),
     };
 }
 export function mapBirthdays(birthdays: ResultOf<typeof GetBirthdays>['birthdays']): Avatar[] {

@@ -11,7 +11,7 @@ import type {
 } from '#lib/api/graphql/queries/booking/index.ts';
 import { CardBookingFragment } from '#lib/api/graphql/queries/fragments/cardBooking.ts';
 import { PageInfoFragment } from '#lib/api/graphql/queries/fragments/pagination.ts';
-import type { Booking, BookingDetail, BookingStatus, Page, PaymentMethod } from '#lib/api/index.ts';
+import type { Booking, BookingDetail, BookingStatus, Page } from '#lib/api/index.ts';
 
 import { MutationErrorsFragment } from '../../queries/fragments/mutationErrors';
 import { mapLightEvent } from '../event';

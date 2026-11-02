@@ -1,29 +1,35 @@
 <script lang="ts">
-    import { page } from '$app/state';
-    import { createInfiniteQuery } from '@tanstack/svelte-query';
+    import { page } from "$app/state";
+    import { createInfiniteQuery } from "@tanstack/svelte-query";
 
     import {
         type CardService as CardServiceType,
         studentAssociationRepository,
-    } from '#lib/api/index.ts';
-    import CardService from '#lib/components/card/CardService.svelte';
-    import InfiniteScroll from '#lib/components/InfiniteScroll.svelte';
-    import { m } from '#lib/paraglide/messages.js';
+    } from "#lib/api/index.ts";
+    import CardService from "#lib/components/card/CardService.svelte";
+    import InfiniteScroll from "#lib/components/InfiniteScroll.svelte";
+    import { m } from "#lib/paraglide/messages.js";
 
     const query = createInfiniteQuery(() => ({
-            queryKey: ['studentAssociation', page.params.id, 'services', 'all'],
+            queryKey: ["studentAssociation", page.params.id, "services", "all"],
             queryFn: ({ pageParam }) =>
-                studentAssociationRepository.getStudentAssociationServices(page.params.id, {
-                    after: pageParam,
-                    first: 10,
-                }),
+                studentAssociationRepository.getStudentAssociationServices(
+                    page.params.id,
+                    {
+                        after: pageParam,
+                        first: 10,
+                    },
+                ),
             getNextPageParam: (lastPage) =>
-                lastPage.pageInfo.hasNextPage ? lastPage.pageInfo.endCursor : null,
+                lastPage.pageInfo.hasNextPage
+                    ? lastPage.pageInfo.endCursor
+                    : null,
             initialPageParam: null as string | null,
-            notifyOnChangeProps: 'all',
+            notifyOnChangeProps: "all",
         })),
         services: CardServiceType[] = $derived(
-            query.data?.pages.flatMap((page) => page.items) ?? [],
+            query.data?.pages.flatMap((pageServices) => pageServices.items) ??
+                [],
         );
 </script>
 
@@ -34,7 +40,7 @@
     rootMargin="0px 0px 400px 0px"
 >
     {#if query.isPending}
-        <p>{m['loading']()}</p>
+        <p>{m["loading"]()}</p>
     {:else if query.isError}
         <p>Error: {query.error.message}</p>
     {:else if query.isSuccess}
