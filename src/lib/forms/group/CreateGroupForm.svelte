@@ -1,13 +1,14 @@
 <script lang="ts">
+    import { ApiValidationError } from '#lib/api/errors.ts';
+    import { type Avatar, GROUP_TYPES } from '#lib/api/types.ts';
+    import FormField from '#lib/components/forms/FormField.svelte';
+    import SelectAvatar from '#lib/components/forms/SelectAvatar.svelte';
+    import { m } from '#lib/paraglide/messages.js';
     // For now, we need to separate creation and edition of groups, but with the future api we will be able to merge them into a single form.
     import { createForm } from '#lib/utils/forms.svelte.ts';
-    import FormField from '#lib/components/forms/FormField.svelte';
-    import { createGroupSchema, type CreateGroupInput } from './group.schema';
-    import { m } from '#lib/paraglide/messages.js';
-    import { GROUP_TYPES, type Avatar } from '#lib/api/types.ts';
     import { groupTypeToLocalizedString } from '#lib/utils/i18n.ts';
-    import { ApiValidationError } from '#lib/api/errors.ts';
-    import SelectAvatar from '#lib/components/forms/SelectAvatar.svelte';
+
+    import { type CreateGroupInput, createGroupSchema } from './group.schema';
 
     interface Props {
         /**
@@ -25,10 +26,10 @@
     let { onsubmit, studentAssociations }: Props = $props();
 
     const form = createForm(createGroupSchema, {
-        studentAssociationId: '',
+        groupType: 'Club',
         name: '',
+        studentAssociationId: '',
         uid: '',
-        groupType: 'Club'
     });
     let submitError = $state('');
 
@@ -38,9 +39,9 @@
         form.submit(async (data) => {
             try {
                 await onsubmit(data);
-            } catch (err) {
-                if (err instanceof ApiValidationError) {
-                    throw err; // We need to throw those error so createForm catches them
+            } catch (error) {
+                if (error instanceof ApiValidationError) {
+                    throw error; // We need to throw those error so createForm catches them
                 }
                 submitError = m['form.group.create.error']();
             }

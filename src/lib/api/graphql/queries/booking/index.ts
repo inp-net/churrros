@@ -1,4 +1,5 @@
 import { graphql } from '#lib/api/graphql/graphql.ts';
+
 import { CardBookingFragment } from '../fragments/cardBooking';
 import { LightEventFragment } from '../fragments/lightEvent';
 import { MutationErrorsFragment } from '../fragments/mutationErrors';
@@ -22,7 +23,7 @@ export const GetMyBookings = graphql(
             }
         }
     `,
-    [PageInfoFragment, CardBookingFragment]
+    [PageInfoFragment, CardBookingFragment],
 );
 
 export const GetBookingByCode = graphql(
@@ -63,7 +64,7 @@ export const GetBookingByCode = graphql(
             }
         }
     `,
-    [LightEventFragment, UserAvatarFragment]
+    [LightEventFragment, UserAvatarFragment],
 );
 
 export const CancelBooking = graphql(
@@ -80,7 +81,7 @@ export const CancelBooking = graphql(
             }
         }
     `,
-    [MutationErrorsFragment]
+    [MutationErrorsFragment],
 );
 
 export const GetGoogleWalletPass = graphql(
@@ -95,7 +96,7 @@ export const GetGoogleWalletPass = graphql(
             }
         }
     `,
-    [MutationErrorsFragment]
+    [MutationErrorsFragment],
 );
 
 export const GetAppleWalletPass = graphql(
@@ -110,7 +111,7 @@ export const GetAppleWalletPass = graphql(
             }
         }
     `,
-    [MutationErrorsFragment]
+    [MutationErrorsFragment],
 );
 
 export const PayBooking = graphql(
@@ -139,5 +140,5 @@ export const PayBooking = graphql(
             }
         }
     `,
-    [MutationErrorsFragment]
+    [MutationErrorsFragment],
 );

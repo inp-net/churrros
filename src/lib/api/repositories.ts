@@ -1,39 +1,38 @@
 import type {
-    PageRequest,
-    Page,
-    EventDetail,
-    Avatar,
-    UserInfos,
-    UserGroups,
-    UserFamily,
     Article,
     ArticleDetail,
-    EventsByDay,
-    Searchable,
-    SearchResult,
-    UserProfile,
-    StudentAssociationProfile,
-    GroupType,
-    MajorInfos,
-    SchoolInfos,
-    SchoolProfile,
-    SessionToken,
-    User,
-    GroupProfile,
-    GroupInfos,
-    GroupBoardMembers,
-    GroupSeeAlso,
-    GroupMemberByDate,
-    GroupAvatar,
-    CardService,
-    GroupPermissions,
+    Avatar,
     Booking,
     BookingDetail,
+    CardService,
+    EventDetail,
+    EventsByDay,
+    GroupAvatar,
+    GroupBoardMembers,
+    GroupEditInfo,
+    GroupInfos,
+    GroupMemberByDate,
+    GroupPermissions,
+    GroupProfile,
+    GroupSeeAlso,
+    GroupType,
+    MajorInfos,
+    Page,
+    PageRequest,
     PaymentMethod,
-    GroupEditInfo
+    SchoolInfos,
+    SchoolProfile,
+    SearchResult,
+    Searchable,
+    SessionToken,
+    StudentAssociationProfile,
+    User,
+    UserFamily,
+    UserGroups,
+    UserInfos,
+    UserProfile,
 } from '#lib/api/index.ts';
 import type { UpdateGroupPatch } from '#lib/forms/group/group.schema.ts';
-import type { Cookies } from '@sveltejs/kit';
 
 export interface EventRepository {
     /**
@@ -156,7 +155,7 @@ export interface UserRepository {
     getGroupedBirthdays(
         activeOnly: boolean,
         date?: string,
-        width?: number
+        width?: number,
     ): Promise<Record<string, Avatar[]>>;
 }
 
@@ -242,7 +241,7 @@ export interface BookingRepository {
         paymentMethod: PaymentMethod,
         callbackUrl: string,
         amount: number,
-        phone?: string
+        phone?: string,
     ): Promise<void>;
 }
 
@@ -328,7 +327,7 @@ export interface GroupRepository {
         studentAssociationId: string,
         uid: string,
         name: string,
-        type: GroupType
+        type: GroupType,
     ): Promise<string>;
 
     /**
@@ -375,7 +374,7 @@ export interface StudentAssociationRepository {
     getStudentAssociationGroups(
         types: GroupType[],
         args: PageRequest,
-        uid?: string
+        uid?: string,
     ): Promise<Page<GroupAvatar>>;
 
     /**

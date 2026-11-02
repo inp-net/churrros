@@ -1,5 +1,6 @@
 <script lang="ts">
     import type { UserGroups } from '#lib/api/index.ts';
+
     import GroupMemberAvatar from '../avatar/GroupMemberAvatar.svelte';
 
     interface Props {

@@ -1,6 +1,8 @@
 <script lang="ts">
-    import type { EventsByDay } from '#lib/api/index.ts';
     import { Stack } from 'azucar-ui';
+
+    import type { EventsByDay } from '#lib/api/index.ts';
+
     import CardEvent from './CardEvent.svelte';
 
     /**

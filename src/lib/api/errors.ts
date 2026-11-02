@@ -1,4 +1,7 @@
-export type FieldError = { path: (string | number)[]; message: string };
+export interface FieldError {
+    path: (string | number)[];
+    message: string;
+}
 
 export class ApiValidationError extends Error {
     constructor(public readonly fieldErrors: FieldError[]) {

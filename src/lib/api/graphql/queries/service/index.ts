@@ -1,4 +1,5 @@
 import { graphql } from '#lib/api/graphql/graphql.ts';
+
 import { CardServiceFragment } from '../fragments/cardService';
 
 export const GetServices = graphql(
@@ -9,5 +10,5 @@ export const GetServices = graphql(
             }
         }
     `,
-    [CardServiceFragment]
+    [CardServiceFragment],
 );

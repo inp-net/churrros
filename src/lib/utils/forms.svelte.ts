@@ -1,32 +1,57 @@
+import type { ArkError, ArkErrors } from 'arktype';
+import { type Type, type } from 'arktype';
+
 import { ApiValidationError } from '#lib/api/errors.ts';
 import { m } from '#lib/paraglide/messages.js';
-import { ArkError, ArkErrors, type, type Type } from 'arktype';
 
 type FormErrors<T> = Partial<Record<keyof T & string, string>>;
+
+/** Runtime check that `key` is an own property of `obj`, so TypeScript can narrow it to `keyof T` */
+function isKeyOf<T extends object>(obj: T, key: string): key is keyof T & string {
+    return Object.hasOwn(obj, key);
+}
+
+/**
+ * Splits string-keyed messages into field errors (keys that exist on `values`)
+ * and unmatched messages (everything else, to be shown as a general form error)
+ */
+function partitionErrors<T extends object>(source: Record<string, string>, values: T) {
+    const errors: FormErrors<T> = {};
+    const unmatched: string[] = [];
+
+    for (const [key, message] of Object.entries(source)) {
+        if (isKeyOf(values, key)) {
+            errors[key] ??= message;
+        } else {
+            unmatched.push(message);
+        }
+    }
+
+    return { errors, unmatched };
+}
 
 export function createForm<S extends Type<any>>(schema: S, initial: S['inferIn']) {
     type In = S['inferIn'];
 
-    let values = $state<In>(initial);
-    let errors = $state<FormErrors<In>>({});
-    let formError = $state(''); // Error that is not related to a specific field
-    let submitting = $state(false);
+    const values = $state<In>(initial);
+    let errors = $state<FormErrors<In>>({}),
+        formError = $state(''), // Error that is not related to a specific field
+        submitting = $state(false);
+
+    function setErrors(source: Record<string, string>) {
+        const result = partitionErrors(source, values);
+        errors = result.errors;
+        formError = result.unmatched.join(', ');
+    }
 
     function applyApiErrors(err: ApiValidationError) {
-        const next: Record<string, string> = {};
-        const unmatched: string[] = [];
+        const source: Record<string, string> = {};
 
         for (const { path, message } of err.fieldErrors) {
-            const key = path.join('.');
-            if (key in values) {
-                next[key] ??= message;
-            } else {
-                unmatched.push(message);
-            }
+            source[path.join('.')] ??= message;
         }
 
-        errors = next as FormErrors<In>;
-        formError = unmatched.join(', ');
+        setErrors(source);
     }
 
     async function submit(handler: (data: S['infer']) => Promise<void>) {
@@ -34,7 +59,7 @@ export function createForm<S extends Type<any>>(schema: S, initial: S['inferIn']
 
         if (result instanceof type.errors) {
             console.error('Validation errors:', result);
-            errors = translateErrors<In>(result);
+            setErrors(translateErrors(result));
             return;
         }
 
@@ -43,43 +68,50 @@ export function createForm<S extends Type<any>>(schema: S, initial: S['inferIn']
         submitting = true;
         try {
             await handler(result);
-        } catch (err) {
-            if (err instanceof ApiValidationError) {
-                applyApiErrors(err);
-            } else throw err;
+        } catch (error) {
+            if (error instanceof ApiValidationError) {
+                applyApiErrors(error);
+            } else {
+                throw error;
+            }
         } finally {
             submitting = false;
         }
     }
 
     return {
-        get values() {
-            return values;
-        },
         get errors() {
             return errors;
         },
         get formError() {
             return formError;
         },
+        submit,
         get submitting() {
             return submitting;
         },
-        submit
+        get values() {
+            return values;
+        },
     };
 }
 
-function translateErrors<T>(errors: ArkErrors): FormErrors<T> {
+function translateErrors(errors: ArkErrors): Record<string, string> {
     const result: Record<string, string> = {};
 
     for (const [path, list] of Object.entries(errors.flatByPath)) {
         result[path] = getErrorMessage(list[0]);
     }
 
-    return result as FormErrors<T>;
+    return result;
 }
 
-function getErrorMessage(error: ArkError): string {
+/**
+ * Translates an ArkError into a user-friendly error message
+ * @param error the ArkError to translate
+ * @returns A user-friendly error message
+ */
+function getErrorMessage(error: Readonly<ArkError>): string {
     if (error.hasCode('union')) {
         return getErrorMessage(error.errors[0]); // We only take the first error because all errors would be unreadable
     }

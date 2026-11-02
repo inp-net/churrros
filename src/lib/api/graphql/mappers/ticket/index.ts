@@ -1,32 +1,34 @@
-import type { Ticket, TicketDetail } from '#lib/api/index.ts';
-import { readFragment, type $tada } from 'gql.tada';
+import { type $tada, readFragment } from 'gql.tada';
+
 import { CardTicketFragment } from '#lib/api/graphql/queries/fragments/cardTicket.ts';
 import { TicketDetailFragment } from '#lib/api/graphql/queries/fragments/ticketDetail.ts';
+import type { Ticket, TicketDetail } from '#lib/api/index.ts';
+
 import { mapGroupAvatar } from '../group/index.ts';
 import { mapMajor } from '../major';
 import { mapSchool } from '../school';
 
-type CardTicketFragmentType = {
+interface CardTicketFragmentType {
     [$tada.fragmentRefs]: {
         CardTicket: 'Ticket';
     };
-};
+}
 
-type TicketDetailFragmentType = {
+interface TicketDetailFragmentType {
     [$tada.fragmentRefs]: {
         TicketDetail: 'Ticket';
     };
-};
+}
 
 export function mapTicket(ticket: CardTicketFragmentType): Ticket {
     const data = readFragment(CardTicketFragment, ticket);
     return {
-        id: data.localID,
-        opensAt: data.opensAt,
         closesAt: data.closesAt,
+        id: data.localID,
         name: data.name,
+        opensAt: data.opensAt,
         price: data.minimumPrice,
-        priceIsVariable: data.priceIsVariable
+        priceIsVariable: data.priceIsVariable,
     };
 }
 
@@ -35,12 +37,12 @@ export function mapTicketDetail(ticket: TicketDetailFragmentType): TicketDetail 
     return {
         ...mapTicket(data),
         capacity: data.capacity,
-        showCapacity: data.event.showCapacity,
-        placesLeft: data.placesLeft,
-        showPlacesLeft: data.event.showPlacesLeft,
         invited: data.invited,
         openToGroups: data.openToGroups.map((group) => mapGroupAvatar(group)),
         openToMajors: data.openToMajors.map((major) => mapMajor(major)),
-        openToSchools: data.openToSchools.map((school) => mapSchool(school))
+        openToSchools: data.openToSchools.map((school) => mapSchool(school)),
+        placesLeft: data.placesLeft,
+        showCapacity: data.event.showCapacity,
+        showPlacesLeft: data.event.showPlacesLeft,
     };
 }

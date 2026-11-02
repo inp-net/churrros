@@ -1,8 +1,9 @@
 <script lang="ts">
+    import { ArrowRightIcon } from '@lucide/svelte';
+    import { Avatar, Button, Flex, Frame, Stack } from 'azucar-ui';
+
     import type { Article } from '#lib/api/index.ts';
     import { formatISODateToLocale } from '#lib/utils/dates.ts';
-    import { Avatar, Button, Flex, Frame, Stack } from 'azucar-ui';
-    import { ArrowRightIcon } from '@lucide/svelte';
 
     interface Props {
         article: Article;

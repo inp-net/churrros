@@ -1,11 +1,10 @@
-import type { PaymentMethod } from '#lib/api/index.ts';
-import { m } from '#lib/paraglide/messages.js';
 import type { Component } from 'svelte';
 
+import type { PaymentMethod } from '#lib/api/index.ts';
 import LydiaForm from '#lib/components/payment/lydia/LydiaForm.svelte';
 import LydiaWaiting from '#lib/components/payment/lydia/LydiaWaiting.svelte';
-
 import ManualFollowUp from '#lib/components/payment/manual/ManualFollowUp.svelte';
+import { m } from '#lib/paraglide/messages.js';
 
 interface PaymentProvider {
     /**
@@ -73,33 +72,33 @@ export interface PaymentFollowUpProps {
 }
 
 export const PAYMENT_PROVIDERS: Record<PaymentMethod, PaymentProvider> = {
-    Card: { label: m['paymentMethod.card'](), automated: false, FollowUpComponent: ManualFollowUp },
-    Lydia: {
-        label: 'Lydia',
-        automated: true,
-        FormComponent: LydiaForm,
-        WaitingComponent: LydiaWaiting
-    },
+    Card: { FollowUpComponent: ManualFollowUp, automated: false, label: m['paymentMethod.card']() },
+    Cash: { FollowUpComponent: ManualFollowUp, automated: false, label: m['paymentMethod.cash']() },
     Check: {
+        FollowUpComponent: ManualFollowUp,
+        automated: false,
         label: m['paymentMethod.check'](),
-        automated: false,
-        FollowUpComponent: ManualFollowUp
     },
-    Cash: { label: m['paymentMethod.cash'](), automated: false, FollowUpComponent: ManualFollowUp },
     External: {
-        label: m['paymentMethod.external'](),
+        FollowUpComponent: ManualFollowUp,
         automated: false,
-        FollowUpComponent: ManualFollowUp
+        label: m['paymentMethod.external'](),
+    },
+    Lydia: {
+        FormComponent: LydiaForm,
+        WaitingComponent: LydiaWaiting,
+        automated: true,
+        label: 'Lydia',
     },
     Other: {
+        FollowUpComponent: ManualFollowUp,
+        automated: false,
         label: m['paymentMethod.other'](),
-        automated: false,
-        FollowUpComponent: ManualFollowUp
     },
-    PayPal: { label: 'PayPal', automated: true },
+    PayPal: { automated: true, label: 'PayPal' },
     Transfer: {
-        label: m['paymentMethod.transfer'](),
+        FollowUpComponent: ManualFollowUp,
         automated: false,
-        FollowUpComponent: ManualFollowUp
-    }
+        label: m['paymentMethod.transfer'](),
+    },
 };

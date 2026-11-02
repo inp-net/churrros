@@ -1,7 +1,8 @@
 <script lang="ts">
-    import type { User } from '#lib/api/index.ts';
     import { UserIcon } from '@lucide/svelte';
     import { Avatar } from 'azucar-ui';
+
+    import type { User } from '#lib/api/index.ts';
 
     const { user }: { user: User | null } = $props();
 </script>

@@ -25,6 +25,7 @@ stages:
         # env vars (with dummy values) required to build...
         - cp .env.example .env
         - pnpm i --frozen-lockfile
+        - pnpm paraglide:compile
 
 .builder:
     stage: build
@@ -63,6 +64,13 @@ lint:
     allow_failure: true
     script:
         - pnpm lint
+
+format:
+    extends: .node
+    stage: verify
+    allow_failure: true
+    script:
+        - pnpm format:check
 
 check:
     extends: .node

@@ -11,16 +11,24 @@ import { getLocale } from '#lib/paraglide/runtime.js';
  */
 export function bookingStatusToLocalizedString(status: BookingStatus): string {
     switch (status) {
-        case 'Opposed':
+        case 'Opposed': {
             return m['booking.status.cancelled']();
-        case 'Verified':
+        }
+        case 'Verified': {
             return m['booking.status.verified']();
-        case 'Cancelled':
+        }
+        case 'Cancelled': {
             return m['booking.status.cancelled']();
-        case 'Paid':
+        }
+        case 'Paid': {
             return m['booking.status.paid']();
-        case 'Waiting':
+        }
+        case 'Waiting': {
             return m['booking.status.waiting']();
+        }
+        default: {
+            throw new Error(`Unknown booking status`);
+        }
     }
 }
 
@@ -31,10 +39,15 @@ export function bookingStatusToLocalizedString(status: BookingStatus): string {
  */
 export function walletTargetToLocalizedString(walletTarget: WalletTarget): string {
     switch (walletTarget) {
-        case 'Apple':
+        case 'Apple': {
             return m['apple.wallet']();
-        case 'Google':
+        }
+        case 'Google': {
             return m['google.wallet']();
+        }
+        default: {
+            throw new Error(`Unknown wallet target`);
+        }
     }
 }
 
@@ -45,35 +58,31 @@ export function walletTargetToLocalizedString(walletTarget: WalletTarget): strin
  */
 export function groupTypeToLocalizedString(groupType: GroupType): string {
     switch (groupType) {
-        case 'Association':
+        case 'Association': {
             return m['group.type.association']();
-        case 'Club':
+        }
+        case 'Club': {
             return m['group.type.club']();
-        case 'Group':
+        }
+        case 'Group': {
             return m['group.type.group']();
-        case 'Integration':
+        }
+        case 'Integration': {
             return m['group.type.integration']();
-        case 'List':
+        }
+        case 'List': {
             return m['group.type.list']();
-        case 'StudentAssociationSection':
+        }
+        case 'StudentAssociationSection': {
             return m['group.type.studentAssociationSection']();
+        }
+        default: {
+            throw new Error(`Unknown group type`);
+        }
     }
 }
 
 //#endregion
-
-/**
- * Formats an amount to display the currency correctly
- * @param price The price to format
- * @param options The formatting options, defaulting to currency style with EUR currency
- * @returns The formatted amount with the correct currency
- */
-export function formatMoney(
-    price: number,
-    options: Intl.NumberFormatOptions = { style: 'currency', currency: 'EUR' }
-): string {
-    return formatNumber(price, options);
-}
 
 /**
  * Formats a number according to the given options and the locale of Paraglide
@@ -84,4 +93,17 @@ export function formatMoney(
 export function formatNumber(num: number, options: Intl.NumberFormatOptions): string {
     const locale = getLocale();
     return Intl.NumberFormat(locale, options).format(num);
+}
+
+/**
+ * Formats an amount to display the currency correctly
+ * @param price The price to format
+ * @param options The formatting options, defaulting to currency style with EUR currency
+ * @returns The formatted amount with the correct currency
+ */
+export function formatMoney(
+    price: number,
+    options: Intl.NumberFormatOptions = { currency: 'EUR', style: 'currency' },
+): string {
+    return formatNumber(price, options);
 }

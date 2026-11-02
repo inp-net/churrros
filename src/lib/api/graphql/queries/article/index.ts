@@ -1,4 +1,5 @@
 import { graphql } from '#lib/api/graphql/graphql.ts';
+
 import { CardArticleFragment } from '../fragments/cardArticle.ts';
 import { CardEventFragment } from '../fragments/cardEvent.ts';
 import { GroupAvatarFragment } from '../fragments/groupAvatar.ts';
@@ -20,7 +21,7 @@ export const GetArticles = graphql(
             }
         }
     `,
-    [CardArticleFragment, PageInfoFragment]
+    [CardArticleFragment, PageInfoFragment],
 );
 
 export const GetArticleById = graphql(
@@ -44,5 +45,5 @@ export const GetArticleById = graphql(
             }
         }
     `,
-    [LinkFragment, GroupAvatarFragment, CardEventFragment]
+    [LinkFragment, GroupAvatarFragment, CardEventFragment],
 );

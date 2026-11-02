@@ -1,4 +1,5 @@
 import { graphql } from '#lib/api/graphql/graphql.ts';
+
 import { GroupAvatarFragment } from '../fragments/groupAvatar';
 import { StudentAssociationAvatar } from '../fragments/studentAssociationAvatar';
 import { UserFragment } from '../fragments/user';
@@ -11,7 +12,7 @@ export const GetMe = graphql(
             }
         }
     `,
-    [UserFragment]
+    [UserFragment],
 );
 
 export const GetCanCreateEventsOn = graphql(
@@ -24,7 +25,7 @@ export const GetCanCreateEventsOn = graphql(
             }
         }
     `,
-    [GroupAvatarFragment]
+    [GroupAvatarFragment],
 );
 
 export const GetCanCreateGroupsOn = graphql(
@@ -37,7 +38,7 @@ export const GetCanCreateGroupsOn = graphql(
             }
         }
     `,
-    [StudentAssociationAvatar]
+    [StudentAssociationAvatar],
 );
 
 export const RememberPaymentPhone = graphql(`

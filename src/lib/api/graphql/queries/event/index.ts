@@ -1,9 +1,10 @@
 import { graphql } from '#lib/api/graphql/graphql.ts';
 import { PageInfoFragment } from '#lib/api/graphql/queries/fragments/pagination.ts';
-import { GroupAvatarFragment } from '../fragments/groupAvatar';
+
 import { CardEventFragment } from '../fragments/cardEvent';
-import { TicketDetailFragment } from '../fragments/ticketDetail';
+import { GroupAvatarFragment } from '../fragments/groupAvatar';
 import { MutationErrorsFragment } from '../fragments/mutationErrors';
+import { TicketDetailFragment } from '../fragments/ticketDetail';
 
 export const GetEvents = graphql(
     `
@@ -26,7 +27,7 @@ export const GetEvents = graphql(
             }
         }
     `,
-    [PageInfoFragment, CardEventFragment]
+    [PageInfoFragment, CardEventFragment],
 );
 
 export const GetEventById = graphql(
@@ -54,7 +55,7 @@ export const GetEventById = graphql(
             }
         }
     `,
-    [GroupAvatarFragment, TicketDetailFragment]
+    [GroupAvatarFragment, TicketDetailFragment],
 );
 
 export const BookEvent = graphql(
@@ -81,5 +82,5 @@ export const BookEvent = graphql(
             }
         }
     `,
-    [MutationErrorsFragment]
+    [MutationErrorsFragment],
 );

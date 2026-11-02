@@ -1,12 +1,14 @@
 import { browser } from '$app/env';
+import { type } from 'arktype';
 import { get, writable } from 'svelte/store';
+
 import type { SessionToken } from '#lib/api/index.ts';
 
 export const SESSION_TOKEN_COOKIE_NAME = 'session_token';
 export const AUTHED_VIA_COOKIE_NAME = 'authed_via';
 
-const initialSessionToken = loadToken();
-const sessionTokenStore = writable<SessionToken | null>(initialSessionToken);
+const initialSessionToken = loadToken(),
+    sessionTokenStore = writable<SessionToken | null>(initialSessionToken);
 
 function isTokenExpired(sessionToken: SessionToken) {
     return (
@@ -33,8 +35,12 @@ function readCookie(name: string): string | null {
  */
 export function writeCookie(name: string, value: string, expiresAt?: Date) {
     const parts = [`${name}=${encodeURIComponent(value)}`, 'path=/', 'SameSite=Lax'];
-    if (expiresAt) parts.push(`expires=${expiresAt.toUTCString()}`);
-    if (location.protocol === 'https:') parts.push('Secure');
+    if (expiresAt) {
+        parts.push(`expires=${expiresAt.toUTCString()}`);
+    }
+    if (location.protocol === 'https:') {
+        parts.push('Secure');
+    }
     document.cookie = parts.join('; ');
 }
 
@@ -47,17 +53,25 @@ export function deleteCookie(name: string) {
     document.cookie = `${name}=; path=/; max-age=0`;
 }
 
+const StoredSession = type({
+    token: 'string',
+    expiresAt: 'string',
+});
+
 /**
  * Deserializes a session token from a string
  * @param raw the string to deserialize
  * @returns the deserialized session token or null if the string is invalid
  */
 export function deserializeToken(raw: string | null | undefined): SessionToken | null {
-    if (!raw) return null;
+    if (!raw) {
+        return null;
+    }
 
     try {
-        const parsed = JSON.parse(raw) as { token: string; expiresAt: string };
-        return { token: parsed.token, expiresAt: new Date(parsed.expiresAt) };
+        const out = StoredSession(JSON.parse(raw));
+        if (out instanceof type.errors) return null;
+        return { expiresAt: new Date(out.expiresAt), token: out.token };
     } catch {
         return null;
     }
@@ -103,10 +117,10 @@ export function setToken(newSessionToken: SessionToken | null) {
     writeCookie(
         SESSION_TOKEN_COOKIE_NAME,
         JSON.stringify({
+            expiresAt: newSessionToken.expiresAt.toISOString(),
             token: newSessionToken.token,
-            expiresAt: newSessionToken.expiresAt.toISOString()
         }),
-        newSessionToken.expiresAt
+        newSessionToken.expiresAt,
     );
 }
 

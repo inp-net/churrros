@@ -1,13 +1,14 @@
 <script lang="ts">
     import { page } from '$app/state';
+    import { createQuery } from '@tanstack/svelte-query';
+
     import { majorRepository } from '#lib/api/index.ts';
     import CardMajor from '#lib/components/card/CardMajor.svelte';
     import { m } from '#lib/paraglide/messages.js';
-    import { createQuery } from '@tanstack/svelte-query';
 
     const queryProfile = createQuery(() => ({
+        queryFn: () => majorRepository.getMajorProfile(page.params.id),
         queryKey: ['major', page.params.id],
-        queryFn: () => majorRepository.getMajorProfile(page.params.id)
     }));
 </script>
 

@@ -11,24 +11,25 @@
 
     type Step = 'start' | 'beneficiary-external' | 'beneficiary-internal' | 'confirm';
 
-    let historyStack = $state<Step[]>(['start']);
-    let step = $derived(historyStack.at(-1)!);
-
-    let churrosBeneficiary = $state<string | undefined>(undefined);
-    let beneficiary = $state<string | undefined>(undefined);
-
-    let booking = $state(false);
-
-    let dialog: HTMLDialogElement | undefined;
+    let historyStack = $state<Step[]>(['start']),
+        step = $derived(historyStack.at(-1)!),
+        churrosBeneficiary = $state<string | undefined>(),
+        beneficiary = $state<string | undefined>(),
+        booking = $state(false),
+        dialog: HTMLDialogElement | undefined;
     $effect(() => {
         if (open) {
             historyStack = ['start'];
             dialog?.showModal();
-        } else dialog?.close();
+        } else {
+            dialog?.close();
+        }
     });
 
     function back() {
-        if (historyStack.length > 1) historyStack = historyStack.slice(0, -1);
+        if (historyStack.length > 1) {
+            historyStack = historyStack.slice(0, -1);
+        }
     }
 
     function advance(next: Step) {

@@ -1,72 +1,74 @@
-import { readFragment, type $tada, type ResultOf } from 'gql.tada';
-import { StudentAssociationAvatar } from '../../queries/fragments/studentAssociationAvatar';
+import { type $tada, type ResultOf, readFragment } from 'gql.tada';
+
 import type {
     Avatar,
     CardService,
     GroupAvatar,
     Page,
-    StudentAssociationProfile
+    StudentAssociationProfile,
 } from '#lib/api/index.ts';
+
+import { PageInfoFragment } from '../../queries/fragments/pagination';
+import { StudentAssociationAvatar } from '../../queries/fragments/studentAssociationAvatar';
 import type {
     GetStudentAssociationGroups,
     GetStudentAssociationProfile,
-    GetStudentAssociationServices
+    GetStudentAssociationServices,
 } from '../../queries/studentassociation';
-import { mapSchool } from '../school';
-import { mapLink } from '../link';
-import { PageInfoFragment } from '../../queries/fragments/pagination';
 import { mapGroupAvatarWithDescription } from '../group';
+import { mapLink } from '../link';
+import { mapSchool } from '../school';
 import { mapCardService } from '../service';
 
-type StudentAssociationAvatarFragmentType = {
+interface StudentAssociationAvatarFragmentType {
     [$tada.fragmentRefs]: {
         StudentAssociationAvatar: 'StudentAssociation';
     };
-};
+}
 
 export function mapStudentAssociationAvatar(
-    studentAssociation: StudentAssociationAvatarFragmentType
+    studentAssociation: StudentAssociationAvatarFragmentType,
 ): Avatar {
     const data = readFragment(StudentAssociationAvatar, studentAssociation);
     return {
-        uid: data.uid,
         name: data.name,
-        pictureURL: data.pictureURL
+        pictureURL: data.pictureURL,
+        uid: data.uid,
     };
 }
 
 export function mapStudentAssociationProfile(
-    studentAssociation: ResultOf<typeof GetStudentAssociationProfile>['studentAssociation']
+    studentAssociation: ResultOf<typeof GetStudentAssociationProfile>['studentAssociation'],
 ): StudentAssociationProfile {
     return {
-        studentAssociation: mapStudentAssociationAvatar(studentAssociation),
-        email: studentAssociation.email,
-        description: studentAssociation.descriptionHtml,
         activeMembersCount: studentAssociation.activeMembersCount,
-        membersCount: studentAssociation.membersCount,
+        description: studentAssociation.descriptionHtml,
+        email: studentAssociation.email,
         links: studentAssociation.links.map((link) => mapLink(link)),
-        school: mapSchool(studentAssociation.school)
+        membersCount: studentAssociation.membersCount,
+        school: mapSchool(studentAssociation.school),
+        studentAssociation: mapStudentAssociationAvatar(studentAssociation),
     };
 }
 
 export function mapStudentAssociationGroups(
-    studentAssociation: ResultOf<typeof GetStudentAssociationGroups>['studentAssociation']
+    studentAssociation: ResultOf<typeof GetStudentAssociationGroups>['studentAssociation'],
 ): Page<GroupAvatar> {
     const pageInfo = readFragment(PageInfoFragment, studentAssociation.groups.pageInfo);
     return {
         items: studentAssociation.groups.edges.map((edge) =>
-            mapGroupAvatarWithDescription(edge.node)
+            mapGroupAvatarWithDescription(edge.node),
         ),
-        pageInfo
+        pageInfo,
     };
 }
 
 export function mapStudentAssociationServices(
-    studentAssociation: ResultOf<typeof GetStudentAssociationServices>['studentAssociation']
+    studentAssociation: ResultOf<typeof GetStudentAssociationServices>['studentAssociation'],
 ): Page<CardService> {
     const pageInfo = readFragment(PageInfoFragment, studentAssociation.services.pageInfo);
     return {
         items: studentAssociation.services.edges.map((edge) => mapCardService(edge.node)),
-        pageInfo
+        pageInfo,
     };
 }

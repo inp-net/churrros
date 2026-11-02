@@ -1,6 +1,7 @@
-import type { CredentialsProvider } from '../types';
 import { authRepository } from '#lib/api/index.ts';
 import { setToken, writeCookie, AUTHED_VIA_COOKIE_NAME } from '#lib/auth/session.ts';
+
+import type { CredentialsProvider } from '../types';
 
 export const credentialsProvider: CredentialsProvider = {
     async login(emailOrUid: string, password: string) {
@@ -12,5 +13,5 @@ export const credentialsProvider: CredentialsProvider = {
         } catch {
             throw new Error('Invalid email or password');
         }
-    }
+    },
 };

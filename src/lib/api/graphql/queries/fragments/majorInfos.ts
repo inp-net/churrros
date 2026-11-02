@@ -1,4 +1,5 @@
 import { graphql } from '#lib/api/graphql/graphql.ts';
+
 import { MajorAvatarFragment } from './majorAvatar';
 
 export const MajorInfosFragment = graphql(
@@ -9,5 +10,5 @@ export const MajorInfosFragment = graphql(
             discontinued
         }
     `,
-    [MajorAvatarFragment]
+    [MajorAvatarFragment],
 );

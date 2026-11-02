@@ -1,5 +1,6 @@
 <script lang="ts">
     import type { Avatar as AvatarType } from '#lib/api/index.ts';
+
     import Avatar from '../avatar/Avatar.svelte';
 
     interface Props {

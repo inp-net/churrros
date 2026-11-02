@@ -1,4 +1,5 @@
 import { graphql } from '#lib/api/graphql/graphql.ts';
+
 import { CardTicketFragment } from './cardTicket';
 import { GroupAvatarFragment } from './groupAvatar';
 import { MajorAvatarFragment } from './majorAvatar';
@@ -26,5 +27,5 @@ export const TicketDetailFragment = graphql(
             }
         }
     `,
-    [GroupAvatarFragment, CardTicketFragment, MajorAvatarFragment, SchoolAvatarFragment]
+    [GroupAvatarFragment, CardTicketFragment, MajorAvatarFragment, SchoolAvatarFragment],
 );

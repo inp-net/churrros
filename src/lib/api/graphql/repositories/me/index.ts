@@ -1,13 +1,14 @@
-import type { MeRepository } from '#lib/api/repositories.ts';
 import { request } from '#lib/api/graphql/client.ts';
 import {
     GetCanCreateEventsOn,
     GetCanCreateGroupsOn,
     GetMe,
-    RememberPaymentPhone
+    RememberPaymentPhone,
 } from '#lib/api/graphql/queries/me/index.ts';
-import { mapMe, mapRememberPaymentPhone } from '#lib/api/graphql/mappers/me/index.ts';
+import type { MeRepository } from '#lib/api/repositories.ts';
+
 import { mapGroupAvatar } from '../../mappers/group';
+import { mapMe, mapRememberPaymentPhone } from '../../mappers/me';
 import { mapStudentAssociationAvatar } from '../../mappers/studentassociation';
 
 export const meRepository: MeRepository = {
@@ -27,7 +28,7 @@ export const meRepository: MeRepository = {
             if (!response.me) {
                 return [];
             }
-            return response.me?.canCreateEventsOn.map((groupAvatar) => mapGroupAvatar(groupAvatar));
+            return response.me.canCreateEventsOn.map((groupAvatar) => mapGroupAvatar(groupAvatar));
         } catch (error) {
             //TODO : Vrai gestion d'erreur
             console.error('Error fetching current user:', error);
@@ -41,7 +42,7 @@ export const meRepository: MeRepository = {
                 return [];
             }
             return response.me.canCreateGroupsOn.map((studentAssociationAvatar) =>
-                mapStudentAssociationAvatar(studentAssociationAvatar)
+                mapStudentAssociationAvatar(studentAssociationAvatar),
             );
         } catch (error) {
             //TODO : Vrai gestion d'erreur
@@ -58,5 +59,5 @@ export const meRepository: MeRepository = {
             console.error('Error remembering payment phone:', error);
             throw error;
         }
-    }
+    },
 };

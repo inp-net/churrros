@@ -1,40 +1,37 @@
 <script lang="ts">
     import { page } from '$app/state';
+    import { createQuery } from '@tanstack/svelte-query';
+    import { Stack } from 'azucar-ui';
+
     import { userRepository } from '#lib/api/index.ts';
     import UserFamily from '#lib/components/tabs/UserFamily.svelte';
     import UserGroups from '#lib/components/tabs/UserGroups.svelte';
     import UserInfo from '#lib/components/tabs/UserInfo.svelte';
     import UserProfile from '#lib/components/tabs/UserProfile.svelte';
     import { m } from '#lib/paraglide/messages.js';
-    import { createQuery } from '@tanstack/svelte-query';
-    import { Stack } from 'azucar-ui';
 
     type Tab = 'info' | 'groups' | 'family';
 
-    const tab = $derived<Tab>((page.url.searchParams.get('tab') as Tab) || 'info');
-
-    const queryProfile = createQuery(() => ({
-        queryKey: ['user', page.params.id],
-        queryFn: () => userRepository.getUserProfile(page.params.id)
-    }));
-
-    const queryInfo = createQuery(() => ({
-        queryKey: ['user', page.params.id, 'info'],
-        queryFn: () => userRepository.getUserInfos(page.params.id),
-        enabled: tab === 'info'
-    }));
-
-    const queryGroups = createQuery(() => ({
-        queryKey: ['user', page.params.id, 'groups'],
-        queryFn: () => userRepository.getUserGroups(page.params.id),
-        enabled: tab === 'groups'
-    }));
-
-    const queryFamily = createQuery(() => ({
-        queryKey: ['user', page.params.id, 'family'],
-        queryFn: () => userRepository.getUserFamily(page.params.id),
-        enabled: tab === 'family'
-    }));
+    const tab = $derived<Tab>((page.url.searchParams.get('tab') as Tab) || 'info'),
+        queryProfile = createQuery(() => ({
+            queryFn: () => userRepository.getUserProfile(page.params.id),
+            queryKey: ['user', page.params.id],
+        })),
+        queryInfo = createQuery(() => ({
+            enabled: tab === 'info',
+            queryFn: () => userRepository.getUserInfos(page.params.id),
+            queryKey: ['user', page.params.id, 'info'],
+        })),
+        queryGroups = createQuery(() => ({
+            enabled: tab === 'groups',
+            queryFn: () => userRepository.getUserGroups(page.params.id),
+            queryKey: ['user', page.params.id, 'groups'],
+        })),
+        queryFamily = createQuery(() => ({
+            enabled: tab === 'family',
+            queryFn: () => userRepository.getUserFamily(page.params.id),
+            queryKey: ['user', page.params.id, 'family'],
+        }));
 </script>
 
 <Stack>

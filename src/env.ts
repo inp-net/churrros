@@ -8,7 +8,7 @@ export const variables = defineEnvVars({
         schema: (value) => {
             if (!value) throw new Error('PUBLIC_API_AUTH_URL is required');
             return value;
-        }
+        },
     },
     PUBLIC_API_URL: {
         public: true,
@@ -16,6 +16,6 @@ export const variables = defineEnvVars({
         schema: (value) => {
             if (!value) throw new Error('PUBLIC_API_URL is required');
             return value;
-        }
-    }
+        },
+    },
 });

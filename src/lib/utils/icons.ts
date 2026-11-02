@@ -5,15 +5,15 @@ import { getLocale } from '#lib/paraglide/runtime.js';
 
 // DO not factorize the parameters or it will break the type which vite doesn't like
 const appleWalletAssets = import.meta.glob('#lib/assets/wallet/apple/*.svg', {
-    eager: true,
-    query: '?url',
-    import: 'default'
-}); // To find apple wallet assetss : https://developer.apple.com/wallet/add-to-apple-wallet-guidelines/
-const googleWalletAssets = import.meta.glob('#lib/assets/wallet/google/*.svg', {
-    eager: true,
-    query: '?url',
-    import: 'default'
-}); // To find google wallet assets : https://developers.google.com/wallet/generic/resources/brand-guidelines?hl=fr
+        eager: true,
+        import: 'default',
+        query: '?url',
+    }), // To find apple wallet assetss : https://developer.apple.com/wallet/add-to-apple-wallet-guidelines/
+    googleWalletAssets = import.meta.glob('#lib/assets/wallet/google/*.svg', {
+        eager: true,
+        import: 'default',
+        query: '?url',
+    }); // To find google wallet assets : https://developers.google.com/wallet/generic/resources/brand-guidelines?hl=fr
 
 function findAsset(assets: Record<string, string>, locale: string): string | undefined {
     const entry = Object.entries(assets).find(([key]) => key.endsWith(`/${locale}.svg`));
@@ -24,10 +24,15 @@ export function getWalletAsset(walletTarget: WalletTarget): string | undefined {
     const locale = getLocale();
 
     switch (walletTarget) {
-        case 'Apple':
+        case 'Apple': {
             return findAsset(appleWalletAssets, locale);
-        case 'Google':
+        }
+        case 'Google': {
             return findAsset(googleWalletAssets, locale);
+        }
+        default: {
+            throw new Error(`Unknown wallet target`);
+        }
     }
 }
 //#endregion

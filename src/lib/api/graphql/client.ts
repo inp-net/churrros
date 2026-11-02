@@ -1,6 +1,7 @@
+import { PUBLIC_API_URL } from '$app/env/public';
 import type { TadaDocumentNode } from 'gql.tada';
 import { print } from 'graphql';
-import { PUBLIC_API_URL } from '$app/env/public';
+
 import { getToken } from '#lib/auth/session.ts';
 
 /**
@@ -11,10 +12,10 @@ import { getToken } from '#lib/auth/session.ts';
  */
 export async function request<Result, Variables>(
     document: TadaDocumentNode<Result, Variables>,
-    variables?: Variables
+    variables?: Variables,
 ): Promise<Result> {
     const headers: Record<string, string> = {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
     };
     const sessionToken = getToken();
     if (sessionToken) {
@@ -27,8 +28,8 @@ export async function request<Result, Variables>(
         credentials: 'include',
         body: JSON.stringify({
             query: print(document),
-            variables
-        })
+            variables,
+        }),
     });
 
     const result = await response.json();
@@ -38,5 +39,5 @@ export async function request<Result, Variables>(
         throw new Error(result.errors.map((error: any) => error.message).join('\n'));
     }
 
-    return result.data as Result;
+    return result.data;
 }

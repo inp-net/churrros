@@ -2,13 +2,13 @@
     import { createQuery } from '@tanstack/svelte-query';
 
     import { serviceRepository } from '#lib/api/index.ts';
-    import { m } from '#lib/paraglide/messages.js';
     import CardService from '#lib/components/card/CardService.svelte';
+    import { m } from '#lib/paraglide/messages.js';
 
     const query = createQuery(() => ({
-        queryKey: ['services'],
+        notifyOnChangeProps: 'all',
         queryFn: () => serviceRepository.getServices(),
-        notifyOnChangeProps: 'all'
+        queryKey: ['services'],
     }));
 </script>
 
