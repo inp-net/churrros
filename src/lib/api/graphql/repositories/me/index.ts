@@ -1,6 +1,5 @@
 import type { MeRepository } from '#lib/api/repositories.ts';
-import { request, requestServer } from '#lib/api/graphql/client.ts';
-import type { Cookies } from '@sveltejs/kit';
+import { request } from '#lib/api/graphql/client.ts';
 import {
     GetCanCreateEventsOn,
     GetCanCreateGroupsOn,
@@ -12,9 +11,9 @@ import { mapGroupAvatar } from '../../mappers/group';
 import { mapStudentAssociationAvatar } from '../../mappers/studentassociation';
 
 export const meRepository: MeRepository = {
-    async getMe(event?: { fetch: typeof fetch; cookies: Cookies }) {
+    async getMe() {
         try {
-            const response = await requestServer(GetMe, undefined, event);
+            const response = await request(GetMe);
             return mapMe(response.me);
         } catch (error) {
             //TODO : Vrai gestion d'erreur

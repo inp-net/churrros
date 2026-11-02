@@ -3,6 +3,7 @@ import { get, writable } from 'svelte/store';
 import type { SessionToken } from '#lib/api/index.ts';
 
 export const SESSION_TOKEN_COOKIE_NAME = 'session_token';
+export const AUTHED_VIA_COOKIE_NAME = 'authed_via';
 
 const initialSessionToken = loadToken();
 const sessionTokenStore = writable<SessionToken | null>(initialSessionToken);
@@ -109,6 +110,12 @@ export function setToken(newSessionToken: SessionToken | null) {
     );
 }
 
+/**
+ * Clears the session token from the store and deletes the corresponding cookie
+ * Also deletes the authed_via cookie if it exists
+ * Only client-side as it deletes the cookie via document.cookie
+ */
 export function clearToken() {
     setToken(null);
+    if (browser) deleteCookie(AUTHED_VIA_COOKIE_NAME);
 }
