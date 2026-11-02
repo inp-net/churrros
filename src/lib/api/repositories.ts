@@ -167,7 +167,7 @@ export interface MeRepository {
      * @param event the server event containing the fetch and cookies objects
      * @returns the information of the currently authenticated user, or null if not authenticated
      */
-    getMe(event?: { fetch: typeof fetch; cookies: Cookies }): Promise<User | null>;
+    getMe(): Promise<User | null>;
 
     /**
      * Fetches the list of groups on which the currently authenticated user can create events

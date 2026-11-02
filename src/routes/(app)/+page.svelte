@@ -4,8 +4,11 @@
     import InfiniteScroll from '#lib/components/InfiniteScroll.svelte';
     import CardArticle from '#lib/components/card/CardArticle.svelte';
     import CardBirthday from '#lib/components/card/CardBirthday.svelte';
-    import { Skeleton, Stack } from 'azucar-ui';
+    import { Button, Skeleton, Stack } from 'azucar-ui';
     import { m } from '#lib/paraglide/messages.js';
+    import type { PageProps } from './$types';
+
+    let { data }: PageProps = $props();
 
     const query = createInfiniteQuery(() => ({
         queryKey: ['articles'],
@@ -19,16 +22,23 @@
     const birthdayQuery = createQuery(() => ({
         queryKey: ['todayBirthdays'],
         queryFn: () => userRepository.getBirthdays(true),
-        notifyOnChangeProps: 'all'
+        notifyOnChangeProps: 'all',
+        enabled: data.user !== null
     }));
 
     const articles = $derived(query.data?.pages.flatMap((page) => page.items) ?? []);
 </script>
 
-{#if birthdayQuery.isPending}
-    <Skeleton height="var(--size-xl)" />
-{:else if birthdayQuery.isSuccess}
-    <CardBirthday avatars={birthdayQuery.data} />
+{#if data.user === null}
+    <p>{m['login.birthdays']()}</p>
+    <Button href="/login">{m.login()}</Button>
+    <!-- TODO : ONCE SIGNUP EXISTS ADD IT HERE-->
+{:else}
+    {#if birthdayQuery.isPending}
+        <Skeleton height="var(--size-xl)" />
+    {:else if birthdayQuery.isSuccess}
+        <CardBirthday avatars={birthdayQuery.data} />
+    {/if}
 {/if}
 
 <h3>{m.announcements()}</h3>
