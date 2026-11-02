@@ -1,6 +1,6 @@
 import { browser } from '$app/env';
 import { get, writable } from 'svelte/store';
-
+import { type } from 'arktype';
 import type { SessionToken } from '#lib/api/index.ts';
 
 export const SESSION_TOKEN_COOKIE_NAME = 'session_token';
@@ -52,6 +52,11 @@ export function deleteCookie(name: string) {
     document.cookie = `${name}=; path=/; max-age=0`;
 }
 
+const StoredSession = type({
+    token: 'string',
+    expiresAt: 'string',
+});
+
 /**
  * Deserializes a session token from a string
  * @param raw the string to deserialize
@@ -63,8 +68,9 @@ export function deserializeToken(raw: string | null | undefined): SessionToken |
     }
 
     try {
-        const parsed = JSON.parse(raw) as { token: string; expiresAt: string };
-        return { expiresAt: new Date(parsed.expiresAt), token: parsed.token };
+        const out = StoredSession(JSON.parse(raw));
+        if (out instanceof type.errors) return null;
+        return { expiresAt: new Date(out.expiresAt), token: out.token };
     } catch {
         return null;
     }
