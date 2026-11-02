@@ -1,14 +1,14 @@
 <script lang="ts">
-    import { goto } from '$app/navigation';
-    import { onMount } from 'svelte';
+    import { goto, refreshAll } from "$app/navigation";
+    import { clearToken } from "#lib/auth/session.ts";
+    import { onMount } from "svelte";
+    import { m } from "#lib/paraglide/messages.js";
 
-    import { clearToken } from '#lib/auth/session.ts';
-    import { m } from '#lib/paraglide/messages.js';
-    // TODO : Delete the authed via token
     onMount(async () => {
         clearToken();
-        await goto('/');
+        await refreshAll();
+        await goto("/");
     });
 </script>
 
-<p>{m['loading']()}</p>
+<p>{m["loading"]()}</p>
