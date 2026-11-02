@@ -101,9 +101,6 @@ export function mapBookingDetail(
 export function mapGoogleWalletPass(
     result: ResultOf<typeof GetGoogleWalletPass>['createGoogleWalletPass'],
 ): string {
-    if (!result) {
-        throw new Error('No google wallet pass data found');
-    }
     switch (result.__typename) {
         case 'Error': {
             const errorsFragment = readFragment(MutationErrorsFragment, result);

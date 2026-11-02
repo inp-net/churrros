@@ -6,10 +6,6 @@ import { SessionTokenFragment } from '#lib/api/graphql/queries/fragments/session
 import type { SessionToken } from '#lib/api/index.ts';
 
 export const mapSessionToken = (data: ResultOf<typeof LoginMutation>['login']): SessionToken => {
-    if (!data) {
-        throw new Error('No session token data found');
-    }
-
     switch (data.__typename) {
         case 'Error': {
             const errorsFragment = readFragment(MutationErrorsFragment, data);

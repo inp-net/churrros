@@ -115,13 +115,10 @@ export function mapGroupedBirthdays(
             continue;
         }
         const avatar = mapUserAvatar(item);
-        if (!result[date]) {
-            result[date] = [];
-        }
         result[date].push(avatar);
     }
     return Object.fromEntries(
-        Object.entries(result).sort(([a], [b]) => a.localeCompare(b)), //To sort the dates
+        Object.entries(result).toSorted(([a], [b]) => a.localeCompare(b)), //To sort the dates
     );
 }
 

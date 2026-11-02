@@ -28,7 +28,7 @@ export const meRepository: MeRepository = {
             if (!response.me) {
                 return [];
             }
-            return response.me?.canCreateEventsOn.map((groupAvatar) => mapGroupAvatar(groupAvatar));
+            return response.me.canCreateEventsOn.map((groupAvatar) => mapGroupAvatar(groupAvatar));
         } catch (error) {
             //TODO : Vrai gestion d'erreur
             console.error('Error fetching current user:', error);

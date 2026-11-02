@@ -38,5 +38,5 @@ export async function request<Result, Variables>(
         throw new Error(result.errors.map((error: any) => error.message).join('\n'));
     }
 
-    return result.data as Result;
+    return result.data;
 }

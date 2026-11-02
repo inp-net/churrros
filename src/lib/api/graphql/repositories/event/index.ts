@@ -44,9 +44,6 @@ export const eventRepository: EventRepository = {
         }
         try {
             const response = await request(GetEventById, { id });
-            if (!response.event) {
-                throw new Error('Not found');
-            }
             return mapEventDetail(response.event);
         } catch (error) {
             //TODO : Vrai gestion d'erreur

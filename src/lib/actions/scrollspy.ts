@@ -8,7 +8,7 @@ export const scrollspy: Action<HTMLElement, () => void> = (
         (entries) => {
             const visible = entries
                 .filter((entry) => entry.isIntersecting)
-                .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+                .toSorted((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
 
             if (visible.length > 0) {
                 onActive();
