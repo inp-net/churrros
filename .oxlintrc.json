@@ -11,10 +11,18 @@
         "no-underscore-dangle": ["warn", { "allow": ["__typename"] }]
     },
     "env": {
+        "browser": true,
         "builtin": true
     },
     "options": {
         "typeAware": true,
         "typeCheck": true
+    },
+    "globals": {
+        "$state": "readonly",
+        "$derived": "readonly",
+        "$effect": "readonly",
+        "$props": "readonly",
+        "$bindable": "readonly"
     }
 }
