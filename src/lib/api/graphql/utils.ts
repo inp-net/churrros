@@ -31,10 +31,7 @@ export function assertMutationSuccess(
         return;
     }
 
-    const data = readFragment(
-        MutationErrorsFragment,
-        result,
-    );
+    const data = readFragment(MutationErrorsFragment, result);
     switch (data.__typename) {
         case 'Error': {
             throw new Error(data.message);

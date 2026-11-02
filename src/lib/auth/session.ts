@@ -1,6 +1,7 @@
 import { browser } from '$app/env';
-import { get, writable } from 'svelte/store';
 import { type } from 'arktype';
+import { get, writable } from 'svelte/store';
+
 import type { SessionToken } from '#lib/api/index.ts';
 
 export const SESSION_TOKEN_COOKIE_NAME = 'session_token';

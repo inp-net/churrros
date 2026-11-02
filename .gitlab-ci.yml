@@ -64,6 +64,13 @@ lint:
     script:
         - pnpm lint
 
+format:
+    extends: .node
+    stage: verify
+    allow_failure: true
+    script:
+        - pnpm format:check
+
 check:
     extends: .node
     stage: verify
