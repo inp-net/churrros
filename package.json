@@ -12,7 +12,7 @@
         "build": "vite build",
         "preview": "vite preview",
         "prepare": "svelte-kit sync || echo 'svelte-kit sync skipped'; lefthook install || echo 'lefthook skipped'",
-        "check": "pnpm paraglide:compile && svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+        "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
         "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
         "lint": "oxlint",
         "format": "oxfmt",
