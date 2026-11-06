@@ -2,11 +2,13 @@ import { request } from '#lib/api/graphql/client.ts';
 import type { StudentAssociationRepository } from '#lib/api/repositories.ts';
 
 import {
+    mapCanCreateServicesOn,
     mapStudentAssociationGroups,
     mapStudentAssociationProfile,
     mapStudentAssociationServices,
 } from '../../mappers/studentassociation';
 import {
+    GetCanCreateServicesOn,
     GetStudentAssociationGroups,
     GetStudentAssociationProfile,
     GetStudentAssociationServices,
@@ -53,6 +55,16 @@ export const studentAssociationRepository: StudentAssociationRepository = {
         } catch (error) {
             //TODO : Vrai gestion d'erreur
             console.error('Error fetching student association services:', error);
+            throw error;
+        }
+    },
+    async canCreateServicesOn() {
+        try {
+            const response = await request(GetCanCreateServicesOn);
+            return mapCanCreateServicesOn(response);
+        } catch (error) {
+            //TODO : Vrai gestion d'erreur
+            console.error('Error fetching can create services on:', error);
             throw error;
         }
     },

@@ -5,6 +5,7 @@ import { meRepository } from '#lib/api/index.ts';
 export const ssr = false;
 
 export const load = async () => {
+    console.log(document.cookie);
     if (browser && !/(^|; )authed_via=(credentials|oauth2)/.test(document.cookie)) {
         return { user: null };
     }

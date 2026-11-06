@@ -33,6 +33,7 @@ import type {
     UserProfile,
 } from '#lib/api/index.ts';
 import type { UpdateGroupPatch } from '#lib/forms/group/group.schema.ts';
+import type { ServiceInput } from '#lib/forms/service/service.schema.ts';
 
 export interface EventRepository {
     /**
@@ -355,6 +356,13 @@ export interface GroupRepository {
      * @throws an error if the group could not be updated
      */
     updateGroup(data: UpdateGroupPatch, uid?: string): Promise<void>;
+
+    /**
+     * Returns the list of avatars of all groups.
+     * @returns the list of avatars of all groups
+     * @throws an error if the groups could not be retrieved
+     */
+    getGroupsAvatar(): Promise<Avatar[]>;
 }
 
 export interface StudentAssociationRepository {
@@ -384,6 +392,14 @@ export interface StudentAssociationRepository {
      * @returns a page of card services with pagination information, or null if the student association is not found
      */
     getStudentAssociationServices(uid?: string, args?: PageRequest): Promise<Page<CardService>>;
+
+    /**
+     * Returns the student associations and schools on which the currently authenticated user can create services on.
+     * TODO : Once the API is modified this should be in two distinct queries in meRepository
+     * @returns an object containing the list of student associations and schools on which the user can create services
+     * @throws an error if the user is not authenticated
+     */
+    canCreateServicesOn(): Promise<{ studentAssociations: Avatar[]; schools: Avatar[] }>;
 }
 
 export interface SchoolRepository {
@@ -434,4 +450,10 @@ export interface ServiceRepository {
      * @returns a list of card services
      */
     getServices(): Promise<CardService[]>;
+
+    /**
+     * Creates a new service with the specified parameters.
+     * @param data the data for the new service
+     */
+    createService(data: ServiceInput): Promise<void>;
 }

@@ -17,6 +17,9 @@
 {:else if query.isError}
     <p>Error: {query.error.message}</p>
 {:else if query.isSuccess}
+    <a href="/services/new">
+        {m['service.new']()}
+    </a>
     {#each query.data as service (service.id)}
         <CardService {service} />
     {/each}

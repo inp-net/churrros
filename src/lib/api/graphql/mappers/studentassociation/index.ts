@@ -11,6 +11,7 @@ import type {
 import { PageInfoFragment } from '../../queries/fragments/pagination';
 import { StudentAssociationAvatar } from '../../queries/fragments/studentAssociationAvatar';
 import type {
+    GetCanCreateServicesOn,
     GetStudentAssociationGroups,
     GetStudentAssociationProfile,
     GetStudentAssociationServices,
@@ -70,5 +71,17 @@ export function mapStudentAssociationServices(
     return {
         items: studentAssociation.services.edges.map((edge) => mapCardService(edge.node)),
         pageInfo,
+    };
+}
+
+export function mapCanCreateServicesOn(result: ResultOf<typeof GetCanCreateServicesOn>): {
+    studentAssociations: Avatar[];
+    schools: Avatar[];
+} {
+    const allowed = result.studentAssociations.filter((sa) => sa.canCreateServices);
+
+    return {
+        studentAssociations: allowed.map((sa) => mapStudentAssociationAvatar(sa)),
+        schools: allowed.map((sa) => mapSchool(sa.school)),
     };
 }

@@ -6,6 +6,7 @@ import {
     mapGroupInfos,
     mapGroupMembers,
     mapGroupProfile,
+    mapGroupsAvatar,
     mapGroupSeeAlso,
 } from '#lib/api/graphql/mappers/group/index.ts';
 import {
@@ -21,6 +22,7 @@ import {
     GetGroupMembers,
     GetGroupPermissions,
     GetGroupProfile,
+    GetGroupsAvatar,
     GetGroupSeeAlso,
 } from '#lib/api/graphql/queries/group/index.ts';
 import type { GroupRepository } from '#lib/api/repositories.ts';
@@ -213,6 +215,16 @@ export const groupRepository: GroupRepository = {
         } catch (error) {
             //TODO : Vrai gestion d'erreur
             console.error('Error updating group:', error);
+            throw error;
+        }
+    },
+    async getGroupsAvatar() {
+        try {
+            const response = await request(GetGroupsAvatar);
+            return mapGroupsAvatar(response.groups);
+        } catch (error) {
+            //TODO : Vrai gestion d'erreur
+            console.error('Error fetching groups avatar:', error);
             throw error;
         }
     },

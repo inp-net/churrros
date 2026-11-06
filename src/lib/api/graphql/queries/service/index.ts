@@ -12,3 +12,11 @@ export const GetServices = graphql(
     `,
     [CardServiceFragment],
 );
+
+export const CreateService = graphql(`
+    mutation CreateService($input: ServiceInput!) {
+        upsertServiceV2(input: $input) {
+            __typename
+        }
+    }
+`);

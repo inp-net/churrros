@@ -25,6 +25,7 @@ import type {
     GetGroupInfos,
     GetGroupMembers,
     GetGroupProfile,
+    GetGroupsAvatar,
     GetGroupSeeAlso,
 } from '../../queries/group';
 import { mapLink } from '../link';
@@ -184,4 +185,8 @@ export function mapGroupEditInfo(
         type: result.type,
         unlisted: result.unlisted,
     };
+}
+
+export function mapGroupsAvatar(groups: ResultOf<typeof GetGroupsAvatar>['groups']): Avatar[] {
+    return groups.map((group) => readFragment(GroupAvatarFragment, group));
 }
