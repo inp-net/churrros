@@ -33,6 +33,7 @@ import type {
     UserProfile,
 } from '#lib/api/index.ts';
 import type { UpdateGroupPatch } from '#lib/forms/group/group.schema.ts';
+import type { ServiceInput } from '#lib/forms/service/service.schema.ts';
 
 export interface EventRepository {
     /**
@@ -355,6 +356,13 @@ export interface GroupRepository {
      * @throws an error if the group could not be updated
      */
     updateGroup(data: UpdateGroupPatch, uid?: string): Promise<void>;
+
+    /**
+     * Returns the list of avatars of all groups.
+     * @returns the list of avatars of all groups
+     * @throws an error if the groups could not be retrieved
+     */
+    getGroupsAvatar(): Promise<Avatar[]>;
 }
 
 export interface StudentAssociationRepository {
@@ -384,6 +392,14 @@ export interface StudentAssociationRepository {
      * @returns a page of card services with pagination information, or null if the student association is not found
      */
     getStudentAssociationServices(uid?: string, args?: PageRequest): Promise<Page<CardService>>;
+
+    /**
+     * Returns the student associations and schools on which the currently authenticated user can create services on.
+     * TODO : Once the API is modified this should be in two distinct queries in meRepository
+     * @returns an object containing the list of student associations and schools on which the user can create services
+     * @throws an error if the user is not authenticated
+     */
+    canCreateServicesOn(): Promise<{ studentAssociations: Avatar[]; schools: Avatar[] }>;
 }
 
 export interface SchoolRepository {
@@ -425,13 +441,29 @@ export interface MajorRepository {
     getMajorProfile(uid?: string): Promise<MajorInfos>;
 }
 
-/**
- * Repository that handles services related API interactions
- */
 export interface ServiceRepository {
     /**
      * Returns the list of services that are available for the user to see.
      * @returns a list of card services
      */
     getServices(): Promise<CardService[]>;
+
+    /**
+     * Updates or creates a service with the specified parameters.
+     * If the serviceId is provided, it will update the existing service with that ID.
+     * If the serviceId is not provided, it will create a new service.
+     * @param data the data for the new service
+     * @param id the ID of the service to update (optional)
+     * @throws an error if the service could not be created or updated
+     * @throws an error if the serviceId is provided and the service does not exist
+     */
+    upsertService(data: ServiceInput, id?: string): Promise<void>;
+
+    /**
+     * Fetches the information of a service by its ID.
+     * @param id the ID of the service to retrieve (optional)
+     * @returns the information of the service
+     * @throws an error if the service does not exist
+     */
+    getServiceInfo(id?: string): Promise<ServiceInput>;
 }

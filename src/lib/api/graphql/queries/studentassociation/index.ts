@@ -73,3 +73,18 @@ export const GetStudentAssociationServices = graphql(
     `,
     [CardServiceFragment, PageInfoFragment],
 );
+
+export const GetCanCreateServicesOn = graphql(
+    `
+        query GetCanCreateServicesOn {
+            studentAssociations {
+                ...StudentAssociationAvatar
+                canCreateServices
+                school {
+                    ...SchoolAvatar
+                }
+            }
+        }
+    `,
+    [StudentAssociationAvatar, SchoolAvatarFragment],
+);

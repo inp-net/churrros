@@ -6,7 +6,11 @@
 
     import { type LoginInput, loginSchema } from './login.schema';
 
-    let { onsubmit }: { onsubmit: (data: LoginInput) => Promise<void> } = $props();
+    interface Props {
+        onsubmit: (data: LoginInput) => Promise<void>;
+    }
+
+    let { onsubmit }: Props = $props();
 
     const form = createForm(loginSchema, { password: '', username: '' });
     let submitError = $state('');

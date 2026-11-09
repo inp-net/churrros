@@ -349,6 +349,7 @@ export interface CardService {
     description: string;
     logo: string;
     pinned: boolean;
+    canEdit: boolean;
 }
 
 //#endregion

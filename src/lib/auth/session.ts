@@ -7,6 +7,11 @@ import type { SessionToken } from '#lib/api/index.ts';
 export const SESSION_TOKEN_COOKIE_NAME = 'session_token';
 export const AUTHED_VIA_COOKIE_NAME = 'authed_via';
 
+const StoredSession = type({
+    token: 'string',
+    expiresAt: 'string',
+});
+
 const initialSessionToken = loadToken(),
     sessionTokenStore = writable<SessionToken | null>(initialSessionToken);
 
@@ -53,11 +58,6 @@ export function deleteCookie(name: string) {
     document.cookie = `${name}=; path=/; max-age=0`;
 }
 
-const StoredSession = type({
-    token: 'string',
-    expiresAt: 'string',
-});
-
 /**
  * Deserializes a session token from a string
  * @param raw the string to deserialize
@@ -72,7 +72,8 @@ export function deserializeToken(raw: string | null | undefined): SessionToken |
         const out = StoredSession(JSON.parse(raw));
         if (out instanceof type.errors) return null;
         return { expiresAt: new Date(out.expiresAt), token: out.token };
-    } catch {
+    } catch (error) {
+        console.error('deserializeToken error:', error);
         return null;
     }
 }
@@ -81,8 +82,8 @@ function loadToken(): SessionToken | null {
     if (!browser) {
         return null;
     }
-
-    const storedSessionToken = deserializeToken(readCookie(SESSION_TOKEN_COOKIE_NAME));
+    const raw = readCookie(SESSION_TOKEN_COOKIE_NAME);
+    const storedSessionToken = deserializeToken(raw);
 
     if (!storedSessionToken || isTokenExpired(storedSessionToken)) {
         deleteCookie(SESSION_TOKEN_COOKIE_NAME);

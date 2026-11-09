@@ -298,3 +298,14 @@ export const GetGroupInfoForEdition = graphql(
     `,
     [GroupAvatarFragment, StudentAssociationAvatar],
 );
+
+export const GetGroupsAvatar = graphql(
+    `
+        query GetGroupsAvatar {
+            groups {
+                ...GroupAvatar
+            }
+        }
+    `,
+    [GroupAvatarFragment],
+);

@@ -1,7 +1,7 @@
 import { type } from 'arktype';
 
 export const loginSchema = type({
-    password: type('string >= 1'), // TODO: Put back real value (>= 8) when the seeding is corrected
+    password: type('string >= 8'),
     username: type('string.email | string.alphanumeric >= 2'),
 });
 
