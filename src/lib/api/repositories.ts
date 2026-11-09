@@ -441,9 +441,6 @@ export interface MajorRepository {
     getMajorProfile(uid?: string): Promise<MajorInfos>;
 }
 
-/**
- * Repository that handles services related API interactions
- */
 export interface ServiceRepository {
     /**
      * Returns the list of services that are available for the user to see.
@@ -452,8 +449,21 @@ export interface ServiceRepository {
     getServices(): Promise<CardService[]>;
 
     /**
-     * Creates a new service with the specified parameters.
+     * Updates or creates a service with the specified parameters.
+     * If the serviceId is provided, it will update the existing service with that ID.
+     * If the serviceId is not provided, it will create a new service.
      * @param data the data for the new service
+     * @param id the ID of the service to update (optional)
+     * @throws an error if the service could not be created or updated
+     * @throws an error if the serviceId is provided and the service does not exist
      */
-    createService(data: ServiceInput): Promise<void>;
+    upsertService(data: ServiceInput, id?: string): Promise<void>;
+
+    /**
+     * Fetches the information of a service by its ID.
+     * @param id the ID of the service to retrieve (optional)
+     * @returns the information of the service
+     * @throws an error if the service does not exist
+     */
+    getServiceInfo(id?: string): Promise<ServiceInput>;
 }

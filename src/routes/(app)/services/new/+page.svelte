@@ -14,7 +14,7 @@
     const queryClient = useQueryClient();
 
     async function createService(data: ServiceInput) {
-        await serviceRepository.createService(data);
+        await serviceRepository.upsertService(data);
         //Invalidate the query cache to see the new one
         queryClient.invalidateQueries({ queryKey: ['services'] });
         await goto(`/services`);

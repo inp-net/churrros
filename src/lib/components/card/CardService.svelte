@@ -18,3 +18,9 @@
         <!-- Ce sera une icone epingle donc pas besoin de texte -->
     {/if}
 </a>
+{#if service.canEdit}
+    <a href={`/services/${service.id}/edit`}>
+        <p>EDIT</p>
+        <!-- Ce sera une icone edit donc pas besoin de texte -->
+    </a>
+{/if}
