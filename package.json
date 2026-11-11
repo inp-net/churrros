@@ -1,5 +1,5 @@
 {
-    "name": "churrros",
+    "name": "churros",
     "version": "0.0.3",
     "private": true,
     "type": "module",
@@ -20,16 +20,21 @@
         "paraglide:compile": "paraglide-js compile --project ./project.inlang --outdir ./src/lib/paraglide"
     },
     "dependencies": {
+        "@capacitor/app": "^8.1.2",
+        "@capacitor/core": "^8.6.0",
         "@lucide/svelte": "^1.61.0",
+        "@sveltejs/adapter-static": "^4.0.1",
         "@tanstack/svelte-query": "^6.3.5",
         "azucar-ui": "^0.0.15",
         "gql.tada": "^1.11.4",
         "svelte-sonner": "^1.2.1"
     },
     "devDependencies": {
+        "@capacitor/android": "^8.6.0",
+        "@capacitor/cli": "^8.6.0",
+        "@capacitor/ios": "^8.6.0",
         "@gql.tada/svelte-support": "^1.0.3",
         "@inlang/paraglide-js": "^2.29.1",
-        "@sveltejs/adapter-node": "^6.0.0",
         "@sveltejs/kit": "^3.1.0",
         "@sveltejs/vite-plugin-svelte": "^7.3.1",
         "@types/node": "^26.6.5",

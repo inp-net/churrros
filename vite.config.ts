@@ -1,12 +1,14 @@
 import { paraglideVitePlugin } from '@inlang/paraglide-js';
-import adapter from '@sveltejs/adapter-node';
+import adapter from '@sveltejs/adapter-static';
 import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vite';
 
 export default defineConfig({
     plugins: [
         sveltekit({
-            adapter: adapter(),
+            adapter: adapter({
+                fallback: 'index.html',
+            }),
             compilerOptions: {
                 // Force runes mode for the project, except for libraries. Can be removed in svelte 6.
                 runes: ({ filename }) =>
