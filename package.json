@@ -11,6 +11,8 @@
         "dev": "vite dev --host",
         "build": "vite build",
         "preview": "vite preview",
+        "preview:android": "cap run android",
+        "preview:ios": "cap run ios",
         "prepare": "svelte-kit sync || echo 'svelte-kit sync skipped'; lefthook install || echo 'lefthook skipped'",
         "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
         "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
