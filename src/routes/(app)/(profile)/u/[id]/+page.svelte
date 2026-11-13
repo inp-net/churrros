@@ -43,10 +43,19 @@
         {:else if queryProfile.data}
             <UserProfile userProfile={queryProfile.data} />
         {/if}
+        {#if queryProfile.data?.canEditProfile}
+            <a href="/u/${page.params.id}/edit">{m['edit']()}</a>
+        {/if}
         <div>
-            <a href="?tab=info" class:active={tab === 'info'}>{m['info']()}</a>
-            <a href="?tab=groups" class:active={tab === 'groups'}>{m['groups']()}</a>
-            <a href="?tab=family" class:active={tab === 'family'}>{m['family']()}</a>
+            <a href="?tab=info" class:active={tab === 'info'}>
+                {m['info']()}
+            </a>
+            <a href="?tab=groups" class:active={tab === 'groups'}>
+                {m['groups']()}
+            </a>
+            <a href="?tab=family" class:active={tab === 'family'}>
+                {m['family']()}
+            </a>
         </div>
     </div>
 

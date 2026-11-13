@@ -149,5 +149,6 @@
     "form.service.edit.submit": "Modifier le service",
     "form.service.create.error": "Erreur lors de la création du service",
     "form.service.edit.error": "Erreur lors de la modification du service",
-    "service.new": "Ajouter un service"
+    "service.new": "Ajouter un service",
+    "edit": "Modifier"
 }

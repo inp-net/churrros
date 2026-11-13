@@ -71,6 +71,7 @@ export function mapUserProfile(user: ResultOf<typeof GetUserProfile>['user']): U
         pronouns: user.pronouns,
         school: user.major ? user.major.schools.map(mapSchool) : [],
         yearTier: user.yearTier,
+        canEditProfile: user.canEditProfile,
     };
 }
 

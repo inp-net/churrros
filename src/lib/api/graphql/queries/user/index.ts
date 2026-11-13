@@ -52,6 +52,7 @@ export const GetUserProfile = graphql(
                 bot
                 admin
                 studentAssociationAdmin
+                canEditProfile
             }
         }
     `,

@@ -115,6 +115,7 @@ export interface UserProfile {
     links: Link[];
     bot: boolean;
     admin: boolean;
+    canEditProfile: boolean;
 }
 //#endregion
 
