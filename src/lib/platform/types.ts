@@ -19,3 +19,5 @@ export interface AuthFlow {
      */
     onCallback(handler: (url: URL) => void): () => void;
 }
+
+export interface Storage {}
