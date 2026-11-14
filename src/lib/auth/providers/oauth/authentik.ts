@@ -6,7 +6,6 @@ export const authentikProvider: OAuthProvider = {
     iconUrl: 'https://git.inpt.fr/inp-net/visual-identity/-/raw/main/favicon-color.svg',
     loginUrl(_redirectUri: URL) {
         const loginUrl = new URL(`${PUBLIC_API_AUTH_URL}/oauth2`); // I would like to use a parameter to specify the provider, but the api doesn't allow it as of now.
-        loginUrl.searchParams.set('native', '1'); //Because the API doesn't allow specifying the redirectUri
         return loginUrl;
     },
     logoutUrl() {

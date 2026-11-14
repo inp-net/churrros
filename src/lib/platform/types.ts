@@ -1,5 +1,6 @@
 export interface Platform {
     authFlow: AuthFlow;
+    storage: Storage;
 }
 
 export interface AuthFlow {
@@ -20,4 +21,8 @@ export interface AuthFlow {
     onCallback(handler: (url: URL) => void): () => void;
 }
 
-export interface Storage {}
+export interface Storage {
+    get(key: string): Promise<string | null>;
+    set(key: string, value: string): Promise<void>;
+    remove(key: string): Promise<void>;
+}

@@ -7,6 +7,7 @@ import type { AuthFlow } from '../types';
 export const authFlow: AuthFlow = {
     callbackUrl: (path) => new URL(`${PUBLIC_APP_ID}://${path.replace(/^\//, '')}`),
     async start(loginUrl) {
+        loginUrl.searchParams.set('native', '1'); //Because the API doesn't allow specifying the redirectUri
         await Browser.open({ url: loginUrl.toString() });
     },
     onCallback(handler) {

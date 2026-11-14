@@ -18,7 +18,7 @@ export async function request<Result, Variables>(
         'Content-Type': 'application/json',
     };
 
-    const sessionToken = getToken();
+    const sessionToken = await getToken();
     if (sessionToken) {
         headers.Authorization = `Bearer ${sessionToken.token}`;
     }
