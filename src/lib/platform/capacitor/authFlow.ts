@@ -13,7 +13,11 @@ export const authFlow: AuthFlow = {
     onCallback(handler) {
         const handle = App.addListener('appUrlOpen', async ({ url }) => {
             if (!url.startsWith(`${PUBLIC_APP_ID}://`)) return;
-            await Browser.close();
+            try {
+                await Browser.close();
+            } catch {
+                // Not implemented on Android
+            }
             handler(new URL(url));
         });
         // cleanup function to remove the listener when no longer needed
