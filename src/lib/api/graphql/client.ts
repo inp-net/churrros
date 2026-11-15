@@ -3,6 +3,7 @@ import type { TadaDocumentNode } from 'gql.tada';
 import { print } from 'graphql';
 
 import { getToken } from '#lib/auth/session.ts';
+import { platform } from '#lib/platform/index.ts';
 
 /**
  * Client-side function to perform a GraphQL request, using the session token for authentication.
@@ -18,27 +19,34 @@ export async function request<Result, Variables>(
         'Content-Type': 'application/json',
     };
 
-    const sessionToken = getToken();
+    const sessionToken = await getToken();
+
     if (sessionToken) {
         headers.Authorization = `Bearer ${sessionToken.token}`;
     }
 
-    const response = await fetch(PUBLIC_API_URL, {
-        method: 'POST',
-        headers,
-        credentials: 'include',
-        body: JSON.stringify({
-            query: print(document),
-            variables,
-        }),
-    });
+    try {
+        const response = await fetch(PUBLIC_API_URL, {
+            method: 'POST',
+            headers,
+            credentials: platform.authFlow.credentials, // Use the appropriate credentials mode based on the platform
+            body: JSON.stringify({
+                query: print(document),
+                variables,
+            }),
+        });
 
-    const result = await response.json();
-    console.log('GraphQL response:', result);
-    if (result.errors) {
-        // TODO : This is where errors should be correctly handled
-        throw new Error(result.errors.map((error: any) => error.message).join('\n'));
+        const result = await response.json();
+        console.log('GraphQL response:', result);
+
+        if (result.errors) {
+            // TODO : This is where errors should be correctly handled
+            throw new Error(result.errors.map((error: any) => error.message).join('\n'));
+        }
+
+        return result.data;
+    } catch (error) {
+        console.error('GraphQL request error:', error);
+        throw error;
     }
-
-    return result.data;
 }

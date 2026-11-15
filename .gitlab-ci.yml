@@ -9,6 +9,7 @@ workflow:
 stages:
     - verify
     - build
+    - release
 
 .node:
     image: node:24-slim
@@ -88,8 +89,26 @@ build:
 
 deploy:
     extends: .builder
-    stage: build
+    stage: release
     rules:
         - if: $CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+.*$/
     script:
         - dockerbuild "$CI_COMMIT_TAG" "true"
+
+# Commented out for now as we don't have the variables setup right now
+# release-android:
+#     extends: .builder
+#     stage: release
+#     rules:
+#         - if: $CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+.*$/
+#     script:
+#         - pnpm cap build android
+
+# Need to specify the runner to use the mac mini
+# release-ios:
+#     extends: .builder
+#     stage: release
+#     rules:
+#         - if: $CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+.*$/
+#     script:
+#         - pnpm cap build ios

@@ -92,3 +92,27 @@ passer par cette librairie pour bénéficier de la gestion du cache, des erreurs
 Par défaut le cache est à 15 minutes et la manière dont le cache fonctionne sur
 Tanstack Query est qu'il est valide pendant la navigation sur le site, mais en
 cas de refresh, ou de fermeture de l'onglet, le cache est perdu.
+
+### Capacitor
+
+Pour transformer l'application web en application native mobile, nous utilisons Capacitor. En fonction de votre système d'exploitation, il vous faudra installer les outils nécessaires pour compiler l'application mobile.
+Il faudra d'abord utiliser la commande ̀`pnpm build` pour compiler l'application web, puis `pnpm cap sync` pour synchroniser les fichiers web avec les projets natifs.
+
+#### Android
+
+Pour compiler l'application pour Android il vous faudra au minimum :
+
+- Un JDK (Java Development Kit) version 21 ou supérieure, voir la doc Capacitor pour voir les versions supportées (notamment en lien avec la version de gradle utilisée par Capacitor)
+- Un SDK Android (Version minimum indiquée dans le fichier `android/variables.gradle` du projet)
+
+Il vous faudra également un téléphone Android avec l'USB debugging activé pour pouvoir tester l'application sur votre téléphone. Vous pouvez également utiliser un émulateur Android.
+
+> Pour simplifier l'installation de tous les outils nécessaires pour compiler l'application Android, vous pouvez installer Android Studio qui contient tous les outils nécessaires.
+
+#### IOS
+
+Pour compiler l'application pour IOS il vous faudra au minimum :
+
+- Un MacOS avec Xcode installé
+
+A completer

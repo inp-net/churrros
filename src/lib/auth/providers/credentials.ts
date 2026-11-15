@@ -7,7 +7,7 @@ export const credentialsProvider: CredentialsProvider = {
     async login(emailOrUid: string, password: string) {
         try {
             const sessionToken = await authRepository.login(emailOrUid, password);
-            setToken(sessionToken);
+            await setToken(sessionToken);
             writeCookie(AUTHED_VIA_COOKIE_NAME, 'credentials', sessionToken.expiresAt); // TODO: remove when the api also sets authed_via for credential login
             return sessionToken;
         } catch {
