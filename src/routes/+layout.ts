@@ -1,12 +1,12 @@
-import { browser } from '$app/env';
-
 import { meRepository } from '#lib/api/index.ts';
+import { getToken } from '#lib/auth/session.ts';
 
 export const ssr = false;
 
 export const load = async () => {
-    console.log(document.cookie);
-    if (browser && !/(^|; )authed_via=(credentials|oauth2)/.test(document.cookie)) {
+    const token = await getToken();
+    const hasCookieAuth = /(^|; )authed_via=(credentials|oauth2)/.test(document.cookie);
+    if (!token && !hasCookieAuth) {
         return { user: null };
     }
 

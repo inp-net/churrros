@@ -18,4 +18,12 @@ export const variables = defineEnvVars({
             return value;
         },
     },
+    PUBLIC_APP_ID: {
+        public: true,
+        description: 'The app id used for redirection to the capacitor native app.',
+        schema: (value) => {
+            if (!value) throw new Error('PUBLIC_APP_ID is required');
+            return value;
+        },
+    },
 });

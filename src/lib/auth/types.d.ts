@@ -9,6 +9,6 @@ export interface CredentialsProvider {
 export interface OAuthProvider {
     name: string;
     iconUrl: string;
-    loginUrl: (url: URL) => URL;
+    loginUrl: (redirectUri: URL) => URL;
     logoutUrl: () => URL;
 }
