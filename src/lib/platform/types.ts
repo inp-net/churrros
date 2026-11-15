@@ -19,10 +19,25 @@ export interface AuthFlow {
      * Returns an unsubscribe function.
      */
     onCallback(handler: (url: URL) => void): () => void;
+    credentials: RequestCredentials;
 }
 
 export interface Storage {
+    /**
+     * Get a value from storage.
+     * @param key the key to retrieve
+     * @returns the value or null if not found
+     */
     get(key: string): Promise<string | null>;
+    /**
+     * Sets a value in storage.
+     * @param key the key to set
+     * @param value the value to set
+     */
     set(key: string, value: string): Promise<void>;
+    /**
+     * Removes a value from storage if it exists.
+     * @param key the key to remove
+     */
     remove(key: string): Promise<void>;
 }

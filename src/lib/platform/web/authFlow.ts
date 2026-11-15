@@ -7,4 +7,5 @@ export const authFlow: AuthFlow = {
     },
     // No callback handling on web as it is useless
     onCallback: () => () => {},
+    credentials: 'include',
 };

@@ -19,4 +19,5 @@ export const authFlow: AuthFlow = {
         // cleanup function to remove the listener when no longer needed
         return () => void handle.then((h) => h.remove());
     },
+    credentials: 'omit', // On native we use https://localhost to do requests and the oauth token is given in the callback
 };

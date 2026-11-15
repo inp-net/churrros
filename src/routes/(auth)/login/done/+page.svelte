@@ -3,13 +3,16 @@
     import { page } from '$app/state';
     import { onMount } from 'svelte';
 
+    import { setToken } from '#lib/auth/session.ts';
     import { m } from '#lib/paraglide/messages.js';
-    import { platform } from '#lib/platform/index.ts';
 
     onMount(async () => {
         const token = page.url.searchParams.get('token');
         if (token) {
-            await platform.storage.set('authToken', token);
+            await setToken({
+                token,
+                expiresAt: new Date(Date.now() + 1000 * 60 * 60),
+            });
         }
 
         await refreshAll();
