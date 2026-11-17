@@ -16,14 +16,35 @@ type EventGraphQLNode = ResultOf<typeof GetEvents>['eventsByDay'];
 export function mapEvents(events: ResultOf<typeof GetEvents>): Page<EventsByDay> {
     const pageInfo = readFragment(PageInfoFragment, events.eventsByDay.pageInfo);
     return {
-        items: events.eventsByDay.edges.map((edge) => mapEventByDay(edge.node)),
+        items: mergeEventsByDay(events.eventsByDay.edges.map((edge) => mapEventByDay(edge.node))),
         pageInfo,
     };
 }
 
+function mergeEventsByDay(events: EventsByDay[]): EventsByDay[] {
+    const merged = new Map<string, EventsByDay>();
+
+    for (const event of events) {
+        const existing = merged.get(event.date);
+        if (existing) {
+            existing.happening.push(...event.happening);
+            existing.shotgunning.push(...event.shotgunning);
+        } else {
+            merged.set(event.date, {
+                date: event.date,
+                happening: [...event.happening],
+                shotgunning: [...event.shotgunning],
+            });
+        }
+    }
+
+    return [...merged.values()];
+}
+
 function mapEventByDay(eventByDay: EventGraphQLNode['edges'][number]['node']): EventsByDay {
     return {
-        date: eventByDay.date,
+        // This is a calendar-day bucket; do not convert it through the client's timezone.
+        date: eventByDay.date.split('T')[0],
         happening: eventByDay.happening.map((event) => mapEvent(event)),
         shotgunning: eventByDay.shotgunning.map((event) => mapEvent(event)),
     };
