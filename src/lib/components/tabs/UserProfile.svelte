@@ -18,16 +18,3 @@
     badges={[userProfile.major]}
     links={userProfile.links}
 />
-
-<div>
-    <!-- {#each userProfile.school as school (school.uid)} -->
-    <!--     <Avatar avatar={school} /> -->
-    <!-- {/each} -->
-    <!-- {#each userProfile.links as link (link.url)} -->
-    <!--     <LinkPill {link} /> -->
-    <!-- {/each} -->
-    <!-- Bot : {userProfile.bot} -->
-    <!-- Admin : {userProfile.admin} <br /> -->
-    <!-- {userProfile.description} -->
-    <!-- More HTML that I don't want to render-->
-</div>

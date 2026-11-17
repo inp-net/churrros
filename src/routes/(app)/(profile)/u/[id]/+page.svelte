@@ -7,11 +7,13 @@
     import UserProfile from '#lib/components/tabs/UserProfile.svelte';
     import { m } from '#lib/paraglide/messages.js';
     import { createQuery } from '@tanstack/svelte-query';
-    import { Stack } from 'azucar-ui';
+    import { Stack, Tabs } from 'azucar-ui';
 
-    type Tab = 'info' | 'groups' | 'family';
+    const TABS = ['info', 'groups', 'family'] as const;
+    type Tab = (typeof TABS)[number];
 
-    const tab = $derived<Tab>((page.url.searchParams.get('tab') as Tab) || 'info');
+    let selected = $state(0);
+    const activeTab = $derived<Tab>(TABS[selected] ?? 'info');
 
     const queryProfile = createQuery(() => ({
         queryKey: ['user', page.params.id],
@@ -21,23 +23,23 @@
     const queryInfo = createQuery(() => ({
         queryKey: ['user', page.params.id, 'info'],
         queryFn: () => userRepository.getUserInfos(page.params.id),
-        enabled: tab === 'info'
+        enabled: activeTab === 'info'
     }));
 
     const queryGroups = createQuery(() => ({
         queryKey: ['user', page.params.id, 'groups'],
         queryFn: () => userRepository.getUserGroups(page.params.id),
-        enabled: tab === 'groups'
+        enabled: activeTab === 'groups'
     }));
 
     const queryFamily = createQuery(() => ({
         queryKey: ['user', page.params.id, 'family'],
         queryFn: () => userRepository.getUserFamily(page.params.id),
-        enabled: tab === 'family'
+        enabled: activeTab === 'family'
     }));
 </script>
 
-<Stack>
+<Stack gap="xl">
     <div>
         {#if queryProfile.isPending}
             <p>{m['loading']()}</p>
@@ -46,36 +48,35 @@
         {:else if queryProfile.data}
             <UserProfile userProfile={queryProfile.data} />
         {/if}
-        <div>
-            <a href="?tab=info" class:active={tab === 'info'}>{m['info']()}</a>
-            <a href="?tab=groups" class:active={tab === 'groups'}>{m['groups']()}</a>
-            <a href="?tab=family" class:active={tab === 'family'}>{m['family']()}</a>
-        </div>
     </div>
 
-    {#if tab === 'info'}
-        {#if queryInfo.isPending}
-            <p>{m['loading']()}</p>
-        {:else if queryInfo.isError}
-            <p>ERROR</p>
-        {:else if queryInfo.data}
-            <UserInfo userInfo={queryInfo.data} />
-        {/if}
-    {:else if tab === 'groups'}
-        {#if queryGroups.isPending}
-            <p>{m['loading']()}</p>
-        {:else if queryGroups.isError}
-            <p>ERROR</p>
-        {:else if queryGroups.data}
-            <UserGroups userGroups={queryGroups.data} />
-        {/if}
-    {:else if tab === 'family'}
-        {#if queryFamily.isPending}
-            <p>{m['loading']()}</p>
-        {:else if queryFamily.isError}
-            <p>ERROR</p>
-        {:else if queryFamily.data}
-            <UserFamily userFamily={queryFamily.data} />
-        {/if}
-    {/if}
+    <Tabs tabs={TABS.map((t) => m[t]())} bind:selected>
+        {#snippet content()}
+            {#if activeTab === 'info'}
+                {#if queryInfo.isPending}
+                    <p>{m['loading']()}</p>
+                {:else if queryInfo.isError}
+                    <p>ERROR</p>
+                {:else if queryInfo.data}
+                    <UserInfo userInfo={queryInfo.data} />
+                {/if}
+            {:else if activeTab === 'groups'}
+                {#if queryGroups.isPending}
+                    <p>{m['loading']()}</p>
+                {:else if queryGroups.isError}
+                    <p>ERROR</p>
+                {:else if queryGroups.data}
+                    <UserGroups userGroups={queryGroups.data} />
+                {/if}
+            {:else if activeTab === 'family'}
+                {#if queryFamily.isPending}
+                    <p>{m['loading']()}</p>
+                {:else if queryFamily.isError}
+                    <p>ERROR</p>
+                {:else if queryFamily.data}
+                    <UserFamily userFamily={queryFamily.data} />
+                {/if}
+            {/if}
+        {/snippet}
+    </Tabs>
 </Stack>
