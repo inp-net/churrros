@@ -1,32 +1,35 @@
 <script lang="ts">
     import { Avatar, Flex, Stack, Tabs } from 'azucar-ui';
+    import Profile from '#lib/components/fetch/Profile.svelte';
 
     const { data } = $props();
 </script>
 
 {#if data.user}
+    <Profile uid={data.user.uid} />
+
     <Stack align="stretch">
-        <Flex wrap={false}>
-            <Avatar
-                src={data.user.pictureURL}
-                alt={[data.user.firstName, data.user.lastName].join(' ')}
-                size="xxl"
-                class="profile-avatar"
-            />
-            <Stack gap="xs">
-                <h3 class="profile-name">
-                    {[data.user.firstName, data.user.lastName].join(' ')}aaaaaaaa
-                </h3>
-                <Flex align="center">
-                    <p>67A SN</p>
-                    <Flex gap="xs" align="center">
-                        <Avatar alt="ENSEEIHT" size="lg" />
-                        <p>ENSEEIHT</p>
-                    </Flex>
-                </Flex>
-            </Stack>
-        </Flex>
-        <p class="profile-description">bla bla bla</p>
+        <!-- <Flex wrap={false}> -->
+        <!--     <Avatar -->
+        <!--         src={data.user.pictureURL} -->
+        <!--         alt={[data.user.firstName, data.user.lastName].join(' ')} -->
+        <!--         size="xxl" -->
+        <!--         class="profile-avatar" -->
+        <!--     /> -->
+        <!--     <Stack gap="xs"> -->
+        <!--         <h3 class="profile-name"> -->
+        <!--             {[data.user.firstName, data.user.lastName].join(' ')}aaaaaaaa -->
+        <!--         </h3> -->
+        <!--         <Flex align="center"> -->
+        <!--             <p>67A SN</p> -->
+        <!--             <Flex gap="xs" align="center"> -->
+        <!--                 <Avatar alt="ENSEEIHT" size="lg" /> -->
+        <!--                 <p>ENSEEIHT</p> -->
+        <!--             </Flex> -->
+        <!--         </Flex> -->
+        <!--     </Stack> -->
+        <!-- </Flex> -->
+        <!-- <p class="profile-description">bla bla bla</p> -->
         <Tabs tabs={['Info', 'Groups', 'Family']} />
     </Stack>
 {/if}
