@@ -1,22 +1,28 @@
 <script lang="ts">
-    import { Avatar, Badge, Flex, Stack, Tabs, Skeleton, SkeletonText } from 'azucar-ui';
-    import type { Link } from '#lib/api/types.ts';
+    import { Avatar as AvatarAzucar, Flex, Stack, Skeleton, SkeletonText, Scroll } from 'azucar-ui';
+    import type { Avatar as AvatarType, Link } from '#lib/api/types.ts';
+    import Avatar from '#lib/components/avatar/Avatar.svelte';
+    import LinkPill from '#lib/components/LinkPill.svelte';
 
     interface Props {
         name?: string;
+        year?: number;
         nickname?: string;
         pictureURL?: string;
         description?: string;
-        badges: Link[];
-        loading: boolean;
+        badges?: (AvatarType | null)[];
+        links?: Link[];
+        loading?: boolean;
     }
 
     let {
         name = '',
+        year = 0,
         nickname = '',
         pictureURL = '',
         description = '',
         badges = [],
+        links = [],
         loading = false
     }: Props = $props();
 </script>
@@ -26,7 +32,7 @@
         {#if loading}
             <Skeleton width="var(--size-xxl)" height="var(--size-xxl)" borderRadius="50%" />
         {:else}
-            <Avatar src={pictureURL} alt={name} size="xxl" class="profile-avatar" />
+            <AvatarAzucar src={pictureURL} alt={name} size="xxl" class="profile-avatar" />
         {/if}
         <Stack gap="xs">
             {#if loading}
@@ -40,14 +46,21 @@
                 </Flex>
             {/if}
             <Flex align="center">
-                {#each badges as badge}
+                {#each badges as avatar}
                     <!-- Badge ne prend pas en compte d'URL -->
-                    <Badge variant="outline">{badge.text}</Badge>
+                    {#if avatar}
+                        <Avatar {avatar} />
+                    {/if}
                 {/each}
             </Flex>
         </Stack>
     </Flex>
     <p class="profile-description">bla bla bla</p>
+    <Scroll gap="xs">
+        {#each links as link}
+            <LinkPill {link} />
+        {/each}
+    </Scroll>
 </Stack>
 
 <style>
