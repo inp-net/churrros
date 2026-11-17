@@ -34,6 +34,10 @@
 
 <svelte:head>
     <link rel="icon" href={favicon} />
+    <meta
+        name="viewport"
+        content="viewport-fit=cover, width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
 </svelte:head>
 
 <QueryClientProvider client={queryClient}>
@@ -68,6 +72,8 @@
         width: calc(100% - var(--size-md) * 2);
         max-width: 550px;
         margin: var(--size-md) auto;
+        padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom)
+            env(safe-area-inset-left);
 
         overflow-x: clip;
     }

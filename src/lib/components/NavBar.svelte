@@ -103,7 +103,7 @@
             left: var(--size-md);
             right: auto;
             top: 0;
-            bottom: 0;
+            bottom: env(safe-area-inset-bottom);
             margin: auto 0;
             padding: 0 var(--size-md);
             max-height: 325px;
