@@ -13,6 +13,7 @@
         "preview": "vite preview",
         "preview:android": "cap run android",
         "preview:ios": "cap run ios",
+        "generate:assets": "capacitor-assets generate --ios --android",
         "prepare": "svelte-kit sync || echo 'svelte-kit sync skipped'; lefthook install || echo 'lefthook skipped'",
         "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
         "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
@@ -34,6 +35,7 @@
     },
     "devDependencies": {
         "@capacitor/android": "^8.6.0",
+        "@capacitor/assets": "^4.0.0",
         "@capacitor/cli": "^8.6.0",
         "@capacitor/ios": "^8.6.0",
         "@gql.tada/svelte-support": "^1.0.3",
