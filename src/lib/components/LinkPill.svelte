@@ -10,7 +10,7 @@
     let { link }: Props = $props();
 </script>
 
-<a href={link.url}>
+<a target="_blank" href={link.url} rel="noopener noreferrer">
     <Badge variant="outline">
         <Flex align="center" wrap={false} gap="xs">
             <span>{link.text}</span>
