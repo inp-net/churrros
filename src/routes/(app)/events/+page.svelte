@@ -37,7 +37,11 @@
     let eventDaySelectionWrapper: HTMLDivElement;
     let visibleWeekIndex = -1;
 
-    const eventsByDay = $derived(query.data?.pages.flatMap((page) => page.items) ?? []);
+    const eventsByDay = $derived(
+        (query.data?.pages.flatMap((page) => page.items) ?? []).filter(
+            (e) => e.date >= formatDateToISO(todayDate),
+        ),
+    );
 
     function eventCountForDate(date: Date): number {
         const day = eventsByDay.find((event) => event.date === formatDateToISO(date));
