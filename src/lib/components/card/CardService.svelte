@@ -1,4 +1,7 @@
 <script lang="ts">
+    import { Pencil } from '@lucide/svelte';
+    import { Frame, Avatar, Stack, Button } from 'azucar-ui';
+
     import type { CardService } from '#lib/api/index.ts';
 
     interface Props {
@@ -8,19 +11,57 @@
     let { service }: Props = $props();
 </script>
 
-<a href={service.url}>
-    <p>{service.name}</p>
-    {service.logo}
-    <!--Problème avec le logo :  Avant c'était soit url d'image ou composant je crois, on fait quoi ? -->
-    <p>{service.description}</p>
-    {#if service.pinned}
-        <p>EPINGLE</p>
-        <!-- Ce sera une icone epingle donc pas besoin de texte -->
-    {/if}
-</a>
-{#if service.canEdit}
-    <a href={`/services/${service.id}/edit`}>
-        <p>EDIT</p>
-        <!-- Ce sera une icone edit donc pas besoin de texte -->
-    </a>
-{/if}
+<Frame
+    class="service-card"
+    shadow
+    border
+    interactive
+    role="button"
+    onclick={() => (window.location.href = service.url)}
+>
+    <Stack gap="sm">
+        <div class="header">
+            {#if service.canEdit}
+                <div class="edit" onclick={(e) => e.stopPropagation()}>
+                    <Button variant="ghost" icon={Pencil} href={`/services/${service.id}/edit`} />
+                </div>
+            {/if}
+
+            <Avatar src={service.logo} alt={service.name} size="xxl" />
+        </div>
+
+        <Stack gap="zero" class="service-card-content">
+            <h4>{service.name}</h4>
+            <small class="small">{service.description}</small>
+        </Stack>
+    </Stack>
+</Frame>
+
+<style>
+    .small {
+        color: var(--color-fg-low);
+    }
+
+    .header {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex: 1;
+    }
+
+    .edit {
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+
+    :global(.service-card) {
+        display: flex;
+        flex-direction: column;
+    }
+
+    :global(.service-card-content) {
+        margin-top: auto;
+    }
+</style>

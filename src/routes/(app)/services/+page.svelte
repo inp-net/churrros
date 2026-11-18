@@ -12,6 +12,8 @@
     }));
 </script>
 
+<h3>{m['service.title']()}</h3>
+
 {#if query.isPending}
     <p>{m['loading']()}</p>
 {:else if query.isError}
