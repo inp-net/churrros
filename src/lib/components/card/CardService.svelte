@@ -40,6 +40,12 @@
 <style>
     .small {
         color: var(--color-fg-low);
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        line-clamp: 2;
+        overflow: hidden;
+        min-height: 2lh;
     }
 
     .header {
@@ -52,8 +58,8 @@
 
     .edit {
         position: absolute;
-        top: 0;
-        right: 0;
+        top: calc(-0.75 * var(--size-md));
+        right: calc(-0.75 * var(--size-md));
     }
 
     :global(.service-card) {
