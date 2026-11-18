@@ -14,7 +14,9 @@
     <Badge variant="outline">
         <Flex align="center" wrap={false} gap="xs">
             <span>{link.text}</span>
-            <ExternalLink size="0.78rem" />
+            {#if link.url && link.url.startsWith('http')}
+                <ExternalLink size="0.78rem" />
+            {/if}
         </Flex>
     </Badge>
 </a>

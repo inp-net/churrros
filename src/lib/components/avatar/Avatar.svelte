@@ -27,8 +27,8 @@
                 />
             {/if}
             <span>{avatar.name}</span>
-            {#if link}
-                <ExternalLink size="0.78rem" />
+            {#if link && link.startsWith('http')}
+                <ExternalLink size="0.7rem" />
             {/if}
         </Flex>
     </Badge>
