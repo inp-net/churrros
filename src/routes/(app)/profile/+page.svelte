@@ -6,7 +6,7 @@
 
 {#if data.user}
     <Stack align="stretch">
-        <Flex wrap={false}>
+        <Flex wrap={'nowrap'}>
             <Avatar
                 src={data.user.pictureURL}
                 alt={[data.user.firstName, data.user.lastName].join(' ')}
