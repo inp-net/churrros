@@ -16,9 +16,6 @@
 </script>
 
 <Stack>
-    {#each event.shotgunning as shotgunEvent (shotgunEvent.id)}
-        <CardEvent event={shotgunEvent} shotgun={true} />
-    {/each}
     {#each event.happening as happeningEvent (happeningEvent.id)}
         <CardEvent event={happeningEvent} />
     {/each}
