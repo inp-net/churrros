@@ -55,6 +55,7 @@
         "profile": "Profil"
     },
     "search_placeholder": "Rechercher...",
+    "search_no_results": "Aucun résultat trouvé.",
     "info": "Infos",
     "groups": "Groupes",
     "family": "Famille",
@@ -150,5 +151,6 @@
     "form.service.create.error": "Erreur lors de la création du service",
     "form.service.edit.error": "Erreur lors de la modification du service",
     "service.new": "Ajouter un service",
-    "edit": "Modifier"
+    "edit": "Modifier",
+    "service.title": "Services"
 }

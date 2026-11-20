@@ -1,15 +1,16 @@
 {
-    // Custom settings for prettier
+    // Custom settings for oxc
     "editor.formatOnSave": true,
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "[svelte]": {
-        "editor.defaultFormatter": "svelte.svelte-vscode"
-    },
+    "editor.defaultFormatter": "oxc.oxc-vscode",
+    "editor.formatOnSaveMode": "file",
     // Custom settings for gql.tada : https://gql-tada.0no.co/get-started/installation#vscode-setup (Version non deprecated)
     "js/ts.tsdk.path": "node_modules/typescript/lib",
     "js/ts.tsdk.promptToUseWorkspaceVersion": true,
     "editor.quickSuggestions": {
         //For arktype
         "strings": "on"
+    },
+    "[svelte]": {
+        "editor.defaultFormatter": "oxc.oxc-vscode"
     }
 }
