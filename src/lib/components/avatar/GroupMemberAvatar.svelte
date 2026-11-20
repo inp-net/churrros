@@ -12,14 +12,6 @@
 </script>
 
 <Frame interactive>
-    <!-- NOTE : In Churros V2 there is a roleemojis property that gives the users emoji for their role-->
-    <!--I believe this should only be client side and has nothing to do with the server -->
-    <!-- <Avatar -->
-    <!--     avatar={groupMember.avatar} -->
-    <!--     link={showMember ? `/u/${groupMember.avatar.uid}` : `/g/${groupMember.avatar.uid}`} -->
-    <!-- /> -->
-    <!--For the link it just works, but there might be a better way to do it -->
-
     <a
         target="_blank"
         href={showMember ? `/u/${groupMember.avatar.uid}` : `/g/${groupMember.avatar.uid}`}
