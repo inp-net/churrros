@@ -15,7 +15,7 @@
     <Badge variant="outline">
         <Flex align="center" wrap="nowrap" gap="xs">
             <span>{link.text}</span>
-            {#if link.url && link.url.startsWith('http')}
+            {#if link.url && !link.url.startsWith('/')}
                 <ExternalLink size="0.78rem" />
             {/if}
         </Flex>

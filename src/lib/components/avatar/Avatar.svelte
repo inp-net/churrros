@@ -28,7 +28,7 @@
                 />
             {/if}
             <span>{avatar.name}</span>
-            {#if link && link.startsWith('http')}
+            {#if link && !link.startsWith('/')}
                 <ExternalLink size="0.7rem" />
             {/if}
         </Flex>
