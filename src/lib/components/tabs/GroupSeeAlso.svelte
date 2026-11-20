@@ -1,6 +1,7 @@
 <script lang="ts">
-    import Avatar from '../avatar/Avatar.svelte';
     import type { GroupSeeAlso } from '#lib/api/index.ts';
+
+    import Avatar from '../avatar/Avatar.svelte';
 
     interface Props {
         groupSeeAlso: GroupSeeAlso;

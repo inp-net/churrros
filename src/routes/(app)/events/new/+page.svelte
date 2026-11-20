@@ -1,11 +1,12 @@
 <script lang="ts">
-    import { meRepository } from '#lib/api/index.ts';
-    import { m } from '#lib/paraglide/messages.js';
     import { createQuery } from '@tanstack/svelte-query';
 
+    import { meRepository } from '#lib/api/index.ts';
+    import { m } from '#lib/paraglide/messages.js';
+
     const query = createQuery(() => ({
+        queryFn: () => meRepository.getCanCreateEventsOn(),
         queryKey: ['canCreateEventsOn'],
-        queryFn: () => meRepository.getCanCreateEventsOn()
     }));
 </script>
 

@@ -1,17 +1,15 @@
 <script lang="ts">
-    import type { Path } from '$app/types';
-    import { resolve } from '$app/paths';
-    import { page } from '$app/state';
-    import { locales, localizeHref } from '#lib/paraglide/runtime.js';
     import { browser } from '$app/env';
     import { QueryClient, QueryClientProvider } from '@tanstack/svelte-query';
-    import favicon from '#lib/assets/favicon.svg';
+    import { Stack } from 'azucar-ui';
+    import { Toaster } from 'svelte-sonner';
+
     import 'azucar-ui/tokens.css';
     import 'azucar-ui/base.css';
-    import { Toaster } from 'svelte-sonner';
+    import favicon from '#lib/assets/favicon.svg';
     import Header from '#lib/components/Header.svelte';
     import NavBar from '#lib/components/NavBar.svelte';
-    import { Stack } from 'azucar-ui';
+
     import type { LayoutProps } from './$types';
 
     let { data, children }: LayoutProps = $props();
@@ -21,18 +19,19 @@
             queries: {
                 // To disabled server side queries : https://tanstack.com/query/latest/docs/framework/svelte/ssr
                 enabled: browser,
-                staleTime: 15 * 60 * 1000 // 15 minutes of cache
-            }
-        }
+                staleTime: 15 * 60 * 1000, // 15 minutes of cache
+            },
+        },
     });
-
-    // Because resolve function has issues when the path as more than 25 options
-    // I don't know the proper way to fix it
-    const resolvePath = resolve as (pathname: string) => string;
 </script>
 
 <svelte:head>
+    <title>Churros</title>
     <link rel="icon" href={favicon} />
+    <meta
+        name="viewport"
+        content="viewport-fit=cover, width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
 </svelte:head>
 
 <QueryClientProvider client={queryClient}>
@@ -45,12 +44,6 @@
     </div>
     <Toaster />
 </QueryClientProvider>
-
-<div style="display:none">
-    {#each locales as locale (locale)}
-        <a href={resolvePath(localizeHref(page.url.pathname, { locale }) as Path)}>{locale}</a>
-    {/each}
-</div>
 
 <style>
     :root {
@@ -67,6 +60,8 @@
         width: calc(100% - var(--size-md) * 2);
         max-width: 550px;
         margin: var(--size-md) auto;
+        padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom)
+            env(safe-area-inset-left);
 
         overflow-x: clip;
     }

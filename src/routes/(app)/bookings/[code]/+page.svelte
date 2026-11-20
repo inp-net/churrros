@@ -1,60 +1,59 @@
 <script lang="ts">
-    import { createMutation, createQuery, useQueryClient } from '@tanstack/svelte-query';
-    import { bookingRepository } from '#lib/api/index.ts';
-    import { m } from '#lib/paraglide/messages.js';
     import { page } from '$app/state';
-    import QRCode from '#lib/components/QRCode.svelte';
+    import { createMutation, createQuery, useQueryClient } from '@tanstack/svelte-query';
+
+    import { bookingRepository } from '#lib/api/index.ts';
     import AddToWallet from '#lib/components/AddToWallet.svelte';
     import Avatar from '#lib/components/avatar/Avatar.svelte';
-    import PaymentMethodDisplay from '#lib/components/PaymentMethodDisplay.svelte';
     import CardLightEvent from '#lib/components/card/CardLightEvent.svelte';
     import ConfirmationModal from '#lib/components/modal/ConfirmationModal.svelte';
     import PaymentModal from '#lib/components/modal/PaymentModal.svelte';
+    import PaymentMethodDisplay from '#lib/components/PaymentMethodDisplay.svelte';
+    import QRCode from '#lib/components/QRCode.svelte';
+    import { m } from '#lib/paraglide/messages.js';
     import { showToast } from '#lib/utils/toast.ts';
 
-    const queryClient = useQueryClient();
+    const queryClient = useQueryClient(),
+        query = createQuery(() => ({
+            queryFn: () => bookingRepository.getBookingByCode(page.params.code),
+            queryKey: ['booking', page.params.code],
+        }));
 
-    const query = createQuery(() => ({
-        queryKey: ['booking', page.params.code],
-        queryFn: () => bookingRepository.getBookingByCode(page.params.code)
-    }));
-
-    let confirmationModalIsOpen = $state(false);
-    let paymentModalIsOpen = $state(false);
+    let confirmationModalIsOpen = $state(false),
+        paymentModalIsOpen = $state(false);
 
     const cancelMutation = createMutation(() => ({
-        mutationFn: ({ code }: { code?: string }) => bookingRepository.cancelBooking(code),
-        onSuccess: (data) => {
-            showToast(m['booking.toast.cancel.success'](), 'success', true);
-            confirmationModalIsOpen = false;
-            // The state of the booking has changed, so we need to invalidate the query to fetch the updated data.
-            queryClient.invalidateQueries({ queryKey: ['booking', page.params.code] });
-        },
-        onError: (error) => {
-            console.error('Booking cancellation failed:', error);
-            showToast(m['booking.toast.cancel.failed'](), 'danger', true);
-        }
-    }));
-
-    const googleWalletMutation = createMutation(() => ({
-        mutationFn: ({ code }: { code?: string }) => bookingRepository.getGoogleWalletPass(code),
-        onSuccess: (data) => {
-            globalThis.location.href = data;
-        },
-        onError: (error) => {
-            showToast(m['booking.toast.wallet.google.failed'](), 'danger', true);
-        }
-    }));
-
-    const appleWalletMutation = createMutation(() => ({
-        mutationFn: ({ code }: { code?: string }) => bookingRepository.getAppleWalletPass(code),
-        onSuccess: (data) => {
-            globalThis.location.href = data;
-        },
-        onError: (error) => {
-            showToast(m['booking.toast.wallet.apple.failed'](), 'danger', true);
-        }
-    }));
+            mutationFn: ({ code }: { code?: string }) => bookingRepository.cancelBooking(code),
+            onError: (error) => {
+                console.error('Booking cancellation failed:', error);
+                showToast(m['booking.toast.cancel.failed'](), 'danger', true);
+            },
+            onSuccess: (data) => {
+                showToast(m['booking.toast.cancel.success'](), 'success', true);
+                confirmationModalIsOpen = false;
+                // The state of the booking has changed, so we need to invalidate the query to fetch the updated data.
+                queryClient.invalidateQueries({ queryKey: ['booking', page.params.code] });
+            },
+        })),
+        googleWalletMutation = createMutation(() => ({
+            mutationFn: ({ code }: { code?: string }) =>
+                bookingRepository.getGoogleWalletPass(code),
+            onError: (error) => {
+                showToast(m['booking.toast.wallet.google.failed'](), 'danger', true);
+            },
+            onSuccess: (data) => {
+                globalThis.location.href = data;
+            },
+        })),
+        appleWalletMutation = createMutation(() => ({
+            mutationFn: ({ code }: { code?: string }) => bookingRepository.getAppleWalletPass(code),
+            onError: (error) => {
+                showToast(m['booking.toast.wallet.apple.failed'](), 'danger', true);
+            },
+            onSuccess: (data) => {
+                globalThis.location.href = data;
+            },
+        }));
 
     $effect(() => {
         if (query.isSuccess) {

@@ -1,8 +1,11 @@
 pre-commit:
     parallel: true
     jobs:
-        - name: prettier
-          run: pnpm exec prettier --write --ignore-unknown {staged_files}
+        - name: format
+          run: pnpm format --write
+          stage_fixed: true
+        - name: lint
+          run: pnpm lint --fix
           stage_fixed: true
 
 pre-push:

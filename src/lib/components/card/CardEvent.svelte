@@ -1,18 +1,13 @@
 <script lang="ts">
+    import { ArrowRightIcon, CalendarIcon, MapPinIcon } from '@lucide/svelte';
+    import { Avatar, Button, Flex, Frame, Stack } from 'azucar-ui';
+
     import type { Event } from '#lib/api/index.ts';
     import { formatISODateToLocale } from '#lib/utils/dates.ts';
-    import { Avatar, Button, Flex, Frame, Stack } from 'azucar-ui';
-    import { ArrowRightIcon, CalendarIcon, MapPinIcon } from '@lucide/svelte';
 
     interface Props {
-        /**
-         * The event to display in the card event component
-         */
+        // The event to display in the card event component
         event: Event;
-        /**
-         * If the event is a shotgun event or not
-         */
-        shotgun?: boolean;
     }
 
     let { event }: Props = $props();
@@ -26,10 +21,12 @@
     onclick={() => (window.location.href = `/events/${event.id}`)}
     role="button"
 >
-    <Stack>
-        <!-- TODO: support event.pictureURL -->
-        <Flex justify="space-between">
-            <Flex gap="xs">
+    {#if event.pictureURL && event.pictureURL.length > 0}
+        <div class="event-image-wrapper" style="--image-url: url({event.pictureURL});"></div>
+    {/if}
+    <Stack padding="md">
+        <Flex justify="space-between" wrap={'nowrap'}>
+            <Flex gap="xs" wrap={'nowrap'}>
                 <Avatar src={event.organizer.pictureURL} alt={event.organizer.name} size="lg" />
                 <Stack gap="zero">
                     <small>{event.organizer.name}</small>
@@ -66,11 +63,31 @@
 </Frame>
 
 <style>
-    .event-title {
-        text-overflow: ellipsis;
+    :global(.event-card) {
+        padding: 0 !important;
+        overflow: hidden;
+        position: relative;
+    }
+
+    /* Add a border around the card */
+    :global(.event-card)::after {
+        border-radius: inherit;
+        box-shadow: inherit;
+        content: '';
+        inset: 0;
+        pointer-events: none;
+        position: absolute;
     }
 
     .event-description {
         color: var(--color-fg-low);
+    }
+
+    .event-image-wrapper {
+        width: 100%;
+        aspect-ratio: 2/1;
+        background-image: var(--image-url);
+        background-size: cover;
+        background-position: center;
     }
 </style>

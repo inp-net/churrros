@@ -1,18 +1,18 @@
 <script lang="ts">
+    import { createQuery } from '@tanstack/svelte-query';
+
     import { userRepository } from '#lib/api/index.ts';
     import Avatar from '#lib/components/avatar/Avatar.svelte';
     import { m } from '#lib/paraglide/messages.js';
     import { formatISODateToLocale } from '#lib/utils/dates.ts';
-    import { createQuery } from '@tanstack/svelte-query';
 
-    const now = new Date();
-    const today = `${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`; // MM-DD Format
-
-    const query = createQuery(() => ({
-        queryKey: ['birthdays'],
-        queryFn: () => userRepository.getGroupedBirthdays(true, undefined, 10),
-        notifyOnChangeProps: 'all'
-    }));
+    const now = new Date(),
+        today = `${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`, // MM-DD Format
+        query = createQuery(() => ({
+            notifyOnChangeProps: 'all',
+            queryFn: () => userRepository.getGroupedBirthdays(true, undefined, 10),
+            queryKey: ['birthdays'],
+        }));
 </script>
 
 <h2>{m['birthdays']()}</h2>

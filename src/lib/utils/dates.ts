@@ -9,13 +9,15 @@ import { getLocale } from '#lib/paraglide/runtime.js'; // Paraglide becomes our 
 export function formatISODateToLocale(
     date: string | null,
     options: Intl.DateTimeFormatOptions = {
-        month: 'short',
         day: '2-digit',
         hour: 'numeric',
-        minute: 'numeric'
-    }
+        minute: 'numeric',
+        month: 'short',
+    },
 ): string {
-    if (!date) return 'N/A';
+    if (!date) {
+        return 'N/A';
+    }
     const locale = getLocale();
     return Intl.DateTimeFormat(locale, options).format(new Date(date));
 }

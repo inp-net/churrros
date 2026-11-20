@@ -9,6 +9,7 @@ workflow:
 stages:
     - verify
     - build
+    - release
 
 .node:
     image: node:24-slim
@@ -25,6 +26,7 @@ stages:
         # env vars (with dummy values) required to build...
         - cp .env.example .env
         - pnpm i --frozen-lockfile
+        - pnpm paraglide:compile
 
 .builder:
     stage: build
@@ -64,6 +66,13 @@ lint:
     script:
         - pnpm lint
 
+format:
+    extends: .node
+    stage: verify
+    allow_failure: true
+    script:
+        - pnpm format:check
+
 check:
     extends: .node
     stage: verify
@@ -80,8 +89,26 @@ build:
 
 deploy:
     extends: .builder
-    stage: build
+    stage: release
     rules:
         - if: $CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+.*$/
     script:
         - dockerbuild "$CI_COMMIT_TAG" "true"
+
+# Commented out for now as we don't have the variables setup right now
+# release-android:
+#     extends: .builder
+#     stage: release
+#     rules:
+#         - if: $CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+.*$/
+#     script:
+#         - pnpm cap build android
+
+# Need to specify the runner to use the mac mini
+# release-ios:
+#     extends: .builder
+#     stage: release
+#     rules:
+#         - if: $CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+.*$/
+#     script:
+#         - pnpm cap build ios

@@ -2,6 +2,7 @@
 // You must import everything from this file for the types to be properly recognized by TypeScript.
 
 import { initGraphQLTada } from 'gql.tada';
+
 import type { introspection } from '#lib/api/graphql/graphql-env.d.ts';
 
 export const graphql = initGraphQLTada<{

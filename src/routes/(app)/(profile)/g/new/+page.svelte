@@ -1,24 +1,25 @@
 <script lang="ts">
-    import { meRepository, groupRepository } from '#lib/api/index.ts';
-    import { m } from '#lib/paraglide/messages.js';
+    import { goto } from '$app/navigation';
+    import { createQuery } from '@tanstack/svelte-query';
+
+    import { groupRepository, meRepository } from '#lib/api/index.ts';
     import CreateGroupForm from '#lib/forms/group/CreateGroupForm.svelte';
     import type { CreateGroupInput } from '#lib/forms/group/group.schema.ts';
-    import { createQuery } from '@tanstack/svelte-query';
-    import { goto } from '$app/navigation';
+    import { m } from '#lib/paraglide/messages.js';
 
     async function createGroup({ studentAssociationId, name, uid, groupType }: CreateGroupInput) {
         const result = await groupRepository.createGroup(
             studentAssociationId,
             name,
             uid,
-            groupType
+            groupType,
         );
         await goto(`/g/${result}`);
     }
 
     const query = createQuery(() => ({
+        queryFn: () => meRepository.getCanCreateGroupsOn(),
         queryKey: ['me', 'canCreateGroupsOn'],
-        queryFn: () => meRepository.getCanCreateGroupsOn()
     }));
 
     // TODO: Handle permissions (right now everybody can be here despite not having the right to create any groups)

@@ -6,7 +6,9 @@
  * @returns true if the values are deeply equal, false otherwise
  */
 function deepEqual(a: unknown, b: unknown): boolean {
-    if (a === b) return true;
+    if (a === b) {
+        return true;
+    }
     if (Array.isArray(a) && Array.isArray(b)) {
         return a.length === b.length && a.every((v, i) => deepEqual(v, b[i]));
     }
@@ -22,7 +24,9 @@ function deepEqual(a: unknown, b: unknown): boolean {
 export function diffPatch<T extends Record<string, unknown>>(initial: T, current: T): Partial<T> {
     const patch: Partial<T> = {};
     for (const key of Object.keys(current) as (keyof T)[]) {
-        if (!deepEqual(initial[key], current[key])) patch[key] = current[key];
+        if (!deepEqual(initial[key], current[key])) {
+            patch[key] = current[key];
+        }
     }
     return patch;
 }

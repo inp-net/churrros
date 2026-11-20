@@ -1,7 +1,7 @@
-import type { User } from '#lib/api/index.ts';
-import { readFragment, type ResultOf } from '#lib/api/graphql/graphql.ts';
-import type { GetMe, RememberPaymentPhone } from '#lib/api/graphql/queries/me/index.ts';
+import { type ResultOf, readFragment } from '#lib/api/graphql/graphql.ts';
 import { UserFragment } from '#lib/api/graphql/queries/fragments/user.ts';
+import type { GetMe, RememberPaymentPhone } from '#lib/api/graphql/queries/me/index.ts';
+import type { User } from '#lib/api/index.ts';
 
 export function mapMe(user: ResultOf<typeof GetMe>['me']): User | null {
     if (!user) {
@@ -9,27 +9,30 @@ export function mapMe(user: ResultOf<typeof GetMe>['me']): User | null {
     }
     const userData = readFragment(UserFragment, user);
     return {
-        uid: userData.uid,
+        admin: userData.admin,
         email: userData.email!,
         firstName: userData.firstName,
         lastName: userData.lastName,
         nickname: userData.nickname,
-        pictureURL: userData.pictureURL,
-        phone: userData.phone,
         paymentPhone: userData.lydiaPhone,
-        admin: userData.admin
+        phone: userData.phone,
+        pictureURL: userData.pictureURL,
+        uid: userData.uid,
     };
 }
 
 export function mapRememberPaymentPhone(
-    data: ResultOf<typeof RememberPaymentPhone>['saveLydiaPhoneNumber']
+    data: ResultOf<typeof RememberPaymentPhone>['saveLydiaPhoneNumber'],
 ): string | null {
     switch (data.__typename) {
-        case 'Error':
+        case 'Error': {
             throw new Error(data.message);
-        case 'MutationSaveLydiaPhoneNumberSuccess':
+        }
+        case 'MutationSaveLydiaPhoneNumberSuccess': {
             return data.data.lydiaPhone;
-        default:
+        }
+        default: {
             throw new Error('Unknown response type');
+        }
     }
 }

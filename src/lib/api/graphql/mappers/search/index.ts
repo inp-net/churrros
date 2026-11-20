@@ -1,43 +1,48 @@
-import { readFragment, type ResultOf } from '#lib/api/graphql/graphql.ts';
-import type { SearchResult } from '#lib/api/types.ts';
+import type { ResultOf } from '#lib/api/graphql/graphql.ts';
 import type { SearchQuery } from '#lib/api/graphql/queries/search/index.ts';
-import { mapUserAvatar } from '../user';
-import { mapGroupAvatar } from '../group';
+import type { SearchResult } from '#lib/api/types.ts';
+
 import { mapEvent } from '../event';
+import { mapGroupAvatar } from '../group';
+import { mapUserAvatar } from '../user';
 
 export function mapSearch(result: ResultOf<typeof SearchQuery>['search']): SearchResult[] {
     return result.map(mapSearchResult);
 }
 
 export function mapSearchResult(
-    result: ResultOf<typeof SearchQuery>['search'][number]
+    result: ResultOf<typeof SearchQuery>['search'][number],
 ): SearchResult {
     switch (result.__typename) {
-        case 'UserSearchResult':
+        case 'UserSearchResult': {
             return {
+                content: mapUserAvatar(result.user),
                 id: result.id,
                 rank: result.rank,
+                similarity: result.similarity,
                 type: 'Users',
-                similarity: result.similarity,
-                content: mapUserAvatar(result.user)
             };
-        case 'GroupSearchResult':
+        }
+        case 'GroupSearchResult': {
             return {
+                content: mapGroupAvatar(result.group),
                 id: result.id,
                 rank: result.rank,
+                similarity: result.similarity,
                 type: 'Groups',
-                similarity: result.similarity,
-                content: mapGroupAvatar(result.group)
             };
-        case 'EventSearchResult':
+        }
+        case 'EventSearchResult': {
             return {
+                content: mapEvent(result.event),
                 id: result.id,
                 rank: result.rank,
-                type: 'Events',
                 similarity: result.similarity,
-                content: mapEvent(result.event)
+                type: 'Events',
             };
-        default:
+        }
+        default: {
             throw new Error(`Unknown search result type: ${result.__typename}`);
+        }
     }
 }

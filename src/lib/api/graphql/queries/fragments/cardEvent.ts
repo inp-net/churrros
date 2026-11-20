@@ -1,4 +1,5 @@
 import { graphql } from '#lib/api/graphql/graphql.ts';
+
 import { CardTicketFragment } from './cardTicket';
 import { GroupAvatarFragment } from './groupAvatar';
 
@@ -25,5 +26,5 @@ export const CardEventFragment = graphql(
             }
         }
     `,
-    [GroupAvatarFragment, CardTicketFragment]
+    [GroupAvatarFragment, CardTicketFragment],
 );

@@ -8,5 +8,6 @@ export const CardServiceFragment = graphql(`
         localID
         logo
         pinned
+        canEdit
     }
 `);

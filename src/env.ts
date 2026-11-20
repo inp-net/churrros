@@ -8,7 +8,7 @@ export const variables = defineEnvVars({
         schema: (value) => {
             if (!value) throw new Error('PUBLIC_API_AUTH_URL is required');
             return value;
-        }
+        },
     },
     PUBLIC_API_URL: {
         public: true,
@@ -16,6 +16,14 @@ export const variables = defineEnvVars({
         schema: (value) => {
             if (!value) throw new Error('PUBLIC_API_URL is required');
             return value;
-        }
-    }
+        },
+    },
+    PUBLIC_APP_ID: {
+        public: true,
+        description: 'The app id used for redirection to the capacitor native app.',
+        schema: (value) => {
+            if (!value) throw new Error('PUBLIC_APP_ID is required');
+            return value;
+        },
+    },
 });

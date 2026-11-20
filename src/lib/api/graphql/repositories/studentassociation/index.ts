@@ -1,17 +1,37 @@
-import type { StudentAssociationRepository } from '#lib/api/repositories.ts';
 import { request } from '#lib/api/graphql/client.ts';
+import type { StudentAssociationRepository } from '#lib/api/repositories.ts';
+
 import {
-    GetStudentAssociationGroups,
-    GetStudentAssociationProfile,
-    GetStudentAssociationServices
-} from '../../queries/studentassociation';
-import {
+    mapCanCreateServicesOn,
     mapStudentAssociationGroups,
     mapStudentAssociationProfile,
-    mapStudentAssociationServices
+    mapStudentAssociationServices,
 } from '../../mappers/studentassociation';
+import {
+    GetCanCreateServicesOn,
+    GetStudentAssociationGroups,
+    GetStudentAssociationProfile,
+    GetStudentAssociationServices,
+} from '../../queries/studentassociation';
 
 export const studentAssociationRepository: StudentAssociationRepository = {
+    async getStudentAssociationGroups(types, args, uid) {
+        try {
+            if (!uid) {
+                throw new Error('UID is required to fetch student association groups');
+            }
+            const response = await request(GetStudentAssociationGroups, {
+                id: uid,
+                types,
+                ...args,
+            });
+            return mapStudentAssociationGroups(response.studentAssociation);
+        } catch (error) {
+            //TODO : Vrai gestion d'erreur
+            console.error('Error fetching student association groups:', error);
+            throw error;
+        }
+    },
     async getStudentAssociationProfile(uid) {
         try {
             if (!uid) {
@@ -22,23 +42,6 @@ export const studentAssociationRepository: StudentAssociationRepository = {
         } catch (error) {
             //TODO : Vrai gestion d'erreur
             console.error('Error fetching student association profile:', error);
-            throw error;
-        }
-    },
-    async getStudentAssociationGroups(types, args, uid) {
-        try {
-            if (!uid) {
-                throw new Error('UID is required to fetch student association groups');
-            }
-            const response = await request(GetStudentAssociationGroups, {
-                id: uid,
-                types,
-                ...args
-            });
-            return mapStudentAssociationGroups(response.studentAssociation);
-        } catch (error) {
-            //TODO : Vrai gestion d'erreur
-            console.error('Error fetching student association groups:', error);
             throw error;
         }
     },
@@ -54,5 +57,15 @@ export const studentAssociationRepository: StudentAssociationRepository = {
             console.error('Error fetching student association services:', error);
             throw error;
         }
-    }
+    },
+    async canCreateServicesOn() {
+        try {
+            const response = await request(GetCanCreateServicesOn);
+            return mapCanCreateServicesOn(response);
+        } catch (error) {
+            //TODO : Vrai gestion d'erreur
+            console.error('Error fetching can create services on:', error);
+            throw error;
+        }
+    },
 };

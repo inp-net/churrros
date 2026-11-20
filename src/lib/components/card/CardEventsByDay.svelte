@@ -1,6 +1,8 @@
 <script lang="ts">
-    import type { EventsByDay } from '#lib/api/index.ts';
     import { Stack } from 'azucar-ui';
+
+    import type { EventsByDay } from '#lib/api/index.ts';
+
     import CardEvent from './CardEvent.svelte';
 
     /**
@@ -14,9 +16,6 @@
 </script>
 
 <Stack>
-    {#each event.shotgunning as shotgunEvent (shotgunEvent.id)}
-        <CardEvent event={shotgunEvent} shotgun={true} />
-    {/each}
     {#each event.happening as happeningEvent (happeningEvent.id)}
         <CardEvent event={happeningEvent} />
     {/each}

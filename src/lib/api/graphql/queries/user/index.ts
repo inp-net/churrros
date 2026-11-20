@@ -1,4 +1,5 @@
 import { graphql } from '#lib/api/graphql/graphql.ts';
+
 import { GroupMemberWithGroupFragment } from '../fragments/groupMemberWithGroup.ts';
 import { LinkFragment } from '../fragments/link.ts';
 import { MajorAvatarFragment } from '../fragments/majorAvatar.ts';
@@ -15,7 +16,7 @@ export const GetUserByUid = graphql(
             }
         }
     `,
-    [UserFragment]
+    [UserFragment],
 );
 
 export const GetUserAvatarByUid = graphql(
@@ -26,7 +27,7 @@ export const GetUserAvatarByUid = graphql(
             }
         }
     `,
-    [UserAvatarFragment]
+    [UserAvatarFragment],
 );
 
 export const GetUserProfile = graphql(
@@ -54,7 +55,7 @@ export const GetUserProfile = graphql(
             }
         }
     `,
-    [UserAvatarFragment, MajorAvatarFragment, SchoolAvatarFragment, LinkFragment]
+    [UserAvatarFragment, MajorAvatarFragment, SchoolAvatarFragment, LinkFragment],
 );
 
 export const GetUserInfos = graphql(
@@ -73,7 +74,7 @@ export const GetUserInfos = graphql(
             }
         }
     `,
-    [StudentAssociationAvatar]
+    [StudentAssociationAvatar],
 );
 
 export const GetUserGroups = graphql(
@@ -86,7 +87,7 @@ export const GetUserGroups = graphql(
             }
         }
     `,
-    [GroupMemberWithGroupFragment]
+    [GroupMemberWithGroupFragment],
 );
 
 export const GetUserFamily = graphql(
@@ -103,7 +104,7 @@ export const GetUserFamily = graphql(
             }
         }
     `,
-    [UserAvatarFragment]
+    [UserAvatarFragment],
 );
 export const GetBirthdays = graphql(
     `
@@ -113,7 +114,7 @@ export const GetBirthdays = graphql(
             }
         }
     `,
-    [UserAvatarFragment]
+    [UserAvatarFragment],
 );
 
 export const GetGroupedBirthdays = graphql(
@@ -125,5 +126,5 @@ export const GetGroupedBirthdays = graphql(
             }
         }
     `,
-    [UserAvatarFragment]
+    [UserAvatarFragment],
 );

@@ -1,5 +1,6 @@
 <script lang="ts">
     import type { MajorInfos } from '#lib/api/index.ts';
+
     import CardMajor from '../card/CardMajor.svelte';
 
     interface Props {

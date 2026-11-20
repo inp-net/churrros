@@ -1,27 +1,23 @@
 import { browser } from '$app/env';
-import { get, writable } from 'svelte/store';
+import { type } from 'arktype';
+
 import type { SessionToken } from '#lib/api/index.ts';
 
-export const SESSION_TOKEN_COOKIE_NAME = 'session_token';
+import { platform } from '../platform';
+
+export const SESSION_TOKEN_NAME = 'session_token';
 export const AUTHED_VIA_COOKIE_NAME = 'authed_via';
 
-const initialSessionToken = loadToken();
-const sessionTokenStore = writable<SessionToken | null>(initialSessionToken);
+const StoredSession = type({
+    token: 'string',
+    expiresAt: 'string',
+});
 
 function isTokenExpired(sessionToken: SessionToken) {
     return (
         Number.isNaN(sessionToken.expiresAt.getTime()) ||
         sessionToken.expiresAt.getTime() <= Date.now()
     );
-}
-
-/**
- * Fetches the cookie with the given name if it exists, otherwise returns null
- * Only client-side as it reads the cookie via document.cookie
- */
-function readCookie(name: string): string | null {
-    const match = document.cookie.split('; ').find((row) => row.startsWith(`${name}=`));
-    return match ? decodeURIComponent(match.slice(name.length + 1)) : null;
 }
 
 /**
@@ -33,8 +29,12 @@ function readCookie(name: string): string | null {
  */
 export function writeCookie(name: string, value: string, expiresAt?: Date) {
     const parts = [`${name}=${encodeURIComponent(value)}`, 'path=/', 'SameSite=Lax'];
-    if (expiresAt) parts.push(`expires=${expiresAt.toUTCString()}`);
-    if (location.protocol === 'https:') parts.push('Secure');
+    if (expiresAt) {
+        parts.push(`expires=${expiresAt.toUTCString()}`);
+    }
+    if (location.protocol === 'https:') {
+        parts.push('Secure');
+    }
     document.cookie = parts.join('; ');
 }
 
@@ -53,61 +53,42 @@ export function deleteCookie(name: string) {
  * @returns the deserialized session token or null if the string is invalid
  */
 export function deserializeToken(raw: string | null | undefined): SessionToken | null {
-    if (!raw) return null;
+    if (!raw) {
+        return null;
+    }
 
     try {
-        const parsed = JSON.parse(raw) as { token: string; expiresAt: string };
-        return { token: parsed.token, expiresAt: new Date(parsed.expiresAt) };
-    } catch {
+        const out = StoredSession(JSON.parse(raw));
+        if (out instanceof type.errors) return null;
+        return { expiresAt: new Date(out.expiresAt), token: out.token };
+    } catch (error) {
+        console.error('deserializeToken error:', error);
         return null;
     }
 }
 
-function loadToken(): SessionToken | null {
-    if (!browser) {
-        return null;
-    }
-
-    const storedSessionToken = deserializeToken(readCookie(SESSION_TOKEN_COOKIE_NAME));
-
-    if (!storedSessionToken || isTokenExpired(storedSessionToken)) {
-        deleteCookie(SESSION_TOKEN_COOKIE_NAME);
-        return null;
-    }
-
-    return storedSessionToken;
-}
-
-export function getToken(): SessionToken | null {
-    const currentSessionToken = get(sessionTokenStore);
+export async function getToken(): Promise<SessionToken | null> {
+    const raw = await platform.storage.get(SESSION_TOKEN_NAME);
+    const currentSessionToken = deserializeToken(raw);
     if (currentSessionToken && isTokenExpired(currentSessionToken)) {
-        clearToken();
+        await clearToken();
         return null;
     }
 
-    return get(sessionTokenStore);
+    return currentSessionToken;
 }
 
-export function setToken(newSessionToken: SessionToken | null) {
-    sessionTokenStore.set(newSessionToken);
-
+export async function setToken(newSessionToken: SessionToken | null) {
     if (!browser) {
         return;
     }
 
     if (!newSessionToken) {
-        deleteCookie(SESSION_TOKEN_COOKIE_NAME);
+        await platform.storage.remove(SESSION_TOKEN_NAME);
         return;
     }
 
-    writeCookie(
-        SESSION_TOKEN_COOKIE_NAME,
-        JSON.stringify({
-            token: newSessionToken.token,
-            expiresAt: newSessionToken.expiresAt.toISOString()
-        }),
-        newSessionToken.expiresAt
-    );
+    await platform.storage.set(SESSION_TOKEN_NAME, JSON.stringify(newSessionToken));
 }
 
 /**
@@ -115,7 +96,9 @@ export function setToken(newSessionToken: SessionToken | null) {
  * Also deletes the authed_via cookie if it exists
  * Only client-side as it deletes the cookie via document.cookie
  */
-export function clearToken() {
-    setToken(null);
-    if (browser) deleteCookie(AUTHED_VIA_COOKIE_NAME);
+export async function clearToken() {
+    await setToken(null);
+    if (browser) {
+        deleteCookie(AUTHED_VIA_COOKIE_NAME);
+    }
 }

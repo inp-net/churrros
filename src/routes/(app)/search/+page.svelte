@@ -1,9 +1,12 @@
 <script lang="ts">
+    import { SearchIcon } from '@lucide/svelte';
+    import { createQuery, keepPreviousData } from '@tanstack/svelte-query';
+    import { Skeleton, Stack, TextInput } from 'azucar-ui';
+
     import { searchRepository } from '#lib/api/graphql/repositories/search/index.ts';
     import type { Searchable } from '#lib/api/types.ts';
     import SearchResult from '#lib/components/SearchResult.svelte';
     import { m } from '#lib/paraglide/messages.js';
-    import { createQuery, keepPreviousData } from '@tanstack/svelte-query';
     import { debounced } from '#lib/utils/debounce.svelte.ts';
 
     let searchQuery = $state('');
@@ -12,21 +15,35 @@
     const debouncedSearchQuery = debounced(() => searchQuery, 300);
 
     const query = createQuery(() => ({
-        queryKey: ['search', debouncedSearchQuery, searchCategories],
-        queryFn: () => searchRepository.search(debouncedSearchQuery.current, searchCategories),
         enabled: debouncedSearchQuery.current.trim().length > 0,
         placeholderData: keepPreviousData,
-        staleTime: 0 //We disable caching
+        queryFn: () => searchRepository.search(debouncedSearchQuery.current, searchCategories),
+        queryKey: ['search', debouncedSearchQuery.current, searchCategories],
+        staleTime: 0, //We disable caching
     }));
 </script>
 
-<input type="text" bind:value={searchQuery} placeholder={m['search_placeholder']()} />
-{#if query.isPending}
-    <p>{m['loading']()}</p>
+<TextInput
+    type="text"
+    bind:value={searchQuery}
+    placeholder={m['search_placeholder']()}
+    icon={SearchIcon}
+/>
+
+{#if query.isEnabled && query.isPending}
+    {#each Array(4) as _}
+        <Skeleton height={`calc(var(--size-xl))`} />
+    {/each}
 {:else if query.isError}
     <p>Error: {query.error.message}</p>
 {:else if query.isSuccess}
-    {#each query.data as searchResult (searchResult.id)}
-        <SearchResult {searchResult} />
-    {/each}
+    {#if query.data.length === 0}
+        <p>{m['search_no_results']()}</p>
+    {:else}
+        <Stack>
+            {#each query.data as searchResult (searchResult.id)}
+                <SearchResult {searchResult} />
+            {/each}
+        </Stack>
+    {/if}
 {/if}

@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { type Booking } from '#lib/api/index.ts';
+    import type { Booking } from '#lib/api/index.ts';
     import { bookingStatusToLocalizedString } from '#lib/utils/i18n.ts';
 
     interface Props {

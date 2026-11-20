@@ -1,32 +1,34 @@
 <script lang="ts">
     import { createInfiniteQuery, createQuery } from '@tanstack/svelte-query';
+    import { Button, Skeleton, Stack } from 'azucar-ui';
+
     import { articleRepository, userRepository } from '#lib/api/index.ts';
-    import InfiniteScroll from '#lib/components/InfiniteScroll.svelte';
     import CardArticle from '#lib/components/card/CardArticle.svelte';
     import CardBirthday from '#lib/components/card/CardBirthday.svelte';
-    import { Button, Skeleton, Stack } from 'azucar-ui';
+    import InfiniteScroll from '#lib/components/InfiniteScroll.svelte';
     import { m } from '#lib/paraglide/messages.js';
+
     import type { PageProps } from './$types';
 
     let { data }: PageProps = $props();
 
     const query = createInfiniteQuery(() => ({
-        queryKey: ['articles'],
-        queryFn: ({ pageParam }) => articleRepository.getArticles({ first: 10, after: pageParam }),
-        initialPageParam: null as string | null,
-        getNextPageParam: (lastPage) =>
-            lastPage.pageInfo.hasNextPage ? lastPage.pageInfo.endCursor : null,
-        notifyOnChangeProps: 'all'
-    }));
+            queryKey: ['articles'],
 
+            queryFn: ({ pageParam }) =>
+                articleRepository.getArticles({ after: pageParam, first: 10 }),
+            getNextPageParam: (lastPage) =>
+                lastPage.pageInfo.hasNextPage ? lastPage.pageInfo.endCursor : null,
+            initialPageParam: null as string | null,
+            notifyOnChangeProps: 'all',
+        })),
+        articles = $derived(query.data?.pages.flatMap((page) => page.items) ?? []);
     const birthdayQuery = createQuery(() => ({
         queryKey: ['todayBirthdays'],
         queryFn: () => userRepository.getBirthdays(true),
         notifyOnChangeProps: 'all',
-        enabled: data.user !== null
+        enabled: data.user !== null,
     }));
-
-    const articles = $derived(query.data?.pages.flatMap((page) => page.items) ?? []);
 </script>
 
 {#if data.user === null}

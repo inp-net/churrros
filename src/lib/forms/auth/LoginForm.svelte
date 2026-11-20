@@ -1,13 +1,18 @@
 <script lang="ts">
-    import { createForm } from '#lib/utils/forms.svelte.ts';
-    import FormField from '#lib/components/forms/FormField.svelte';
-    import { loginSchema, type LoginInput } from './login.schema';
-    import { m } from '#lib/paraglide/messages.js';
     import { ApiValidationError } from '#lib/api/errors.ts';
+    import FormField from '#lib/components/forms/FormField.svelte';
+    import { m } from '#lib/paraglide/messages.js';
+    import { createForm } from '#lib/utils/forms.svelte.ts';
 
-    let { onsubmit }: { onsubmit: (data: LoginInput) => Promise<void> } = $props();
+    import { type LoginInput, loginSchema } from './login.schema';
 
-    const form = createForm(loginSchema, { username: '', password: '' });
+    interface Props {
+        onsubmit: (data: LoginInput) => Promise<void>;
+    }
+
+    let { onsubmit }: Props = $props();
+
+    const form = createForm(loginSchema, { password: '', username: '' });
     let submitError = $state('');
 
     function handleSubmit(e: SubmitEvent) {
@@ -16,9 +21,9 @@
         form.submit(async (data) => {
             try {
                 await onsubmit(data);
-            } catch (err) {
-                if (err instanceof ApiValidationError) {
-                    throw err; // We need to throw those error so createForm catches them
+            } catch (error) {
+                if (error instanceof ApiValidationError) {
+                    throw error; // We need to throw those error so createForm catches them
                 }
                 submitError = m['form.login.error']();
             }

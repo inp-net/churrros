@@ -1,6 +1,7 @@
 <script lang="ts">
-    import { m } from '#lib/paraglide/messages.js';
     import type { Snippet } from 'svelte';
+
+    import { m } from '#lib/paraglide/messages.js';
     // Inspired by https://github.com/ndom91/svelte-infinite
 
     interface Props {
@@ -31,17 +32,16 @@
     }
 
     let {
-        hasNextPage,
-        isFetching,
-        loadMore,
-        rootMargin = '0px 0px 400px 0px',
-        children,
-        loading
-    }: Props = $props();
-
-    let intersectionTarget: HTMLDivElement | undefined = $state();
-    // To avoid calling loadMore multiple times
-    let isLoading = false;
+            hasNextPage,
+            isFetching,
+            loadMore,
+            rootMargin = '0px 0px 400px 0px',
+            children,
+            loading,
+        }: Props = $props(),
+        intersectionTarget: HTMLDivElement | undefined = $state(),
+        // To avoid calling loadMore multiple times
+        isLoading = false;
 
     async function attemptLoadMore() {
         if (!isLoading && !isFetching && hasNextPage) {
@@ -56,7 +56,9 @@
 
     // $effect is called whenever the values used inside it change, here intersectionTarget.
     $effect(() => {
-        if (!intersectionTarget) return;
+        if (!intersectionTarget) {
+            return;
+        }
 
         // Triggered when the observed object is inside the intersection area (the viewport) + rootMargin which enlarges this area
         // So by default we will trigger when the searched object is 400px from the bottom of the page
@@ -66,7 +68,7 @@
                     await attemptLoadMore();
                 }
             },
-            { rootMargin }
+            { rootMargin },
         );
         observer.observe(intersectionTarget);
 

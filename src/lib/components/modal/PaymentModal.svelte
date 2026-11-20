@@ -1,13 +1,20 @@
 <script lang="ts">
     import { browser } from '$app/env';
+
     import type { PaymentMethod } from '#lib/api/index.ts';
     import { m } from '#lib/paraglide/messages.js';
     import { formatMoney } from '#lib/utils/i18n.ts';
     import { PAYMENT_PROVIDERS } from '#lib/utils/payment.ts';
+
     import PaymentMethodDisplay from '../PaymentMethodDisplay.svelte';
 
     type Step =
-        'payment-options' | 'provider-form' | 'provider-waiting' | 'follow-up' | 'links' | 'end';
+        | 'payment-options'
+        | 'provider-form'
+        | 'provider-waiting'
+        | 'follow-up'
+        | 'links'
+        | 'end';
 
     interface Props {
         /**
@@ -39,7 +46,7 @@
          * Callback to be called when the user selects a payment method and wants to pay. It should return true if the payment was successful, false otherwise.
          * Right now the current API doesn't support this, so it won't be used.
          */
-        //onSelectPaymentInfo: (paymentMethod: PaymentMethod, wantsToPay: number) => Promise<boolean>;
+        //OnSelectPaymentInfo: (paymentMethod: PaymentMethod, wantsToPay: number) => Promise<boolean>;
         /**
          * The links to be displayed at the end of the payment process (optional). Each link has a name and a url.
          */
@@ -54,24 +61,28 @@
         wantsToPay,
         allowedPaymentMethods,
         selectedPaymentMethod,
-        links
+        links,
     }: Props = $props();
 
-    let dialog: HTMLDialogElement | undefined;
-    let historyStack = $state<Step[]>(loadStoredSteps());
-    let step = $derived(historyStack.at(-1)!);
+    let dialog: HTMLDialogElement | undefined,
+        historyStack = $state<Step[]>(loadStoredSteps()),
+        step = $derived(historyStack.at(-1)!);
 
     $effect(() => {
         if (isOpen) {
             dialog?.showModal();
-        } else dialog?.close();
+        } else {
+            dialog?.close();
+        }
     });
 
     // This might be a bit too much, but basically if we reload we lose everything which is annoying
     // So I save the state stack in sessionStorage to be able to reload.
     // This is useful for the waiting (e.g., Lydia).
     function savePersistedStep(stack: Step[]) {
-        if (!browser) return;
+        if (!browser) {
+            return;
+        }
         try {
             if (stack.length > 1) {
                 sessionStorage.setItem(`PaymentModal${code}`, JSON.stringify(stack));
@@ -84,12 +95,18 @@
     }
 
     function loadStoredSteps(): Step[] {
-        if (!browser) return ['payment-options'];
+        if (!browser) {
+            return ['payment-options'];
+        }
         try {
             const raw = sessionStorage.getItem(`PaymentModal${code}`);
-            if (!raw) return ['payment-options'];
+            if (!raw) {
+                return ['payment-options'];
+            }
             const parsed = JSON.parse(raw);
-            if (Array.isArray(parsed) && parsed.length > 0) return parsed as Step[];
+            if (Array.isArray(parsed) && parsed.length > 0) {
+                return parsed as Step[];
+            }
         } catch {
             return ['payment-options'];
         }
@@ -97,7 +114,9 @@
     }
 
     function clearStoredSteps(): void {
-        if (!browser) return;
+        if (!browser) {
+            return;
+        }
         try {
             sessionStorage.removeItem(`PaymentModal${code}`);
         } catch {
@@ -105,51 +124,75 @@
         }
     }
 
-    function getNextStep(current: Step, selectedPaymentMethod: PaymentMethod): Step {
-        const provider = PAYMENT_PROVIDERS[selectedPaymentMethod];
+    function getNextStep(current: Step, paymentMethod: PaymentMethod): Step {
+        const provider = PAYMENT_PROVIDERS[paymentMethod];
 
         switch (current) {
-            case 'payment-options':
+            case 'payment-options': {
                 if (provider.automated) {
                     if (!provider.FormComponent) {
                         throw new Error(
-                            'Provider incorrectly configured: automated provider has no FormComponent'
+                            'Provider incorrectly configured: automated provider has no FormComponent',
                         );
                     }
                     return 'provider-form';
                 }
-                if (provider.FollowUpComponent) return 'follow-up';
-                if (links.length > 0) return 'links';
+                if (provider.FollowUpComponent) {
+                    return 'follow-up';
+                }
+                if (links.length > 0) {
+                    return 'links';
+                }
                 return 'end';
+            }
 
-            case 'provider-form':
-                if (provider.WaitingComponent) return 'provider-waiting';
-                if (provider.FollowUpComponent) return 'follow-up';
-                if (links.length > 0) return 'links';
+            case 'provider-form': {
+                if (provider.WaitingComponent) {
+                    return 'provider-waiting';
+                }
+                if (provider.FollowUpComponent) {
+                    return 'follow-up';
+                }
+                if (links.length > 0) {
+                    return 'links';
+                }
                 return 'end';
+            }
 
-            case 'provider-waiting':
-                if (provider.FollowUpComponent) return 'follow-up';
-                if (links.length > 0) return 'links';
+            case 'provider-waiting': {
+                if (provider.FollowUpComponent) {
+                    return 'follow-up';
+                }
+                if (links.length > 0) {
+                    return 'links';
+                }
                 return 'end';
+            }
 
-            case 'follow-up':
-                if (links.length > 0) return 'links';
+            case 'follow-up': {
+                if (links.length > 0) {
+                    return 'links';
+                }
                 return 'end';
+            }
 
-            case 'links':
+            case 'links': {
                 return 'end';
-            default:
+            }
+            default: {
                 throw new Error(`Unknown step: ${current}`);
+            }
         }
     }
 
     function back() {
-        if (historyStack.length > 1) historyStack = historyStack.slice(0, -1);
+        if (historyStack.length > 1) {
+            historyStack = historyStack.slice(0, -1);
+        }
     }
 
-    function advance(current: Step, selectedPaymentMethod: PaymentMethod) {
-        const next = getNextStep(current, selectedPaymentMethod);
+    function advance(current: Step, paymentMethod: PaymentMethod) {
+        const next = getNextStep(current, paymentMethod);
         if (next === 'end') {
             finish();
         } else {

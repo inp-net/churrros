@@ -1,7 +1,7 @@
-import type { MajorRepository } from '#lib/api/repositories.ts';
 import { request } from '#lib/api/graphql/client.ts';
 import { mapMajorInfos } from '#lib/api/graphql/mappers/major/index.ts';
 import { GetMajorProfile } from '#lib/api/graphql/queries/major/index.ts';
+import type { MajorRepository } from '#lib/api/repositories.ts';
 
 export const majorRepository: MajorRepository = {
     async getMajorProfile(uid) {
@@ -16,5 +16,5 @@ export const majorRepository: MajorRepository = {
             console.error('Error fetching major profile:', error);
             throw error;
         }
-    }
+    },
 };
