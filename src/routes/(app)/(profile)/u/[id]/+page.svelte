@@ -16,23 +16,22 @@
     let selected = $state(0);
     const activeTab = $derived<Tab>(TABS[selected] ?? 'info');
 
-    const tab = $derived<Tab>((page.url.searchParams.get('tab') as Tab) || 'info'),
-        queryProfile = createQuery(() => ({
+    const queryProfile = createQuery(() => ({
             queryFn: () => userRepository.getUserProfile(page.params.id),
             queryKey: ['user', page.params.id],
         })),
         queryInfo = createQuery(() => ({
-            enabled: tab === 'info',
+            enabled: activeTab === 'info',
             queryFn: () => userRepository.getUserInfos(page.params.id),
             queryKey: ['user', page.params.id, 'info'],
         })),
         queryGroups = createQuery(() => ({
-            enabled: tab === 'groups',
+            enabled: activeTab === 'groups',
             queryFn: () => userRepository.getUserGroups(page.params.id),
             queryKey: ['user', page.params.id, 'groups'],
         })),
         queryFamily = createQuery(() => ({
-            enabled: tab === 'family',
+            enabled: activeTab === 'family',
             queryFn: () => userRepository.getUserFamily(page.params.id),
             queryKey: ['user', page.params.id, 'family'],
         }));
