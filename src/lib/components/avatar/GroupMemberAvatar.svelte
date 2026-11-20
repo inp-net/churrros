@@ -1,6 +1,7 @@
 <script lang="ts">
-    import type { GroupMember } from '#lib/api/index.ts';
     import { Frame, Stack, Flex, Avatar } from 'azucar-ui';
+
+    import type { GroupMember } from '#lib/api/index.ts';
 
     interface Props {
         groupMember: GroupMember;
@@ -24,7 +25,7 @@
         href={showMember ? `/u/${groupMember.avatar.uid}` : `/g/${groupMember.avatar.uid}`}
         rel="noopener noreferrer"
     >
-        <Flex wrap={false}>
+        <Flex wrap="nowrap">
             <div class="avatar-wrapper">
                 <Avatar
                     src={groupMember.avatar.pictureURL}

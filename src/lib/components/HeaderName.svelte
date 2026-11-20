@@ -1,5 +1,6 @@
 <script lang="ts">
     import { Avatar as AvatarAzucar, Flex, Stack, Skeleton, SkeletonText, Scroll } from 'azucar-ui';
+
     import type { Avatar as AvatarType, Link } from '#lib/api/types.ts';
     import Avatar from '#lib/components/avatar/Avatar.svelte';
     import LinkPill from '#lib/components/LinkPill.svelte';
@@ -23,12 +24,12 @@
         description = '',
         badges = [],
         links = [],
-        loading = false
+        loading = false,
     }: Props = $props();
 </script>
 
 <Stack align="stretch">
-    <Flex wrap={false}>
+    <Flex wrap="nowrap">
         {#if loading}
             <Skeleton width="var(--size-xxl)" height="var(--size-xxl)" borderRadius="50%" />
         {:else}

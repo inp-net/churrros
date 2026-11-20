@@ -1,7 +1,8 @@
 <script lang="ts">
     import { ExternalLink } from '@lucide/svelte';
-    import type { Link } from '#lib/api/index.ts';
     import { Badge, Flex } from 'azucar-ui';
+
+    import type { Link } from '#lib/api/index.ts';
 
     interface Props {
         link: Link;
@@ -12,7 +13,7 @@
 
 <a target="_blank" href={link.url} rel="noopener noreferrer">
     <Badge variant="outline">
-        <Flex align="center" wrap={false} gap="xs">
+        <Flex align="center" wrap="nowrap" gap="xs">
             <span>{link.text}</span>
             {#if link.url && link.url.startsWith('http')}
                 <ExternalLink size="0.78rem" />

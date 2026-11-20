@@ -1,10 +1,11 @@
 <script lang="ts">
-    import type { UserInfos } from '#lib/api/index.ts';
-    import { formatISODateToLocale } from '#lib/utils/dates.ts';
     import { type LucideIcon, Phone, Mail, MapPin, Cake } from '@lucide/svelte';
     import { Stack } from 'azucar-ui';
+
+    import type { UserInfos } from '#lib/api/index.ts';
     import Avatar from '#lib/components/avatar/Avatar.svelte';
     import CopyFrame from '#lib/components/CopyFrame.svelte';
+    import { formatISODateToLocale } from '#lib/utils/dates.ts';
 
     interface Props {
         userInfo: UserInfos;
@@ -21,17 +22,17 @@
             ? [
                   {
                       data: userInfo.birthday ? formatISODateToLocale(userInfo.birthday) : null,
-                      icon: Cake
+                      icon: Cake,
                   },
                   { data: userInfo.email?.toLowerCase(), icon: Mail },
                   ...(userInfo.otherEmails?.map((email) => ({
                       data: email.toLowerCase(),
-                      icon: Mail
+                      icon: Mail,
                   })) ?? []),
                   { data: userInfo.phone, icon: Phone },
-                  { data: userInfo.address, icon: MapPin }
+                  { data: userInfo.address, icon: MapPin },
               ]
-            : []
+            : [],
     );
 </script>
 

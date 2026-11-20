@@ -1,6 +1,7 @@
 <script lang="ts">
     import { ExternalLink } from '@lucide/svelte';
     import { Badge, Flex } from 'azucar-ui';
+
     import type { Avatar as AvatarType } from '#lib/api/index.ts';
 
     interface Props {
@@ -16,7 +17,7 @@
 
 {#snippet badgeContent()}
     <Badge {variant}>
-        <Flex align="center" wrap={false} gap="xs">
+        <Flex align="center" wrap="nowrap" gap="xs">
             {#if avatar.pictureURL}
                 <img
                     src={avatar.pictureURL}

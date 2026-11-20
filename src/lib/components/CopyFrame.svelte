@@ -1,6 +1,6 @@
 <script lang="ts">
-    import { Frame, Flex } from 'azucar-ui';
     import { type LucideIcon } from '@lucide/svelte';
+    import { Frame, Flex } from 'azucar-ui';
 
     interface Props {
         content: string;
@@ -13,7 +13,7 @@
 
 <button type="button" onclick={() => navigator.clipboard.writeText(copy)}>
     <Frame interactive>
-        <Flex wrap={false} gap="md" align="center">
+        <Flex wrap="nowrap" gap="md" align="center">
             {#if Icon}
                 <Icon size="1rem" />
             {/if}
