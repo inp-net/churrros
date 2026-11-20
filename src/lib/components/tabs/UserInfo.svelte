@@ -1,28 +1,53 @@
 <script lang="ts">
-    import type { UserInfos } from '#lib/api/index.ts';
-    import { formatISODateToLocale } from '#lib/utils/dates.ts';
+    import { type LucideIcon, Phone, Mail, MapPin, Cake } from '@lucide/svelte';
+    import { Stack } from 'azucar-ui';
 
-    import Avatar from '../avatar/Avatar.svelte';
+    import type { UserInfos } from '#lib/api/index.ts';
+    import Avatar from '#lib/components/avatar/Avatar.svelte';
+    import CopyFrame from '#lib/components/CopyFrame.svelte';
+    import { formatISODateToLocale } from '#lib/utils/dates.ts';
 
     interface Props {
         userInfo: UserInfos;
     }
     let { userInfo }: Props = $props();
+
+    interface IconMap {
+        data: string | null | undefined;
+        icon: LucideIcon;
+    }
+
+    const showcaseInfos: IconMap[] = $derived(
+        userInfo
+            ? [
+                  {
+                      data: userInfo.birthday ? formatISODateToLocale(userInfo.birthday) : null,
+                      icon: Cake,
+                  },
+                  { data: userInfo.email?.toLowerCase(), icon: Mail },
+                  ...(userInfo.otherEmails?.map((email) => ({
+                      data: email.toLowerCase(),
+                      icon: Mail,
+                  })) ?? []),
+                  { data: userInfo.phone, icon: Phone },
+                  { data: userInfo.address, icon: MapPin },
+              ]
+            : [],
+    );
 </script>
 
-<div>
-    {#if userInfo?.birthday}
-        {formatISODateToLocale(userInfo.birthday)}
-    {/if}
-    {userInfo?.email}
-    {#each userInfo?.otherEmails as email (email)}
-        {email}
+<Stack gap="sm">
+    {#each showcaseInfos as info}
+        {#if info.data}
+            <CopyFrame content={info.data} icon={info.icon} />
+        {/if}
     {/each}
-    {userInfo?.phone}
-    {userInfo?.address}
-    {#if userInfo?.contributesTo}
-        {#each userInfo.contributesTo as studentAssociation (studentAssociation.uid)}
-            <Avatar avatar={studentAssociation} />
-        {/each}
+
+    {#if userInfo?.contributesTo?.length}
+        <div>
+            {#each userInfo.contributesTo as studentAssociation (studentAssociation.uid)}
+                <Avatar avatar={studentAssociation} />
+            {/each}
+        </div>
     {/if}
-</div>
+</Stack>

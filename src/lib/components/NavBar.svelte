@@ -25,8 +25,8 @@
         { component: TicketIcon, href: '/events', label: m['navigation.events']() },
         { component: BlocksIcon, href: '/services', label: m['navigation.services']() },
         {
+            href: user ? `/u/${user.uid}` : '/login',
             component: NavBarUser,
-            href: '/profile',
             label: m['navigation.profile'](),
             props: { user },
         },

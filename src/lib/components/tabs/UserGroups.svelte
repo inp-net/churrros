@@ -1,4 +1,6 @@
 <script lang="ts">
+    import { Stack } from 'azucar-ui';
+
     import type { UserGroups } from '#lib/api/index.ts';
 
     import GroupMemberAvatar from '../avatar/GroupMemberAvatar.svelte';
@@ -10,8 +12,8 @@
     let { userGroups }: Props = $props();
 </script>
 
-<div>
+<Stack gap="sm">
     {#each userGroups.groups as groupMember (groupMember.avatar.uid)}
         <GroupMemberAvatar {groupMember} showMember={false} />
     {/each}
-</div>
+</Stack>
